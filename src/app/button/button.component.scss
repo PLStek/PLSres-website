@@ -1,0 +1,17 @@
+.btn-style-filled {
+    border: 2px solid white;
+    border-radius: 0.3em;
+    background-color: rgb(237, 68, 68);
+    color: white;
+    text-align: center;
+    font-weight: 600;
+}
+
+.btn-style-not-filled {
+    border: 2px solid rgb(237, 68, 68);
+    border-radius: 0.3em;
+    background-color: white;
+    color: rgb(237, 68, 68);
+    text-align: center;
+    font-weight: 600;
+}
