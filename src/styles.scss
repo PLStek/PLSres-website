@@ -1,15 +1,32 @@
+$primary : #ED4444;
+$secondary : #21A80B;
+
+body {
+    background-color: #BBBBBB;
+}
+
 .primary-website-color {
-    color: rgb(33, 168, 11);
+    color: $secondary;
 }
 
 .primary-website-bg-color {
-    background-color: rgb(33, 168, 11);
+    background-color: $secondary;
 }
 
 .secondary-website-color {
-    color: rgb(237, 68, 68);
+    color: $primary;
 }
 
 .secondary-website-bg-color {
-    color: rgb(237, 68, 68);
+    color: $primary;
+}
+
+.math-style {
+    background-color: #5592EF;
+    color: white;
+}
+
+.info-style {
+    background-color: #FFB800;
+    color: white;
 }

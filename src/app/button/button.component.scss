@@ -1,17 +1,35 @@
-.btn-style-filled {
-    border: 2px solid white;
+.btn-style {
     border-radius: 0.3em;
-    background-color: rgb(237, 68, 68);
-    color: white;
     text-align: center;
     font-weight: 600;
 }
 
-.btn-style-not-filled {
-    border: 2px solid rgb(237, 68, 68);
-    border-radius: 0.3em;
+.btn-filled {
+    border: 2px solid #ffffff;
+    background-color: #ED4444;
+    color: #ffffff;
+}
+
+.btn-not-filled {
+    border: 2px solid #ED4444;
+    background-color: #ffffff;
+    color: #ED4444;
+}
+
+.ressource-style {
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+}
+
+.participate-style {
+    border: 2px solid transparent;
     background-color: white;
-    color: rgb(237, 68, 68);
-    text-align: center;
-    font-weight: 600;
+    color: #5592EF;
+}
+
+.edit-style {
+    border: 2px solid #5592EF;
+    background-color: transparent;
+    color: #5592EF;
 }
