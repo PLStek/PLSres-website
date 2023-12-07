@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     this.charbonList.push(
       new Charbon(
         'PM1',
-        CourseTypes.maths,
+        CourseTypes.elec,
         '08/12/2023',
         '20h00',
         'AAP 4, 5 et 6 de PM1 !',
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     this.charbonList.push(
       new Charbon(
         'PM1',
-        CourseTypes.elec,
+        CourseTypes.maths,
         '08/12/2023',
         '20h00',
         'AAP 4, 5 et 6 de PM1 !',

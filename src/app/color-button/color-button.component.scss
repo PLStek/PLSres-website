@@ -4,6 +4,8 @@
     border-radius: 0.3em;
     text-align: center;
     font-weight: 600;
+    min-height: 2.2em;
+    padding-inline: 0.5em;
 }
 
 @each $course, $color in $course-colors {
