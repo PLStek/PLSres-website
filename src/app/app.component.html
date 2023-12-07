@@ -36,9 +36,7 @@
         </div>
     </div>
     <div class="row row-cols-3 mt-3">
-        <app-charbon-card cardName="math"></app-charbon-card>
-        <app-charbon-card cardName="info"></app-charbon-card>
-        <app-charbon-card cardName="info"></app-charbon-card>
+        <app-charbon-card *ngFor="let charbon of charbonList" [charbon]="charbon"></app-charbon-card>
     </div>
 </div>
 

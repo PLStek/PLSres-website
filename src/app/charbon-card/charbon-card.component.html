@@ -1,22 +1,23 @@
 <div class="charbon-card card text-center mt-1">
-    <div [ngClass]="'course-color-'+courseType" class="card-header container-fluid d-flex justify-content-between math-style"
-        style="height: 2.5rem;">
-        <h5>{{charb.course}}</h5>
+    <div [ngClass]="'course-color-'+charbon.courseType"
+        class="card-header container-fluid d-flex justify-content-between math-style" style="height: 2.5rem;">
+        <h5>{{charbon.course}}</h5>
         <div class="time d-flex">
-            <p>{{charb.date}}</p>
+            <p>{{charbon.date}}</p>
             <p class="pe-1 ps-1">à</p>
-            <p>{{charb.time}}</p>
+            <p>{{charbon.time}}</p>
         </div>
     </div>
     <div class="card-body">
-        <h5 class="card-title"><strong>{{charb.title}}</strong></h5>
+        <h5 class="card-title"><strong>{{charbon.title}}</strong></h5>
         <h6>Actionneur(s):</h6>
-        <p>{{charb.actionners}}</p>
-        <p style="font-weight: lighter; font-size: small;">{{charb.description}}</p>
-        <app-color-button content="Editer"></app-color-button>
+        <p>{{charbon.actionners}}</p>
+        <p style="font-weight: lighter; font-size: small;">{{charbon.description}}</p>
+        <app-color-button [courseType]="charbon.courseType" [isFilled]="false" content="Editer"></app-color-button>
     </div>
-    <div [ngClass]="'course-color-'+courseType" class="card-footer text-body-secondary d-flex justify-content-evenly math-style">
-        <app-color-button content="Ressources" [isFilled]="true" ></app-color-button>
-        <app-color-button content="Participer"></app-color-button>
+    <div [ngClass]="'course-color-'+charbon.courseType"
+        class="card-footer text-body-secondary d-flex justify-content-evenly math-style">
+        <app-color-button [courseType]="charbon.courseType" [isFilled]="true" content="Ressources"></app-color-button>
+        <app-color-button [courseType]="charbon.courseType" [isFilled]="false" content="Participer"></app-color-button>
     </div>
 </div>

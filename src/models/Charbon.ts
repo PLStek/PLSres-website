@@ -1,8 +1,9 @@
-import { Time } from "@angular/common";
+import { CourseTypes } from "./CourseTypes";
 
 export class Charbon {
     constructor(
         public course: string,
+        public courseType: CourseTypes,
         public date: string,
         public time: string,
         public title: string,
