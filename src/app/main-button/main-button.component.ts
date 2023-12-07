@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MainButtonComponent implements OnInit {
   @Input() isFilled: boolean = false;
+  @Input() isBig: boolean = false;  
   @Input() content: string = 'Main button';
 
   constructor() {

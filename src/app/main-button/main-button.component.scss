@@ -4,14 +4,23 @@
     font-weight: 600;
 }
 
+.btn-big {
+    min-height: 3em;
+    padding-inline: 1em;
+}
+
+.btn-small {
+    min-height: 2em;
+}
+
 .btn-red {
-    border: 2px solid #ffffff;
+    border: 2px solid #FFFFFF;
     background-color: #ED4444;
     color: #ffffff;
 }
 
 .btn-white {
     border: 2px solid #ED4444;
-    background-color: #ffffff;
+    background-color: #FFFFFF;
     color: #ED4444;
 }

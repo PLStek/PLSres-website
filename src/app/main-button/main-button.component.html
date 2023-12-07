@@ -1,3 +1,3 @@
-<button [ngClass]="isFilled ? 'btn-red' : 'btn-white'" class="btn-style">
+<button [ngClass]="{'btn-red': isFilled, 'btn-white': !isFilled, 'btn-big': isBig, 'btn-small': !isBig}" class="btn-style">
     {{ content }}
 </button>
