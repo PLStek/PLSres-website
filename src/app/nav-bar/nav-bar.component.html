@@ -2,10 +2,10 @@
     <div class="container">
         <h1>A</h1>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleClasses()">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" [ngClass]="{'primary-website-bg-color p-3 rounded': isToggled}" id="navbarSupportedContent">
             <div class="me-5"></div>
             <div class="me-5"></div>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -13,16 +13,16 @@
                     <a class="nav-link" style="color: white;" aria-current="page" href="#"><strong>Accueil</strong></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white;" href="#">Annonces</a>
+                    <a class="nav-link" style="color: white;" href="#a">Annonces</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white;" href="#">Guides</a>
+                    <a class="nav-link" style="color: white;" href="#g">Guides</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white;" href="#">Charbons</a>
+                    <a class="nav-link" style="color: white;" href="#c">Charbons</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white;" href="#">Exercices</a>
+                    <a class="nav-link" style="color: white;" href="#e">Exercices</a>
                 </li>
             </ul>
             <div class="d-flex justify-content-between">
