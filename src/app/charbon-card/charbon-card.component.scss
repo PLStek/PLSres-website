@@ -1,0 +1,13 @@
+@import '../../shared/variables';
+
+.charbon-card {
+    width: auto;
+    height: auto;
+}
+
+@each $course, $color in $course-colors {
+    .course-color-#{$course} {
+        background-color: $color;
+        color: white;
+    }
+}
