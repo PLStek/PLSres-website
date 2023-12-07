@@ -1,21 +1,22 @@
-<div class="card text-center mt-1" style="width: auto; height: auto;">
-    <div [class]="cardStyleMap.get(cardName)?.style" class="card-header container-fluid d-flex justify-content-between" style="height: 2.5rem;">
-        <h5>{{cardStyleMap.get(cardName)?.ue}}</h5>
+<div class="charbon-card card text-center mt-1">
+    <div [ngClass]="'course-color-'+courseType" class="card-header container-fluid d-flex justify-content-between math-style"
+        style="height: 2.5rem;">
+        <h5>{{charb.course}}</h5>
         <div class="time d-flex">
-            <p>{{cardStyleMap.get(cardName)?.date}}</p>
+            <p>{{charb.date}}</p>
             <p class="pe-1 ps-1">à</p>
-            <p>{{cardStyleMap.get(cardName)?.time}}</p>
+            <p>{{charb.time}}</p>
         </div>
     </div>
     <div class="card-body">
-        <h5 class="card-title"><strong>{{cardStyleMap.get(cardName)?.title}}</strong></h5>
+        <h5 class="card-title"><strong>{{charb.title}}</strong></h5>
         <h6>Actionneur(s):</h6>
-        <p>{{cardStyleMap.get(cardName)?.actionner}}</p>
-        <p style="font-weight: lighter; font-size: small;">{{cardStyleMap.get(cardName)?.description}}</p>
-        <app-button buttonName="edit"></app-button>
+        <p>{{charb.actionners}}</p>
+        <p style="font-weight: lighter; font-size: small;">{{charb.description}}</p>
+        <app-color-button content="Editer"></app-color-button>
     </div>
-    <div [class]="cardStyleMap.get(cardName)?.style" class="card-footer text-body-secondary d-flex justify-content-evenly">
-        <app-button buttonName="ressource"></app-button>
-        <app-button buttonName="participate"></app-button>
+    <div [ngClass]="'course-color-'+courseType" class="card-footer text-body-secondary d-flex justify-content-evenly math-style">
+        <app-color-button content="Ressources" [isFilled]="true" ></app-color-button>
+        <app-color-button content="Participer"></app-color-button>
     </div>
 </div>
