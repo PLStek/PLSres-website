@@ -9,6 +9,7 @@ import { MainButtonComponent } from './main-button/main-button.component';
 import { ColorButtonComponent } from './color-button/color-button.component';
 import { BackgroundCardComponent } from './background-card/background-card.component';
 import { SocialNetworksComponent } from './social-networks/social-networks.component';
+import { AnnouncementCardComponent } from './announcement-card/announcement-card.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { SocialNetworksComponent } from './social-networks/social-networks.compo
     ColorButtonComponent,
     BackgroundCardComponent,
     SocialNetworksComponent,
+    AnnouncementCardComponent,
   ],
   imports: [
     BrowserModule,
