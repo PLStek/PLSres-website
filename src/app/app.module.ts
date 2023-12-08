@@ -7,6 +7,8 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { CharbonCardComponent } from './charbon-card/charbon-card.component';
 import { MainButtonComponent } from './main-button/main-button.component';
 import { ColorButtonComponent } from './color-button/color-button.component';
+import { BackgroundCardComponent } from './background-card/background-card.component';
+import { SocialNetworksComponent } from './social-networks/social-networks.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { ColorButtonComponent } from './color-button/color-button.component';
     CharbonCardComponent,
     MainButtonComponent,
     ColorButtonComponent,
+    BackgroundCardComponent,
+    SocialNetworksComponent,
   ],
   imports: [
     BrowserModule,
