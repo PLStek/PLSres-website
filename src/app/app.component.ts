@@ -34,11 +34,11 @@ export class AppComponent implements OnInit {
       });
     });
 
-    // Trier la liste par date dans l'ordre décroissant
+    // Trier la liste par date dans l'ordre croissant
     this.charbonList.sort((a: Charbon, b: Charbon) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
-      return dateB.getTime() - dateA.getTime();
+      return dateA.getTime() - dateB.getTime();
     });
 
     // Limiter la liste aux trois premiers éléments
