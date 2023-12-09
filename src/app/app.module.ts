@@ -11,6 +11,8 @@ import { BackgroundCardComponent } from './background-card/background-card.compo
 import { SocialNetworksComponent } from './social-networks/social-networks.component';
 import { AnnouncementCardComponent } from './announcement-card/announcement-card.component';
 
+import { CharbonService } from './charbon.service';
+
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
@@ -29,7 +31,9 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     AppRoutingModule,
     FullCalendarModule
   ],
-  providers: [],
+  providers: [
+    CharbonService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

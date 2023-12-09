@@ -14,16 +14,27 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 export class AppComponent implements OnInit {
   title = 'PLSres';
   charbonList!: Charbon[];
+  calendarEvents: any[] = [];
 
-  constructor(service: CharbonService) {
-    this.charbonList = service.getCharbonList();
+  constructor(private charbonService: CharbonService) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.charbonList = this.charbonService.getCharbonList();
+    this.charbonList.forEach((charbon: Charbon) => {
+      this.calendarEvents.push({
+        title: charbon.course,
+        start: charbon.date,
+        end: charbon.date,
+      });
+    });
+  }
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin]
+    plugins: [dayGridPlugin],
+    events: this.calendarEvents
+    
   };
 }
   
