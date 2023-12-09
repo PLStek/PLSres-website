@@ -10,6 +10,7 @@ import { ColorButtonComponent } from './color-button/color-button.component';
 import { BackgroundCardComponent } from './background-card/background-card.component';
 import { SocialNetworksComponent } from './social-networks/social-networks.component';
 import { AnnouncementCardComponent } from './announcement-card/announcement-card.component';
+import { DateIntervalPipe } from './date-interval.pipe';
 
 import { CharbonService } from './charbon.service';
 
@@ -25,6 +26,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     BackgroundCardComponent,
     SocialNetworksComponent,
     AnnouncementCardComponent,
+    DateIntervalPipe,
   ],
   imports: [
     BrowserModule,
