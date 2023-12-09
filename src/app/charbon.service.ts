@@ -26,7 +26,7 @@ export class CharbonService {
       new Charbon(
         'MT3',
         CourseTypes.maths,
-        '12/12/2023',
+        '13/12/2023',
         '20h00',
         'AAP 4, 5 et 6 de PM1 !',
         ['Lilit, Flo, William'],

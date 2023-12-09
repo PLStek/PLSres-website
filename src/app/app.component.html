@@ -75,8 +75,13 @@
         <div style="width: 100em; padding: 3em; padding-top: 0;">
             <full-calendar [options]="calendarOptions"></full-calendar>
         </div>
+        <!-- 
         <div style="width: auto; padding: 3em; padding-top: 7em;">
             <app-charbon-card [charbon]="charbonList[0]"></app-charbon-card>
+        </div>
+        -->
+        <div *ngIf="selectedCharbon" style="width: auto; padding: 3em; padding-top: 7em;">
+            <app-charbon-card [charbon]="selectedCharbon"></app-charbon-card>
         </div>
     </div>
 </app-background-card>
