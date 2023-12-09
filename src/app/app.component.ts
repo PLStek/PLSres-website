@@ -21,20 +21,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.charbonList = this.charbonService.getCharbonList();
-    /*
     this.charbonList.forEach((charbon: Charbon) => {
+      const [day, month, year] = charbon.date.split('/');
+      const isoFormattedDate = `${year}-${month}-${day}`;
       this.calendarEvents.push({
         title: charbon.course,
-        start: charbon.date,
-        end: charbon.date,
+        start: isoFormattedDate,
       });
     });
-    */
-   this.calendarEvents.push({
-    title: 'PM1',
-    start: '2023-12-12',
-    end: '2023-12-12',
-  });
   }
 
   calendarOptions: CalendarOptions = {

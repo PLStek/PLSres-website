@@ -24,9 +24,9 @@ export class CharbonService {
     );
     charbonList.push(
       new Charbon(
-        'PM1',
+        'MT3',
         CourseTypes.maths,
-        '08/12/2023',
+        '12/12/2023',
         '20h00',
         'AAP 4, 5 et 6 de PM1 !',
         ['Lilit, Flo, William'],
@@ -35,9 +35,9 @@ export class CharbonService {
     );
     charbonList.push(
       new Charbon(
-        'PM1',
+        'IF2',
         CourseTypes.info,
-        '08/12/2023',
+        '12/12/2023',
         '20h00',
         'AAP 4, 5 et 6 de PM1 !',
         ['Lilit, Flo, William'],
