@@ -68,6 +68,7 @@ export class AppComponent implements OnInit {
     plugins: [dayGridPlugin],
     events: this.calendarEvents,
     firstDay: 1,
+    locale: 'fr',
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',
