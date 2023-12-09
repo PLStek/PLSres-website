@@ -13,6 +13,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 export class AppComponent implements OnInit {
   title = 'PLSres';
   charbonList!: Charbon[];
+  charbonListFirst3!: Charbon[];
   calendarEvents: EventInput[] = [];
   selectedCharbon: Charbon | null = null;
 
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.charbonList = this.charbonService.getCharbonList();
+    //pour le calendrier
     this.charbonList.forEach((charbon: Charbon) => {
       const isoFormattedDate = charbon.date;
       this.calendarEvents.push({
@@ -31,6 +33,16 @@ export class AppComponent implements OnInit {
         },
       });
     });
+
+    // Trier la liste par date dans l'ordre décroissant
+    this.charbonList.sort((a: Charbon, b: Charbon) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+
+    // Limiter la liste aux trois premiers éléments
+    this.charbonListFirst3 = this.charbonList.slice(0, 3);
   }
 
   handleEventClick(clickInfo: EventClickArg): void {
