@@ -55,16 +55,13 @@
     </div>
 </app-background-card>
 
-<div class="mt-5 mb-5">
-    <app-social-networks></app-social-networks>
-</div>
-
 <app-background-card>
     <div class="d-flex">
         <div style="width: 50em; padding: 3em;">
             <h1>Planning des charbons</h1>
             <p>
-                Tu peux retrouver ici le planning des futurs charbons ainsi que les rediffusions des charbons que tu as raté et les ressources utilisées.
+                Tu peux retrouver ici le planning des futurs charbons ainsi que les rediffusions des charbons que tu as
+                raté et les ressources utilisées.
             </p>
         </div>
         <div>
@@ -75,13 +72,12 @@
         <div style="width: 70%; padding: 3em; padding-top: 0;">
             <full-calendar [options]="calendarOptions"></full-calendar>
         </div>
-        <!-- 
-        <div style="width: auto; padding: 3em; padding-top: 7em;">
-            <app-charbon-card [charbon]="charbonList[0]"></app-charbon-card>
-        </div>
-        -->
         <div *ngIf="selectedCharbon" style="width: 30%; padding: 3em; padding-top: 7em; padding-left: 0;">
             <app-charbon-card [charbon]="selectedCharbon"></app-charbon-card>
         </div>
     </div>
 </app-background-card>
+
+<div class="mt-5 mb-5">
+    <app-social-networks></app-social-networks>
+</div>

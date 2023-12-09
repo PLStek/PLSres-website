@@ -4,7 +4,7 @@
             <h4>{{title}}</h4>
         </div>
         <div>
-            <app-main-button [isBig]="true" content="{{buttonText}}"></app-main-button>
+            <app-main-button *ngIf="buttonText != undefined" [isBig]="true" content="{{buttonText}}"></app-main-button>
         </div>
     </div>
     <ng-content></ng-content>
