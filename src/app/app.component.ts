@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.charbonList = this.charbonService.getCharbonList();
+    /*
     this.charbonList.forEach((charbon: Charbon) => {
       this.calendarEvents.push({
         title: charbon.course,
@@ -28,13 +29,18 @@ export class AppComponent implements OnInit {
         end: charbon.date,
       });
     });
+    */
+   this.calendarEvents.push({
+    title: 'PM1',
+    start: '2023-12-12',
+    end: '2023-12-12',
+  });
   }
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
     events: this.calendarEvents
-    
   };
 }
   
