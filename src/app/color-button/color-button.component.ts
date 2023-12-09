@@ -17,11 +17,5 @@ export class ColorButtonComponent implements OnInit {
     this.content;
   }
 
-  ngOnInit(): void {
-    console.log(
-      this.isFilled
-        ? 'button-filled-' + this.courseType
-        : 'button-white-' + this.courseType
-    );
-  }
+  ngOnInit(): void {}
 }
