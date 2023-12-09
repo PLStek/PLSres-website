@@ -11,6 +11,8 @@ import { BackgroundCardComponent } from './background-card/background-card.compo
 import { SocialNetworksComponent } from './social-networks/social-networks.component';
 import { AnnouncementCardComponent } from './announcement-card/announcement-card.component';
 
+import { FullCalendarModule } from '@fullcalendar/angular';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +26,8 @@ import { AnnouncementCardComponent } from './announcement-card/announcement-card
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FullCalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
