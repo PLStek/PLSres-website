@@ -72,7 +72,7 @@
         </div>
     </div>
     <div class="d-flex">
-        <div style="width: 100em; padding: 3em; padding-top: 0;">
+        <div style="width: 70%; padding: 3em; padding-top: 0;">
             <full-calendar [options]="calendarOptions"></full-calendar>
         </div>
         <!-- 
@@ -80,7 +80,7 @@
             <app-charbon-card [charbon]="charbonList[0]"></app-charbon-card>
         </div>
         -->
-        <div *ngIf="selectedCharbon" style="width: auto; padding: 3em; padding-top: 7em;">
+        <div *ngIf="selectedCharbon" style="width: 30%; padding: 3em; padding-top: 7em; padding-left: 0;">
             <app-charbon-card [charbon]="selectedCharbon"></app-charbon-card>
         </div>
     </div>
