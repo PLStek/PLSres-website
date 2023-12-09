@@ -41,7 +41,8 @@ export class AppComponent implements OnInit {
   
       const matchedCharbon = this.charbonList.find((charbon: Charbon) => {
         const [day, month, year] = charbon.date.split('/');
-        const isoFormattedDate = `${year}-${month}-${day}`;
+        const charbonDay = parseInt(day, 10); // Convert day to a number
+        const isoFormattedDate = `${year}-${month}-${charbonDay - 1}`; // Subtract 1 from the day part
   
         return (
           charbon &&
