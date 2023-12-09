@@ -3,9 +3,7 @@
         class="card-header container-fluid d-flex justify-content-between math-style" style="height: 2.5rem;">
         <h5><strong>{{charbon.course}}</strong></h5>
         <div class="time d-flex">
-            <p>{{charbon.date}}</p>
-            <p class="pe-1 ps-1">à</p>
-            <p>{{charbon.time}}</p>
+            <p>{{charbon.date | date: 'dd/MM/yyyy à HH\'h\'mm'}}</p>
         </div>
     </div>
     <div class="card-body">
@@ -14,6 +12,7 @@
         <p>{{charbon.actionners}}</p>
         <p style="font-weight: lighter; font-size: small;">{{charbon.description}}</p>
         <app-color-button [courseType]="charbon.courseType" [isFilled]="false" content="Editer"></app-color-button>
+        <h5>Dans</h5>
     </div>
     <div [ngClass]="'course-color-'+charbon.courseType"
         class="card-footer text-body-secondary d-flex justify-content-evenly math-style">

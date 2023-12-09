@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Charbon } from 'src/models/Charbon';
-import { CourseTypes } from 'src/models/CourseTypes';
 
 @Component({
   selector: 'app-charbon-card',
@@ -9,9 +8,11 @@ import { CourseTypes } from 'src/models/CourseTypes';
 })
 export class CharbonCardComponent implements OnInit {
   @Input() charbon!: Charbon;
+  @Input() edit: boolean = false;
 
   constructor() {
     this.charbon;
+    this.edit;
   }
 
   ngOnInit(): void {}
