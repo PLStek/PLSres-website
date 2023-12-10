@@ -16,6 +16,7 @@ import { CharbonService } from './charbon.service';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { DatePipe } from '@angular/common';
+import { CalendarComponent } from './calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { DatePipe } from '@angular/common';
     SocialNetworksComponent,
     AnnouncementCardComponent,
     DateIntervalPipe,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,
