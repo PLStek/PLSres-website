@@ -10,13 +10,15 @@ import { ColorButtonComponent } from './color-button/color-button.component';
 import { BackgroundCardComponent } from './background-card/background-card.component';
 import { SocialNetworksComponent } from './social-networks/social-networks.component';
 import { AnnouncementCardComponent } from './announcement-card/announcement-card.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { ExerciseComponent } from './exercise/exercise.component';
+
 import { DateIntervalPipe } from './date-interval.pipe';
 
 import { CharbonService } from './charbon.service';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { DatePipe } from '@angular/common';
-import { CalendarComponent } from './calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { CalendarComponent } from './calendar/calendar.component';
     AnnouncementCardComponent,
     DateIntervalPipe,
     CalendarComponent,
+    ExerciseComponent
   ],
   imports: [
     BrowserModule,
