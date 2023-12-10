@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
         date: isoFormattedDate!,
         display: 'block',
         backgroundColor: '#' + charbon.courseType,
+        borderColor: '#D2D2D2',
         extendedProps: {
           charbonId: charbon.id,
         },
