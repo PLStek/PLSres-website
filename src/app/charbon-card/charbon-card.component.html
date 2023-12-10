@@ -11,8 +11,13 @@
         <h6>Actionneur(s):</h6>
         <p>{{charbon.actionners}}</p>
         <p style="font-weight: lighter; font-size: small;">{{charbon.description}}</p>
-        <app-color-button [courseType]="charbon.courseType" [isFilled]="false" content="Editer"></app-color-button>
-        <h5>{{charbon.date | dateInterval}}</h5>
+        <app-color-button *ngIf="edit" [courseType]="charbon.courseType" [isFilled]="false"
+            content="Editer"></app-color-button>
+
+        <h5 *ngIf="!edit">
+            <img src="../../assets/images/charbon.svg" class="charbon-img-inline">
+            {{charbon.date | dateInterval}}
+        </h5>
     </div>
     <div [ngClass]="'course-color-'+charbon.courseType"
         class="card-footer text-body-secondary d-flex justify-content-evenly math-style">
