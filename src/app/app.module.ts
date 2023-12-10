@@ -15,6 +15,7 @@ import { DateIntervalPipe } from './date-interval.pipe';
 import { CharbonService } from './charbon.service';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     FullCalendarModule
   ],
   providers: [
-    CharbonService
+    CharbonService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

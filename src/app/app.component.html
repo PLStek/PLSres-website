@@ -23,7 +23,7 @@
 
 <app-background-card title="Prochains charbons" buttonText="Planning complet" buttonOnClick="">
     <div class="row row-cols-3 mt-3">
-        <app-charbon-card *ngFor="let charbon of charbonListFirst3" [charbon]="charbon"></app-charbon-card>
+        <app-charbon-card *ngFor="let charbon of charbonList.slice(0, 3)" [charbon]="charbon"></app-charbon-card>
     </div>
 </app-background-card>
 

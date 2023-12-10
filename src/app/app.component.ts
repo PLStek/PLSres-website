@@ -4,6 +4,7 @@ import { CharbonService } from './charbon.service';
 
 import { CalendarOptions, EventClickArg, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -13,36 +14,28 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 export class AppComponent implements OnInit {
   title = 'PLSres';
   charbonList!: Charbon[];
-  charbonListFirst3!: Charbon[];
   calendarEvents: EventInput[] = [];
   selectedCharbon: Charbon | null = null;
 
-  constructor(private charbonService: CharbonService) {}
+  constructor(private charbonService: CharbonService, private datePipe: DatePipe) {}
 
   ngOnInit(): void {
     this.charbonList = this.charbonService.getCharbonList();
-    //pour le calendrier
-    this.charbonList.forEach((charbon: Charbon) => {
-      const isoFormattedDate = charbon.date;
-      this.calendarEvents.push({
-        title: charbon.course,
-        date: isoFormattedDate!,
-        display: 'block',
-        extendedProps: {
-          charbonId: charbon.id,
-        },
+    
+      this.charbonList.forEach((charbon: Charbon) => {
+        const isoFormattedDate = this.datePipe.transform(charbon.date, 'yyyy-MM-ddTHH:mm:ss');
+        this.calendarEvents.push({
+          title: charbon.course,
+          date: isoFormattedDate!,
+          display: 'block',
+          
+          extendedProps: {
+            charbonId: charbon.id,
+          },
+          
+        });
       });
-    });
-
-    // Trier la liste par date dans l'ordre croissant
-    this.charbonList.sort((a: Charbon, b: Charbon) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return dateA.getTime() - dateB.getTime();
-    });
-
-    // Limiter la liste aux trois premiers éléments
-    this.charbonListFirst3 = this.charbonList.slice(0, 3);
+    console.log(this.calendarEvents);
   }
 
   handleEventClick(clickInfo: EventClickArg): void {
@@ -63,7 +56,7 @@ export class AppComponent implements OnInit {
   }
 
   calendarOptions: CalendarOptions = {
-    timeZone: 'Europe/Paris',
+    timeZone: 'Etc/UTC',
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
     events: this.calendarEvents,
@@ -72,7 +65,6 @@ export class AppComponent implements OnInit {
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',
-      meridiem: false,
     },
     eventClick: this.handleEventClick.bind(this),
   };
