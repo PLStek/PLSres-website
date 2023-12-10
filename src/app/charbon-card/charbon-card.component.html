@@ -12,7 +12,7 @@
         <p>{{charbon.actionners}}</p>
         <p style="font-weight: lighter; font-size: small;">{{charbon.description}}</p>
         <app-color-button [courseType]="charbon.courseType" [isFilled]="false" content="Editer"></app-color-button>
-        <h5>Dans</h5>
+        <h5>{{charbon.date | dateInterval}}</h5>
     </div>
     <div [ngClass]="'course-color-'+charbon.courseType"
         class="card-footer text-body-secondary d-flex justify-content-evenly math-style">
