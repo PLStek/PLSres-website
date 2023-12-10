@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
           title: charbon.course,
           date: isoFormattedDate!,
           display: 'block',
-          
+          backgroundColor: this.getColorForCourse(charbon.courseType),
           extendedProps: {
             charbonId: charbon.id,
           },
@@ -36,6 +36,17 @@ export class AppComponent implements OnInit {
         });
       });
     console.log(this.calendarEvents);
+  }
+
+  getColorForCourse(courseType: string): string {
+    const courseColors: { [key: string]: string } = {
+      maths: '#ED5858',
+      info: '#FFB800',
+      meca: '#5592EF',
+      elec: '#A1CA78'
+    };
+  
+    return courseColors[courseType]; 
   }
 
   handleEventClick(clickInfo: EventClickArg): void {
@@ -68,4 +79,6 @@ export class AppComponent implements OnInit {
     },
     eventClick: this.handleEventClick.bind(this),
   };
+
+  
 }
