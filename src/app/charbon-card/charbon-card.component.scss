@@ -5,9 +5,9 @@
     height: auto;
 }
 
-@each $course, $color in $course-colors {
-    .course-color-#{$course} {
-        background-color: $color;
+@each $color in $course-colors {
+    .course-color-#{$color} {
+        background-color: #{'#' + $color};
         color: white;
     }
 }

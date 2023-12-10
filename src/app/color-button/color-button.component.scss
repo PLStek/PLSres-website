@@ -8,18 +8,18 @@
     padding-inline: 0.5em;
 }
 
-@each $course, $color in $course-colors {
-    .btn-filled-#{$course} {
+@each $color in $course-colors {
+    .btn-filled-#{$color} {
         border: 2px solid #ffffff;
-        background-color: $color;
+        background-color: #{'#' + $color};
         color: #ffffff;
     }
 }
 
-@each $course, $color in $course-colors {
-    .btn-white-#{$course} {
-        border: 2px solid $color;
+@each $color in $course-colors {
+    .btn-white-#{$color} {
+        border: 2px solid #{'#' + $color};
         background-color: #ffffff;
-        color: $color;
+        color: #{'#' + $color};
     }
 }

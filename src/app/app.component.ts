@@ -17,38 +17,31 @@ export class AppComponent implements OnInit {
   calendarEvents: EventInput[] = [];
   selectedCharbon: Charbon | null = null;
 
-  constructor(private charbonService: CharbonService, private datePipe: DatePipe) {}
+  constructor(
+    private charbonService: CharbonService,
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit(): void {
     this.charbonList = this.charbonService.getCharbonList();
-    
-      this.charbonList.forEach((charbon: Charbon) => {
-        const isoFormattedDate = this.datePipe.transform(charbon.date, 'yyyy-MM-ddTHH:mm:ss');
-        this.calendarEvents.push({
-          title: charbon.course,
-          date: isoFormattedDate!,
-          display: 'block',
-          backgroundColor: this.getColorForCourse(charbon.courseType),
-          extendedProps: {
-            charbonId: charbon.id,
-          },
-          
-        });
+
+    this.charbonList.forEach((charbon: Charbon) => {
+      const isoFormattedDate = this.datePipe.transform(
+        charbon.date,
+        'yyyy-MM-ddTHH:mm:ss'
+      );
+      this.calendarEvents.push({
+        title: charbon.course,
+        date: isoFormattedDate!,
+        display: 'block',
+        backgroundColor: '#' + charbon.courseType,
+        extendedProps: {
+          charbonId: charbon.id,
+        },
       });
+    });
     console.log(this.calendarEvents);
   }
-
-  getColorForCourse(courseType: string): string {
-    const courseColors: { [key: string]: string } = {
-      maths: '#ED5858',
-      info: '#FFB800',
-      meca: '#5592EF',
-      elec: '#A1CA78'
-    };
-  
-    return courseColors[courseType]; 
-  }
-
   handleEventClick(clickInfo: EventClickArg): void {
     this.selectedCharbon = null; // Réinitialise selectedCharbon
 
@@ -79,6 +72,4 @@ export class AppComponent implements OnInit {
     },
     eventClick: this.handleEventClick.bind(this),
   };
-
-  
 }

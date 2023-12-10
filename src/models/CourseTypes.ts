@@ -1,6 +1,6 @@
 export enum CourseTypes {
-    meca = "meca",
-    info = "info",
-    maths = "maths",
-    elec = "elec",
+    meca = "ED5858",
+    info = "FFB800",
+    maths = "5592EF",
+    elec = "A1CA78",
 }
