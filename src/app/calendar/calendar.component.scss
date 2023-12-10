@@ -1,0 +1,8 @@
+::ng-deep a {
+    color: var(--bs-body-color);
+    text-decoration: none;
+}
+
+::ng-deep .fc-event {
+    cursor: pointer;
+}

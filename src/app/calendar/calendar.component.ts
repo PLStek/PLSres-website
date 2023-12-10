@@ -72,5 +72,8 @@ export class CalendarComponent implements OnInit {
       minute: '2-digit',
     },
     eventClick: this.handleEventClick.bind(this),
+    dayHeaderFormat: {
+      weekday: 'long',
+    },
   };
 }
