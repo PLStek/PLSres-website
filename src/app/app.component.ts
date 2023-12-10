@@ -10,10 +10,15 @@ import { CharbonService } from './charbon.service';
 export class AppComponent implements OnInit {
   title = 'PLSres';
   charbonList!: Charbon[];
+  selectedCharbon: Charbon | null = null;
 
   constructor(private charbonService: CharbonService) {}
 
   ngOnInit(): void {
     this.charbonList = this.charbonService.getCharbonList();
+  }
+
+  handleSelectedCharbonChange(selectedCharbon: Charbon | null): void {
+    this.selectedCharbon = selectedCharbon;
   }
 }

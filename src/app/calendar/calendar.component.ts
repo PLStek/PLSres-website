@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Charbon } from 'src/models/Charbon';
 import { CharbonService } from '../charbon.service';
 import { CalendarOptions, EventClickArg, EventInput } from '@fullcalendar/core';
@@ -14,6 +14,7 @@ export class CalendarComponent implements OnInit {
   charbonList!: Charbon[];
   calendarEvents: EventInput[] = [];
   selectedCharbon: Charbon | null = null;
+  @Output() selectedCharbonChange = new EventEmitter<Charbon | null>();
 
   constructor(
     private charbonService: CharbonService,
@@ -54,6 +55,7 @@ export class CalendarComponent implements OnInit {
 
       if (matchedCharbon) {
         this.selectedCharbon = matchedCharbon;
+        this.selectedCharbonChange.emit(this.selectedCharbon);
       }
     }
   }
