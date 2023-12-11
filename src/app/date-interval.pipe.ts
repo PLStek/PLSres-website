@@ -6,15 +6,17 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DateIntervalPipe implements PipeTransform {
   transform(date: Date): string {
     const now = new Date();
-    const diffInMilliseconds = date.getTime() - now.getTime();
+    const charbonDate = new Date(date);
+
+    const diffInMilliseconds = charbonDate.getTime() - now.getTime();
     const diffInMinutes = Math.abs(diffInMilliseconds / 60000);
     const diffInHours = diffInMinutes / 60;
 
     // Getting the difference in days by getting rid of the time of day
     now.setHours(0, 0, 0, 0);
-    date.setHours(0, 0, 0, 0);
+    charbonDate.setHours(0, 0, 0, 0);
     const diffInDays = Math.abs(
-      (date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+      (charbonDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
     );
 
     const diffInWeeks = diffInDays / 7;
