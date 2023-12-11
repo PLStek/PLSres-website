@@ -16,7 +16,7 @@ export class CharbonService {
         1,
         'PM1',
         CourseTypes.elec,
-        new Date(2023, 11, 12, 22,0),
+        new Date(2023, 11, 11, 22,0),
         'AAP 4, 5 et 6 de PM1 !',
         ['Lilit, Flo, William'],
         'On prépare le CC2 de PM en révisant les AAP 4, 5 et 6. Nous utiliserons l’ECA du CC2 en distanciel A22, alors jetez-y un coup d’oeil !'

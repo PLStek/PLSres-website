@@ -75,5 +75,6 @@ export class CalendarComponent implements OnInit {
     dayHeaderFormat: {
       weekday: 'long',
     },
+    
   };
 }

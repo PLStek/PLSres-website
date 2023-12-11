@@ -1,6 +1,11 @@
 ::ng-deep a {
     color: var(--bs-body-color);
     text-decoration: none;
+    text-transform: capitalize; 
+}
+
+::ng-deep .fc-toolbar-title {
+    text-transform: capitalize; 
 }
 
 ::ng-deep .fc-event {
