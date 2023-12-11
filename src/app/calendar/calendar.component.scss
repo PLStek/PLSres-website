@@ -10,4 +10,16 @@
 
 ::ng-deep .fc-event {
     cursor: pointer;
+}   
+
+:root {
+    --fc-today-bg-color: #F5F5F5;
+}
+
+::ng-deep .fc-day-today {
+    --fc-today-bg-color: #F5F5F5;
+}
+
+::ng-deep .fc-event-time {
+    margin-left: 3px;
 }
