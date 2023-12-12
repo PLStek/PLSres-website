@@ -1,0 +1,3 @@
+[submodule "api/plsres-exdb"]
+	path = api/plsres-exdb
+	url = https://github.com/Tyulis/plsres-exdb
