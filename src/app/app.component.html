@@ -22,7 +22,7 @@
 </div>
 
 <app-background-card title="Prochains charbons" buttonText="Planning complet" buttonOnClick="">
-    <div class="row row-cols-3 mt-3">
+    <div class="row row-cols-auto mt-3" style="justify-content: center;">
         <app-charbon-card *ngFor="let charbon of charbonList.slice(0, 3)" [charbon]="charbon"></app-charbon-card>
     </div>
 </app-background-card>
@@ -87,7 +87,7 @@
 </app-background-card>
 
 <app-background-card title="Prochains charbons">
-    <div class="row row-cols-3 mt-3">
+    <div class="row row-cols-auto mt-3">
         <app-charbon-card *ngFor="let charbon of charbonList.slice(0, 3)" [charbon]="charbon"></app-charbon-card>
     </div>
 </app-background-card>
@@ -141,3 +141,5 @@
 <div class="mt-5 mb-5">
     <app-social-networks></app-social-networks>
 </div>
+
+<app-exercise></app-exercise>
