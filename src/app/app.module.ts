@@ -32,17 +32,10 @@ import { DatePipe } from '@angular/common';
     AnnouncementCardComponent,
     DateIntervalPipe,
     CalendarComponent,
-    ExerciseComponent
+    ExerciseComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FullCalendarModule
-  ],
-  providers: [
-    CharbonService,
-    DatePipe
-  ],
-  bootstrap: [AppComponent]
+  imports: [BrowserModule, AppRoutingModule, FullCalendarModule],
+  providers: [CharbonService, DatePipe],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
