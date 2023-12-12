@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CourseTypes } from 'src/models/CourseTypes';
 import { Exercise } from 'src/models/Exercise';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +8,7 @@ import { Observable } from 'rxjs';
 export class ExerciseService {
   exerciseList!: Exercise[];
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   getExerciseList(): Exercise[] {
     this.exerciseList = [];
