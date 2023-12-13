@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let exercise of exerciseList">
-                    <td>{{exercise.title}}</td>
+                    <td><a [routerLink]="['/exercices', exercise.id]">{{exercise.title}}</a></td>
                     <td>{{exercise.source}}</td>
                     <td>{{exercise.isCorrected ? 'Oui' : 'Non'}}</td>
                     <td>{{generateStars(exercise.difficulty)}}</td>

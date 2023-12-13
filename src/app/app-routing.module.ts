@@ -5,6 +5,7 @@ import { AnnouncementsPageComponent } from './announcements-page/announcements-p
 import { GuidesPageComponent } from './guides-page/guides-page.component';
 import { CharbonsPageComponent } from './charbons-page/charbons-page.component';
 import { ExercisesPageComponent } from './exercises-page/exercises-page.component';
+import { ExerciseDetailsPageComponent } from './exercise-details-page/exercise-details-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/accueil', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'guides', component: GuidesPageComponent },
   { path: 'charbons', component: CharbonsPageComponent },
   { path: 'exercices', component: ExercisesPageComponent },
+  { path: 'exercices/:id', component: ExerciseDetailsPageComponent },
 ];
 
 @NgModule({

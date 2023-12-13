@@ -24,6 +24,7 @@ import { AnnouncementsPageComponent } from './announcements-page/announcements-p
 import { GuidesPageComponent } from './guides-page/guides-page.component';
 import { CharbonsPageComponent } from './charbons-page/charbons-page.component';
 import { ExercisesPageComponent } from './exercises-page/exercises-page.component';
+import { ExerciseDetailsPageComponent } from './exercise-details-page/exercise-details-page.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { ExercisesPageComponent } from './exercises-page/exercises-page.componen
     GuidesPageComponent,
     CharbonsPageComponent,
     ExercisesPageComponent,
+    ExerciseDetailsPageComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FullCalendarModule],
   providers: [CharbonService, DatePipe],
