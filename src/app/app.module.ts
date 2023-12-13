@@ -19,6 +19,11 @@ import { CharbonService } from './charbon.service';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { DatePipe } from '@angular/common';
+import { HomePageComponent } from './home-page/home-page.component';
+import { AnnouncementsPageComponent } from './announcements-page/announcements-page.component';
+import { GuidesPageComponent } from './guides-page/guides-page.component';
+import { CharbonsPageComponent } from './charbons-page/charbons-page.component';
+import { ExercisesPageComponent } from './exercises-page/exercises-page.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +38,11 @@ import { DatePipe } from '@angular/common';
     DateIntervalPipe,
     CalendarComponent,
     ExerciseComponent,
+    HomePageComponent,
+    AnnouncementsPageComponent,
+    GuidesPageComponent,
+    CharbonsPageComponent,
+    ExercisesPageComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FullCalendarModule],
   providers: [CharbonService, DatePipe],

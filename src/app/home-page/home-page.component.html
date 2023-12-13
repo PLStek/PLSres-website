@@ -1,0 +1,143 @@
+<div class="container-lg mb-3 p-3 rounded" style="background-color: white; margin-top: 7em;">
+    <div class="d-flex">
+        <div style="width: 50em; padding: 3em;">
+            <h1>Bienvenue sur le site du PL$tek !</h1>
+            <h3>Notre mission: t'aider à réussir tes UE</h3>
+            <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Placeat ratione eum illo odio, praesentium
+                reprehenderit beatae eius molestias nemo quos labore, architecto quaerat, corrupti modi voluptas! Sit
+                itaque commodi hic.
+            </p>
+        </div>
+        <div>
+            <img src="../assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
+        </div>
+    </div>
+    <app-social-networks></app-social-networks>
+    <div class="text-center mt-4">
+        <a href="#"><app-main-button [isBig]="true" content="En savoir plus"></app-main-button></a>
+    </div>
+</div>
+
+<app-background-card title="Prochains charbons" buttonText="Planning complet" buttonOnClick="">
+    <div class="row row-cols-auto mt-3" style="justify-content: center;">
+        <app-charbon-card *ngFor="let charbon of charbonList.slice(0, 3)" [charbon]="charbon"></app-charbon-card>
+    </div>
+</app-background-card>
+
+<app-background-card title="Dernières annonces" buttonText="Toutes les annonces" buttonOnClick="">
+    <div id="carouselExampleControlsNoTouching" class="carousel slide mt-3" data-bs-touch="false">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <app-announcement-card></app-announcement-card>
+            </div>
+            <div class="carousel-item">
+                <app-announcement-card></app-announcement-card>
+            </div>
+            <div class="carousel-item">
+                <app-announcement-card></app-announcement-card>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching"
+            data-bs-slide="prev">
+            <img src="../assets/images/prev.png" alt="" width="40" height="40">
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching"
+            data-bs-slide="next">
+            <img src="../assets/images/next.png" alt="" width="40" height="40">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</app-background-card>
+
+<div class="mt-5 mb-5">
+    <app-social-networks></app-social-networks>
+</div>
+
+
+
+
+<div class="container">
+    <app-main-button content="Page d'Accueil" [isBig]="true" [isFilled]="false"></app-main-button>
+</div>
+<app-background-card>
+    <div class="d-flex">
+        <div style="width: 50em; padding: 3em;">
+            <h1>Planning des charbons</h1>
+            <p>
+                Tu peux retrouver ici le planning des futurs charbons ainsi que les rediffusions des charbons que tu as
+                raté et les ressources utilisées.
+            </p>
+        </div>
+        <div>
+            <img src="../assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
+        </div>
+    </div>
+    <div class="d-flex">
+        <div style="width: 70%; padding: 3em; padding-top: 0;">
+            <app-calendar (selectedCharbonChange)="handleSelectedCharbonChange($event)"></app-calendar>
+        </div>
+        <div *ngIf="selectedCharbon" style="width: 30%; padding: 3em; padding-top: 7em; padding-left: 0;">
+            <app-charbon-card [charbon]="selectedCharbon"></app-charbon-card>
+        </div>
+    </div>
+</app-background-card>
+
+<app-background-card title="Prochains charbons">
+    <div class="row row-cols-auto mt-3">
+        <app-charbon-card *ngFor="let charbon of charbonList.slice(0, 3)" [charbon]="charbon"></app-charbon-card>
+    </div>
+</app-background-card>
+
+<app-background-card title="Derniers charbons">
+    <div class="m-3">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="inputTri" class="form-label">Trier par :</label>
+                <select id="inputTri" class="form-select">
+                    <option selected>-----------------</option>
+                    <option value="1">Durée croissante</option>
+                    <option value="2">Plus récent</option>
+                </select>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <label for="TypeUE" class="form-label">Type d'UE :</label>
+                <select id="TypeUE" class="form-select">
+                    <option selected>-----------------</option>
+                    <option value="1">Mécanique</option>
+                    <option value="2">Informatique</option>
+                    <option value="2">Mathématique</option>
+                    <option value="2">Électricité</option>
+                </select>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-md-3">
+                <label for="customRange3" class="form-label">Durée du charbon</label>
+                <input type="range" class="form-range" min="0" max="3" step="0.25" id="customRange3">
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <label for="inputUE" class="form-label">UE :</label>
+                <select id="inputUE" class="form-select">
+                    <option selected>-----------------</option>
+                    <option value="1">MT1</option>
+                    <option value="2">MT2</option>
+                    <option value="1">MT3</option>
+                    <option value="2">MT3A</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-3 mt-4">
+        <app-charbon-card *ngFor="let charbon of charbonList" [charbon]="charbon"></app-charbon-card>
+    </div>
+</app-background-card>
+
+<div class="mt-5 mb-5">
+    <app-social-networks></app-social-networks>
+</div>
+
+<app-exercise></app-exercise>
