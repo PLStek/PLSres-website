@@ -6,21 +6,21 @@ import { ExerciseTopic } from 'src/models/exercise-topic.model';
   providedIn: 'root',
 })
 export class ExerciseTopicService {
-  exerciseList!: ExerciseTopic[];
+  exerciseTopicList!: ExerciseTopic[];
 
   constructor() {}
 
-  getExerciseList(): ExerciseTopic[] {
-    this.exerciseList = [];
-    this.exerciseList.push(
+  getExerciseTopicList(): ExerciseTopic[] {
+    this.exerciseTopicList = [];
+    this.exerciseTopicList.push(
       new ExerciseTopic(1, `Arbres binaires`, 'LO21', CourseType.info)
     );
-    this.exerciseList.push(
-      new ExerciseTopic(2, `Listes chaînées`, 'LO21', CourseType.info)
+    this.exerciseTopicList.push(
+      new ExerciseTopic(2, `Listes chaînées`, 'LO21', CourseType.meca)
     );
-    this.exerciseList.push(
-      new ExerciseTopic(3, `Graphes`, 'LO21', CourseType.info)
+    this.exerciseTopicList.push(
+      new ExerciseTopic(3, `Graphes`, 'LO21', CourseType.maths)
     );
-    return this.exerciseList;
+    return this.exerciseTopicList;
   }
 }

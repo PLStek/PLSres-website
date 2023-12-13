@@ -1,6 +1,8 @@
 import { Exercise } from 'src/models/exercise.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { CourseType } from 'src/models/course-type.model';
+import { ExerciseTopic } from 'src/models/exercise-topic.model';
+import { ExerciseService } from '../exercise.service';
 
 @Component({
   selector: 'app-exercise',
@@ -8,19 +10,20 @@ import { CourseType } from 'src/models/course-type.model';
   styleUrls: ['./exercise.component.scss'],
 })
 export class ExerciseComponent implements OnInit {
-  @Input() exerciseList!: Exercise[];
-  @Input() courseType!: CourseType;
-  @Input() topic!: string;
+  @Input() exerciseTopic!: ExerciseTopic;
+  exerciseList!: Exercise[];
 
-  constructor() {
+  constructor(private exerciseService: ExerciseService) {
     this.exerciseList;
-    this.courseType;
-    this.topic;
   }
 
   generateStars(count: number): string {
     return '★'.repeat(count) + '☆'.repeat(5 - count);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.exerciseList = this.exerciseService.getExercisesByTopic(
+      this.exerciseTopic.id
+    );
+  }
 }

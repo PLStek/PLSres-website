@@ -1,7 +1,6 @@
-import { Exercise } from 'src/models/exercise.model';
-import { ExerciseService } from './../exercise.service';
 import { Component, OnInit } from '@angular/core';
-import { CourseType } from 'src/models/course-type.model';
+import { ExerciseTopic } from 'src/models/exercise-topic.model';
+import { ExerciseTopicService } from '../exercise-topic.service';
 
 @Component({
   selector: 'app-exercises-page',
@@ -9,14 +8,11 @@ import { CourseType } from 'src/models/course-type.model';
   styleUrls: ['./exercises-page.component.scss'],
 })
 export class ExercisesPageComponent implements OnInit {
-  exerciseList!: Exercise[];
+  exerciseTopicList!: ExerciseTopic[];
 
-  //TODO: remove when exercisetopic modeel is implemented
-  defailtCourseType: CourseType = CourseType.maths;
-
-  constructor(private exerciseService: ExerciseService) {}
+  constructor(private exerciseTopicService: ExerciseTopicService) {}
 
   ngOnInit(): void {
-    this.exerciseList = this.exerciseService.getExerciseList();
+    this.exerciseTopicList = this.exerciseTopicService.getExerciseTopicList();
   }
 }

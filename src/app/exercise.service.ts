@@ -27,6 +27,10 @@ export class ExerciseService {
     return this.exerciseList;
   }
 
+  getExercisesByTopic(topicId: number): Exercise[] {
+    return this.exerciseList.filter((e) => e.topicId === topicId);
+  }
+
   getExerciseContent(id: number): string {
     return `<p>Le contenu de l'exercice en HTML sera récupéré du backend</p>`;
   }

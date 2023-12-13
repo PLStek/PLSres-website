@@ -1,1 +1,1 @@
-<app-exercise topic="Les listes chainées" [courseType]="defailtCourseType" [exerciseList]="exerciseList"></app-exercise>
+<app-exercise *ngFor="let exerciseTopic of exerciseTopicList" [exerciseTopic]="exerciseTopic"></app-exercise>
