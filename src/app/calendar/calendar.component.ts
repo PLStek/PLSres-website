@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Charbon } from 'src/models/Charbon';
+import { Charbon } from 'src/models/charbon.model';
 import { CharbonService } from '../charbon.service';
 import { CalendarOptions, EventClickArg, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';

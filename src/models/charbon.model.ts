@@ -1,10 +1,10 @@
-import { CourseTypes } from "./CourseTypes";
+import { CourseType } from "./course-type.model";
 
 export class Charbon {
     constructor(
         public id: number,
         public course: string,
-        public courseType: CourseTypes,
+        public courseType: CourseType,
         public date: Date,
         public title: string,
         public actionners: string[],

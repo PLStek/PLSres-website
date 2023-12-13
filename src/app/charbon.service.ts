@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Charbon } from 'src/models/Charbon';
-import { CourseTypes } from 'src/models/CourseTypes';
+import { Charbon } from 'src/models/charbon.model';
+import { CourseType } from 'src/models/course-type.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class CharbonService {
       new Charbon(
         1,
         'PM1',
-        CourseTypes.elec,
+        CourseType.elec,
         new Date(2023, 11, 11, 22,0),
         'AAP 4, 5 et 6 de PM1 !',
         ['Lilit, Flo, William'],
@@ -26,7 +26,7 @@ export class CharbonService {
       new Charbon(
         2,
         'PM1',
-        CourseTypes.elec,
+        CourseType.elec,
         new Date(2023, 11, 10, 23,0),
         'AAP 4, 5 et 6 de PM1 !',
         ['Lilit, Flo, William'],
@@ -37,7 +37,7 @@ export class CharbonService {
       new Charbon(
         3,
         'MT3',
-        CourseTypes.maths,
+        CourseType.maths,
         new Date(2023, 11, 12, 18,0),
         'AAP 4, 5 et 6 de PM1 !',
         ['Lilit, Flo, William'],
@@ -48,7 +48,7 @@ export class CharbonService {
       new Charbon(
         4,
         'IF2',
-        CourseTypes.info,
+        CourseType.info,
         new Date(2023, 11, 12, 20,0),
         'AAP 4, 5 et 6 de PM1 !',
         ['Lilit, Flo, William'],

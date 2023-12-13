@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CourseTypes } from 'src/models/CourseTypes';
-import { Exercise } from 'src/models/Exercise';
+import { CourseType } from 'src/models/course-type.model';
+import { Exercise } from 'src/models/exercise.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class ExerciseService {
         true,
         'LO21',
         'Arbres binaires de recherche',
-        CourseTypes.info,
+        CourseType.info,
         'Tyuvetou',
         `https://api.github.com/repos/andr3wV/summy/contents/index.html`
       )

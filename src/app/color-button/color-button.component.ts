@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CourseTypes } from 'src/models/CourseTypes';
+import { CourseType } from 'src/models/course-type.model';
 
 @Component({
   selector: 'app-color-button',
@@ -7,7 +7,7 @@ import { CourseTypes } from 'src/models/CourseTypes';
   styleUrls: ['./color-button.component.scss'],
 })
 export class ColorButtonComponent implements OnInit {
-  @Input() courseType: CourseTypes = CourseTypes.info;
+  @Input() courseType: CourseType = CourseType.info;
   @Input() isFilled: boolean = false;
   @Input() content: string = 'Main button';
 

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Charbon } from 'src/models/Charbon';
+import { Charbon } from 'src/models/charbon.model';
 
 @Component({
   selector: 'app-charbon-card',

@@ -1,4 +1,4 @@
-import { CourseTypes } from './CourseTypes';
+import { CourseType } from './course-type.model';
 
 export class Exercise {
   constructor(
@@ -9,7 +9,7 @@ export class Exercise {
     public isCorrected: boolean,
     public course: string,
     public topic: string,
-    public courseType: CourseTypes,
+    public courseType: CourseType,
     public source: string,
     public contentLink: string
   ) {
