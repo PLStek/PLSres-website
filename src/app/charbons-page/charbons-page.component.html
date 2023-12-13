@@ -1,0 +1,81 @@
+<div class="container">
+    <app-main-button content="Page d'Accueil" [isBig]="true" [isFilled]="false"></app-main-button>
+</div>
+<app-background-card>
+    <div class="d-flex">
+        <div style="width: 50em; padding: 3em;">
+            <h1>Planning des charbons</h1>
+            <p>
+                Tu peux retrouver ici le planning des futurs charbons ainsi que les rediffusions des charbons que tu as
+                raté et les ressources utilisées.
+            </p>
+        </div>
+        <div>
+            <img src="../assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
+        </div>
+    </div>
+    <div class="d-flex">
+        <div style="width: 70%; padding: 3em; padding-top: 0;">
+            <app-calendar (selectedCharbonChange)="handleSelectedCharbonChange($event)"></app-calendar>
+        </div>
+        <div *ngIf="selectedCharbon" style="width: 30%; padding: 3em; padding-top: 7em; padding-left: 0;">
+            <app-charbon-card [charbon]="selectedCharbon"></app-charbon-card>
+        </div>
+    </div>
+</app-background-card>
+
+<app-background-card title="Prochains charbons">
+    <div class="row row-cols-auto mt-3">
+        <app-charbon-card *ngFor="let charbon of charbonList.slice(0, 3)" [charbon]="charbon"></app-charbon-card>
+    </div>
+</app-background-card>
+
+<app-background-card title="Derniers charbons">
+    <div class="m-3">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="inputTri" class="form-label">Trier par :</label>
+                <select id="inputTri" class="form-select">
+                    <option selected>-----------------</option>
+                    <option value="1">Durée croissante</option>
+                    <option value="2">Plus récent</option>
+                </select>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <label for="TypeUE" class="form-label">Type d'UE :</label>
+                <select id="TypeUE" class="form-select">
+                    <option selected>-----------------</option>
+                    <option value="1">Mécanique</option>
+                    <option value="2">Informatique</option>
+                    <option value="2">Mathématique</option>
+                    <option value="2">Électricité</option>
+                </select>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-md-3">
+                <label for="customRange3" class="form-label">Durée du charbon</label>
+                <input type="range" class="form-range" min="0" max="3" step="0.25" id="customRange3">
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <label for="inputUE" class="form-label">UE :</label>
+                <select id="inputUE" class="form-select">
+                    <option selected>-----------------</option>
+                    <option value="1">MT1</option>
+                    <option value="2">MT2</option>
+                    <option value="1">MT3</option>
+                    <option value="2">MT3A</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-3 mt-4">
+        <app-charbon-card *ngFor="let charbon of charbonList" [charbon]="charbon"></app-charbon-card>
+    </div>
+</app-background-card>
+
+<div class="mt-5 mb-5">
+    <app-social-networks></app-social-networks>
+</div>

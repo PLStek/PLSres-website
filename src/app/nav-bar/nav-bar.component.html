@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg primary-website-bg-color text-light fixed-top" style="height: 60px;">
     <div class="container">
-        <a href="#">
-            <img class="a-icon" src="../../assets/images/icon.png">
+        <a routerLink="/accueil">
+            <img class="a-icon" src="../../assets/images/icon.png" >
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleClasses()">
@@ -12,19 +12,19 @@
             <div class="me-5"></div>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white;" aria-current="page" href="#"><strong>Accueil</strong></a>
+                    <a class="nav-link" routerLink="/accueil" routerLinkActive="active-page">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white;" href="#a">Annonces</a>
+                    <a class="nav-link" routerLink="/annonces" routerLinkActive="active-page">Annonces</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white;" href="#g">Guides</a>
+                    <a class="nav-link" routerLink="/guides" routerLinkActive="active-page">Guides</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white;" href="#c">Charbons</a>
+                    <a class="nav-link" routerLink="/charbons" routerLinkActive="active-page">Charbons</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white;" href="#e">Exercices</a>
+                    <a class="nav-link" routerLink="/exercices" routerLinkActive="active-page">Exercices</a>
                 </li>
             </ul>
             <div class="d-flex justify-content-between">

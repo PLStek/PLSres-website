@@ -1,0 +1,8 @@
+@import '../../shared/variables';
+
+@each $color in $course-colors {
+    .course-color-#{$color} {
+        background-color: #{'#' + $color};
+        color: white;
+    }
+}
