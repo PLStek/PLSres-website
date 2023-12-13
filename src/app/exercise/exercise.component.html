@@ -1,12 +1,11 @@
 <div class="card" style="width: auto;">
-    <div class="card-header bg-warning">
-        <div class="d-flex navbar navbar-expand-sm navbar-dark justify-content-center">
-            <div class="navbar-collapse">
-                <p class="m-0" style="color: #ffffff; font-weight: bold;">LO21</p>
-            </div>
-            <div class="navbar-brand position-absolute mx-0">
-                <span style="color: #ffffff; font-weight: bold;">{{topic}}</span>
-            </div>
+    <div [ngClass]="'course-color-'+courseType" class="card-header container-fluid d-flex justify-content-center"
+        style="height: 2.5rem;">
+        <div class="navbar-collapse">
+            <h5><strong>LO21</strong></h5>
+        </div>
+        <div class="navbar-brand position-absolute mx-0">
+            <h5><strong>{{topic}}</strong></h5>
         </div>
     </div>
 
@@ -30,7 +29,8 @@
             </tbody>
         </table>
     </div>
-    <div class="card-footer text-body-secondary bg-warning d-flex justify-content-center">
-       <!-- <app-color-button [isFilled]="true" content="Pose nous tes questions !"></app-color-button> -->
+    <div [ngClass]="'course-color-'+courseType" class="card-footer text-body-secondary d-flex justify-content-evenly">
+        <app-color-button [courseType]="courseType" [isFilled]="true"
+            content="Pose nous tes questions !"></app-color-button>
     </div>
 </div>
