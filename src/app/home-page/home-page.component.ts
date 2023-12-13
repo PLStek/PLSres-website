@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Charbon } from 'src/models/charbon.model';
 import { Exercise } from 'src/models/exercise.model';
 import { CharbonService } from '../charbon.service';
-import { ExerciseService } from '../exercise.service';
 
 @Component({
   selector: 'app-home-page',
@@ -14,11 +13,10 @@ export class HomePageComponent implements OnInit {
   charbonList!: Charbon[];
   exerciseList!: Exercise[];
 
-  constructor(private charbonService: CharbonService, private exerciseService: ExerciseService) {}
+  constructor(private charbonService: CharbonService) {}
 
   ngOnInit(): void {
     this.charbonList = this.charbonService.getCharbonList();
-    this.exerciseList = this.exerciseService.getExerciseList();
   }
 
 }

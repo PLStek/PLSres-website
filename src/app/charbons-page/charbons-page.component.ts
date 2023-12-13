@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Charbon } from 'src/models/charbon.model';
 import { CharbonService } from '../charbon.service';
-import { ExerciseService } from '../exercise.service';
 
 @Component({
   selector: 'app-charbons-page',
@@ -14,8 +13,7 @@ export class CharbonsPageComponent implements OnInit {
   selectedCharbon: Charbon | null = null;
 
   constructor(
-    private charbonService: CharbonService,
-    private exerciseService: ExerciseService
+    private charbonService: CharbonService
   ) {}
 
   ngOnInit(): void {

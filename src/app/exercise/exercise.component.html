@@ -5,8 +5,7 @@
                 <p class="m-0" style="color: #ffffff; font-weight: bold;">LO21</p>
             </div>
             <div class="navbar-brand position-absolute mx-0">
-                <span style="color: #ffffff; font-weight: bold;">Les listes
-                    chaînées</span>
+                <span style="color: #ffffff; font-weight: bold;">{{topic}}</span>
             </div>
         </div>
     </div>
@@ -22,29 +21,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Entrainement au médian</td>
-                    <td>Tyuvetou</td>
-                    <td>oui</td>
-                    <td>&#9733;&#9733;&#9734;&#9734;&#9734;</td>
-                </tr>
-                <tr>
-                    <td>Entrainement au médian</td>
-                    <td>Tyuvetou</td>
-                    <td>oui</td>
-                    <td>&#9733;&#9733;&#9733;&#9734;&#9734;</td>
-                </tr>
-                <tr>
-                    <td>Entrainement au médian</td>
-                    <td>Tyuvetou</td>
-                    <td>non</td>
-                    <td>&#9733;&#9734;&#9734;&#9734;&#9734;</td>
-                </tr>
-                <tr>
-                    <td>Entrainement au médian</td>
-                    <td>Tyuvetou</td>
-                    <td>oui</td>
-                    <td>&#9733;&#9733;&#9733;&#9733;&#9734;</td>
+                <tr *ngFor="let exercise of exerciseList">
+                    <td>{{exercise.title}}</td>
+                    <td>{{exercise.source}}</td>
+                    <td>{{exercise.isCorrected ? 'Oui' : 'Non'}}</td>
+                    <td>{{generateStars(exercise.difficulty)}}</td>
                 </tr>
             </tbody>
         </table>
