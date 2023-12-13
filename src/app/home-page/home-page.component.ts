@@ -10,11 +10,9 @@ import { ExerciseService } from '../exercise.service';
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-
   title = 'PLSres';
   charbonList!: Charbon[];
   exerciseList!: Exercise[];
-  selectedCharbon: Charbon | null = null;
 
   constructor(private charbonService: CharbonService, private exerciseService: ExerciseService) {}
 
@@ -23,7 +21,4 @@ export class HomePageComponent implements OnInit {
     this.exerciseList = this.exerciseService.getExerciseList();
   }
 
-  handleSelectedCharbonChange(selectedCharbon: Charbon | null): void {
-    this.selectedCharbon = selectedCharbon;
-  }
 }
