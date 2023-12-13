@@ -13,47 +13,21 @@ export class ExerciseService {
   getExerciseList(): Exercise[] {
     this.exerciseList = [];
     this.exerciseList.push(
-      new Exercise(
-        1,
-        `Parcours d'un arbre binaire de recherche`,
-        `Nous allons voir dans cet exercice les différentes façons de parcourir un arbre binaire de recherche.`,
-        3,
-        true,
-        'LO21',
-        'Arbres binaires de recherche',
-        CourseType.info,
-        'Tyuvetou',
-        `https://api.github.com/repos/andr3wV/summy/contents/index.html`
-      )
+      new Exercise(1, `Parcours d'un BST`, 3, 1, true, 'Tyuvetou')
     );
     this.exerciseList.push(
-      new Exercise(
-        2,
-        `Parcours d'une liste chaînée`,
-        `Nous allons voir dans cet exercice les différentes façons de parcourir une liste chaînée.`,
-        2,
-        true,
-        'LO21',
-        'Listes chaînées',
-        CourseType.info,
-        'Wiqiro',
-        `https://api.github.com/repos/andr3wV/summy/contents/index.html`
-      )
+      new Exercise(2, `Parcours d'une liste chaînée`, 2, 2, false, 'Wiqiro')
     );
     this.exerciseList.push(
-      new Exercise(
-        3,
-        `Parcours d'un graphe`,
-        `Nous allons voir dans cet exercice les différentes façons de parcourir un graphe.`,
-        4,
-        true,
-        'LO21',
-        'Graphes',
-        CourseType.info,
-        'Wiqiro',
-        `https://api.github.com/repos/andr3wV/summy/contents/index.html`
-      )
+      new Exercise(4, `Inverse d'une liste chaînée`, 3, 2, false, 'Wiqiro')
+    );
+    this.exerciseList.push(
+      new Exercise(3, `Parcours d'un graphe`, 4, 3, true, 'Wiqiro')
     );
     return this.exerciseList;
+  }
+
+  getExerciseContent(id: number): string {
+    return `<p>Le contenu de l'exercice en HTML sera récupéré du backend</p>`;
   }
 }

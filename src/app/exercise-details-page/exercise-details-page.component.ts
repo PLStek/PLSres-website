@@ -10,6 +10,7 @@ import { ExerciseService } from '../exercise.service';
 })
 export class ExerciseDetailsPageComponent implements OnInit {
   exercise?: Exercise = undefined;
+  exerciseContent?: string = undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -17,9 +18,16 @@ export class ExerciseDetailsPageComponent implements OnInit {
   ) {
     this.route.params.subscribe((params) => {
       let id = params['id'];
-      this.exercise = this.exerciseService.getExerciseList().find((exercise) => {
-        return exercise.id == id;
-      });
+      this.exercise = this.exerciseService
+        .getExerciseList()
+        .find((exercise) => {
+          return exercise.id == id;
+        });
+      if (this.exercise) {
+        this.exerciseContent = this.exerciseService.getExerciseContent(
+          this.exercise.id
+        );
+      }
     });
   }
 

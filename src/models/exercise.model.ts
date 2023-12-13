@@ -4,24 +4,16 @@ export class Exercise {
   constructor(
     public id: number,
     public title: string,
-    public description: string,
     public difficulty: number,
+    public topicId: number,
     public isCorrected: boolean,
-    public course: string,
-    public topic: string,
-    public courseType: CourseType,
-    public source: string,
-    public contentLink: string
+    public source: string
   ) {
-    (this.id = id),
-      (this.title = title),
-      (this.description = description),
-      (this.difficulty = difficulty),
-      (this.isCorrected = isCorrected),
-      (this.course = course),
-      (this.topic = topic),
-      (this.courseType = courseType),
-      (this.source = source),
-      (this.contentLink = contentLink);
+    this.id = id;
+    this.title = title;
+    this.difficulty = difficulty;
+    this.topicId = topicId;
+    this.isCorrected = isCorrected;
+    this.source = source;
   }
 }
