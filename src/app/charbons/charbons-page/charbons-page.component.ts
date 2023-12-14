@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Charbon } from 'src/models/charbon.model';
-import { CharbonService } from '../charbon.service';
+import { Charbon } from 'src/app/shared/models/charbon.model';
+import { CharbonService } from 'src/app/shared/services/charbon.service';
 
 @Component({
   selector: 'app-charbons-page',

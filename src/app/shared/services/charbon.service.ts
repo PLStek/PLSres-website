@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Charbon } from 'src/models/charbon.model';
-import { CourseType } from 'src/models/course-type.model';
+import { Charbon } from 'src/app/shared/models/charbon.model';
+import { CourseType } from 'src/app/shared/models/course-type.model';
 
 @Injectable({
   providedIn: 'root'

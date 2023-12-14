@@ -1,5 +1,3 @@
-import { CourseType } from './course-type.model';
-
 export class Exercise {
   constructor(
     public id: number,

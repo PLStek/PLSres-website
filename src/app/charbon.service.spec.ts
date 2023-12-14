@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CharbonService } from './charbon.service';
+import { CharbonService } from './services/charbon.service';
 
 describe('CharbonService', () => {
   let service: CharbonService;

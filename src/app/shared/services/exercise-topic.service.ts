@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CourseType } from 'src/models/course-type.model';
-import { ExerciseTopic } from 'src/models/exercise-topic.model';
+import { CourseType } from 'src/app/shared/models/course-type.model';
+import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 
 @Injectable({
   providedIn: 'root',
