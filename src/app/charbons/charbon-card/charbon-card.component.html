@@ -1,5 +1,5 @@
 <div class="charbon-card card text-center mt-1" style="width: 20em;">
-    <div [ngClass]="'course-color-'+charbon.courseType"
+    <div [ngClass]="'course-color-'+color"
         class="card-header container-fluid d-flex justify-content-between" style="height: 2.5rem;">
         <h5><strong>{{charbon.course}}</strong></h5>
         <div class="time d-flex">
@@ -11,7 +11,7 @@
         <h6>Actionneur(s):</h6>
         <p>{{charbon.actionners}}</p>
         <p style="font-weight: lighter; font-size: small;">{{charbon.description}}</p>
-        <app-color-button *ngIf="edit" [courseType]="charbon.courseType" [isFilled]="false"
+        <app-color-button *ngIf="edit" [courseType]="color" [isFilled]="false"
             content="Editer"></app-color-button>
 
         <h5 *ngIf="!edit">
@@ -19,9 +19,9 @@
             {{charbon.date | dateInterval}}
         </h5>
     </div>
-    <div [ngClass]="'course-color-'+charbon.courseType"
+    <div [ngClass]="'course-color-'+color"
         class="card-footer text-body-secondary d-flex justify-content-evenly" >
-        <app-color-button [courseType]="charbon.courseType" [isFilled]="true" content="Ressources"></app-color-button>
-        <app-color-button [courseType]="charbon.courseType" [isFilled]="false" content="Participer"></app-color-button>
+        <app-color-button [courseType]="color" [isFilled]="true" content="Ressources"></app-color-button>
+        <app-color-button [courseType]="color" [isFilled]="false" content="Participer"></app-color-button>
     </div>
 </div>

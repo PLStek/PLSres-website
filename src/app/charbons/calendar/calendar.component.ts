@@ -1,30 +1,29 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
-import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CalendarOptions, EventClickArg, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { getCourseTypeColor } from 'src/app/shared/utils/functions';
+import { render } from '@fullcalendar/core/preact';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent implements OnInit {
-  charbonList!: Charbon[];
+export class CalendarComponent implements OnChanges {
+  @Input() charbonList: Charbon[] = [];
   calendarEvents: EventInput[] = [];
   selectedCharbon: Charbon | null = null;
+
   @Output() selectedCharbonChange = new EventEmitter<Charbon | null>();
 
-  constructor(
-    private charbonService: CharbonService,
-    private datePipe: DatePipe
-  ) {}
+  constructor(private datePipe: DatePipe, private elementRef: ElementRef) {
+    this.charbonList;
+  }
 
-  ngOnInit(): void {
-    this.charbonList = this.charbonService.getCharbonList();
-
-    this.charbonList.forEach((charbon: Charbon) => {
+  ngOnChanges(): void {
+    this.charbonList!.forEach((charbon: Charbon) => {
       const isoFormattedDate = this.datePipe.transform(
         charbon.date,
         'yyyy-MM-ddTHH:mm:ss'
@@ -33,14 +32,16 @@ export class CalendarComponent implements OnInit {
         title: charbon.course,
         date: isoFormattedDate!,
         display: 'block',
-        backgroundColor: '#' + charbon.courseType,
+        backgroundColor: '#' + getCourseTypeColor(charbon.courseType),
         borderColor: '#D2D2D2',
         extendedProps: {
           charbonId: charbon.id,
         },
       });
     });
-    console.log(this.calendarEvents);
+
+    //TODO: try to find a better way to refresh the calendar
+    this.elementRef.nativeElement.querySelector('calendar').fullCalendar(render);
   }
   handleEventClick(clickInfo: EventClickArg): void {
     this.selectedCharbon = null; // Réinitialise selectedCharbon
@@ -49,7 +50,7 @@ export class CalendarComponent implements OnInit {
       const clickedEvent = clickInfo.event;
       const charbonId = clickedEvent.extendedProps['charbonId'];
 
-      const matchedCharbon = this.charbonList.find((charbon: Charbon) => {
+      const matchedCharbon = this.charbonList!.find((charbon: Charbon) => {
         return charbon && charbon.id == charbonId;
       });
 
@@ -75,6 +76,5 @@ export class CalendarComponent implements OnInit {
     dayHeaderFormat: {
       weekday: 'long',
     },
-    
   };
 }

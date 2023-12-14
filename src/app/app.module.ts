@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { DatePipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { AnnouncementCardComponent } from './announcements/announcement-card/announcement-card.component';
 import { AnnouncementsPageComponent } from './announcements/announcements-page/announcements-page.component';
 import { AppComponent } from './app.component';
@@ -20,7 +21,6 @@ import { MainButtonComponent } from './shared/components/main-button/main-button
 import { NavBarComponent } from './shared/components/nav-bar/nav-bar.component';
 import { SocialNetworksComponent } from './shared/components/social-networks/social-networks.component';
 import { DateIntervalPipe } from './shared/pipes/date-interval.pipe';
-import { CharbonService } from './shared/services/charbon.service';
 
 
 @NgModule({
@@ -43,8 +43,8 @@ import { CharbonService } from './shared/services/charbon.service';
     ExercisesPageComponent,
     ExerciseDetailsPageComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FullCalendarModule],
-  providers: [CharbonService, DatePipe],
+  imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule],
+  providers: [HttpClientModule, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

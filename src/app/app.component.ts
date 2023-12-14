@@ -11,18 +11,14 @@ import { ExerciseService } from 'src/app/shared/services/exercise.service';
 })
 export class AppComponent implements OnInit {
   title = 'PLSres';
-  charbonList!: Charbon[];
   exerciseList!: Exercise[];
-  selectedCharbon: Charbon | null = null;
 
-  constructor(private charbonService: CharbonService, private exerciseService: ExerciseService) {}
+  constructor(
+    private exerciseService: ExerciseService
+  ) {}
 
   ngOnInit(): void {
-    this.charbonList = this.charbonService.getCharbonList();
     this.exerciseList = this.exerciseService.getExerciseList();
   }
 
-  handleSelectedCharbonChange(selectedCharbon: Charbon | null): void {
-    this.selectedCharbon = selectedCharbon;
-  }
 }
