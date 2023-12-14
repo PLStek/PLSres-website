@@ -25,7 +25,7 @@
 </app-background-card>
 
 <app-background-card title="Prochains charbons">
-    <div class="row row-cols-auto mt-3">
+    <div class="row row-cols-auto mt-3" style="justify-content: center;">
         <app-charbon-card *ngFor="let charbon of charbonList.slice(0, 3)" [charbon]="charbon"></app-charbon-card>
     </div>
 </app-background-card>
@@ -71,7 +71,7 @@
             </div>
         </div>
     </div>
-    <div class="row row-cols-3 mt-4">
+    <div class="row row-cols-auto mt-4" style="justify-content: center;">
         <app-charbon-card *ngFor="let charbon of charbonList" [charbon]="charbon"></app-charbon-card>
     </div>
 </app-background-card>
