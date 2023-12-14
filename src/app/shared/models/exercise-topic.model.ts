@@ -1,4 +1,3 @@
-import { Exercise } from 'src/models/exercise.model';
 import { CourseType } from './course-type.model';
 export class ExerciseTopic {
   constructor(

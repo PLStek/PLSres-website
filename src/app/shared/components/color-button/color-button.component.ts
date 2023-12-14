@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CourseType } from 'src/models/course-type.model';
+import { CourseType } from 'src/app/shared/models/course-type.model';
 
 @Component({
   selector: 'app-color-button',

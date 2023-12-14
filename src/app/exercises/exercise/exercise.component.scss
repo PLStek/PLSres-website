@@ -1,4 +1,4 @@
-@import '../../shared/variables';
+@import '../../shared/styles/variables.scss';
 
 @each $color in $course-colors {
     .course-color-#{$color} {
