@@ -47,5 +47,8 @@
 </app-background-card>
 
 <app-background-card title="Exercices LO21">
-        <app-exercise *ngFor="let exerciseTopic of exerciseTopicList" [exerciseTopic]="exerciseTopic"></app-exercise>
+    <div class="d-flex flex-column align-items-center">
+        <app-exercise class="col-12  col-md-10 col-xxl-8" *ngFor="let exerciseTopic of exerciseTopicList"
+            [exerciseTopic]="exerciseTopic"></app-exercise>
+    </div>
 </app-background-card>
