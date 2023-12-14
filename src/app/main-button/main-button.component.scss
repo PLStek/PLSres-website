@@ -1,15 +1,17 @@
 .btn-style {
-    border-radius: 0.3em;
     text-align: center;
     font-weight: 600;
 }
 
 .btn-big {
+    border-radius: 0.5em;
+
     min-height: 2.8em;
     padding-inline: 1em;
 }
 
 .btn-small {
+    border-radius: 0.4em;
     min-height: 2.2em;
 }
 
