@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Charbon } from 'src/models/charbon.model';
 import { Exercise } from 'src/models/exercise.model';
-import { CharbonService } from '../charbon.service';
+import { CharbonService } from 'src/app/services/charbon.service';
 
 @Component({
   selector: 'app-home-page',

@@ -1,8 +1,8 @@
 import { Exercise } from 'src/models/exercise.model';
 import { Component, OnInit } from '@angular/core';
 import { Charbon } from 'src/models/charbon.model';
-import { CharbonService } from './charbon.service';
-import { ExerciseService } from './exercise.service';
+import { CharbonService } from './services/charbon.service';
+import { ExerciseService } from './services/exercise.service';
 
 @Component({
   selector: 'app-root',

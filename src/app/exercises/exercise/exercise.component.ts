@@ -1,8 +1,7 @@
 import { Exercise } from 'src/models/exercise.model';
 import { Component, Input, OnInit } from '@angular/core';
-import { CourseType } from 'src/models/course-type.model';
 import { ExerciseTopic } from 'src/models/exercise-topic.model';
-import { ExerciseService } from '../exercise.service';
+import { ExerciseService } from 'src/app/services/exercise.service';
 
 @Component({
   selector: 'app-exercise',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ExerciseTopic } from 'src/models/exercise-topic.model';
-import { ExerciseTopicService } from '../exercise-topic.service';
+import { ExerciseTopicService } from 'src/app/services/exercise-topic.service';
 
 @Component({
   selector: 'app-exercises-page',
