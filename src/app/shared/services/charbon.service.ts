@@ -12,16 +12,16 @@ export class CharbonService {
 
   getCharbonList(): Observable<Charbon[]> {
     return this.http
-      .get<any>('http://localhost:3000/charbon')
+      .get<any>('http://localhost/PLSres/api/exercises')
       .pipe(
         map((data: any) =>
           data.map(
             (element: any) =>
               new Charbon(
                 element.id,
-                element.course,
+                element.id_course,
                 getCourseType(element.courseType),
-                new Date(element.date),
+                new Date(element.datetime),
                 element.title,
                 element.actionners,
                 element.description
