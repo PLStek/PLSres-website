@@ -2,6 +2,27 @@
     <app-main-button routerLink="/accueil" content="Page d'Accueil" [isBig]="true" [isFilled]="false"></app-main-button>
 </div>
 
+<div class="container-lg mb-3 p-3 rounded mt-5" style="background-color: white;">
+    <div class="d-flex justify-content-between" style="padding-left: 6em; padding-right: 6em;">
+        <div class="pt-3" style="width: 50em;">
+            <h1>Dernières annonces</h1>
+            <p class="mt-4">
+                Retrouve ici toutes les annonces en lien avec le PL$tek, également disponibles <u style="color: red;">sur le discord</u> !
+            </p>
+        </div>
+        <div>
+            <img src="../../../assets/images/horn.svg" alt="Image charbon" width="200" height="200">
+        </div>
+    </div>
+    <div class="d-flex align-items-center" style="padding-left: 6em; padding-right: 6em;">
+        <label for="inputTri" class="form-label me-5">Trier par :</label>
+        <select id="inputTri" class="form-select" style="width: 15em;">
+            <option selected>A à Z</option>
+            <option value="1">Date</option>
+        </select>
+    </div> 
+</div>
+
 <app-background-card title="Ce semestre">
     <div class="p-5">
         <app-announcement-card class="m-1" [collapse] ="true"></app-announcement-card>
