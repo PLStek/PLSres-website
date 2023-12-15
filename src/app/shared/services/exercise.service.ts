@@ -11,17 +11,17 @@ export class ExerciseService {
 
   getExercises(): Observable<Exercise[]> {
     return this.http
-      .get<any>('http://localhost:3000/exercise')
+      .get<any>('http://localhost/PLSres/api/exercises')
       .pipe(
         map((data: any) =>
           data.map(
             (element: any) =>
               new Exercise(
-                element.id,
+                Number(element.id),
                 element.title,
-                element.difficulty,
-                element.topicId,
-                element.isCorrected,
+                Number(element.difficulty),
+                Number(element.topic_id),
+                Boolean(element.is_corrected),
                 element.source
               )
           )

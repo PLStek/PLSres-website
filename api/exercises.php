@@ -3,97 +3,45 @@ require_once 'database.php';
 
 header('Content-Type: application/json');
 
+$result = $conn->query('SELECT id, title, difficulty, is_corrected, souce, topic_id FROM exercise');
 
-$result = $conn->query('SELECT C.id, C.title, C.description, C.datetime, C.id_course, A.username as actionner FROM charbon C 
-INNER JOIN charbon_host H ON C.id = H.id_charbon
-INNER JOIN user A ON H.id_actionneur = A.id');
+$exercises = $result->fetch_all(MYSQLI_ASSOC);
 
-$charbons = array();
-
-while ($row = $result->fetch_assoc()) {
-    $charbon_id = $row['id'];
-
-    $charbon_exists = false;
-
-    foreach ($charbons as &$charbon) {
-        if ($charbon['id'] == $charbon_id) {
-            $charbon_exists = true;
-            $charbon['actionners'][] = $row['actionner'];
-            break;
-        }
-    }
-
-    if (!$charbon_exists) {
-        $charbons[] = array(
-            'id' => $charbon_id,
-            'title' => $row['title'],
-            'description' => $row['description'],
-            'datetime' => $row['datetime'],
-            'id_course' => $row['id_course'],
-            'actionners' => array($row['actionner'])
-        );
-    }
-}
-
-
-echo json_encode($charbons);
-
-
-
-
+echo json_encode($exercises);
 
 
 /* echo '[
     {
         "id": 1,
-        "course": "PS2",
-        "courseType": "meca",
-        "date": "2023-12-11T22:00:00",
-        "title": "AAP 4, 5 et 6 de PM1 !",
-        "actionners": [
-            "Lilit",
-            "Flo",
-            "William"
-        ],
-        "description": "On prépare le CC2 de PM en révisant les AAP 4, 5 et 6. Nous utiliserons l\'ECA du CC2 en distanciel A22, alors jetez-y un coup d\'oeil !"
+        "title": "Parcours d\'un BST",
+        "difficulty": 3,
+        "topicId": 1,
+        "isCorrected": true,
+        "source": "Tyuvetou"
     },
     {
         "id": 2,
-        "course": "EL22",
-        "courseType": "elec",
-        "date": "2023-12-10T23:00:00",
-        "title": "AAP 4, 5 et 6 de PM1 !",
-        "actionners": [
-            "Lilit",
-            "Flo",
-            "William"
-        ],
-        "description": "On prépare le CC2 de PM en révisant les AAP 4, 5 et 6. Nous utiliserons l\'ECA du CC2 en distanciel A22, alors jetez-y un coup d\'oeil !"
-    },
-    {
-        "id": 3,
-        "course": "MT3",
-        "courseType": "maths",
-        "date": "2023-12-12T18:00:00",
-        "title": "AAP 4, 5 et 6 de MT3 !",
-        "actionners": [
-            "Lilit",
-            "Flo",
-            "William"
-        ],
-        "description": "On prépare le CC2 de MT en révisant les AAP 4, 5 et 6. Nous utiliserons l\'ECA du CC2 en distanciel A22, alors jetez-y un coup d\'oeil !"
+        "title": "Parcours d\'une liste chaînée",
+        "difficulty": 2,
+        "topicId": 2,
+        "isCorrected": false,
+        "source": "Wiqiro"
     },
     {
         "id": 4,
-        "course": "IF2",
-        "courseType": "info",
-        "date": "2023-12-12T20:00:00",
-        "title": "AAP 4, 5 et 6 de IF2 !",
-        "actionners": [
-            "Lilit",
-            "Flo",
-            "William"
-        ],
-        "description": "On prépare le CC2 de IF en révisant les AAP 4, 5 et 6. Nous utiliserons l\'ECA du CC2 en distanciel A22, alors jetez-y un coup d\'oeil !"
+        "title": "Inverse d\'une liste chaînée",
+        "difficulty": 3,
+        "topicId": 2,
+        "isCorrected": false,
+        "source": "Wiqiro"
+    },
+    {
+        "id": 3,
+        "title": "Parcours d\'un graphe",
+        "difficulty": 4,
+        "topicId": 3,
+        "isCorrected": true,
+        "source": "Wiqiro"
     }
-]'; */
+]';
+ */

@@ -17,7 +17,7 @@ export class ExerciseTopicService {
 
   getExerciseTopicList(): Observable<ExerciseTopic[]> {
     return this.http
-      .get<any>('http://localhost:3000/exercise-topic')
+      .get<any>('http://localhost/PLSres/api/exercise_topics')
       .pipe(
         map((data: any) =>
           data.map(
