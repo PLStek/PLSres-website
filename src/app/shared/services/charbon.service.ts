@@ -18,7 +18,7 @@ export class CharbonService {
           data.map(
             (element: any) =>
               new Charbon(
-                element.id,
+                Number(element.id),
                 element.id_course,
                 getCourseType(element.courseType),
                 new Date(element.datetime),
