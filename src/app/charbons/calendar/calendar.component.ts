@@ -54,6 +54,8 @@ export class CalendarComponent implements OnChanges {
         return charbon && charbon.id == charbonId;
       });
 
+      console.log(matchedCharbon);
+
       if (matchedCharbon) {
         this.selectedCharbon = matchedCharbon;
         this.selectedCharbonChange.emit(this.selectedCharbon);

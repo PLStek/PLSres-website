@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { getCourseTypeColor } from 'src/app/shared/utils/functions';
 
@@ -7,7 +7,7 @@ import { getCourseTypeColor } from 'src/app/shared/utils/functions';
   templateUrl: './charbon-card.component.html',
   styleUrls: ['./charbon-card.component.scss'],
 })
-export class CharbonCardComponent implements OnInit {
+export class CharbonCardComponent implements OnChanges {
   @Input() charbon!: Charbon;
   @Input() edit: boolean = false;
   color!: string;
@@ -17,8 +17,7 @@ export class CharbonCardComponent implements OnInit {
     this.edit;
   }
   
-  ngOnInit(): void {
-      
+  ngOnChanges(): void {
     this.color = getCourseTypeColor(this.charbon.courseType);
   }
 }

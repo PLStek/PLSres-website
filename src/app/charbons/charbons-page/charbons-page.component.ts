@@ -18,6 +18,7 @@ export class CharbonsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.charbonService.getCharbonList().subscribe((charbons) => {
+      console.log(charbons);
       this.charbonList = charbons;
     });
   }
