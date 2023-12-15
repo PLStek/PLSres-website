@@ -1,1 +1,38 @@
-<p>actionner-home-page works!</p>
+<app-background-card title="Editions de charbons">
+    <div class="row mt-4">
+        <div class="col-md-9 ">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <input type="text" class="form-control mb-3" placeholder="Titre du charbon" aria-label="Titre charbon">
+                        <textarea class="form-control mb-3" placeholder="Description" id="description" style="height: 100px"></textarea>
+                        <select class="form-select form-select-lg mb-3" aria-label="Large select example">
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control mb-3" placeholder="dd-mm-yyyy" aria-label="Date">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control mb-3" placeholder="mm-hh" aria-label="Heure">
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Ajouter Charbon</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 ms-3">
+                    <app-charbon-card></app-charbon-card>
+                </div>
+            </div>    
+        </div>
+        <div class="col-md-3">
+            <p class="text-justify">
+                Les éditions de charbons sont des éditions de charbons qui sont éditées par des éditions de charbons.
+            </p>
+        </div>
+    </div>
+    
+</app-background-card>
