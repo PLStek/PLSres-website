@@ -21,6 +21,7 @@ import { MainButtonComponent } from './shared/components/main-button/main-button
 import { NavBarComponent } from './shared/components/nav-bar/nav-bar.component';
 import { SocialNetworksComponent } from './shared/components/social-networks/social-networks.component';
 import { DateIntervalPipe } from './shared/pipes/date-interval.pipe';
+import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { DateIntervalPipe } from './shared/pipes/date-interval.pipe';
     CharbonsPageComponent,
     ExercisesPageComponent,
     ExerciseDetailsPageComponent,
+    ActionnerHomePageComponent,
   ],
   imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule],
   providers: [HttpClientModule, DatePipe],
