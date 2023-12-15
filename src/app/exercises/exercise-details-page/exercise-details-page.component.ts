@@ -15,21 +15,22 @@ export class ExerciseDetailsPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private exerciseService: ExerciseService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      let id = params['id'];
-      this.exercise = this.exerciseService
-        .getExerciseList()
-        .find((exercise) => {
-          return exercise.id == id;
+      let id: number = parseInt(params['id'], 10);
+      this.exerciseService
+        .getExercisesById(id)
+        .subscribe((data) => {
+          this.exercise = data;
+
+          if (this.exercise) {
+            this.exerciseContent = this.exerciseService.getExerciseContent(
+              this.exercise.id
+            );
+          }
         });
-      if (this.exercise) {
-        this.exerciseContent = this.exerciseService.getExerciseContent(
-          this.exercise.id
-        );
-      }
     });
   }
-
-  ngOnInit(): void {}
 }

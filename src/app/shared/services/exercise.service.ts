@@ -1,33 +1,48 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExerciseService {
-  exerciseList!: Exercise[];
+  constructor(private http: HttpClient) {}
 
-  constructor() {}
-
-  getExerciseList(): Exercise[] {
-    this.exerciseList = [];
-    this.exerciseList.push(
-      new Exercise(1, `Parcours d'un BST`, 3, 1, true, 'Tyuvetou')
-    );
-    this.exerciseList.push(
-      new Exercise(2, `Parcours d'une liste chaînée`, 2, 2, false, 'Wiqiro')
-    );
-    this.exerciseList.push(
-      new Exercise(4, `Inverse d'une liste chaînée`, 3, 2, false, 'Wiqiro')
-    );
-    this.exerciseList.push(
-      new Exercise(3, `Parcours d'un graphe`, 4, 3, true, 'Wiqiro')
-    );
-    return this.exerciseList;
+  getExercises(): Observable<Exercise[]> {
+    return this.http
+      .get<any>('http://localhost:3000/exercise')
+      .pipe(
+        map((data: any) =>
+          data.map(
+            (element: any) =>
+              new Exercise(
+                element.id,
+                element.title,
+                element.difficulty,
+                element.topicId,
+                element.isCorrected,
+                element.source
+              )
+          )
+        )
+      );
   }
 
-  getExercisesByTopic(topicId: number): Exercise[] {
-    return this.exerciseList.filter((e) => e.topicId === topicId);
+  getExercisesByTopic(topicId: number): Observable<Exercise[]> {
+    return this.getExercises().pipe(
+      map((data: Exercise[]) =>
+        data.filter((exercise: Exercise) => exercise.topicId === topicId)
+      )
+    );
+  }
+
+  getExercisesById(id: number): Observable<Exercise | undefined> {
+    return this.getExercises().pipe(
+      map((data: Exercise[]) =>
+        data.find((exercise: Exercise) => exercise.id === id)
+      )
+    );
   }
 
   getExerciseContent(id: number): string {

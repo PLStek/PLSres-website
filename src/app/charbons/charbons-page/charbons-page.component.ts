@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 
@@ -9,18 +10,20 @@ import { CharbonService } from 'src/app/shared/services/charbon.service';
 })
 export class CharbonsPageComponent implements OnInit {
   title = 'PLSres';
-  charbonList!: Charbon[];
+  charbonList: Charbon[] = [];
   selectedCharbon: Charbon | null = null;
 
-  constructor(
-    private charbonService: CharbonService
-  ) {}
+  
+  constructor(private charbonService: CharbonService) {}
 
   ngOnInit(): void {
-    this.charbonList = this.charbonService.getCharbonList();
+    this.charbonService.getCharbonList().subscribe((charbons) => {
+      this.charbonList = charbons;
+    });
   }
 
   handleSelectedCharbonChange(selectedCharbon: Charbon | null): void {
     this.selectedCharbon = selectedCharbon;
   }
+
 }

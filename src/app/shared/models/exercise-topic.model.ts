@@ -1,4 +1,4 @@
-import { CourseType } from './course-type.model';
+import { CourseType } from '../utils/course-type.model';
 export class ExerciseTopic {
   constructor(
     public id: number,

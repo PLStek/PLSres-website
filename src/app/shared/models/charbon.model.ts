@@ -1,4 +1,4 @@
-import { CourseType } from './course-type.model';
+import { CourseType } from "../utils/course-type.model";
 
 export class Charbon {
   constructor(
@@ -12,6 +12,7 @@ export class Charbon {
   ) {
     this.id = id;
     this.course = course;
+    this.courseType = courseType;
     this.date = date;
     this.title = title;
     this.actionners = actionners;
