@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Charbon } from 'src/app/shared/models/charbon.model';
+import { getCourseType } from '../utils/course-type.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class CharbonService {
               new Charbon(
                 element.id,
                 element.course,
-                element.courseType,
+                getCourseType(element.courseType),
                 new Date(element.date),
                 element.title,
                 element.actionners,

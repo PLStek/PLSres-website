@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CourseType } from 'src/app/shared/models/course-type.model';
+import {
+  CourseType,
+  getCourseType,
+} from 'src/app/shared/utils/course-type.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
+import { Observable, map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -8,19 +13,23 @@ import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 export class ExerciseTopicService {
   exerciseTopicList!: ExerciseTopic[];
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  getExerciseTopicList(): ExerciseTopic[] {
-    this.exerciseTopicList = [];
-    this.exerciseTopicList.push(
-      new ExerciseTopic(1, `Arbres binaires`, 'LO21', CourseType.info)
-    );
-    this.exerciseTopicList.push(
-      new ExerciseTopic(2, `Listes chaînées`, 'LO21', CourseType.meca)
-    );
-    this.exerciseTopicList.push(
-      new ExerciseTopic(3, `Graphes`, 'LO21', CourseType.maths)
-    );
-    return this.exerciseTopicList;
+  getExerciseTopicList(): Observable<ExerciseTopic[]> {
+    return this.http
+      .get<any>('http://localhost:3000/exercise-topic')
+      .pipe(
+        map((data: any) =>
+          data.map(
+            (element: any) =>
+              new ExerciseTopic(
+                element.id,
+                element.topic,
+                element.course,
+                getCourseType(element.courseType)
+              )
+          )
+        )
+      );
   }
 }

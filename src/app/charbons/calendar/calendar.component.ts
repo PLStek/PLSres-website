@@ -3,7 +3,6 @@ import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output }
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { CalendarOptions, EventClickArg, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { getCourseTypeColor } from 'src/app/shared/utils/functions';
 import { render } from '@fullcalendar/core/preact';
 
 @Component({
@@ -32,7 +31,7 @@ export class CalendarComponent implements OnChanges {
         title: charbon.course,
         date: isoFormattedDate!,
         display: 'block',
-        backgroundColor: '#' + getCourseTypeColor(charbon.courseType),
+        backgroundColor: '#' + charbon.courseType,
         borderColor: '#D2D2D2',
         extendedProps: {
           charbonId: charbon.id,
@@ -53,8 +52,6 @@ export class CalendarComponent implements OnChanges {
       const matchedCharbon = this.charbonList!.find((charbon: Charbon) => {
         return charbon && charbon.id == charbonId;
       });
-
-      console.log(matchedCharbon);
 
       if (matchedCharbon) {
         this.selectedCharbon = matchedCharbon;

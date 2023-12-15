@@ -13,6 +13,10 @@ export class ExercisesPageComponent implements OnInit {
   constructor(private exerciseTopicService: ExerciseTopicService) {}
 
   ngOnInit(): void {
-    this.exerciseTopicList = this.exerciseTopicService.getExerciseTopicList();
+    this.exerciseTopicService
+      .getExerciseTopicList()
+      .subscribe((exerciseTopics) => {
+        return (this.exerciseTopicList = exerciseTopics);
+      });
   }
 }
