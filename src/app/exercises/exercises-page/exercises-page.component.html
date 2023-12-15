@@ -1,46 +1,57 @@
 <div class="container">
     <app-main-button content="Page d'Accueil" [isBig]="true" [isFilled]="false"></app-main-button>
 </div>
-<app-background-card title="Exercices">
+<app-background-card>
     <div class="m-3">
-        <p>Tu peux consulter ici les exercices créés par notre équipe ainsi et retrouver les exercices utilisés lors des
-            charbons.</p>
         <div class="row">
-            <div class="col-md-3">
-                <label for="inputTri" class="form-label">Trier par :</label>
-                <select id="inputTri" class="form-select">
-                    <option selected>-----------------</option>
-                    <option value="1">Durée croissante</option>
-                    <option value="2">Plus récent</option>
-                </select>
-            </div>
-            <div class="col-md-3"></div>
-            <div class="col-md-3">
-                <label for="TypeUE" class="form-label">Type d'UE :</label>
-                <select id="TypeUE" class="form-select">
-                    <option selected>-----------------</option>
-                    <option value="1">Mécanique</option>
-                    <option value="2">Informatique</option>
-                    <option value="2">Mathématique</option>
-                    <option value="2">Électricité</option>
-                </select>
-            </div>
-        </div>
-        <div class="row pt-3">
-            <div class="col-md-3">
-                <label for="customRange3" class="form-label">Durée du charbon</label>
-                <input type="range" class="form-range" min="0" max="3" step="0.25" id="customRange3">
-            </div>
-            <div class="col-md-3"></div>
-            <div class="col-md-3">
-                <label for="inputUE" class="form-label">UE :</label>
-                <select id="inputUE" class="form-select">
-                    <option selected>-----------------</option>
-                    <option value="1">MT1</option>
-                    <option value="2">MT2</option>
-                    <option value="1">MT3</option>
-                    <option value="2">MT3A</option>
-                </select>
+            <div class="col-md-8">
+                <h1>Exercices </h1>
+                <br>
+                <p>Tu peux consulter ici les exercices créés par notre équipe ainsi et 
+                    retrouver les exercices utilisés lors des charbons.</p>
+                <div class="row pt-3">
+                    <div class="col-md-6">
+                        <label for="inputTri" class="form-label">Trier par :</label>
+                        <select id="inputTri" class="form-select">
+                            <option selected>A à Z</option>
+                            <option value="1">Date</option>
+                        </select>
+                    </div> 
+                    <div class="col-md-6"> 
+                        <label for="TypeUE" class="form-label">Type d'UE :</label>
+                        <select id="TypeUE" class="form-select">
+                            <option selected>-----------------</option>
+                            <option value="1">Mécanique</option>
+                            <option value="2">Informatique</option>
+                            <option value="2">Mathématique</option>
+                            <option value="2">Électricité</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row pt-3">
+                    <div class="col-md-6">
+                        <label for="rating">Difficulté :</label>
+                        <div class="rating">
+                            <span class="star" *ngFor="let i of [1, 2, 3, 4, 5]" (click)="setDifficulty(i)" [ngClass]="{'filled': i <= difficulty}">
+                                &#9734; <!-- Étoile vide -->
+                                <!-- &#9733; Étoile pleine -->
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputUE" class="form-label">UE :</label>
+                        <select id="inputUE" class="form-select">
+                            <option selected>-----------------</option>
+                            <option value="1">MT1</option>
+                            <option value="2">MT2</option>
+                            <option value="1">MT3</option>
+                            <option value="2">MT3A</option>
+                        </select>
+                    </div>
+                </div>                             
+            </div>   
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <img src="../assets/images/charbon.svg"  alt="Image charbon" width="250" height="250" class="img-fluid">
             </div>
         </div>
     </div>

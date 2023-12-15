@@ -9,10 +9,16 @@ import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.ser
 })
 export class ExercisesPageComponent implements OnInit {
   exerciseTopicList!: ExerciseTopic[];
+  difficulty: number = 0;
 
   constructor(private exerciseTopicService: ExerciseTopicService) {}
 
   ngOnInit(): void {
     this.exerciseTopicList = this.exerciseTopicService.getExerciseTopicList();
+  }
+
+  setDifficulty(difficulty: number) : void {
+    this.difficulty = difficulty;
+    console.log(this.difficulty);
   }
 }
