@@ -6,7 +6,7 @@
             "courseType": "meca",
             "date": "2023-12-11T22:00:00",
             "title": "AAP 4, 5 et 6 de PM1 !",
-            "participants": [
+            "actionners": [
                 "Lilit",
                 "Flo",
                 "William"
@@ -19,7 +19,7 @@
             "courseType": "elec",
             "date": "2023-12-10T23:00:00",
             "title": "AAP 4, 5 et 6 de PM1 !",
-            "participants": [
+            "actionners": [
                 "Lilit",
                 "Flo",
                 "William"
@@ -32,7 +32,7 @@
             "courseType": "maths",
             "date": "2023-12-12T18:00:00",
             "title": "AAP 4, 5 et 6 de MT3 !",
-            "participants": [
+            "actionners": [
                 "Lilit",
                 "Flo",
                 "William"
@@ -45,7 +45,7 @@
             "courseType": "info",
             "date": "2023-12-12T20:00:00",
             "title": "AAP 4, 5 et 6 de IF2 !",
-            "participants": [
+            "actionners": [
                 "Lilit",
                 "Flo",
                 "William"
