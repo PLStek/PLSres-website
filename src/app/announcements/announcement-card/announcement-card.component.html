@@ -1,9 +1,15 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between" style="background-color: #505050; color: #ffffff;">
         <div>Nouveau semestre et reprise !</div>
-        <div>Le 08/12/2023</div>
+        <div>
+            Le 08/12/2023
+            <img *ngIf="collapse != undefined" (click)="collapse = !collapse" role="button" data-toggle="collapse"
+                href="#hasToBeCollapse" aria-expanded="false" aria-controls="hasToBeCollapse"
+                [src]="collapse ? '../../../assets/images/down.png' : '../../../assets/images/up.png'"
+                alt="Flèche d'ouverture et de fermeture de la zone d'information" width="20" height="20">
+        </div>
     </div>
-    <div class="card-body mx-auto">
+    <div class="card-body mx-auto" [ngClass]="{'collapse' : collapse}" id="hasToBeCollapse">
         <div>
             <h5>Bonjour à toutes et à tous !</h5> <br>
 

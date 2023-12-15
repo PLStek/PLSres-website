@@ -1,4 +1,9 @@
 <div class="container">
     <app-main-button routerLink="/accueil" content="Page d'Accueil" [isBig]="true" [isFilled]="false"></app-main-button>
 </div>
-<app-announcement-card></app-announcement-card>
+
+<app-background-card title="Exercices LO21">
+    <div class="p-5">
+        <app-announcement-card [collapse] ="true"></app-announcement-card>
+    </div>
+</app-background-card>

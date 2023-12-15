@@ -9,6 +9,7 @@ export class AnnouncementCardComponent implements OnInit {
   @Input() title!: string;
   @Input() contentSource!: string;
   @Input() date!: Date;
+  @Input() collapse?: boolean = false;
 
   constructor() {
     this.title;
@@ -16,5 +17,5 @@ export class AnnouncementCardComponent implements OnInit {
     this.date
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }
