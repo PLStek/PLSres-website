@@ -32,7 +32,7 @@
                     <div class="col-md-6">
                         <label for="rating">Difficulté :</label>
                         <div class="rating">
-                            <span class="star" *ngFor="let i of [1, 2, 3, 4, 5]" (click)="setDifficulty(i)" [ngClass]="{'filled': i <= difficulty}">
+                            <span class="star" *ngFor="let i of [1, 2, 3, 4, 5]" (click)="setDifficulty(i)">
                                 &#9734; <!-- Étoile vide -->
                                 <!-- &#9733; Étoile pleine -->
                             </span>
