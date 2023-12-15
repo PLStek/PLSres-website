@@ -52,5 +52,39 @@
             ],
             "description": "On prépare le CC2 de IF en révisant les AAP 4, 5 et 6. Nous utiliserons l'ECA du CC2 en distanciel A22, alors jetez-y un coup d'oeil !"
         }
+    ],
+    "exercise": [
+        {
+            "id": 1,
+            "title": "Parcours d'un BST",
+            "difficulty": 3,
+            "topicId": 1,
+            "isCorrected": true,
+            "source": "Tyuvetou"
+        },
+        {
+            "id": 2,
+            "title": "Parcours d'une liste chaînée",
+            "difficulty": 2,
+            "topicId": 2,
+            "isCorrected": false,
+            "source": "Wiqiro"
+        },
+        {
+            "id": 4,
+            "title": "Inverse d'une liste chaînée",
+            "difficulty": 3,
+            "topicId": 2,
+            "isCorrected": false,
+            "source": "Wiqiro"
+        },
+        {
+            "id": 3,
+            "title": "Parcours d'un graphe",
+            "difficulty": 4,
+            "topicId": 3,
+            "isCorrected": true,
+            "source": "Wiqiro"
+        }
     ]
 }

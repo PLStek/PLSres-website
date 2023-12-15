@@ -11,14 +11,12 @@ import { ExerciseService } from 'src/app/shared/services/exercise.service';
 })
 export class AppComponent implements OnInit {
   title = 'PLSres';
-  exerciseList!: Exercise[];
 
   constructor(
     private exerciseService: ExerciseService
   ) {}
 
   ngOnInit(): void {
-    this.exerciseList = this.exerciseService.getExerciseList();
   }
 
 }
