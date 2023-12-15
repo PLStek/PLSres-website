@@ -20,8 +20,8 @@
 </div>
 
 <app-background-card title="Prochains charbons" buttonText="Planning complet" buttonOnClick="">
-    <div class="row row-cols-auto mt-3" style="justify-content: center;">
-        <app-charbon-card *ngFor="let charbon of charbonList.slice(0, 3)" [charbon]="charbon"></app-charbon-card>
+    <div class="row row-cols-auto" style="justify-content: center;">
+        <app-charbon-card class="mt-4" *ngFor="let charbon of charbonList.slice(0, 3)" [charbon]="charbon"></app-charbon-card>
     </div>
 </app-background-card>
 
