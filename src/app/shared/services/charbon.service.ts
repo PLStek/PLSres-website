@@ -17,8 +17,8 @@ export class CharbonService {
           (ch: any) =>
             new Charbon(
               Number(ch.id),
-              String(ch.id_course),
-              getCourseType(ch.courseType),
+              String(ch.course),
+              getCourseType(ch.course_type),
               new Date(ch.datetime),
               String(ch.title),
               ch.actionners.map(String),
