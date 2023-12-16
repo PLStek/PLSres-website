@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { AnnouncementCardComponent } from './announcements/announcement-card/announcement-card.component';
 import { AnnouncementsPageComponent } from './announcements/announcements-page/announcements-page.component';
 import { AppComponent } from './app.component';
@@ -45,7 +46,7 @@ import { ActionnerHomePageComponent } from './actionner/actionner-home-page/acti
     ExerciseDetailsPageComponent,
     ActionnerHomePageComponent,
   ],
-  imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule],
+  imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule, FormsModule ],
   providers: [HttpClientModule, DatePipe],
   bootstrap: [AppComponent],
 })

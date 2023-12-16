@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Charbon } from 'src/app/shared/models/charbon.model';
+import { Exercise } from 'src/app/shared/models/exercise.model';
+import { CharbonService } from 'src/app/shared/services/charbon.service';
 
 @Component({
   selector: 'app-actionner-home-page',
@@ -8,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ActionnerHomePageComponent implements OnInit {
 
-  constructor() { }
+  newCharbon: Partial<Charbon> = {};
+
+  constructor(private charbonService: CharbonService) {}
 
   ngOnInit(): void {
+   
   }
 
+ addCharbon(): void {
+    console.log(this.newCharbon);
+  }
 }
