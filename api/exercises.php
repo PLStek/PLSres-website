@@ -3,6 +3,7 @@ require_once 'database.php';
 
 header('Content-Type: application/json');
 
+$id = $_GET['id'] ?? null;
 $max_difficulty = $_GET['max_difficulty'] ?? 5;
 $content = $_GET['content'] ?? false;
 $topic_id = $_GET['topic_id'] ?? null;
@@ -10,6 +11,10 @@ $corrected_only = $_GET['corrected_only'] ?? false;
 
 $query = "SELECT id, title, difficulty, is_corrected, source, topic_id FROM exercise
     WHERE difficulty <= $max_difficulty";
+
+if ($id) {
+    $query .= " AND id = $id";
+}
 
 if ($topic_id) {
     $query .= " AND topic_id = $topic_id";

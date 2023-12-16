@@ -26,7 +26,7 @@ export class ExerciseTopicService {
                 Number(element.id),
                 String(element.topic),
                 String(element.course),
-                getCourseType(element.courseType)
+                getCourseType(element.course_type)
               )
           )
         )
