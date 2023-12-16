@@ -3,10 +3,21 @@ require_once 'database.php';
 
 header('Content-Type: application/json');
 
+$courses = isset($_GET['courses']) ? explode(',', $_GET['courses']) : null;
 
-$result = $conn->query('SELECT C.id, C.title, C.description, C.datetime, C.id_course, A.username as actionner FROM charbon C 
-INNER JOIN charbon_host H ON C.id = H.id_charbon
-INNER JOIN user A ON H.id_actionneur = A.id');
+$query = "SELECT C.id, C.title, C.description, C.datetime, C.id_course, A.username as actionner FROM charbon C 
+LEFT JOIN charbon_host H ON C.id = H.id_charbon
+LEFT JOIN user A ON H.id_actionneur = A.id";
+
+if ($courses) {
+    $query .= " WHERE C.id_course IN (";
+
+    foreach ($courses as $course) {
+        $query .= "'$course',";
+    }
+    $query = substr($query, 0, -1) . ")";
+}
+$result = $conn->query($query);
 
 $charbons = array();
 
@@ -30,7 +41,7 @@ while ($row = $result->fetch_assoc()) {
             'description' => $row['description'],
             'datetime' => $row['datetime'],
             'id_course' => $row['id_course'],
-            'actionners' => array($row['actionner'])
+            'actionners' => $row['actionner'] ? array($row['actionner']) : array()
         );
     }
 }
