@@ -17,16 +17,16 @@ export class ExerciseTopicService {
 
   getExerciseTopicList(): Observable<ExerciseTopic[]> {
     return this.http
-      .get<any>('http://localhost:3000/exercise-topic')
+      .get<any>('http://localhost/PLSres/api/exercise_topics')
       .pipe(
         map((data: any) =>
           data.map(
             (element: any) =>
               new ExerciseTopic(
-                element.id,
-                element.topic,
-                element.course,
-                getCourseType(element.courseType)
+                Number(element.id),
+                String(element.topic),
+                String(element.course),
+                getCourseType(element.course_type)
               )
           )
         )
