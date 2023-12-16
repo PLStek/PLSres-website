@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'PLSres';
+$dbname = 'plsres';
 $username = 'root';
 $password = '';
 

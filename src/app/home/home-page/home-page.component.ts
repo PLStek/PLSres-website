@@ -19,7 +19,7 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.charbonService.getCharbonList(['PS22', 'PM1']).subscribe((charbons) => {
+    this.charbonService.getCharbonList().subscribe((charbons) => {
       this.charbonList = charbons;
     });
   }
