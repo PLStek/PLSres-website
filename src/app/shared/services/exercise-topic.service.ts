@@ -23,9 +23,9 @@ export class ExerciseTopicService {
           data.map(
             (element: any) =>
               new ExerciseTopic(
-                element.id,
-                element.topic,
-                element.course,
+                Number(element.id),
+                String(element.topic),
+                String(element.course),
                 getCourseType(element.courseType)
               )
           )

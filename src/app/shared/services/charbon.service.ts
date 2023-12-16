@@ -19,12 +19,12 @@ export class CharbonService {
             (element: any) =>
               new Charbon(
                 Number(element.id),
-                element.id_course,
+                String(element.id_course),
                 getCourseType(element.courseType),
                 new Date(element.datetime),
-                element.title,
-                element.actionners,
-                element.description
+                String(element.title),
+                element.actionners.map(String),
+                String(element.description)
               )
           )
         )

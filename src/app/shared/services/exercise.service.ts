@@ -18,11 +18,11 @@ export class ExerciseService {
             (element: any) =>
               new Exercise(
                 Number(element.id),
-                element.title,
+                String(element.title),
                 Number(element.difficulty),
                 Number(element.topic_id),
                 Boolean(element.is_corrected),
-                element.source
+                String(element.source),
               )
           )
         )
