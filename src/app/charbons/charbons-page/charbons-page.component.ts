@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 

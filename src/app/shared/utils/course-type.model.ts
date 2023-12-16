@@ -19,3 +19,16 @@ export function getCourseType(value: string): CourseType {
             return CourseType.meca;
     }
 }
+
+export function getCourseTypeName(value: CourseType): String {
+    switch (value) {
+        case CourseType.meca:
+            return "meca";
+        case CourseType.info:
+            return "info";
+        case CourseType.maths:
+            return "maths";
+        case CourseType.elec:
+            return "elec";
+    }
+}
