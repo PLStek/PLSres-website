@@ -100,6 +100,26 @@ function addCharbon($title, $description, $datetime, $course, $actionneurs)
     $conn->commit();
 }
 
+function deleteCharbon($id) {
+    global $conn;
+
+    $conn->begin_transaction();
+
+    $query1 = "DELETE FROM charbon_host WHERE charbon_id = ?";
+    $stmt1 = $conn->prepare($query1);
+    $stmt1->bind_param("i", $id);
+    $stmt1->execute();
+
+    $query2 = "DELETE FROM charbon WHERE id = ?";
+    $stmt2 = $conn->prepare($query2);
+    $stmt2->bind_param("i", $id);
+    $stmt2->execute();
+
+    $stmt1->close();
+    $stmt2->close();
+
+    $conn->commit();
+}
 
 switch ($method) {
     case 'GET':
@@ -128,6 +148,14 @@ switch ($method) {
         $actionneurs = explode(',', $_POST['actionneurs']);
 
         addCharbon($title, $description, $datetime, $course, $actionneurs);
+        break;
+    case 'DELETE':
+        if (!isset($_GET['id'])) {
+            echo json_encode(array('error' => 'Missing parameters.'));
+            break;
+        }
+        $id = $_GET['id'];
+        deleteCharbon($id);
         break;
     default:
         echo json_encode(array('error' => 'This method is not allowed.'));
