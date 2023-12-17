@@ -1,12 +1,15 @@
 <?php
-require_once 'database.php';
-
 header('Content-Type: application/json');
 
+require_once 'database.php';
+
+$method = $_SERVER["REQUEST_METHOD"];
 
 
 
-function getProducts($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit)
+
+
+function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit)
 {
     global $conn;
 
@@ -66,7 +69,33 @@ function getProducts($courses, $course_type, $min_date, $max_date, $min_duration
     return $charbons;
 }
 
-$method = $_SERVER["REQUEST_METHOD"];
+function addCharbon($title, $description, $datetime, $course, $actionners)
+{
+    global $conn;
+
+    $conn->begin_transaction();
+
+    $query1 = "INSERT INTO charbon (title, description, datetime, id_course) VALUES (?, ?, ?, ?)";
+    $stmt1 = $conn->prepare($query1);
+    $stmt1->bind_param("sssi", $title, $description, $datetime, $course);
+    $stmt1->execute();
+
+    $id = $conn->insert_id;
+
+    $query2 = "INSERT INTO charbon_host (id_charbon, id_actionneur) VALUES (?, ?)";
+    $stmt2 = $conn->prepare($query2);
+
+    foreach ($actionners as $actionner) {
+        $stmt2->bind_param("ii", $id, $actionner);
+        $stmt2->execute();
+    }
+
+    $stmt1->close();
+    $stmt2->close();
+
+    $conn->commit();
+}
+
 
 switch ($method) {
     case 'GET':
@@ -80,14 +109,25 @@ switch ($method) {
         $offset = $_GET['offset'] ?? 0;
         $limit = $_GET['limit'] ?? 10;
 
-        $charbons = getProducts($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit);
+        $charbons = getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit);
+        echo json_encode($charbons);
+        break;
+    case 'POST':
+        if (!isset($_POST['title']) || !isset($_POST['description']) || !isset($_POST['datetime']) || !isset($_POST['course']) || !isset($_POST['actionners'])) {
+            echo json_encode(array('error' => 'Missing parameters.'));
+            break;
+        }
+        $title = $_POST['title'];
+        $description = $_POST['description'];
+        $datetime = (new DateTime('@' . $_POST['datetime']))->format('Y-m-d H:i:s');
+        $course = $_POST['course'];
+        $actionners = explode(',', $_POST['actionners']);
+
+
+
+        addCharbon($title, $description, $datetime, $course, $actionners);
         break;
     default:
         echo json_encode(array('error' => 'This method is not allowed.'));
         break;
 }
-
-
-
-
-echo json_encode($charbons);
