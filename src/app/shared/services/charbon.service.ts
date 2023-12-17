@@ -23,7 +23,7 @@ export class CharbonService {
               getCourseType(ch.course_type),
               new Date(ch.datetime),
               String(ch.title),
-              ch.actionners.map(String),
+              ch.actionneurs.map(String),
               String(ch.description)
             )
         )

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 16, 2023 at 08:28 PM
+-- Generation Time: Dec 17, 2023 at 02:31 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -48,7 +48,7 @@ CREATE TABLE `charbon` (
   `description` varchar(500) NOT NULL,
   `datetime` datetime NOT NULL,
   `duration` time DEFAULT NULL,
-  `id_course` varchar(4) NOT NULL,
+  `course_id` varchar(4) NOT NULL,
   `replay_link` varchar(100) DEFAULT NULL,
   `resources_link` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -57,12 +57,17 @@ CREATE TABLE `charbon` (
 -- Dumping data for table `charbon`
 --
 
-INSERT INTO `charbon` (`id`, `title`, `description`, `datetime`, `duration`, `id_course`, `replay_link`, `resources_link`) VALUES
+INSERT INTO `charbon` (`id`, `title`, `description`, `datetime`, `duration`, `course_id`, `replay_link`, `resources_link`) VALUES
 (1, 'Premier charbon de l\'histoire', 'On fait le premier charbon de l\'histoire', '2023-12-15 20:32:17', NULL, 'PS22', 'https://youtube.com', NULL),
 (2, 'AAP 4, 5 et 6 de PM1 !', 'On prépare le CC2 de PM en révisant les AAP 4, 5 et 6. Nous utiliserons l\'ECA du CC2 en distanciel A22, alors jetez-y un coup d\'oeil !', '2023-12-18 13:54:57', NULL, 'PM1', 'https://youbube.com', NULL),
 (3, 'Révision pour le final d\'EL22', 'On révise toutes les notions depuis le début de l\'année', '2023-12-29 20:15:57', NULL, 'EL22', NULL, NULL),
 (4, 'Révisions pour le médian de PS2', 'On revoit les coordonnées cartésiennes et polaires', '2023-11-13 18:15:57', '02:07:57', 'PS2', 'http://youtube.com', NULL),
-(5, 'Chapitres 3 et 4', 'On fait des exercices sur l\'algèbre linéaire et les fonctions à 2 variables', '2023-11-02 20:00:00', '02:42:12', 'MT2', 'http://youtube.com', NULL);
+(5, 'Chapitres 3 et 4', 'On fait des exercices sur l\'algèbre linéaire et les fonctions à 2 variables', '2023-11-02 20:00:00', '02:42:12', 'MT2', 'http://youtube.com', NULL),
+(8, 'test', 'test', '2020-12-12 12:12:12', NULL, 'MT3', NULL, NULL),
+(16, 'Revisions final', 'On revise toutes les notions vues depuis le debut de l\'annee', '2018-04-26 06:22:22', NULL, 'PS25', NULL, NULL),
+(17, 'Révisions pour le final', 'On revise toutes les notions vues depuis le debut de l\'annee', '2018-04-26 06:22:22', NULL, 'PS25', NULL, NULL),
+(18, 'Révisions pour le final', 'On revise toutes les notions vues depuis le debut de l\'annee', '2050-01-02 08:09:02', NULL, 'LP25', NULL, NULL),
+(19, 'Révisions pour le final', 'On revise toutes les notions vues depuis le debut de l\'annee', '2024-08-27 01:55:42', NULL, 'LP25', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -71,17 +76,25 @@ INSERT INTO `charbon` (`id`, `title`, `description`, `datetime`, `duration`, `id
 --
 
 CREATE TABLE `charbon_host` (
-  `id_charbon` int(11) NOT NULL,
-  `id_actionneur` int(11) NOT NULL
+  `charbon_id` int(11) NOT NULL,
+  `actionneur_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `charbon_host`
 --
 
-INSERT INTO `charbon_host` (`id_charbon`, `id_actionneur`) VALUES
+INSERT INTO `charbon_host` (`charbon_id`, `actionneur_id`) VALUES
 (1, 1),
-(1, 2);
+(1, 2),
+(8, 1),
+(8, 2),
+(16, 1),
+(16, 2),
+(17, 1),
+(17, 2),
+(18, 1),
+(19, 1);
 
 -- --------------------------------------------------------
 
@@ -237,14 +250,14 @@ ALTER TABLE `announcements`
 --
 ALTER TABLE `charbon`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_course` (`id_course`);
+  ADD KEY `course_id` (`course_id`);
 
 --
 -- Indexes for table `charbon_host`
 --
 ALTER TABLE `charbon_host`
-  ADD PRIMARY KEY (`id_charbon`,`id_actionneur`),
-  ADD KEY `id_actionneur` (`id_actionneur`);
+  ADD PRIMARY KEY (`charbon_id`,`actionneur_id`),
+  ADD KEY `actionneur_id` (`actionneur_id`);
 
 --
 -- Indexes for table `course`
@@ -300,7 +313,7 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT for table `charbon`
 --
 ALTER TABLE `charbon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `course_type`
@@ -340,14 +353,14 @@ ALTER TABLE `user`
 -- Constraints for table `charbon`
 --
 ALTER TABLE `charbon`
-  ADD CONSTRAINT `charbon_ibfk_1` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`);
+  ADD CONSTRAINT `charbon_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`);
 
 --
 -- Constraints for table `charbon_host`
 --
 ALTER TABLE `charbon_host`
-  ADD CONSTRAINT `charbon_host_ibfk_1` FOREIGN KEY (`id_charbon`) REFERENCES `charbon` (`id`),
-  ADD CONSTRAINT `charbon_host_ibfk_2` FOREIGN KEY (`id_actionneur`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `charbon_host_ibfk_1` FOREIGN KEY (`charbon_id`) REFERENCES `charbon` (`id`),
+  ADD CONSTRAINT `charbon_host_ibfk_2` FOREIGN KEY (`actionneur_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `course`

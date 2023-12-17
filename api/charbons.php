@@ -13,16 +13,16 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
 {
     global $conn;
 
-    $query = "SELECT C.id, C.title, C.description, C.datetime, C.id_course course, T.type course_type, A.username as actionner FROM (
-        SELECT id, title, description, datetime, id_course, duration
+    $query = "SELECT C.id, C.title, C.description, C.datetime, C.course_id course, T.type course_type, A.username as actionneur FROM (
+        SELECT id, title, description, datetime, course_id, duration
         FROM charbon
         ORDER BY id
         LIMIT $limit OFFSET $offset
     ) C
-    INNER JOIN course CO ON C.id_course = CO.id
+    INNER JOIN course CO ON C.course_id = CO.id
     INNER JOIN course_type T ON T.id = CO.type_id
-    LEFT JOIN charbon_host H ON C.id = H.id_charbon
-    LEFT JOIN user A ON H.id_actionneur = A.id
+    LEFT JOIN charbon_host H ON C.id = H.charbon_id
+    LEFT JOIN user A ON H.actionneur_id = A.id
     WHERE C.datetime BETWEEN '$min_date' AND '$max_date'
     AND (HOUR(C.duration) BETWEEN $min_duration AND $max_duration" . ($null_duration ? " OR C.duration IS NULL)" : ")");
 
@@ -31,12 +31,12 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
     }
 
     if ($courses) {
-        $query .= " AND C.id_course IN (";
+        $query .= " AND C.course_id IN (";
 
         foreach ($courses as $course) {
             $query .= "'$course',";
         }
-        $query = substr($query, 0, -1) . ")";
+        $query = rtrim($query, ',') . ")";
     }
     $result = $conn->query($query);
 
@@ -49,7 +49,7 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
         foreach ($charbons as &$charbon) {
             if ($charbon['id'] == $charbon_id) {
                 $charbon_exists = true;
-                $charbon['actionners'][] = $row['actionner'];
+                $charbon['actionneurs'][] = $row['actionneur'];
                 break;
             }
         }
@@ -62,32 +62,33 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
                 'datetime' => $row['datetime'],
                 'course' => $row['course'],
                 'course_type' => $row['course_type'],
-                'actionners' => $row['actionner'] ? array($row['actionner']) : array()
+                'actionneurs' => $row['actionneur'] ? array($row['actionneur']) : array()
             );
         }
     }
     return $charbons;
 }
 
-function addCharbon($title, $description, $datetime, $course, $actionners)
+function addCharbon($title, $description, $datetime, $course, $actionneurs)
 {
     global $conn;
 
     $conn->begin_transaction();
 
-    $query1 = "INSERT INTO charbon (title, description, datetime, id_course) VALUES (?, ?, ?, ?)";
+    $query1 = "INSERT INTO charbon (title, description, datetime, course_id) VALUES (?, ?, ?, ?)";
     $stmt1 = $conn->prepare($query1);
-    $stmt1->bind_param("sssi", $title, $description, $datetime, $course);
+    $stmt1->bind_param("ssss", $title, $description, $datetime, $course);
     $stmt1->execute();
 
     $id = $conn->insert_id;
 
-    $query2 = "INSERT INTO charbon_host (id_charbon, id_actionneur) VALUES (?, ?)";
+    $query2 = "INSERT INTO charbon_host (charbon_id, actionneur_id) VALUES (?, ?)";
     $stmt2 = $conn->prepare($query2);
 
-    foreach ($actionners as $actionner) {
-        $stmt2->bind_param("ii", $id, $actionner);
+    foreach ($actionneurs as $actionneur) {
+        $stmt2->bind_param("ii", $id, $actionneur);
         $stmt2->execute();
+        $stmt2->reset();
     }
 
     $stmt1->close();
@@ -113,7 +114,7 @@ switch ($method) {
         echo json_encode($charbons);
         break;
     case 'POST':
-        if (!isset($_POST['title']) || !isset($_POST['description']) || !isset($_POST['datetime']) || !isset($_POST['course']) || !isset($_POST['actionners'])) {
+        if (!isset($_POST['title']) || !isset($_POST['description']) || !isset($_POST['datetime']) || !isset($_POST['course']) || !isset($_POST['actionneurs'])) {
             echo json_encode(array('error' => 'Missing parameters.'));
             break;
         }
@@ -121,11 +122,9 @@ switch ($method) {
         $description = $_POST['description'];
         $datetime = (new DateTime('@' . $_POST['datetime']))->format('Y-m-d H:i:s');
         $course = $_POST['course'];
-        $actionners = explode(',', $_POST['actionners']);
+        $actionneurs = explode(',', $_POST['actionneurs']);
 
-
-
-        addCharbon($title, $description, $datetime, $course, $actionners);
+        addCharbon($title, $description, $datetime, $course, $actionneurs);
         break;
     default:
         echo json_encode(array('error' => 'This method is not allowed.'));
