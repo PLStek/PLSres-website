@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Exercise } from 'src/app/shared/models/exercise.model';
+import { base64Decode } from '../utils/base64-converter';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +10,22 @@ import { Exercise } from 'src/app/shared/models/exercise.model';
 export class ExerciseService {
   constructor(private http: HttpClient) {}
 
-  getExercises(): Observable<Exercise[]> {
+  private setParam(params: HttpParams, name: string, value: any): HttpParams {
+    if (name && value) {
+      params = params.set(name, value.toString());
+    }
+    return params;
+  }
+
+  getExercises(options?: {
+    id?: number;
+    maxDifficulty?: number;
+    topicId?: number;
+    correctedOnly?: boolean;
+    content?: boolean;
+  }): Observable<Exercise[]> {
     return this.http
-      .get<any>('http://localhost/PLSres/api/exercises')
+      .get<any>('http://localhost/PLSres/api/exercises?content=1')
       .pipe(
         map((data: any) =>
           data.map(
@@ -23,6 +37,7 @@ export class ExerciseService {
                 Number(element.topic_id),
                 Boolean(element.is_corrected),
                 String(element.source),
+                element.content ? base64Decode(element.content) : undefined
               )
           )
         )
@@ -38,14 +53,10 @@ export class ExerciseService {
   }
 
   getExercisesById(id: number): Observable<Exercise | undefined> {
-    return this.getExercises().pipe(
+    return this.getExercises({ content: true }).pipe(
       map((data: Exercise[]) =>
         data.find((exercise: Exercise) => exercise.id === id)
       )
     );
-  }
-
-  getExerciseContent(id: number): string {
-    return `<p>Le contenu de l'exercice en HTML sera récupéré du backend</p>`;
   }
 }

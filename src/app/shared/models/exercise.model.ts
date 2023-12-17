@@ -5,7 +5,8 @@ export class Exercise {
     public difficulty: number,
     public topicId: number,
     public isCorrected: boolean,
-    public source: string
+    public source: string,
+    public content?: string
   ) {
     this.id = id;
     this.title = title;
@@ -13,5 +14,6 @@ export class Exercise {
     this.topicId = topicId;
     this.isCorrected = isCorrected;
     this.source = source;
+    this.content = content;
   }
 }

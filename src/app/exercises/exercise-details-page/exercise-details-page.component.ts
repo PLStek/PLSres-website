@@ -24,12 +24,6 @@ export class ExerciseDetailsPageComponent implements OnInit {
         .getExercisesById(id)
         .subscribe((data) => {
           this.exercise = data;
-
-          if (this.exercise) {
-            this.exerciseContent = this.exerciseService.getExerciseContent(
-              this.exercise.id
-            );
-          }
         });
     });
   }

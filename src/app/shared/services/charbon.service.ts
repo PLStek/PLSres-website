@@ -31,6 +31,7 @@ export class CharbonService {
     );
   }
 
+  //TODO: create util function
   private setParam(params: HttpParams, name: string, value: any): HttpParams {
     if (name && value) {
       if (Array.isArray(value)) {
