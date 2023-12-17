@@ -100,7 +100,8 @@ function addCharbon($title, $description, $datetime, $course, $actionneurs)
     $conn->commit();
 }
 
-function deleteCharbon($id) {
+function deleteCharbon($id)
+{
     global $conn;
 
     $conn->begin_transaction();
@@ -121,43 +122,47 @@ function deleteCharbon($id) {
     $conn->commit();
 }
 
-switch ($method) {
-    case 'GET':
-        $courses = isset($_GET['courses']) ? explode(',', $_GET['courses']) : null;
-        $course_type = $_GET['course_type'] ?? null;
-        $min_date = isset($_GET['min_date']) ? (new DateTime('@' . $_GET['min_date']))->format('Y-m-d H:i:s') : "0000-00-00 00:00:00";
-        $max_date = isset($_GET['max_date']) ? (new DateTime('@' . $_GET['max_date']))->format('Y-m-d H:i:s') : "9999-12-31 23:59:59";
-        $min_duration = $_GET['min_duration'] ?? 0;
-        $max_duration = $_GET['max_duration'] ?? 99;
-        $null_duration = $_GET['null_duration'] ?? true;
-        $offset = $_GET['offset'] ?? 0;
-        $limit = $_GET['limit'] ?? 10;
+try {
+    switch ($method) {
+        case 'GET':
+            $courses = isset($_GET['courses']) ? explode(',', $_GET['courses']) : null;
+            $course_type = $_GET['course_type'] ?? null;
+            $min_date = isset($_GET['min_date']) ? (new DateTime('@' . $_GET['min_date']))->format('Y-m-d H:i:s') : "0000-00-00 00:00:00";
+            $max_date = isset($_GET['max_date']) ? (new DateTime('@' . $_GET['max_date']))->format('Y-m-d H:i:s') : "9999-12-31 23:59:59";
+            $min_duration = $_GET['min_duration'] ?? 0;
+            $max_duration = $_GET['max_duration'] ?? 99;
+            $null_duration = $_GET['null_duration'] ?? true;
+            $offset = $_GET['offset'] ?? 0;
+            $limit = $_GET['limit'] ?? 10;
 
-        $charbons = getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit);
-        echo json_encode($charbons);
-        break;
-    case 'POST':
-        if (!isset($_POST['title']) || !isset($_POST['description']) || !isset($_POST['datetime']) || !isset($_POST['course']) || !isset($_POST['actionneurs'])) {
-            echo json_encode(array('error' => 'Missing parameters.'));
+            $charbons = getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit);
+            echo json_encode($charbons);
             break;
-        }
-        $title = $_POST['title'];
-        $description = $_POST['description'];
-        $datetime = (new DateTime('@' . $_POST['datetime']))->format('Y-m-d H:i:s');
-        $course = $_POST['course'];
-        $actionneurs = explode(',', $_POST['actionneurs']);
+        case 'POST':
+            if (!isset($_POST['title']) || !isset($_POST['description']) || !isset($_POST['datetime']) || !isset($_POST['course']) || !isset($_POST['actionneurs'])) {
+                throw new Exception('Missing parameters.');
+            }
+            $title = $_POST['title'];
+            $description = $_POST['description'];
+            $datetime = (new DateTime('@' . $_POST['datetime']))->format('Y-m-d H:i:s');
+            $course = $_POST['course'];
+            $actionneurs = explode(',', $_POST['actionneurs']);
 
-        addCharbon($title, $description, $datetime, $course, $actionneurs);
-        break;
-    case 'DELETE':
-        if (!isset($_GET['id'])) {
-            echo json_encode(array('error' => 'Missing parameters.'));
+            addCharbon($title, $description, $datetime, $course, $actionneurs);
+            echo json_encode(array('success' => true));
             break;
-        }
-        $id = $_GET['id'];
-        deleteCharbon($id);
-        break;
-    default:
-        echo json_encode(array('error' => 'This method is not allowed.'));
-        break;
+        case 'DELETE':
+            if (!isset($_GET['id'])) {
+                throw new Exception('Missing parameters.');
+            }
+            $id = $_GET['id'];
+            deleteCharbon($id);
+            echo json_encode(array('success' => true));
+            break;
+        default:
+            throw new Exception('This method is not allowed.');
+            break;
+    }
+} catch (Exception $e) {
+    echo json_encode(array('success' => false, 'error' => $e->getMessage()));
 }

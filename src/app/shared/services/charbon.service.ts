@@ -62,12 +62,12 @@ export class CharbonService {
 
     return this.http
       .get<any[]>('http://localhost/PLSres/api/charbons', {
-        params: params,
+        params,
       })
       .pipe(this.processHttpResponses);
   }
 
-  addCharbon(ch: Charbon): Observable<any> {
+  addCharbon(ch: Charbon): Observable<boolean> {
     let params = new HttpParams();
     params = params.set('title', ch.title);
     params = params.set('description', ch.description);
@@ -75,13 +75,28 @@ export class CharbonService {
     params = params.set('course', ch.course);
     params = params.set('actionneurs', ch.actionners.join(','));
 
-    return this.http.post<any>(`http://localhost/PLSres/api/charbons`, {
-      params: params,
-    });
+    return this.http
+      .post<any>(`http://localhost/PLSres/api/charbons`, {
+        params,
+      })
+      .pipe(
+        map((res) => {
+          return Boolean(res.success) ?? false;
+        })
+      );
   }
 
-  //TODO: return Obersvable<boolean>
-  deleteCharbon(id: number): Observable<any> {
-    return this.http.delete<any>(`http://localhost/PLSres/api/charbons/${id}`);
+  deleteCharbon(id: number): Observable<boolean> {
+    let params = new HttpParams().set('id', id);
+
+    return this.http
+      .delete<any>(`http://localhost/PLSres/api/charbons`, {
+        params,
+      })
+      .pipe(
+        map((res) => {
+          return Boolean(res.success) ?? false;
+        })
+      );
   }
 }
