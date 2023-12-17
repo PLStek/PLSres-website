@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { getCourseType } from '../utils/course-type.model';
-import { CharbonApiParameter } from '../models/charbon-api-parameter.model';
+import { GetCharbonParameter } from '../models/charbon-api-parameter.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,47 +31,57 @@ export class CharbonService {
     );
   }
 
-  private setParam(
-    httpParams: HttpParams,
-    name: string,
-    value: any
-  ): HttpParams {
+  private setParam(params: HttpParams, name: string, value: any): HttpParams {
     if (name && value) {
       if (Array.isArray(value)) {
-        httpParams = httpParams.set(name, value.join(','));
+        params = params.set(name, value.join(','));
       } else if (value instanceof Date) {
-        httpParams = httpParams.set(name, Math.floor(value.getTime() / 1000));
+        params = params.set(name, Math.floor(value.getTime() / 1000));
       } else {
-        httpParams = httpParams.set(name, value.toString());
+        params = params.set(name, value.toString());
       }
     }
-    return httpParams;
+    return params;
   }
 
-  getCharbonList(params: CharbonApiParameter = {}): Observable<Charbon[]> {
-    let httpParams = new HttpParams();
-    httpParams = this.setParam(httpParams, 'courses', params.courses);
-    httpParams = this.setParam(
-      httpParams,
+  getCharbonList(options: GetCharbonParameter = {}): Observable<Charbon[]> {
+    let params = new HttpParams();
+    params = this.setParam(params, 'courses', options.courses);
+    params = this.setParam(
+      params,
       'course_type',
-      params.courseType ? getCourseTypeName(params.courseType) : undefined
+      options.courseType ? getCourseTypeName(options.courseType) : undefined
     );
-    httpParams = this.setParam(httpParams, 'min_date', params.minDate);
-    httpParams = this.setParam(httpParams, 'max_date', params.maxDate);
-    httpParams = this.setParam(httpParams, 'min_duration', params.minDuration);
-    httpParams = this.setParam(httpParams, 'max_duration', params.maxDuration);
-    httpParams = this.setParam(
-      httpParams,
-      'null_duration',
-      params.hasDurationOnly
-    );
-    httpParams = this.setParam(httpParams, 'offset', params.offset);
-    httpParams = this.setParam(httpParams, 'limit', params.limit);
+    params = this.setParam(params, 'min_date', options.minDate);
+    params = this.setParam(params, 'max_date', options.maxDate);
+    params = this.setParam(params, 'min_duration', options.minDuration);
+    params = this.setParam(params, 'max_duration', options.maxDuration);
+    params = this.setParam(params, 'null_duration', options.hasDurationOnly);
+    params = this.setParam(params, 'offset', options.offset);
+    params = this.setParam(params, 'limit', options.limit);
 
     return this.http
       .get<any[]>('http://localhost/PLSres/api/charbons', {
-        params: httpParams,
+        params: params,
       })
       .pipe(this.processHttpResponses);
+  }
+
+  addCharbon(ch: Charbon): Observable<any> {
+    let params = new HttpParams();
+    params = params.set('title', ch.title);
+    params = params.set('description', ch.description);
+    params = params.set('datetime', ch.date.getTime() / 1000);
+    params = params.set('course', ch.course);
+    params = params.set('actionneurs', ch.actionners.join(','));
+
+    return this.http.post<any>(`http://localhost/PLSres/api/charbons`, {
+      params: params,
+    });
+  }
+
+  //TODO: return Obersvable<boolean>
+  deleteCharbon(id: number): Observable<any> {
+    return this.http.delete<any>(`http://localhost/PLSres/api/charbons/${id}`);
   }
 }
