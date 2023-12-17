@@ -104,7 +104,6 @@ try {
                 throw new Exception('Missing parameters.');
             }
             addExercise($_POST['title'], $_POST['difficulty'], $_POST['is_corrected'], $_FILES['thumbnail'], $_POST['topic_id']); */
-            echo get_current_user();
             addExercise("test", 1, 1, "test", 1);
             break;
         default:
