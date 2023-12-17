@@ -13,18 +13,13 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
 {
     global $conn;
 
-    $query = "SELECT C.id, C.title, C.description, C.datetime, C.course_id course, T.type course_type, A.username as actionneur FROM (
-        SELECT id, title, description, datetime, course_id, duration
-        FROM charbon
-        ORDER BY id
-        LIMIT $limit OFFSET $offset
-    ) C
-    INNER JOIN course CO ON C.course_id = CO.id
-    INNER JOIN course_type T ON T.id = CO.type_id
-    LEFT JOIN charbon_host H ON C.id = H.charbon_id
-    LEFT JOIN user A ON H.actionneur_id = A.id
-    WHERE C.datetime BETWEEN '$min_date' AND '$max_date'
-    AND (HOUR(C.duration) BETWEEN $min_duration AND $max_duration" . ($null_duration ? " OR C.duration IS NULL)" : ")");
+    $query = "SELECT C.*, A.username as actionneur FROM (
+        SELECT C.id, C.title, C.description, C.datetime, C.course_id course, T.type course_type
+        FROM charbon C
+        INNER JOIN course CO ON C.course_id = CO.id
+        INNER JOIN course_type T ON T.id = CO.type_id
+        WHERE C.datetime BETWEEN '$min_date' AND '$max_date'
+        AND (HOUR(C.duration) BETWEEN $min_duration AND $max_duration" . ($null_duration ? " OR C.duration IS NULL)" : ")");
 
     if ($course_type) {
         $query .= " AND T.type = '$course_type'";
@@ -38,7 +33,15 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
         }
         $query = rtrim($query, ',') . ")";
     }
+    $query .= "
+        ORDER BY id
+        LIMIT $limit OFFSET $offset
+    ) C
+    LEFT JOIN charbon_host H ON C.id = H.charbon_id
+    LEFT JOIN user A ON H.actionneur_id = A.id";
+
     $result = $conn->query($query);
+
 
     $charbons = array();
     while ($row = $result->fetch_assoc()) {
@@ -102,8 +105,8 @@ switch ($method) {
     case 'GET':
         $courses = isset($_GET['courses']) ? explode(',', $_GET['courses']) : null;
         $course_type = $_GET['course_type'] ?? null;
-        $min_date = isset($_GET['min_date']) ? new DateTime('@' . $_GET['min_date']) : "0000-00-00 00:00:00";
-        $max_date = isset($_GET['max_date']) ? new DateTime('@' . $_GET['max_date']) : "9999-12-31 23:59:59";
+        $min_date = isset($_GET['min_date']) ? (new DateTime('@' . $_GET['min_date']))->format('Y-m-d H:i:s') : "0000-00-00 00:00:00";
+        $max_date = isset($_GET['max_date']) ? (new DateTime('@' . $_GET['max_date']))->format('Y-m-d H:i:s') : "9999-12-31 23:59:59";
         $min_duration = $_GET['min_duration'] ?? 0;
         $max_duration = $_GET['max_duration'] ?? 99;
         $null_duration = $_GET['null_duration'] ?? true;
