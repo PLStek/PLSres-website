@@ -40,7 +40,7 @@ export class CharbonService {
       if (Array.isArray(value)) {
         httpParams = httpParams.set(name, value.join(','));
       } else if (value instanceof Date) {
-        httpParams = httpParams.set(name, value.getTime());
+        httpParams = httpParams.set(name, Math.floor(value.getTime() / 1000));
       } else {
         httpParams = httpParams.set(name, value.toString());
       }
@@ -48,9 +48,7 @@ export class CharbonService {
     return httpParams;
   }
 
-  getCharbonList(
-    params: CharbonApiParameter = new CharbonApiParameter()
-  ): Observable<Charbon[]> {
+  getCharbonList(params: CharbonApiParameter = {}): Observable<Charbon[]> {
     let httpParams = new HttpParams();
     httpParams = this.setParam(httpParams, 'courses', params.courses);
     httpParams = this.setParam(
