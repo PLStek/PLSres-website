@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CharbonApiParameter } from 'src/app/shared/models/charbon-api-parameter.model';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
@@ -13,14 +14,17 @@ export class HomePageComponent implements OnInit {
   charbonList!: Charbon[];
   exerciseList!: Exercise[];
 
-
   constructor(private charbonService: CharbonService) {
     this.charbonList = [];
   }
 
   ngOnInit(): void {
-    this.charbonService.getCharbonList().subscribe((charbons) => {
-      this.charbonList = charbons;
-    });
+    const now = new Date();
+
+    this.charbonService
+      .getCharbonList({ minDate: now, limit: 3 })
+      .subscribe((charbons) => {
+        this.charbonList = charbons;
+      });
   }
 }
