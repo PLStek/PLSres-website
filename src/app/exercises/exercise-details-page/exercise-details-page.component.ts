@@ -21,9 +21,9 @@ export class ExerciseDetailsPageComponent implements OnInit {
     this.route.params.subscribe((params) => {
       let id: number = parseInt(params['id'], 10);
       this.exerciseService
-        .getExercisesById(id)
+        .getExercises({ id: id, content: true })
         .subscribe((data) => {
-          this.exercise = data;
+          this.exercise = data[0] ?? undefined;
         });
     });
   }

@@ -100,11 +100,10 @@ try {
             break;
         case 'POST':
             //TODO: rename 'thunbnail' to 'content'
-            /* if (!isset($_POST['title']) || !isset($_POST['difficulty']) || !isset($_POST['is_corrected']) || !isset($_POST['source']) || !isset($_POST['topic_id']) || !isset($_FILES['thumbnail']) || $_FILES['thumbnail']['error'] != 0) {
+            if (!isset($_POST['title']) || !isset($_POST['difficulty']) || !isset($_POST['is_corrected']) || !isset($_POST['source']) || !isset($_POST['topic_id']) || !isset($_FILES['thumbnail']) || $_FILES['thumbnail']['error'] != 0) {
                 throw new Exception('Missing parameters.');
             }
-            addExercise($_POST['title'], $_POST['difficulty'], $_POST['is_corrected'], $_FILES['thumbnail'], $_POST['topic_id']); */
-            addExercise("test", 1, 1, "test", 1);
+            addExercise($_POST['title'], $_POST['difficulty'], $_POST['is_corrected'], $_FILES['thumbnail'], $_POST['topic_id']);
             break;
         default:
             break;

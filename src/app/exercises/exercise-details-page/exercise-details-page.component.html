@@ -1,4 +1,7 @@
 <div class="container">
     <app-main-button content="Autres exercices" [isBig]="true" [isFilled]="false"></app-main-button>
 </div>
-<div [innerHTML]="exercise?.content"></div>
+<app-background-card >
+
+    <div class="px-5 mx-5" [innerHTML]="exercise?.content"></div>
+</app-background-card>

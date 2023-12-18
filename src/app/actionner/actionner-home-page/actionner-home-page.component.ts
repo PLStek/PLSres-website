@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
+import { ExerciseService } from 'src/app/shared/services/exercise.service';
 
 @Component({
   selector: 'app-actionner-home-page',
@@ -14,7 +15,7 @@ export class ActionnerHomePageComponent implements OnInit {
 
   constructor(
     private charbonService: CharbonService,
-    private http: HttpClient
+    private exerciseService: ExerciseService
   ) {}
 
   ngOnInit(): void {}
@@ -23,22 +24,22 @@ export class ActionnerHomePageComponent implements OnInit {
     console.log(this.newCharbon);
   }
 
-
-
-
-  fileName = '';
-
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-
+    const dummyExercise = new Exercise(
+      0,
+      'Test exercise',
+      1,
+      1,
+      false,
+      'Source'
+    );
     if (file) {
-      this.fileName = file.name;
-
-      const formData = new FormData();
-      formData.append('thumbnail', file);
-
-      const upload = this.http.post('http://localhost/PLSres/api/exercises', formData);
-      upload.subscribe();
+      this.exerciseService
+        .addExercise(dummyExercise, file)
+        .subscribe((data) => {
+          console.log(data);
+        });
     }
   }
 }
