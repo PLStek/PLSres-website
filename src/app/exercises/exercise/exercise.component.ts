@@ -21,10 +21,10 @@ export class ExerciseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.exerciseService.getExercisesByTopic(
-      this.exerciseTopic.id
-    ).subscribe((data: Exercise[]) => {
-      this.exerciseList = data;
-    });
+    this.exerciseService
+      .getExercises({ topicId: this.exerciseTopic.id })
+      .subscribe((data: Exercise[]) => {
+        this.exerciseList = data;
+      });
   }
 }

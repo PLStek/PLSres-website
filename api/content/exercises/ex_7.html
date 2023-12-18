@@ -1,0 +1,265 @@
+<h1>La compilation avec GCC</h1>
+<p>GCC (GNU Compiler Collection) contient des compilateurs pour plusieurs langages, dont C et C++. MinGW est un portage de la suite GCC pour Windows. La plupart des options de base sont similaires entre GCC, Clang et MSVC, si vous utilisez autre chose que GCC et que l’une de ces options ne marche pas, ça se trouve facilement sur le web.</p>
+<h2>La base de la compilation</h2>
+<p>La chaîne de compilation de GCC (les autres sont très similaires avec des outils légèrement différents) :</p>
+<p><svg width="180.971mm" height="14.0436mm" version="1.1" viewBox="0 0 180.971 14.0436" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><metadata><rdf:RDF><cc:Work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><dc:title/></cc:Work></rdf:RDF></metadata><g transform="translate(-.258917 -.259859)"><g><path d="m0.258917 14.2864v-14.0265h28.7508l7.01028 7.01028-7.03335 7.03335z" fill="#282828"/><path d="m30.8527 14.2864 7.01028-7.01626-7.01028-7.01028h28.7508l7.01028 7.01028-7.03335 7.03335-14.3638-0.0085z" fill="#00b48d"/><path d="m61.2594 14.2864 7.01028-7.01626-7.01028-7.01028h28.7508l7.01029 7.01028-7.03336 7.03335-14.3638-0.0085z" fill="#67cc28"/><path d="m91.6661 14.2864 7.01028-7.01626-7.01028-7.01028h28.7508l7.01028 7.01028-7.03335 7.03335-14.3638-0.0085z" fill="#ffda25"/><path d="m122.073 14.2864 7.01027-7.01626-7.01027-7.01028h28.7508l7.01028 7.01028-7.03335 7.03335-14.3638-0.0085z" fill="#6464ff"/></g><path d="m152.479 14.2864 7.01028-7.01626-7.01028-7.01028h28.7508l-0.0231 14.0436-14.3638-0.0085z" fill="#282828" fill-opacity=".937255"/><text x="6.0616288" y="8.5968361" fill="#ffffff" font-family="sans-serif" font-size="3.52778px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="6.0616288" y="8.5968361" fill="#ffffff" font-family="sans-serif" font-size="3.52778px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Code source</tspan></text><g transform="translate(-.375006 -.526117)" fill="#ffffff" font-family="sans-serif" stroke-width=".264583"><text x="38.363121" y="7.1533456" font-size="3.52778px" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="38.363121" y="7.1533456" fill="#ffffff" font-family="sans-serif" font-size="3.52778px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Préprocessing</tspan></text><text x="46.107716" y="10.549962" font-size="3.52777px" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="46.107716" y="10.549962" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">(cpp)</tspan></text></g><g transform="translate(2.64583 -1.84148)" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583"><text x="67.420425" y="8.4143972" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="67.420425" y="8.4143972" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Compilation</tspan></text><text x="73.518234" y="11.778385" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="73.518234" y="11.778385" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">(gcc)</tspan></text></g><g transform="translate(1.05833 -1.3008)" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583"><text x="99.264923" y="8.1309156" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="99.264923" y="8.1309156" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Assemblage</tspan></text><text x="106.55128" y="11.249219" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="106.55128" y="11.249219" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">(as)</tspan></text></g><g transform="translate(.529167 -.146156)" fill="#ffffff" font-family="sans-serif" stroke-width=".264583"><text x="129.03055" y="7.0914807" font-size="3.175px" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="129.03055" y="7.0914807" fill="#ffffff" font-family="sans-serif" font-size="3.175px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Édition de liens</tspan></text><text x="138.60283" y="10.289599" font-size="3.52777px" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="138.60283" y="10.289599" fill="#ffffff" font-family="sans-serif" font-size="3.175px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">(ld)</tspan></text></g><text x="160.35205" y="8.6674576" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="160.35205" y="8.6674576" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Exécutable</tspan></text></g></svg></p>
+<p>Pour <strong>compiler directement</strong> des fichiers source C en exécutable :</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-shell">
+<div class="highlight"><pre><span></span>gcc<span class="w"> </span>-o<span class="w"> </span>executable<span class="w"> </span>main.c<span class="w"> </span>module.c
+</pre></div>
+
+</td>
+</tr>
+<tr class="fence-row">
+<td class="fence-cell fence-doc">
+<p><strong><code>-o &lt;fichier&gt;</code></strong> : spécifie le nom du fichier produit (sinon il s’appellera par défaut <code>a.out</code>)<br />
+</p>
+</td>
+</tr>
+</table>
+<p>Pour un projet plus important avec des librairies, on préfère généralement <strong>compiler</strong> les fichiers sources (.c) <strong>individuellement</strong> en <strong>fichiers objets</strong> (.o), puis faire <strong>l’édition de liens</strong> séparément :</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-shell">
+<div class="highlight"><pre><span></span>gcc<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>module.o<span class="w"> </span>module.c<span class="w">        </span><span class="c1"># Compilation</span>
+gcc<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>main.o<span class="w"> </span>main.c<span class="w">            </span><span class="c1"># Compilation</span>
+gcc<span class="w"> </span>-o<span class="w"> </span>executable<span class="w"> </span>main.o<span class="w"> </span>module.o<span class="w">  </span><span class="c1"># Édition de liens</span>
+</pre></div>
+
+</td>
+</tr>
+<tr class="fence-row">
+<td class="fence-cell fence-doc">
+<p><strong><code>-c</code></strong> : Compile et assemble le fichier de code sans faire l’édition de lien<br />
+</p>
+</td>
+</tr>
+</table>
+<h2>Modules et librairies</h2>
+<h3>Headers</h3>
+<p>Par défaut, GCC cherche les headers inclus par <code>#include &lt;module.h&gt;</code> dans son répertoire de headers par défaut, où il y a la bibliothèque standard et les librairies que vous y avez installé.</p>
+<p>Les headers inclus par <code>#include "module.h"</code> sont pris par défaut dans le même répertoire que le fichier source qui les incluent. Vous pouvez utiliser un chemin relatif : <code>#include "../dossier/module.h"</code></p>
+<p>Dans des projets plus larges, surtout des librairies, on préfère généralement séparer les headers des fichiers source (on regroupe souvent les headers dans un dossier <code>include/</code> et les fichiers source dans <code>src/</code>). Pour ça, il faut ajouter le dossier à la compilation :</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-shell">
+<div class="highlight"><pre><span></span>gcc<span class="w"> </span>-I./include<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>build/module.o<span class="w"> </span>src/module.c<span class="w">  </span><span class="c1"># Compilation</span>
+gcc<span class="w"> </span>-I./include<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>build/main.o<span class="w"> </span>src/main.c<span class="w">      </span><span class="c1"># Compilation</span>
+gcc<span class="w"> </span>-o<span class="w"> </span>executable<span class="w"> </span>build/main.o<span class="w"> </span>build/module.o<span class="w">  </span><span class="c1"># Édition de liens</span>
+</pre></div>
+
+</td>
+</tr>
+<tr class="fence-row">
+<td class="fence-cell fence-doc">
+<p><strong><code>-I&lt;dossier&gt;</code></strong> : Donne un dossier supplémentaire où chercher les fichiers header<br />
+</p>
+</td>
+</tr>
+</table>
+<p>Inutile de laisser cette option pour l’édition de lien.</p>
+<h3>Librairies</h3>
+<p>Si vous utilisez des librairies autres que la bibliothèque standard, il faudra les préciser au moment de l’édition de liens :</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-shell">
+<div class="highlight"><pre><span></span>gcc<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>module.o<span class="w"> </span>module.c<span class="w">                  </span><span class="c1"># Compilation</span>
+gcc<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>main.o<span class="w"> </span>main.c<span class="w">                      </span><span class="c1"># Compilation</span>
+gcc<span class="w"> </span>-o<span class="w"> </span>executable<span class="w"> </span>main.o<span class="w"> </span>module.o<span class="w"> </span>-lm<span class="w"> </span>-lpng<span class="w">  </span><span class="c1"># Édition de liens</span>
+</pre></div>
+
+</td>
+</tr>
+<tr class="fence-row">
+<td class="fence-cell fence-doc">
+<p><strong><code>-l&lt;librairie&gt;</code></strong> : Lie avec la librairie donnée. Doit toujours être donné après les fichiers source / objets<br />
+<strong><code>-static</code></strong> : S’il existe une version statique et une version dynamique de la même librairie, GCC utilisera la version dynamique par défaut. Si vous tenez à lier statiquement, utilisez <code>-static</code> pour le forcer.<br />
+</p>
+</td>
+</tr>
+</table>
+<p>Une librairie aura généralement un nom de fichier du type <code>libqqch.so</code> (ou <code>.a</code>, <code>.dylib</code>, <code>.dll</code>, <code>.lib</code>, … selon le système et le type de linkage). Pour lier une librairie appelée <code>libqqch.so</code>, il faudra mettre l’option <code>-lqqch</code></p>
+<p>Notez qu’avec la glibc (la bibliothèque standard C utilisée en général par GCC), la librairie de maths (que vous utilisez avec <code>&lt;math.h&gt;</code>) est séparée, il faudra donc la lier avec <code>-lm</code>.</p>
+<p>Par défaut, GCC (plus précisément ld) va chercher ses librairies dans les répertoires donnés par la variable d’environnement <code>LD_LIBRARY_PATH</code>. Pour spécifier votre propre répertoire de librairies, utilisez l’option <code>-L</code>, qui marche comme <code>-I</code></p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-shell">
+<div class="highlight"><pre><span></span>gcc<span class="w"> </span>-I./include<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>build/module.o<span class="w"> </span>src/module.c<span class="w">             </span><span class="c1"># Compilation</span>
+gcc<span class="w"> </span>-I./include<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>build/main.o<span class="w"> </span>src/main.c<span class="w">                 </span><span class="c1"># Compilation</span>
+gcc<span class="w"> </span>-o<span class="w"> </span>executable<span class="w"> </span>build/main.o<span class="w"> </span>build/module.o<span class="w"> </span>-L./lib<span class="w"> </span>-lqqch<span class="w">  </span><span class="c1"># Linkage</span>
+</pre></div>
+
+</td>
+</tr>
+<tr class="fence-row">
+<td class="fence-cell fence-doc">
+<p><strong><code>-L&lt;dossier&gt;</code></strong> : Donne un dossier supplémentaire où chercher les librairies pour l’édition de liens<br />
+</p>
+</td>
+</tr>
+</table>
+<p>Pour lier avec une librairie statique locale, vous pouvez juste l’ajouter avec vos propres fichiers objets</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-shell">
+<div class="highlight"><pre><span></span>gcc<span class="w"> </span>-I./include<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>build/module.o<span class="w"> </span>src/module.c<span class="w">        </span><span class="c1"># Compilation</span>
+gcc<span class="w"> </span>-I./include<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>build/main.o<span class="w"> </span>src/main.c<span class="w">            </span><span class="c1"># Compilation</span>
+gcc<span class="w"> </span>-o<span class="w"> </span>executable<span class="w"> </span>build/main.o<span class="w"> </span>build/module.o<span class="w"> </span>libqqch.a<span class="w">  </span><span class="c1"># Linkage</span>
+</pre></div>
+
+</td>
+</tr>
+</table>
+<h3>Modes de linkage</h3>
+<p>Une librairie peut être liée de deux façons :</p>
+<ul>
+<li><strong>Lien statique</strong> : la librairie est directement intégrée à votre exécutable<ul>
+<li>Avantages<ul>
+<li>Le programme tient en un seul fichier, aucun problème de dépendance possible</li>
+</ul>
+</li>
+<li>Inconvénients<ul>
+<li>L’exécutable est plus lourd et prend plus de mémoire</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Lien dynamique</strong> : la librairie reste dans un fichier extérieur et l’exécutable la référence<ul>
+<li>Avantages :<ul>
+<li>Si la librairie est utilisée par plusieurs programmes, elle ne sera chargée qu’une seule fois en mémoire</li>
+<li>La librairie peut être gérée séparément du programme donc peut être mise à jour séparément</li>
+<li>Seul moyen de satisfaire certains termes de certaines licences comme la LGPL (qui autorise l’utilisation de la librairie par un programme sous licence incompatible avec la GPL si seule la librairie compilée est liée avec le programme)</li>
+<li>Permet de réutiliser plus facilement les librairies, en particulier les plus génériques</li>
+</ul>
+</li>
+<li>Inconvénients :<ul>
+<li>Selon votre gestion des librairies, ça peut causer des soucis de dépendances</li>
+<li>Ça implique une distribution en plusieurs fichiers</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>En général, on préfère lier dynamiquement. On préfère lier statiquement si la librairie est vraiment spécifique au projet (elle ne sera utilisée nulle part ailleurs), si on compile pour un environnement où on ne peut pas compter sur la bonne gestion des dépendances, ou dans un environnement où l’exécutable doit être complet (en embarqué, typiquement)</p>
+<h3>Compiler une librairie statique</h3>
+<p>Une librairie statique est juste une collection de fichiers objets rassemblés dans une archive par l’outil archiveur (<code>ar</code>) :</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-shell">
+<div class="highlight"><pre><span></span><span class="c1"># On compile les fichiers objet normalement</span>
+gcc<span class="w"> </span>-I./include<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>file1.o<span class="w"> </span>file1.c
+gcc<span class="w"> </span>-I./include<span class="w"> </span>-c<span class="w"> </span>-o<span class="w"> </span>file2.o<span class="w"> </span>file2.c
+<span class="c1"># Archivage dans libqqch.a</span>
+ar<span class="w"> </span>rcs<span class="w"> </span>libqqch.a<span class="w"> </span>file1.o<span class="w"> </span>file2.o
+</pre></div>
+
+</td>
+</tr>
+</table>
+<h3>Compiler une librairie dynamique</h3>
+<p>Une librairie statique est du code lié d’une façon particulière pour que d’autres programmes puissent le référencer</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-shell">
+<div class="highlight"><pre><span></span>gcc<span class="w"> </span>-I./include<span class="w"> </span>-c<span class="w"> </span>-fPIC<span class="w"> </span>-o<span class="w"> </span>file1.o<span class="w"> </span>file1.c
+gcc<span class="w"> </span>-I./include<span class="w"> </span>-c<span class="w"> </span>-fPIC<span class="w"> </span>-o<span class="w"> </span>file2.o<span class="w"> </span>file2.c
+<span class="c1"># Création de la librairie</span>
+gcc<span class="w"> </span>-shared<span class="w"> </span>-o<span class="w"> </span>libqqch.so<span class="w"> </span>file1.o<span class="w"> </span>file2.o
+</pre></div>
+
+</td>
+</tr>
+<tr class="fence-row">
+<td class="fence-cell fence-doc">
+<p><strong><code>-fPIC</code></strong> : Compile du code indépendant de sa position en mémoire (<em>Position-Independent Code</em>), nécessaire car une librairie partagée peut être chargée n’importe où en mémoire pour être partagée entre plusieurs programmes<br />
+<strong><code>-shared</code></strong> : Lie une librairie partagée au lieu d’un exécutable, ne fonctionne qu’avec des fichiers compilés en PIC<br />
+</p>
+</td>
+</tr>
+</table>
+<h2>Débuggage</h2>
+<h3>Débugger le code source</h3>
+<p>Pendant le développement, <strong>mettez TOUJOURS tous les warnings</strong>. Les warnings sont là pour pointer des choses qui ne sont pas forcément des erreurs en soi, ou que le compilateur peut arranger par lui-même de façon moyennement sûre, mais qui ne sont pas ou probablement pas ce que vous voulez vraiment faire. Ils vous préviendront de nombreux problèmes autrement compliqués à débugger dès la compilation.</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-shell">
+<div class="highlight"><pre><span></span>gcc<span class="w"> </span>-c<span class="w"> </span>-Wall<span class="w"> </span>-Wextra<span class="w"> </span>-Werror<span class="w"> </span>-Wno-unused-parameter<span class="w"> </span>-o<span class="w"> </span>module.o<span class="w"> </span>module.c
+gcc<span class="w"> </span>-c<span class="w"> </span>-Wall<span class="w"> </span>-Wextra<span class="w"> </span>-Werror<span class="w"> </span>-Wno-unused-parameter<span class="w"> </span>-o<span class="w"> </span>main.o<span class="w"> </span>main.c
+gcc<span class="w"> </span>-o<span class="w"> </span>-Wall<span class="w"> </span>-Wextra<span class="w"> </span>executable<span class="w"> </span>main.o<span class="w"> </span>module.o
+</pre></div>
+
+</td>
+</tr>
+<tr class="fence-row">
+<td class="fence-cell fence-doc">
+<p><strong><code>-Wall</code></strong> : Active tous les warnings principaux, pour les choses potentiellement problématiques. <strong>Toujours essentiel</strong><br />
+<strong><code>-Wextra</code></strong> : Active des warnings supplémentaires, qui peuvent signaler des choses qui peuvent être problématiques mais qui peuvent aussi être faites exprès (un <code>case</code> sans <code>break</code>, des comparaisons de chaînes de caractères avec <code>==</code>, …), ou simplement des choses bizarres ou excédentaires (par exemple les variables ou paramètres inutilisés). <strong>Moins essentiels mais peuvent beaucoup aider</strong>.<br />
+<strong><code>-Werror</code></strong> : Les warnings deviennent des erreurs. Question de préférence.<br />
+<strong><code>-Wno-&lt;nom du warning&gt;</code></strong> : Désactive un warning spécifique. Par exemple, ci-dessus le compilateur donnait des warnings <code>unused-parameter</code> alors que c’était normal, on peut donc les désactiver<br />
+</p>
+</td>
+</tr>
+</table>
+<h3>Compiler pour les outils de débuggage</h3>
+<p>Un débugger comme GDB ou d’autres outils comme Valgrind peuvent manipuler n’importe quel exécutable, mais pour avoir des infos plus précises sur le code source il faudra y ajouter des symboles de débuggage, sinon le mieux que vous aurez ce sera les positions dans le code machine :</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-shell">
+<div class="highlight"><pre><span></span>gcc<span class="w"> </span>-c<span class="w"> </span>-g<span class="w"> </span>-o<span class="w"> </span>module.o<span class="w"> </span>module.c
+gcc<span class="w"> </span>-c<span class="w"> </span>-g<span class="w"> </span>-o<span class="w"> </span>main.o<span class="w"> </span>main.c
+gcc<span class="w"> </span>-o<span class="w"> </span>executable<span class="w"> </span>main.o<span class="w"> </span>module.o
+</pre></div>
+
+</td>
+</tr>
+<tr class="fence-row">
+<td class="fence-cell fence-doc">
+<p><strong><code>-g</code></strong> : Compile avec les symboles de débuggage, très utile pendant le développement, à ne pas laisser en release (ça alourdit, ralentit et ça laisse traîner des infos que vous ne voulez pas laisser aussi faciles d’accès si vous développez un logiciel propriétaire)<br />
+</p>
+</td>
+</tr>
+</table>
+<h2>Optimisation //// optimisation</h2>
+<p>Le compilateur peut réaliser un certain nombre d’optimisations sur le code compilé. Augmenter le niveau d’optimisation augmentera le temps de compilation, accélèrera (en théorie) l’exécution et modifiera de plus en plus le code (donc diminuera son rapport avec le code original, donc le rendra plus difficile à débugger). Il est donc mieux ne pas utiliser les options autres que <code>-Og</code> avant la fin du développement (à part pour les benchmarks bien sûr).</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-doc">
+<p><em>(Ce sont des O majuscule)</em><br />
+<strong><code>-O1</code></strong> : Réalise les optimisations de base<br />
+<strong><code>-O2</code></strong> : Active toutes les optimisations sûres. <strong>Généralement le meilleur choix</strong><br />
+<strong><code>-O3</code></strong> : Active toutes les optimisations qui marchent dans la plupart des cas, peut rarement causer des bugs<br />
+<strong><code>-Ofast</code></strong> : Active toutes les optimisations, même celles qui peuvent aller contre le standard (causant parfois de gros problèmes)<br />
+<strong><code>-Os</code></strong> : Optimise la taille de l’exécutable (peut avoir son importance pour l’embarqué par exemple)<br />
+<strong><code>-Og</code></strong> : Active les optimisations qui ne parasitent pas le débuggage, <strong>meilleure option pendant le développement</strong><br />
+</p>
+</td>
+</tr>
+</table>
+<h2>Respecter un standard</h2>
+<p>Pour diverses raisons (portabilité, compatibilité, etc.), vous pouvez vouloir respecter un standard particulier du langage. Vous pouvez dire au compilateur de compiler pour un certain standard (donc de vérifier la syntaxe de ce standard et d’utiliser sa librairie standard) :</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-doc">
+<p><strong><code>-std=&lt;standard&gt;</code></strong> : Utilise le standard demandé (typiquement <code>c89</code>, <code>c99</code>, <code>c11</code>)<br />
+<strong><code>-pedantic</code></strong> : Vérifie que le code respecte strictement et rigoureusement le standard (d’habitude GCC et la quasi-totalité des compilateurs tolèrent certains écarts)<br />
+<strong><code>-ansi</code></strong> : Utilise le standard ANSI original (équivalent à <code>-std=c89</code>). Avec <code>-ansi -pedantic</code>, ça implique que votre code compilera sur absolument n’importe quel compilateur C (qui marche).<br />
+</p>
+</td>
+</tr>
+</table>
+<h2>Pour les curieux</h2>
+<p>Si on se souvient de la chaîne de compilation :</p>
+<p><svg width="180.971mm" height="14.0436mm" version="1.1" viewBox="0 0 180.971 14.0436" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><metadata><rdf:RDF><cc:Work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><dc:title/></cc:Work></rdf:RDF></metadata><g transform="translate(-.258917 -.259859)"><g><path d="m0.258917 14.2864v-14.0265h28.7508l7.01028 7.01028-7.03335 7.03335z" fill="#282828"/><path d="m30.8527 14.2864 7.01028-7.01626-7.01028-7.01028h28.7508l7.01028 7.01028-7.03335 7.03335-14.3638-0.0085z" fill="#00b48d"/><path d="m61.2594 14.2864 7.01028-7.01626-7.01028-7.01028h28.7508l7.01029 7.01028-7.03336 7.03335-14.3638-0.0085z" fill="#67cc28"/><path d="m91.6661 14.2864 7.01028-7.01626-7.01028-7.01028h28.7508l7.01028 7.01028-7.03335 7.03335-14.3638-0.0085z" fill="#ffda25"/><path d="m122.073 14.2864 7.01027-7.01626-7.01027-7.01028h28.7508l7.01028 7.01028-7.03335 7.03335-14.3638-0.0085z" fill="#6464ff"/></g><path d="m152.479 14.2864 7.01028-7.01626-7.01028-7.01028h28.7508l-0.0231 14.0436-14.3638-0.0085z" fill="#282828" fill-opacity=".937255"/><text x="6.0616288" y="8.5968361" fill="#ffffff" font-family="sans-serif" font-size="3.52778px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="6.0616288" y="8.5968361" fill="#ffffff" font-family="sans-serif" font-size="3.52778px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Code source</tspan></text><g transform="translate(-.375006 -.526117)" fill="#ffffff" font-family="sans-serif" stroke-width=".264583"><text x="38.363121" y="7.1533456" font-size="3.52778px" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="38.363121" y="7.1533456" fill="#ffffff" font-family="sans-serif" font-size="3.52778px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Préprocessing</tspan></text><text x="46.107716" y="10.549962" font-size="3.52777px" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="46.107716" y="10.549962" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">(cpp)</tspan></text></g><g transform="translate(2.64583 -1.84148)" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583"><text x="67.420425" y="8.4143972" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="67.420425" y="8.4143972" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Compilation</tspan></text><text x="73.518234" y="11.778385" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="73.518234" y="11.778385" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">(gcc)</tspan></text></g><g transform="translate(1.05833 -1.3008)" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583"><text x="99.264923" y="8.1309156" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="99.264923" y="8.1309156" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Assemblage</tspan></text><text x="106.55128" y="11.249219" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="106.55128" y="11.249219" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">(as)</tspan></text></g><g transform="translate(.529167 -.146156)" fill="#ffffff" font-family="sans-serif" stroke-width=".264583"><text x="129.03055" y="7.0914807" font-size="3.175px" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="129.03055" y="7.0914807" fill="#ffffff" font-family="sans-serif" font-size="3.175px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Édition de liens</tspan></text><text x="138.60283" y="10.289599" font-size="3.52777px" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="138.60283" y="10.289599" fill="#ffffff" font-family="sans-serif" font-size="3.175px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">(ld)</tspan></text></g><text x="160.35205" y="8.6674576" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="160.35205" y="8.6674576" fill="#ffffff" font-family="sans-serif" font-size="3.52777px" stroke-width=".264583" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Exécutable</tspan></text></g></svg></p>
+<p>Vous pouvez arrêter le processus à n’importe quel point de celle-ci pour voir ce qu’il en ressort. Ça ne sert pas à grand-chose à moins d’un bug particulièrement tordu dans une macro ou de faire de l’optimisation au niveau du code assembleur, mais ça reste intéressant :</p>
+<table class="fence">
+<tr class="fence-row">
+<td class="fence-cell fence-doc">
+<p><strong><code>-E</code></strong> : Arrête après le préprocessing (donne le code C après passage du préprocesseur)<br />
+<strong><code>-S</code></strong> : Arrête après la compilation (donne le code assembleur qui en résulte)<br />
+<strong><code>-c</code></strong> : Arrête après l’assemblage (donne des fichiers objets compilés)<br />
+</p>
+</td>
+</tr>
+</table>
