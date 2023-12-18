@@ -25,9 +25,5 @@ export class HomePageComponent implements OnInit {
       .subscribe((charbons) => {
         this.charbonList = charbons;
       });
-      
-    this.charbonService.deleteCharbon(17).subscribe((res) => {
-      console.log(res);
-    });
   }
 }
