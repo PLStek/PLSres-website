@@ -12,6 +12,12 @@ export class ActionnerHomePageComponent implements OnInit {
 
   newCharbon: Partial<Charbon> = {};
 
+  selectedActionneurs: string[] = []; 
+  actionneurs: any[] = [
+    { id: '1', name: 'Actionneur 1' },
+    { id: '2', name: 'Actionneur 2' },
+    { id: '3', name: 'Actionneur 3' },
+  ];
   constructor(private charbonService: CharbonService) {}
 
   ngOnInit(): void {

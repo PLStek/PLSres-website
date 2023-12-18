@@ -25,15 +25,31 @@
                     </div>
                 </div>
                 <div class="col-md-6 d-flex justify-content-center align-items-center">
-                    <app-charbon-card></app-charbon-card>
+                    <!-- <app-charbon-card></app-charbon-card> -->
                 </div>
             </div>    
         </div>
-        <div class="col-md-4 border-start border-3">
-            <h5>Modifier Charbon</h5>
+        <div class="col-md-4 border-start border-3 ps-3">
+            <h5 class="mb-3">Modifier Charbon</h5>
             <div class="d-flex justify-content-center align-items-center">
-                <app-main-button content="Editer" [isFilled]="true" [isBig]="true" routerLink="/action/accueil"></app-main-button>
+                <app-main-button content="Editer Charbon" [isFilled]="true" [isBig]="true" routerLink="/action/accueil"></app-main-button>
             </div>
         </div>
+    </div>
+</app-background-card>
+
+<app-background-card title="Edition annonces">
+    <div class="row mt-4 ms-2">
+        <div class="col-md-4 border-end border-3">
+            <h5 class="mb-3">Modifier annonces</h5>
+            <div class="d-flex justify-content-center align-items-center">
+                <app-main-button content="Editer annonces" [isFilled]="true" [isBig]="true" routerLink="/action/accueil"></app-main-button>
+            </div>
+        </div>
+        <div class="col-md-8 ps-3">
+            <h5 class="mb-3">Ajouter annonces </h5>
+            <app-announcement-card></app-announcement-card>
+            
+        </div>   
     </div>
 </app-background-card>
