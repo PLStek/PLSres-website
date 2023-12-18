@@ -47,8 +47,16 @@ function addExercise($title, $difficulty, $is_corrected, $source, $topic_id)
 {
     global $conn;
 
-    $input_text = file_get_contents($_FILES['thumbnail']['tmp_name']);
+    $query = "INSERT INTO exercise (title, difficulty, is_corrected, source, topic_id) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("siisi", $title, $difficulty, $is_corrected, $source, $topic_id);
+    $stmt->execute();
+    $stmt->close();
+    return $conn->insert_id;
+}
 
+function compileContent($input)
+{
     chdir("./plsres-exdb");
 
     $process = proc_open("python3 compile_plsmarkdown.py", array(
@@ -58,25 +66,24 @@ function addExercise($title, $difficulty, $is_corrected, $source, $topic_id)
     ), $pipes);
 
     if (is_resource($process)) {
-        fwrite($pipes[0], $input_text);
+        fwrite($pipes[0], $input);
         fclose($pipes[0]);
 
-        $output_text = stream_get_contents($pipes[1]);
+        $output = stream_get_contents($pipes[1]);
         fclose($pipes[1]);
 
-        $error_text = stream_get_contents($pipes[2]);
+        $error = stream_get_contents($pipes[2]);
         fclose($pipes[2]);
 
         $return_value = proc_close($process);
 
         if ($return_value !== 0) {
-            throw new Exception($error_text);
+            throw new Exception($error);
         }
         chdir("../");
-        file_put_contents("content/exercises/$title.html", $output_text);
+        return $output;
     }
 }
-
 
 
 try {
@@ -103,7 +110,19 @@ try {
             if (!isset($_POST['title']) || !isset($_POST['difficulty']) || !isset($_POST['is_corrected']) || !isset($_POST['source']) || !isset($_POST['topic_id']) || !isset($_FILES['thumbnail']) || $_FILES['thumbnail']['error'] != 0) {
                 throw new Exception('Missing parameters.');
             }
-            addExercise($_POST['title'], $_POST['difficulty'], $_POST['is_corrected'], $_FILES['thumbnail'], $_POST['topic_id']);
+            $title = $_POST['title'];
+            $difficulty = $_POST['difficulty'];
+            $is_corrected = $_POST['is_corrected'];
+            $source = $_POST['source'];
+            $topic_id = $_POST['topic_id'];
+            $content = file_get_contents($_FILES['thumbnail']['tmp_name']);
+
+            $id = addExercise($title, $difficulty, $is_corrected, $source, $topic_id);
+            $compiled = compileContent($content);
+            file_put_contents("content/exercises/ex_$id.html", $compiled);
+
+
+            echo json_encode(array('success' => true));
             break;
         default:
             break;
