@@ -14,7 +14,6 @@ import { CharbonsPageComponent } from './charbons/charbons-page/charbons-page.co
 import { ExerciseDetailsPageComponent } from './exercises/exercise-details-page/exercise-details-page.component';
 import { ExerciseComponent } from './exercises/exercise/exercise.component';
 import { ExercisesPageComponent } from './exercises/exercises-page/exercises-page.component';
-import { GuidesPageComponent } from './guides/guides-page/guides-page.component';
 import { HomePageComponent } from './home/home-page/home-page.component';
 import { BackgroundCardComponent } from './shared/components/background-card/background-card.component';
 import { ColorButtonComponent } from './shared/components/color-button/color-button.component';
@@ -41,7 +40,6 @@ import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.compone
     ExerciseComponent,
     HomePageComponent,
     AnnouncementsPageComponent,
-    GuidesPageComponent,
     CharbonsPageComponent,
     ExercisesPageComponent,
     ExerciseDetailsPageComponent,
