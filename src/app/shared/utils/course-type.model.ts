@@ -3,6 +3,7 @@ export enum CourseType {
     info = "FFB800",
     maths = "5592EF",
     elec = "A1CA78",
+    undefined = "EEEEEE"
 }
 
 export function getCourseType(value: string): CourseType {
@@ -16,7 +17,7 @@ export function getCourseType(value: string): CourseType {
         case 'elec':
             return CourseType.elec;
         default:
-            return CourseType.meca;
+            return CourseType.undefined;
     }
 }
 
@@ -30,5 +31,7 @@ export function getCourseTypeName(value: CourseType): String {
             return "maths";
         case CourseType.elec:
             return "elec";
+        default:
+            return "undefined";
     }
 }
