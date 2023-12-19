@@ -23,6 +23,7 @@ import { NavBarComponent } from './shared/components/nav-bar/nav-bar.component';
 import { SocialNetworksComponent } from './shared/components/social-networks/social-networks.component';
 import { DateIntervalPipe } from './shared/pipes/date-interval.pipe';
 import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
+import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { ActionnerHomePageComponent } from './actionner/actionner-home-page/acti
     ExercisesPageComponent,
     ExerciseDetailsPageComponent,
     ActionnerHomePageComponent,
+    AddCharbonComponent,
   ],
   imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule, FormsModule ],
   providers: [HttpClientModule, DatePipe],

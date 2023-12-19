@@ -1,0 +1,38 @@
+<div class="row mt-4 ms-2">
+    <div class="col-md-8">
+        <h5>Ajouter Charbon</h5>
+        <div class="row pt-2">
+            <div class="col-md-6">
+                <div class="row">
+                    <input type="text" class="form-control mb-3" placeholder="Titre du charbon" aria-label="Titre charbon"  [(ngModel)]="newCharbon.title">
+                    <textarea class="form-control mb-3" placeholder="Description" id="description" style="height: 100px" [(ngModel)]="newCharbon.description"></textarea>
+                    <select class="form-select form-select-lg mb-3" aria-label="Large select example" [(ngModel)]="newCharbon.courseType">
+                        <option selected>Open this select menu</option>
+                        <option [ngValue]="courseTypeEnum.elec">Elec</option>
+                        <option [ngValue]="courseTypeEnum.info">Info</option>
+                        <option [ngValue]="courseTypeEnum.meca">Meca</option>
+                        <option [ngValue]="courseTypeEnum.maths">Maths</option>
+                    </select>
+                    <div class="col-md-6">
+                        <input type="date" class="form-control" [(ngModel)]="dateInput" (change)="updateDate()" name="date">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="time" class="form-control" [(ngModel)]="timeInput  " (change)="updateDate()" name="time">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit" (click)="addCharbon()">Ajouter Charbon</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <app-charbon-card [charbon]="newCharbon"></app-charbon-card>
+            </div>
+        </div>    
+    </div>
+    <div class="col-md-4 border-start border-3 ps-3">
+        <h5 class="mb-3">Modifier Charbon</h5>
+        <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+            <app-main-button content="Editer Charbon" [isFilled]="false" [isBig]="true" routerLink="/action/accueil"></app-main-button>
+        </div>
+    </div>
+</div>

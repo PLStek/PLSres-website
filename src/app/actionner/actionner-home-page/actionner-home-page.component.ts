@@ -11,18 +11,9 @@ import { ExerciseService } from 'src/app/shared/services/exercise.service';
   styleUrls: ['./actionner-home-page.component.scss'],
 })
 export class ActionnerHomePageComponent implements OnInit {
-  newCharbon: Partial<Charbon> = {};
-
-  constructor(
-    private charbonService: CharbonService,
-    private exerciseService: ExerciseService
-  ) {}
+  constructor(private exerciseService: ExerciseService) {}
 
   ngOnInit(): void {}
-
-  addCharbon(): void {
-    console.log(this.newCharbon);
-  }
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
