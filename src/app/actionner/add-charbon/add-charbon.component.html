@@ -9,24 +9,30 @@
                             aria-label="Titre charbon" formControlName="title">
                         <textarea class="form-control mb-3" placeholder="Description" id="description"
                             style="height: 100px" formControlName="description"></textarea>
-                        <select class="form-select form-select-lg mb-3" formControlName="courseType">
-                            <option [ngValue]="courseTypeEnum.undefined">Choisir un type d'UE</option>
+                        <select class="form-select form-select-md mb-3" formControlName="courseType">
+                            <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
                             <option [ngValue]="courseTypeEnum.elec">Elec</option>
                             <option [ngValue]="courseTypeEnum.info">Info</option>
                             <option [ngValue]="courseTypeEnum.meca">Meca</option>
                             <option [ngValue]="courseTypeEnum.maths">Maths</option>
                         </select>
 
-                        <select class="form-select form-select-lg mb-3" formControlName="course">
-                            <option value="">Choisir une UE</option>
+                        <select class="form-select mb-3" formControlName="course">
+                            <option value="" disabled>Choisir une UE</option>
                             <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">{{course.id}}
                             </option>
                         </select>
 
-                        <div class="col-md-6">
+                        <select class="form-select mb-3" formControlName="actionneurs" multiple>
+                            <option disabled>Choisir les actionneurs</option>
+                            <option *ngFor="let actionneur of actionneurList" [ngValue]="actionneur">{{actionneur}}
+                            </option>
+                        </select>
+
+                        <div class="col-md-6 mb-3">
                             <input type="date" class="form-control" formControlName="date" name="date">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <input type="time" class="form-control" formControlName="time" name="time">
                         </div>
                         <div class="col-12">

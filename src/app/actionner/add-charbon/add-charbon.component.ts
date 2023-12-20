@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
+import { ActionneurService } from 'src/app/shared/services/actionneur.service';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 
@@ -18,12 +19,14 @@ export class AddCharbonComponent implements OnInit {
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
+  actionneurList: String[] = [];
 
   courseTypeEnum = CourseType;
 
   constructor(
     private charbonService: CharbonService,
     private courseService: CoursesService,
+    private actionneurService: ActionneurService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -32,7 +35,7 @@ export class AddCharbonComponent implements OnInit {
       0,
       '',
       CourseType.undefined,
-      new Date('2020T20:20'),
+      new Date('2023T20:00'),
       '',
       [],
       ''
@@ -42,13 +45,18 @@ export class AddCharbonComponent implements OnInit {
       title: '',
       course: '',
       courseType: CourseType.undefined,
-      date: '2020',
-      time: '20:20',
+      date: '2023',
+      time: '20:00',
+      actionneurs: [],
       description: '',
     });
 
     this.courseService.getCourses().subscribe((data) => {
       this.courseList = data;
+    });
+
+    this.actionneurService.getActionneurs().subscribe((data) => {
+      this.actionneurList = data;
     });
 
     this.form.valueChanges.subscribe((data) => {
@@ -58,7 +66,7 @@ export class AddCharbonComponent implements OnInit {
         data.courseType,
         new Date(data.date + 'T' + data.time),
         data.title,
-        [],
+        data.actionneurs,
         data.description
       );
       console.log(data);
