@@ -9,6 +9,7 @@ import { Charbon } from 'src/app/shared/models/charbon.model';
 export class CharbonCardComponent implements OnChanges {
   @Input() charbon!: Charbon;
   @Input() edit: boolean = false;
+  isEditing: boolean = false;
 
   constructor() {
     this.charbon;
@@ -16,5 +17,13 @@ export class CharbonCardComponent implements OnChanges {
   }
   
   ngOnChanges(): void {
+  }
+
+  toogleEdit(): void {
+    this.isEditing = !this.isEditing;
+  }
+  confirmEdit(): void {
+    //update the charbon
+    this.isEditing = false;
   }
 }
