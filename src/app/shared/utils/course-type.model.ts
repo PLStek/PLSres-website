@@ -3,7 +3,7 @@ export enum CourseType {
     info = "FFB800",
     maths = "5592EF",
     elec = "A1CA78",
-    undefined = "EEEEEE"
+    undefined = "CCCCCC"
 }
 
 export function getCourseType(value: string): CourseType {

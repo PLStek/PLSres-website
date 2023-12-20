@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnnouncementCardComponent } from './announcements/announcement-card/announcement-card.component';
 import { AnnouncementsPageComponent } from './announcements/announcements-page/announcements-page.component';
 import { AppComponent } from './app.component';
@@ -46,7 +46,7 @@ import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.compone
     ActionnerHomePageComponent,
     AddCharbonComponent,
   ],
-  imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule, FormsModule ],
+  imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule, ReactiveFormsModule, FormsModule ],
   providers: [HttpClientModule, DatePipe],
   bootstrap: [AppComponent],
 })
