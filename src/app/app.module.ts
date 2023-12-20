@@ -23,6 +23,7 @@ import { SocialNetworksComponent } from './shared/components/social-networks/soc
 import { DateIntervalPipe } from './shared/pipes/date-interval.pipe';
 import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
 import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.component';
+import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.compone
     ExerciseDetailsPageComponent,
     ActionnerHomePageComponent,
     AddCharbonComponent,
+    EditCharbonActionneurComponent,
   ],
   imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule, FormsModule ],
   providers: [HttpClientModule, DatePipe],
