@@ -30,8 +30,8 @@
                             <input type="time" class="form-control" formControlName="time" name="time">
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary" type="submit" (click)="addCharbon()">Ajouter
-                                Charbon</button>
+                            <app-main-button content="Ajouter Charbon" [isFilled]="true" [isBig]="true"
+                                (click)="addCharbon()"></app-main-button>
                         </div>
                     </form>
                 </div>
