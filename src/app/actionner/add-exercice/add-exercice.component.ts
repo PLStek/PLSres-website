@@ -31,48 +31,22 @@ export class AddExerciceComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.newExercise = new Exercise(
-      0, //id
-      '', //title
-      0, //difficulty
-      0, //topic_id
-      false, //is_corrected
-      '');  //source
+    this.form = this.formBuilder.group({
+      title: '',
+      difficulty: 0,
+      topic: 0,
+      is_corrected: false,
+      source: '',
+    });
+    
+    this.courseService.getCourses().subscribe((data) => {
+      this.courseList = data;
+    });
+    this.exerciseTopicService.getExerciseTopicList().subscribe((data) => {
+      this.exerciseTopicList = data;
+    });  
 
-      this.form = this.formBuilder.group({
-        title: '',
-        difficulty: 0,
-        topic: 0,
-        is_corrected: false,
-        source: '',
-      });
-
-      this.courseService.getCourses().subscribe((data) => {
-        this.courseList = data;
-      });
-
-      this.exerciseTopicService.getExerciseTopicList().subscribe((data) => {
-        this.exerciseTopicList = data;
-      });  
-
-      this.form.valueChanges.subscribe((data) => {
-        this.newExercise = new Exercise(
-          0, //id
-          data.title, //title
-          data.difficulty, //difficulty
-          data.topic, //topic_id
-          data.is_corrected, //is_corrected
-          data.source //source
-        );  
-      });
-      this.form.get('courseType')?.valueChanges.subscribe((data) => {
-        this.courseListForSelectedType = this.courseList.filter(
-          (course) => course.type === data
-        );
-        this.form.get('course')?.setValue('');
-      });
   }
-
   addExerciec() : void{
     console.log(this.newExercise);
   }

@@ -51,7 +51,15 @@ import { AddExerciceComponent } from './actionner/add-exercice/add-exercice.comp
     EditCharbonActionneurComponent,
     AddExerciceComponent,
   ],
-  imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule, ReactiveFormsModule, FormsModule, BrowserAnimationsModule ],
+  imports: [
+    HttpClientModule, 
+    BrowserModule, 
+    AppRoutingModule, 
+    FullCalendarModule, 
+    ReactiveFormsModule, 
+    FormsModule, 
+    BrowserAnimationsModule 
+  ],
   providers: [HttpClientModule, DatePipe],
   bootstrap: [AppComponent],
 })
