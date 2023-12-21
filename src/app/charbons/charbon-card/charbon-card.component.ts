@@ -3,6 +3,7 @@ import { Charbon } from 'src/app/shared/models/charbon.model';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { ActionneurService } from 'src/app/shared/services/actionneur.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-charbon-card',
@@ -16,7 +17,9 @@ export class CharbonCardComponent implements OnChanges {
   form!: FormGroup;
   isEditing: boolean = false;
   editedCharbon!: Charbon;
-  actionneurList: String[] = [];
+  
+  //TODO: remove
+  actionneurList: User[] = [];
 
   constructor(
     private actionneurService: ActionneurService,

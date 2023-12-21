@@ -84,7 +84,7 @@ function addCharbon($title, $description, $datetime, $course, $replayLink, $reso
 
     $query1 = "INSERT INTO charbon (title, description, datetime, course_id, replay_link, resources_link) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt1 = $conn->prepare($query1);
-    $stmt1->bind_param("ssss", $title, $description, $datetime, $course, $replayLink, $resourcesLink);
+    $stmt1->bind_param("ssssss", $title, $description, $datetime, $course, $replayLink, $resourcesLink);
     $stmt1->execute();
 
     $id = $conn->insert_id;
