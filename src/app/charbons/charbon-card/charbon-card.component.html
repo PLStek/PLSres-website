@@ -1,6 +1,7 @@
 <div class="charbon-card card text-center mt-1" style="width: 20em;">
     <ng-container *ngIf="!isEditing; else editCourseType">
-        <div [ngClass]="'course-color-'+charbon.courseType" class="card-header container-fluid d-flex justify-content-between" style="height: 2.5rem;">
+        <div [ngClass]="'course-color-'+charbon.courseType"
+            class="card-header container-fluid d-flex justify-content-between" style="height: 2.5rem;">
             <h5 class="card-title">
                 <strong>{{charbon.course}}</strong>
             </h5>
@@ -15,33 +16,40 @@
             <h6>Actionneur(s):</h6>
             <p>{{charbon.actionners}}</p>
             <p style="font-weight: lighter; font-size: small;">{{charbon.description}}</p>
-            <app-color-button *ngIf="edit" [courseType]="charbon.courseType" [isFilled]="false"
-            content="Editer" (click)="toogleEdit()"></app-color-button>
+            <app-color-button *ngIf="edit" [courseType]="charbon.courseType" [isFilled]="false" content="Editer"
+                (click)="toogleEdit()"></app-color-button>
             <h5 *ngIf="!edit">
                 <img src="../assets/images/charbon.svg" class="charbon-img-inline">
                 {{charbon.date | dateInterval}}
-            </h5>        
+            </h5>
         </div>
         <div [ngClass]="'course-color-'+charbon.courseType"
-            class="card-footer text-body-secondary d-flex justify-content-evenly" >
-            <app-color-button [courseType]="charbon.courseType" [isFilled]="true" content="Ressources"></app-color-button>
-            <app-color-button *ngIf="!edit" [courseType]="charbon.courseType" [isFilled]="false" content="Participer"></app-color-button>
-            <app-color-button *ngIf="edit" [courseType]="charbon.courseType" [isFilled]="false" content="Rediffusion"></app-color-button>
+            class="card-footer text-body-secondary d-flex justify-content-evenly">
+            <app-color-button [courseType]="charbon.courseType" [isFilled]="true"
+                content="Ressources"></app-color-button>
+            <app-color-button *ngIf="!edit" [courseType]="charbon.courseType" [isFilled]="false"
+                content="Participer"></app-color-button>
+            <app-color-button *ngIf="edit" [courseType]="charbon.courseType" [isFilled]="false" content="Rediffusion"
+                (click)="goToLink(charbon.replayLink)"></app-color-button>
         </div>
     </ng-container>
     <ng-template #editCourseType>
         <form [formGroup]="form">
-            <div [ngClass]="'course-color-'+charbon.courseType" class="card-header container-fluid d-flex justify-content-between" style="height: 2.5rem;">
+            <div [ngClass]="'course-color-'+charbon.courseType"
+                class="card-header container-fluid d-flex justify-content-between" style="height: 2.5rem;">
                 <h5 class="card-title">
-                    <strong> <input type="text" style="width: 5em;" [(ngModel)]="charbon.course" formControlName="course"></strong>
-                </h5>           
+                    <strong> <input type="text" style="width: 5em;" [(ngModel)]="charbon.course"
+                            formControlName="course"></strong>
+                </h5>
                 <div class="time d-flex">
-                    <input type="datetime-local" class="form-control-sm" [(ngModel)]="charbon.date" formControlName="date">
+                    <input type="datetime-local" class="form-control-sm" [(ngModel)]="charbon.date"
+                        formControlName="date">
                 </div>
             </div>
             <div class="card-body">
                 <h5 class="card-title">
-                    <strong><input type="text" class="form-control" [(ngModel)]="charbon.title" formControlName="title"></strong>
+                    <strong><input type="text" class="form-control" [(ngModel)]="charbon.title"
+                            formControlName="title"></strong>
                 </h5>
                 <h6>Actionneur(s):</h6>
                 <select class="form-select mb-3" formControlName="actionneurs" multiple>
@@ -50,14 +58,17 @@
                     </option>
                 </select>
                 <textarea class="form-control mb-3" placeholder="Description" id="description"
-                    style="font-weight: lighter; font-size: small;" [(ngModel)]="charbon.description" formControlName="description">
+                    style="font-weight: lighter; font-size: small;" [(ngModel)]="charbon.description"
+                    formControlName="description">
                 </textarea>
-                <input type="url" class="form-control mb-3" placeholder="Lien de la rediffusion" id="rediffusion" formControlName="rediffusion">
-                <input type="file" class="form-control mb-3" placeholder="Ajouter une ressource" id="ressource" formControlName="ressources">
+                <input type="url" class="form-control mb-3" placeholder="Lien de la rediffusion" id="rediffusion"
+                    formControlName="rediffusion">
+                <input type="file" class="form-control mb-3" placeholder="Ajouter une ressource" id="ressource"
+                    formControlName="ressources">
 
-                <app-color-button [courseType]="charbon.courseType" [isFilled]="true"
-                content="Confirmer" (click)="confirmEdit()"></app-color-button>  
-            </div> 
+                <app-color-button [courseType]="charbon.courseType" [isFilled]="true" content="Confirmer"
+                    (click)="confirmEdit()"></app-color-button>
+            </div>
         </form>
     </ng-template>
 </div>

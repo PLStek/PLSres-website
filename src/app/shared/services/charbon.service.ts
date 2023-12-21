@@ -24,7 +24,9 @@ export class CharbonService {
               new Date(ch.datetime),
               String(ch.title),
               ch.actionneurs.map(String),
-              String(ch.description)
+              String(ch.description),
+              String(ch.replay_link),
+              String(ch.resources_link)
             )
         )
       )

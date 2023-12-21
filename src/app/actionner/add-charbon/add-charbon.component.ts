@@ -38,6 +38,8 @@ export class AddCharbonComponent implements OnInit {
       new Date('2023T20:00'),
       '',
       [],
+      '',
+      '',
       ''
     );
 
@@ -49,6 +51,8 @@ export class AddCharbonComponent implements OnInit {
       time: '20:00',
       actionneurs: [],
       description: '',
+      replayLink: '',
+      resourcesLink: '',
     });
 
     this.courseService.getCourses().subscribe((data) => {
@@ -67,9 +71,10 @@ export class AddCharbonComponent implements OnInit {
         new Date(data.date + 'T' + data.time),
         data.title,
         data.actionneurs,
-        data.description
+        data.description,
+        data.replayLink,
+        data.resourcesLink
       );
-      console.log(data);
     });
 
     this.form.get('courseType')?.valueChanges.subscribe((data) => {

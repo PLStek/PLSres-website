@@ -11,15 +11,12 @@ require_once 'database.php';
 $method = $_SERVER["REQUEST_METHOD"];
 
 
-
-
-
 function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit)
 {
     global $conn;
 
     $query = "SELECT C.*, A.username as actionneur FROM (
-        SELECT C.id, C.title, C.description, C.datetime, C.course_id course, T.type course_type
+        SELECT C.id, C.title, C.description, C.datetime, C.course_id course, C.replay_link, C.resources_link, T.type course_type
         FROM charbon C
         INNER JOIN course CO ON C.course_id = CO.id
         INNER JOIN course_type T ON T.id = CO.type_id
@@ -70,6 +67,8 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
                 'datetime' => $row['datetime'],
                 'course' => $row['course'],
                 'course_type' => $row['course_type'],
+                'replay_link' => $row['replay_link'],
+                'resources_link' => $row['resources_link'],
                 'actionneurs' => $row['actionneur'] ? array($row['actionneur']) : array()
             );
         }

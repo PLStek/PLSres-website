@@ -45,9 +45,15 @@ export class CharbonCardComponent implements OnChanges {
     this.editedCharbon = this.charbon;
   }
 
+  goToLink(url: string) {
+    window.open(url, '_blank');
+  }
+
+  //TODO: edit in a popup dialog
   toogleEdit(): void {
     this.isEditing = !this.isEditing;
   }
+
   confirmEdit(): void {
     //update the charbon
     this.charbon = this.editedCharbon;
