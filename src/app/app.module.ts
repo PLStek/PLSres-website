@@ -24,6 +24,7 @@ import { DateIntervalPipe } from './shared/pipes/date-interval.pipe';
 import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
 import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.component';
 import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddExerciceComponent } from './actionner/add-exercice/add-exercice.component';
 
 
@@ -50,7 +51,7 @@ import { AddExerciceComponent } from './actionner/add-exercice/add-exercice.comp
     EditCharbonActionneurComponent,
     AddExerciceComponent,
   ],
-  imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule, ReactiveFormsModule, FormsModule ],
+  imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule, ReactiveFormsModule, FormsModule, BrowserAnimationsModule ],
   providers: [HttpClientModule, DatePipe],
   bootstrap: [AppComponent],
 })

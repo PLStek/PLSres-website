@@ -25,15 +25,13 @@
 
                         <select class="form-select mb-3" formControlName="actionneurs" multiple>
                             <option disabled>Choisir les actionneurs</option>
-                            <option *ngFor="let actionneur of actionneurList" [ngValue]="actionneur">{{actionneur}}
+                            <option *ngFor="let actionneur of actionneurList" [ngValue]="actionneur">
+                                {{actionneur.username}}
                             </option>
                         </select>
 
                         <div class="col-md-6 mb-3">
-                            <input type="date" class="form-control" formControlName="date" name="date">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <input type="time" class="form-control" formControlName="time" name="time">
+                            <input type="datetime-local" class="form-control" formControlName="date" name="date">
                         </div>
                         <div class="col-12">
                             <app-main-button content="Ajouter Charbon" [isFilled]="true" [isBig]="true"
@@ -43,7 +41,7 @@
                 </div>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <app-charbon-card [charbon]="newCharbon"></app-charbon-card>
+                <app-charbon-card [charbon]="charbonPreview"></app-charbon-card>
             </div>
         </div>
     </div>

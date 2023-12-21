@@ -76,15 +76,15 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
     return $charbons;
 }
 
-function addCharbon($title, $description, $datetime, $course, $actionneurs)
+function addCharbon($title, $description, $datetime, $course, $replayLink, $resourcesLink, $actionneurs)
 {
     global $conn;
 
     $conn->begin_transaction();
 
-    $query1 = "INSERT INTO charbon (title, description, datetime, course_id) VALUES (?, ?, ?, ?)";
+    $query1 = "INSERT INTO charbon (title, description, datetime, course_id, replay_link, resources_link) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt1 = $conn->prepare($query1);
-    $stmt1->bind_param("ssss", $title, $description, $datetime, $course);
+    $stmt1->bind_param("ssssss", $title, $description, $datetime, $course, $replayLink, $resourcesLink);
     $stmt1->execute();
 
     $id = $conn->insert_id;
@@ -150,9 +150,11 @@ try {
             $description = $_POST['description'];
             $datetime = (new DateTime('@' . $_POST['datetime']))->format('Y-m-d H:i:s');
             $course = $_POST['course'];
+            $replayLink = $_POST['replay_link'] ?? null;
+            $resourcesLink = $_POST['resources_link'] ?? null;
             $actionneurs = explode(',', $_POST['actionneurs']);
 
-            addCharbon($title, $description, $datetime, $course, $actionneurs);
+            addCharbon($title, $description, $datetime, $course, $replayLink, $resourcesLink, $actionneurs);
             echo json_encode(array('success' => true));
             break;
         case 'DELETE':
