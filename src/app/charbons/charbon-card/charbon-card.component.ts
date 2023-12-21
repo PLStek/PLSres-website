@@ -1,66 +1,41 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
-import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { ActionneurService } from 'src/app/shared/services/actionneur.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { User } from 'src/app/shared/models/user.model';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { EditPopupComponent } from 'src/app/actionner/edit-popup/edit-popup.component';
 
 @Component({
   selector: 'app-charbon-card',
   templateUrl: './charbon-card.component.html',
   styleUrls: ['./charbon-card.component.scss'],
 })
-export class CharbonCardComponent implements OnChanges {
+export class CharbonCardComponent {
   @Input() charbon!: Charbon;
-  @Input() edit: boolean = false;
+  @Input() editable: boolean = false;
 
-  form!: FormGroup;
-  isEditing: boolean = false;
-  editedCharbon!: Charbon;
-  
-  //TODO: remove
-  actionneurList: User[] = [];
+  editModalRef?: BsModalRef;
 
   constructor(
     private actionneurService: ActionneurService,
-    private formBuilder: FormBuilder
-    ) {
+    private modalService: BsModalService
+  ) {
     this.charbon;
-    this.edit;
-  }
-  ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      title: '',
-      course: '',
-      courseType: CourseType.undefined,
-      date: '2023',
-      actionneurs: [],
-      description: '',
-      rediffusion:'',
-      ressources:''
-    });
-    this.actionneurService.getActionneurs().subscribe((data) => {
-      this.actionneurList = data;
-    });
-  }
-  
-  ngOnChanges(): void {
-    this.editedCharbon = this.charbon;
+    this.editable;
   }
 
   goToLink(url: string) {
     window.open(url, '_blank');
   }
 
-  //TODO: edit in a popup dialog
-  toogleEdit(): void {
-    this.isEditing = !this.isEditing;
+  isPassed(): boolean {
+    return this.charbon.date < new Date();
   }
 
-  confirmEdit(): void {
-    //update the charbon
-    this.charbon = this.editedCharbon;
-    console.log(this.charbon);
-    this.isEditing = false;
+  openEditPupup(): void {
+    this.editModalRef = this.modalService.show(EditPopupComponent);
+  }
+
+  closeEditPopup(): void {
+    this.editModalRef?.hide();
   }
 }

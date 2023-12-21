@@ -25,7 +25,8 @@ import { ActionnerHomePageComponent } from './actionner/actionner-home-page/acti
 import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.component';
 import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { EditPopupComponent } from './actionner/edit-popup/edit-popup.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -48,8 +49,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ActionnerHomePageComponent,
     AddCharbonComponent,
     EditCharbonActionneurComponent,
+    EditPopupComponent,
   ],
-  imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule, ReactiveFormsModule, FormsModule, BrowserAnimationsModule ],
+  imports: [
+    HttpClientModule,
+    BrowserModule,
+    AppRoutingModule,
+    FullCalendarModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ModalModule.forRoot(),
+  ],
   providers: [HttpClientModule, DatePipe],
   bootstrap: [AppComponent],
 })

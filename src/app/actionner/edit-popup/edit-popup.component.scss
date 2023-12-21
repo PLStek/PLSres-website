@@ -1,0 +1,23 @@
+.custom-modal-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 42px; /* Adjust the border-radius value */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px;
+    border-top-left-radius: 42px; /* Match the container's border-radius */
+    border-top-right-radius: 42px; /* Match the container's border-radius */
+  }
+  
+  .modal-title {
+    margin: 0;
+  }
+  
+  .modal-body {
+    padding: 20px;
+  }

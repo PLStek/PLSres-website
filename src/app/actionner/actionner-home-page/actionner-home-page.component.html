@@ -1,5 +1,18 @@
 <app-background-card title="Edition de charbons">
-    <app-add-charbon></app-add-charbon>
+    <div class="row mt-4 ms-2">
+        <div class="col-md-8">
+            <h5>Ajouter Charbon</h5>
+            <app-add-charbon></app-add-charbon>
+            
+        </div>
+        <div class="col-md-4 border-start border-3 ps-3">
+            <h5 class="mb-3">Modifier Charbon</h5>
+            <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                <app-main-button content="Editer Charbon" [isFilled]="false" [isBig]="true"
+                    routerLink="/action/edit-charbon"></app-main-button>
+            </div>
+        </div>
+    </div>
 </app-background-card>
 
 <app-background-card title="Edition annonces">
@@ -16,6 +29,10 @@
         </div>   
     </div>
 </app-background-card>
+
+
+<app-edit-popup></app-edit-popup>
+
 
 <app-background-card title="Edition d'exercise (test)">
     <input type="file" (change)="onFileSelected($event)">
