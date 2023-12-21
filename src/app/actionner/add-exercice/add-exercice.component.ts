@@ -7,6 +7,7 @@ import { Course } from 'src/app/shared/models/course.model';
 import { CoursesService } from 'src/app/shared/services/courses.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ExercicePostParameters } from 'src/app/shared/models/exercice-post-parameters.model';
 
 @Component({
   selector: 'app-add-exercice',
@@ -52,6 +53,14 @@ export class AddExerciceComponent implements OnInit {
   }
   
   addExerciec() : void{
+    let newExercise: ExercicePostParameters = {
+      title: this.form.get('title')?.value,
+      difficulty: this.form.get('difficulty')?.value,
+      topicId: this.form.get('topic')?.value,
+      is_corrected: this.form.get('is_corrected')?.value,
+      source: this.form.get('source')?.value,
+    };
+
     console.log(this.newExercise);
   }
   /*
