@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent implements OnInit {
-
+  isConnected = false;
+  isActionneur = true;
   isToggled = false;
 
   toggleClasses() {

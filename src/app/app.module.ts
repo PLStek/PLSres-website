@@ -26,6 +26,7 @@ import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.compone
 import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddExerciceComponent } from './actionner/add-exercice/add-exercice.component';
+import { FormConnectionComponent } from './shared/components/form-connection/form-connection.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { AddExerciceComponent } from './actionner/add-exercice/add-exercice.comp
     AddCharbonComponent,
     EditCharbonActionneurComponent,
     AddExerciceComponent,
+    FormConnectionComponent,
   ],
   imports: [
     HttpClientModule, 

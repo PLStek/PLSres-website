@@ -7,6 +7,7 @@ import { ExercisesPageComponent } from './exercises/exercises-page/exercises-pag
 import { ExerciseDetailsPageComponent } from './exercises/exercise-details-page/exercise-details-page.component';
 import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
 import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
+import { FormConnectionComponent } from './shared/components/form-connection/form-connection.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/accueil', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'exercices/:id', component: ExerciseDetailsPageComponent },
   { path: 'action/accueil', component: ActionnerHomePageComponent },
   { path: 'action/edit-charbon', component: EditCharbonActionneurComponent },
+  { path: 'connexion', component: FormConnectionComponent },
 ];
 
 @NgModule({
