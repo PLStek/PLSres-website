@@ -31,9 +31,10 @@ export class CharbonCardComponent {
     return this.charbon.date < new Date();
   }
 
-  openEditPupup(): void {
+  openEditPopup(): void {
     this.editModalRef = this.modalService.show(EditPopupComponent, {
       class: 'modal-xl modal-dialog-centered',
+      initialState: { editedCharbon: this.charbon },
     });
   }
 

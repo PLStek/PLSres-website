@@ -14,10 +14,10 @@
                 <strong>{{charbon.title}}</strong>
             </h5>
             <h6>Actionneur(s):</h6>
-            <p>{{charbon.actionners}}</p>
+            <p>{{charbon.actionneurs}}</p>
             <p style="font-weight: lighter; font-size: small;">{{charbon.description}}</p>
             <app-color-button *ngIf="editable" [courseType]="charbon.courseType" [isFilled]="false" content="Editer"
-                (click)="openEditPupup()"></app-color-button>
+                (click)="openEditPopup()"></app-color-button>
             <h5 *ngIf="!editable">
                 <img src="../assets/images/charbon.svg" class="charbon-img-inline">
                 {{charbon.date | dateInterval}}

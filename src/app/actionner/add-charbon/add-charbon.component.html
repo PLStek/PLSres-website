@@ -2,10 +2,10 @@
     <div class="col-md-6">
         <div class="row">
             <form [formGroup]="form">
-                <input type="text" class="form-control mb-3" placeholder="Titre du charbon"
-                    aria-label="Titre charbon" formControlName="title">
-                <textarea class="form-control mb-3" placeholder="Description" id="description"
-                    style="height: 100px" formControlName="description"></textarea>
+                <input type="text" class="form-control mb-3" placeholder="Titre du charbon" aria-label="Titre charbon"
+                    formControlName="title">
+                <textarea class="form-control mb-3" placeholder="Description" id="description" style="height: 100px"
+                    formControlName="description"></textarea>
                 <select class="form-select form-select-md mb-3" formControlName="courseType">
                     <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
                     <option [ngValue]="courseTypeEnum.elec">Elec</option>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-12">
                     <app-main-button content="Ajouter Charbon" [isFilled]="true" [isBig]="true"
-                        (click)="addCharbon()"></app-main-button>
+                        (click)="baseCharbon ? updateCharbon() : addCharbon()"></app-main-button>
                 </div>
             </form>
         </div>
