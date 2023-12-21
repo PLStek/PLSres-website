@@ -85,6 +85,8 @@ export class AddCharbonComponent implements OnInit {
   }
 
   addCharbon(): void {
-    console.log(this.newCharbon);
+    this.charbonService.addCharbon(this.newCharbon).subscribe((data) => {
+      console.log(data);
+    });
   }
 }

@@ -71,17 +71,15 @@ export class CharbonService {
   }
 
   addCharbon(ch: Charbon): Observable<boolean> {
-    let params = new HttpParams();
-    params = params.set('title', ch.title);
-    params = params.set('description', ch.description);
-    params = params.set('datetime', ch.date.getTime() / 1000);
-    params = params.set('course', ch.course);
-    params = params.set('actionneurs', ch.actionners.join(','));
+    const formData = new FormData();
+    formData.append('title', ch.title);
+    formData.append('description', ch.description);
+    formData.append('datetime', (ch.date.getTime() / 1000).toString());
+    formData.append('course', ch.course);
+    formData.append('actionneurs', ch.actionners.join(','));
 
     return this.http
-      .post<any>(`http://localhost/PLSres/api/charbons`, {
-        params,
-      })
+      .post<any>(`http://localhost/PLSres/api/charbons`, formData)
       .pipe(
         map((res) => {
           return Boolean(res.success) ?? false;
