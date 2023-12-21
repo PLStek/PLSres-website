@@ -4,11 +4,11 @@ import { ActionneurService } from 'src/app/shared/services/actionneur.service';
 
 
 @Component({
-  selector: 'app-form-connection',
-  templateUrl: './form-connection.component.html',
-  styleUrls: ['./form-connection.component.scss']
+  selector: 'app-login-popup',
+  templateUrl: './login-popup.component.html',
+  styleUrls: ['./login-popup.component.scss']
 })
-export class FormConnectionComponent implements OnInit {
+export class LoginPopupComponent implements OnInit {
 
   email: string = '';
   password: string = '';

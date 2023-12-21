@@ -27,9 +27,9 @@
             <div class="d-flex justify-content-between">
                 <app-main-button *ngIf="isActionneur" content="Actionner" [isFilled]="true" routerLink="/action/accueil"></app-main-button>
                 <div class="me-3"></div>
-                <app-main-button *ngIf="isConnected; else connection" content="username" [isFilled]="false" routerLink="/connexion"></app-main-button>
-                <ng-template #connection>
-                    <app-main-button content="Connexion" [isFilled]="false" routerLink="/connexion"></app-main-button>
+                <app-main-button *ngIf="isConnected; else login" content="username" [isFilled]="false" (click)="openLoginForm()"></app-main-button>
+                <ng-template #login>
+                    <app-main-button content="Connexion" [isFilled]="false" (click)="openLoginForm()"></app-main-button>
                 </ng-template>
             </div>
         </div>

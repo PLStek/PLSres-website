@@ -26,7 +26,8 @@ import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.compone
 import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddExerciceComponent } from './actionner/add-exercice/add-exercice.component';
-import { FormConnectionComponent } from './shared/components/form-connection/form-connection.component';
+import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -51,7 +52,7 @@ import { FormConnectionComponent } from './shared/components/form-connection/for
     AddCharbonComponent,
     EditCharbonActionneurComponent,
     AddExerciceComponent,
-    FormConnectionComponent,
+    LoginPopupComponent,
   ],
   imports: [
     HttpClientModule, 
@@ -60,7 +61,8 @@ import { FormConnectionComponent } from './shared/components/form-connection/for
     FullCalendarModule, 
     ReactiveFormsModule, 
     FormsModule, 
-    BrowserAnimationsModule 
+    BrowserAnimationsModule,
+    ModalModule.forRoot(),
   ],
   providers: [HttpClientModule, DatePipe],
   bootstrap: [AppComponent],
