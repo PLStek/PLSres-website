@@ -32,7 +32,7 @@ export class CharbonCardComponent {
   }
 
   openEditPupup(): void {
-    this.editModalRef = this.modalService.show(EditPopupComponent);
+    this.editModalRef = this.modalService.show(EditPopupComponent, {class: 'modal-xl'});
   }
 
   closeEditPopup(): void {
