@@ -25,7 +25,8 @@
 
                         <select class="form-select mb-3" formControlName="actionneurs" multiple>
                             <option disabled>Choisir les actionneurs</option>
-                            <option *ngFor="let actionneur of actionneurList" [ngValue]="actionneur">{{actionneur}}
+                            <option *ngFor="let actionneur of actionneurList" [ngValue]="actionneur">
+                                {{actionneur.username}}
                             </option>
                         </select>
 
@@ -40,7 +41,7 @@
                 </div>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <app-charbon-card [charbon]="newCharbon"></app-charbon-card>
+                <app-charbon-card [charbon]="charbonPreview"></app-charbon-card>
             </div>
         </div>
     </div>

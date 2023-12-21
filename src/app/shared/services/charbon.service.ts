@@ -1,10 +1,11 @@
+import { CharbonPostParameters } from './../models/charbon-post-parameters.model';
 import { CourseType, getCourseTypeName } from './../utils/course-type.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { getCourseType } from '../utils/course-type.model';
-import { GetCharbonParameter } from '../models/charbon-api-parameter.model';
+import { CharbonGetParameters } from '../models/charbon-get-parameters.model';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +48,7 @@ export class CharbonService {
     return params;
   }
 
-  getCharbonList(options: GetCharbonParameter = {}): Observable<Charbon[]> {
+  getCharbonList(options: CharbonGetParameters = {}): Observable<Charbon[]> {
     let params = new HttpParams();
     params = this.setParam(params, 'courses', options.courses);
     params = this.setParam(
@@ -70,13 +71,15 @@ export class CharbonService {
       .pipe(this.processHttpResponses);
   }
 
-  addCharbon(ch: Charbon): Observable<boolean> {
+  addCharbon(data: CharbonPostParameters): Observable<boolean> {
     const formData = new FormData();
-    formData.append('title', ch.title);
-    formData.append('description', ch.description);
-    formData.append('datetime', (ch.date.getTime() / 1000).toString());
-    formData.append('course', ch.course);
-    formData.append('actionneurs', ch.actionners.join(','));
+    formData.append('title', data.title.toString());
+    formData.append('description', data.description.toString());
+    formData.append('datetime', (data.date.getTime() / 1000).toString());
+    formData.append('course', data.course.toString());
+    formData.append('actionneurs', data.actionneurs.join(','));
+    if (data.replayLink) formData.append('replay_link', data.replayLink.toString());
+    if (data.resourcesLink) formData.append('resources_link', data.resourcesLink.toString());
 
     return this.http
       .post<any>(`http://localhost/PLSres/api/charbons`, formData)
