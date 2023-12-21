@@ -1,7 +1,6 @@
 import { CharbonPostParameters } from './../../shared/models/charbon-post-parameters.model';
 import { CoursesService } from './../../shared/services/courses.service';
-import { Time } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
@@ -16,6 +15,8 @@ import { CourseType } from 'src/app/shared/utils/course-type.model';
   styleUrls: ['./add-charbon.component.scss'],
 })
 export class AddCharbonComponent implements OnInit {
+  @Input() baseCharbon?: Charbon;
+
   charbonPreview!: Charbon;
   form!: FormGroup;
 
@@ -56,14 +57,18 @@ export class AddCharbonComponent implements OnInit {
       resourcesLink: '',
     });
 
-    this.courseService.getCourses().subscribe((data) => {
-      this.courseList = data;
-    });
-
-    this.actionneurService.getActionneurs().subscribe((data) => {
-      this.actionneurList = data;
-    });
-
+    if (this.baseCharbon) {
+      this.form.patchValue({
+        title: this.baseCharbon.title,
+        course: this.baseCharbon.course,
+        courseType: this.baseCharbon.courseType,
+        date: this.baseCharbon.date.toISOString(),
+        description: this.baseCharbon.description,
+        replayLink: this.baseCharbon.replayLink,
+        resourcesLink: this.baseCharbon.resourcesLink,
+      });
+    }
+    
     this.form.valueChanges.subscribe((data) => {
       this.charbonPreview = new Charbon(
         0,
@@ -79,11 +84,33 @@ export class AddCharbonComponent implements OnInit {
     });
 
     this.form.get('courseType')?.valueChanges.subscribe((data) => {
-      this.courseListForSelectedType = this.courseList.filter(
-        (course) => course.type === data
-      );
+      this.updateCourseList();
       this.form.get('course')?.setValue('');
     });
+
+    this.courseService.getCourses().subscribe((data) => {
+      this.courseList = data;
+      this.updateCourseList();
+    });
+
+    this.actionneurService.getActionneurs().subscribe((data) => {
+      this.actionneurList = data;
+      this.form
+        .get('actionneurs')
+        ?.setValue(
+          data.filter((a) => this.baseCharbon?.actionneurs.includes(a.username))
+        );
+    });
+  }
+
+  updateCourseList(): void {
+    this.courseListForSelectedType = this.courseList.filter(
+      (course) => course.type === this.form.get('courseType')?.value
+    );
+  }
+
+  updateCharbon(): void {
+    console.log(this.form.value);
   }
 
   addCharbon(): void {
