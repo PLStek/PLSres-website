@@ -24,6 +24,7 @@ import { DateIntervalPipe } from './shared/pipes/date-interval.pipe';
 import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
 import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.component';
 import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
+import { AddExerciceComponent } from './actionner/add-exercice/add-exercice.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionn
     ActionnerHomePageComponent,
     AddCharbonComponent,
     EditCharbonActionneurComponent,
+    AddExerciceComponent,
   ],
   imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule, ReactiveFormsModule, FormsModule ],
   providers: [HttpClientModule, DatePipe],
