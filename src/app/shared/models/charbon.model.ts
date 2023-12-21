@@ -1,4 +1,4 @@
-import { CourseType } from "../utils/course-type.model";
+import { CourseType } from '../utils/course-type.model';
 
 export class Charbon {
   constructor(
@@ -7,15 +7,19 @@ export class Charbon {
     public courseType: CourseType,
     public date: Date,
     public title: string,
-    public actionners: string[],
-    public description: string
+    public actionneurs: string[],
+    public description: string,
+    public replayLink: string,
+    public resourcesLink: string
   ) {
     this.id = id;
     this.course = course;
     this.courseType = courseType;
     this.date = date;
     this.title = title;
-    this.actionners = actionners;
+    this.actionneurs = actionneurs;
     this.description = description;
+    this.replayLink = replayLink;
+    this.resourcesLink = resourcesLink;
   }
 }

@@ -1,0 +1,30 @@
+<app-background-card>
+    <div class="container">
+        <h2>Connexion</h2>
+        <form (ngSubmit)="login()">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="email">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Mot de passe</label>
+            <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password">
+          </div>
+          <button type="submit" class="btn btn-primary">Se connecter</button>
+        </form>
+        <div class="mt-4">
+          <h2>Inscription</h2>
+          <form (ngSubmit)="register()">
+            <div class="mb-3">
+              <label for="newEmail" class="form-label">Nouvel email</label>
+              <input type="email" class="form-control" id="newEmail" name="newEmail" [(ngModel)]="newEmail">
+            </div>
+            <div class="mb-3">
+              <label for="newPassword" class="form-label">Nouveau mot de passe</label>
+              <input type="password" class="form-control" id="newPassword" name="newPassword" [(ngModel)]="newPassword">
+            </div>
+            <button type="submit" class="btn btn-primary">S'inscrire</button>
+          </form>
+        </div>
+      </div>
+</app-background-card>

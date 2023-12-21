@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { base64Decode } from '../utils/base64-converter';
+import { ExerciseTopic } from '../models/exercise-topic.model';
+import { ExercicePostParameters } from 'src/app/shared/models/exercice-post-parameters.model';
 
 @Injectable({
   providedIn: 'root',
@@ -59,13 +61,13 @@ export class ExerciseService {
       .pipe(this.processHttpResponse);
   }
 
-  addExercise(ex: Exercise, content: File): Observable<boolean> {
+  addExercise(data : ExercicePostParameters, content: File): Observable<boolean> {
     const formData = new FormData();
-    formData.append('title', ex.title);
-    formData.append('difficulty', ex.difficulty.toString());
-    formData.append('is_corrected', ex.isCorrected.toString());
-    formData.append('topic_id', ex.topicId.toString());
-    formData.append('source', ex.source);
+    formData.append('title', data.title.toString());
+    formData.append('difficulty', data.difficulty.toString());
+    formData.append('is_corrected', data.is_corrected.toString());
+    formData.append('topic_id', data.topicId.toString());
+    formData.append('source', data.source.toString());
     formData.append('thumbnail', content);
 
     return this.http

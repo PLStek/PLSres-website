@@ -24,6 +24,11 @@ import { DateIntervalPipe } from './shared/pipes/date-interval.pipe';
 import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
 import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.component';
 import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditPopupComponent } from './actionner/edit-popup/edit-popup.component';
+import { AddExerciceComponent } from './actionner/add-exercice/add-exercice.component';
+import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -47,8 +52,20 @@ import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionn
     ActionnerHomePageComponent,
     AddCharbonComponent,
     EditCharbonActionneurComponent,
+    EditPopupComponent,
+    AddExerciceComponent,
+    LoginPopupComponent,
   ],
-  imports: [HttpClientModule, BrowserModule, AppRoutingModule, FullCalendarModule, ReactiveFormsModule, FormsModule ],
+  imports: [
+    HttpClientModule,
+    BrowserModule,
+    AppRoutingModule,
+    FullCalendarModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ModalModule.forRoot(),
+  ],
   providers: [HttpClientModule, DatePipe],
   bootstrap: [AppComponent],
 })

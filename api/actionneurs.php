@@ -13,7 +13,7 @@ $method = $_SERVER["REQUEST_METHOD"];
 
 try {
     if ($method == 'GET') {
-        $query = "SELECT username FROM user WHERE actionneur = 1";
+        $query = "SELECT id, email, username, actionneur, admin FROM user WHERE actionneur = 1";
 
         $result = $conn->query($query);
 

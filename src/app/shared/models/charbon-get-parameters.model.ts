@@ -1,6 +1,6 @@
 import { CourseType } from '../utils/course-type.model';
 
-export interface GetCharbonParameter {
+export interface CharbonGetParameters {
   courses?: String[];
   courseType?: CourseType;
   minDate?: Date;

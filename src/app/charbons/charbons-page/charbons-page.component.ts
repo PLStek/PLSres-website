@@ -11,6 +11,7 @@ export class CharbonsPageComponent implements OnInit {
   title = 'PLSres';
   charbonList: Charbon[] = [];
   selectedCharbon: Charbon | null = null;
+  
 
   
   constructor(private charbonService: CharbonService) {}
