@@ -38,15 +38,19 @@ export class AddExerciceComponent implements OnInit {
       is_corrected: false,
       source: '',
     });
-    
+
     this.courseService.getCourses().subscribe((data) => {
       this.courseList = data;
     });
     this.exerciseTopicService.getExerciseTopicList().subscribe((data) => {
       this.exerciseTopicList = data;
     });  
-
   }
+  onTypeSelected(event: Event) {
+    const selectedType = (event.target as HTMLSelectElement).value;
+    this.courseListForSelectedType = this.courseList.filter(course => course.type === selectedType);
+  }
+  
   addExerciec() : void{
     console.log(this.newExercise);
   }
