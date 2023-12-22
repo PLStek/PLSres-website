@@ -1,5 +1,5 @@
-import { CharbonPostParameters } from './../../shared/models/charbon-post-parameters.model';
-import { CoursesService } from './../../shared/services/courses.service';
+import { CharbonPostParameters } from '../../shared/models/charbon-post-parameters.model';
+import { CoursesService } from '../../shared/services/courses.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
@@ -10,9 +10,9 @@ import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 
 @Component({
-  selector: 'app-add-charbon',
-  templateUrl: './add-charbon.component.html',
-  styleUrls: ['./add-charbon.component.scss'],
+  selector: 'app-charbon-form',
+  templateUrl: './charbon-form.component.html',
+  styleUrls: ['./charbon-form.component.scss'],
 })
 export class AddCharbonComponent implements OnInit {
   @Input() baseCharbon?: Charbon;

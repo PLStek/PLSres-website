@@ -17,7 +17,7 @@ export class CharbonsPageComponent implements OnInit {
   constructor(private charbonService: CharbonService) {}
 
   ngOnInit(): void {
-    this.charbonService.getCharbonList().subscribe((charbons) => {
+    this.charbonService.getCharbonList({limit: 50}).subscribe((charbons) => {
       this.charbonList = charbons;
     });
   }

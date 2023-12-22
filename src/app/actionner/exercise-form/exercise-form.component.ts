@@ -10,9 +10,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExercicePostParameters } from 'src/app/shared/models/exercice-post-parameters.model';
 
 @Component({
-  selector: 'app-add-exercice',
-  templateUrl: './add-exercice.component.html',
-  styleUrls: ['./add-exercice.component.scss']
+  selector: 'app-exercise-form',
+  templateUrl: './exercise-form.component.html',
+  styleUrls: ['./exercise-form.component.scss']
 })
 export class AddExerciceComponent implements OnInit {
   newExercise!: Exercise;
