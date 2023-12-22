@@ -68,7 +68,7 @@ export class AddCharbonComponent implements OnInit {
         resourcesLink: this.baseCharbon.resourcesLink,
       });
     }
-    
+
     this.form.valueChanges.subscribe((data) => {
       this.charbonPreview = new Charbon(
         0,
@@ -109,11 +109,7 @@ export class AddCharbonComponent implements OnInit {
     );
   }
 
-  updateCharbon(): void {
-    console.log(this.form.value);
-  }
-
-  addCharbon(): void {
+  validate(): void {
     let newCharbon: CharbonPostParameters = {
       title: this.form.get('title')?.value,
       description: this.form.get('description')?.value,
@@ -124,8 +120,24 @@ export class AddCharbonComponent implements OnInit {
       resourcesLink: this.form.get('resourcesLink')?.value,
     };
 
+    if (this.baseCharbon) {
+      this.updateCharbon(newCharbon);
+    } else {
+      this.addCharbon(newCharbon);
+    }
+  }
+
+  private addCharbon(newCharbon: CharbonPostParameters): void {
     this.charbonService.addCharbon(newCharbon).subscribe((data) => {
       console.log(data);
     });
+  }
+
+  private updateCharbon(newCharbon: CharbonPostParameters): void {
+    this.charbonService
+      .updateCharbon(this.baseCharbon?.id ?? 0, newCharbon)
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 }

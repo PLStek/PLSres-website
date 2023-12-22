@@ -31,8 +31,8 @@
                     <input type="datetime-local" class="form-control" formControlName="date" name="date">
                 </div>
                 <div class="col-12">
-                    <app-main-button content="Ajouter Charbon" [isFilled]="true" [isBig]="true"
-                        (click)="baseCharbon ? updateCharbon() : addCharbon()"></app-main-button>
+                    <app-main-button content="Valider" [isFilled]="true" [isBig]="true"
+                        (click)="validate()"></app-main-button>
                 </div>
             </form>
         </div>
