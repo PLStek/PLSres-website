@@ -47,7 +47,6 @@ export class AddExerciceComponent implements OnInit {
     });
 
     this.exerciseTopicService.getExerciseTopicList().subscribe((data) => {
-      console.log(data);
       this.exerciseTopicList = data;
     });
 
