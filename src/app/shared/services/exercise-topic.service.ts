@@ -21,12 +21,13 @@ export class ExerciseTopicService {
       .pipe(
         map((data: any) =>
           data.map(
-            (element: any) =>
+            (el: any) =>
               new ExerciseTopic(
-                Number(element.id),
-                String(element.topic),
-                String(element.course),
-                getCourseType(element.course_type)
+                Number(el.id),
+                String(el.topic),
+                String(el.course),
+                getCourseType(el.course_type),
+                Number(el.exercise_count)
               )
           )
         )

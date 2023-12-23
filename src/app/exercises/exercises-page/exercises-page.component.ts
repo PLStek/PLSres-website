@@ -14,14 +14,14 @@ export class ExercisesPageComponent implements OnInit {
   constructor(private exerciseTopicService: ExerciseTopicService) {}
 
   ngOnInit(): void {
-    this.exerciseTopicService
-      .getExerciseTopicList()
-      .subscribe((exerciseTopics) => {
-        return (this.exerciseTopicList = exerciseTopics);
-      });
+    this.exerciseTopicService.getExerciseTopicList().subscribe((data) => {
+      return (this.exerciseTopicList = data.filter(
+        (et) => et.exerciseCount > 0
+      ));
+    });
   }
 
-  setDifficulty(difficulty: number) : void {
+  setDifficulty(difficulty: number): void {
     this.difficulty = difficulty;
     console.log(this.difficulty);
   }
