@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col-md-6 d-flex flex-column justify-content-between">
         <div>
-          <h2 class="mb-3">Connexion</h2>
+          <h2 class="d-flex justify-content-center mb-3">Connexion</h2>
           <form (ngSubmit)="login()">
             <div class="form-floating mb-3">
               <input type="text" class="form-control" id="email_username" placeholder="Nom d'utilisateur / Email" name="email" [(ngModel)]="email_username">
@@ -20,7 +20,7 @@
       </div>
       <div class="col-md-6 border-start border-3 d-flex flex-column justify-content-between">
         <div>
-          <h2 class="mb-3">Inscription</h2>
+          <h2 class="d-flex justify-content-center mb-3">Inscription</h2>
           <form (ngSubmit)="register()">
             <div class="form-floating mb-3">
               <input type="email" class="form-control" id="newEmail" name="newEmail" placeholder="UTBM Email" [(ngModel)]="Email">
