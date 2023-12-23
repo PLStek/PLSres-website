@@ -9,14 +9,14 @@
                     <label for="difficulty">Difficulté :</label>
                     <input type="number" class="form-control mb-3"
                         aria-label="difficulté" max="5" min="1" formControlName="difficulty">
-                    <select class="form-select form-select-md mb-3" (change)="onTypeSelected($event)">
+                    <select class="form-select form-select-md mb-3" formControlName="courseType">
                         <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
                         <option [ngValue]="courseTypeEnum.elec">Elec</option>
                         <option [ngValue]="courseTypeEnum.info">Info</option>
                         <option [ngValue]="courseTypeEnum.meca">Meca</option>
                         <option [ngValue]="courseTypeEnum.maths">Maths</option>
                     </select>
-                    <select class="form-select mb-3">
+                    <select class="form-select mb-3" formControlName="course">
                         <option value="" disabled>Choisir une UE</option>
                         <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">
                           {{ course.id }}
@@ -33,10 +33,12 @@
                             formControlName="is_corrected">
                         <label class="form-check-label" for="isCorrected">Exercice corrigé</label>
                     </div>
-                    <input type="file" class="form-control" formControlName="source">
+                    <input type="text" class="form-control mb-3" placeholder="Source de l'exercice"
+                        aria-label="Source de l'exercice" formControlName="source">
+                    <input type="file" class="form-control" (change)="onFileSelected($event)">
                     <div class="col-12 mt-2">
                         <app-main-button content="Ajouter Charbon" [isFilled]="true" [isBig]="true"
-                            (click)="addExerciec()"></app-main-button>
+                            (click)="addExercise()"></app-main-button>
                     </div>
                 </form>
             </div>
