@@ -13,7 +13,7 @@
                     <option [ngValue]="courseTypeEnum.meca">Meca</option>
                     <option [ngValue]="courseTypeEnum.maths">Maths</option>
                 </select>
-
+                
                 <select class="form-select mb-3" formControlName="course">
                     <option value="" disabled>Choisir une UE</option>
                     <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">{{course.id}}

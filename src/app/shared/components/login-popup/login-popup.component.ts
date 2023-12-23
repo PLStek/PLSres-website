@@ -10,10 +10,12 @@ import { ActionneurService } from 'src/app/shared/services/actionneur.service';
 })
 export class LoginPopupComponent implements OnInit {
 
-  email: string = '';
+  email_username: string = '';
   password: string = '';
-  newEmail: string = '';
-  newPassword: string = '';
+  Email: string = '';
+  username: string = '';
+  Password: string = '';
+  ConfirmPassword: string = '';
 
   constructor(private actionneurService: ActionneurService) { }
 
@@ -21,18 +23,17 @@ export class LoginPopupComponent implements OnInit {
   }
 
   login(): void {
-    console.log('Email:', this.email);
+    console.log('Email:', this.email_username);
     console.log('Mot de passe:', this.password);
-    this.checkUTBMEmail(this.email);
   }
 
   register(): void {
-    console.log('Nouvel email:', this.newEmail);
-    console.log('Nouveau mot de passe:', this.newPassword);
-    this.checkUTBMEmail(this.newEmail);
+    console.log('email:', this.Email);
+    console.log('mot de passe:', this.Password);
+    this.checkRegisterForm(this.Email, this.Password, this.ConfirmPassword);
   }
 
-  private checkUTBMEmail(email: string): void {
+  private checkRegisterForm(email: string , password : string, ConfirmPassword : string): void {
     const utbmEmailRegex: RegExp = /@utbm\.fr$/;
     const isUtbmEmail: boolean = utbmEmailRegex.test(email);
 
@@ -41,5 +42,11 @@ export class LoginPopupComponent implements OnInit {
     } else {
       console.log('L\'email ne se termine pas par @utbm.fr');
     }
+    if (password === ConfirmPassword) {
+      console.log('Les mots de passe correspondent');
+    } else {
+      console.log('Les mots de passe ne correspondent pas');
+    }
+
   }
 }
