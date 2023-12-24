@@ -1,10 +1,5 @@
 import { DatePipe } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import {
   CalendarApi,
@@ -13,7 +8,6 @@ import {
   EventInput,
 } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { render } from '@fullcalendar/core/preact';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 
 @Component({
@@ -22,34 +16,23 @@ import { CharbonService } from 'src/app/shared/services/charbon.service';
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent {
-  charbonList: Charbon[] = [];
   calendarEvents: EventInput[] = [];
-  selectedCharbon: Charbon | null = null;
   calendarApi?: CalendarApi;
+  fetchedMonths = new Set<number>();
 
   @Output() selectedCharbonChange = new EventEmitter<Charbon | null>();
 
   constructor(
     private charbonService: CharbonService,
-    private datePipe: DatePipe,
-    private elementRef: ElementRef
+    private datePipe: DatePipe
   ) {}
 
   handleEventClick(clickInfo: EventClickArg): void {
-    this.selectedCharbon = null; // Réinitialise selectedCharbon
-
     if (clickInfo.event) {
       const clickedEvent = clickInfo.event;
-      const charbonId = clickedEvent.extendedProps['charbonId'];
+      const matchedCharbon = clickedEvent.extendedProps as Charbon;
 
-      const matchedCharbon = this.charbonList.find((charbon: Charbon) => {
-        return charbon && charbon.id == charbonId;
-      });
-
-      if (matchedCharbon) {
-        this.selectedCharbon = matchedCharbon;
-        this.selectedCharbonChange.emit(this.selectedCharbon);
-      }
+      this.selectedCharbonChange.emit(matchedCharbon ?? null);
     }
   }
 
@@ -58,30 +41,26 @@ export class CalendarComponent {
       .getCharbonList({ minDate: minDate, maxDate: maxDate })
       .subscribe((charbons) => {
         charbons.forEach((charbon: Charbon) => {
-          
           const isoFormattedDate = this.datePipe.transform(
             charbon.date,
             'yyyy-MM-ddTHH:mm:ss'
-            );
-            const eventExists = this.calendarApi
+          );
+          const eventExists = this.calendarApi
             ?.getEvents()
-            .some((event) => event.extendedProps['charbonId'] === charbon.id);
-            
-            if (!eventExists) {
-            this.charbonList.push(charbon);
+            .some((event) => event.extendedProps['id'] === charbon.id);
+
+          if (!eventExists) {
             this.calendarApi?.addEvent({
+              id: charbon.id.toString(),
               title: charbon.course,
               date: isoFormattedDate!,
               display: 'block',
               backgroundColor: '#' + charbon.courseType,
               borderColor: '#D2D2D2',
-              extendedProps: {
-                charbonId: charbon.id,
-              },
+              extendedProps: charbon,
             });
           }
         });
-        console.log(this.calendarApi);
       });
   }
 
@@ -96,15 +75,26 @@ export class CalendarComponent {
       hour: '2-digit',
       minute: '2-digit',
     },
-    eventClick: this.handleEventClick.bind(this),
     dayHeaderFormat: {
       weekday: 'long',
     },
+    // Handling the event click
+    eventClick: this.handleEventClick.bind(this),
+    // Handling the month change
     datesSet: (dateInfo) => {
+      // Setting the calendarApi if not set yet
       if (!this.calendarApi) {
         this.calendarApi = dateInfo.view.calendar;
       }
-      this.addCurrentMonthEvents(dateInfo.start, dateInfo.end);
+
+      // Verifying that the current month has not been fetched yet
+      const time = dateInfo.start.getTime();
+      if (!this.fetchedMonths.has(time)) {
+        this.addCurrentMonthEvents(dateInfo.start, dateInfo.end);
+
+        // Adding the current month to the fetched months
+        this.fetchedMonths.add(time);
+      }
     },
   };
 }
