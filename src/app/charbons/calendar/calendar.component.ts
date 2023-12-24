@@ -39,29 +39,37 @@ export class CalendarComponent {
   addCurrentMonthEvents(minDate: Date, maxDate: Date): void {
     this.charbonService
       .getCharbonList({ minDate: minDate, maxDate: maxDate })
-      .subscribe((charbons) => {
-        charbons.forEach((charbon: Charbon) => {
-          const isoFormattedDate = this.datePipe.transform(
-            charbon.date,
-            'yyyy-MM-ddTHH:mm:ss'
-          );
-          const eventExists = this.calendarApi
-            ?.getEvents()
-            .some((event) => event.extendedProps['id'] === charbon.id);
+      .subscribe((charbons) =>
+        charbons.forEach((charbon: Charbon) =>
+          this.addEventIfNotExists(charbon)
+        )
+      );
+  }
+  addEventIfNotExists(charbon: Charbon): void {
+    const eventExists = this.calendarApi
+      ?.getEvents()
+      .some((event) => event.extendedProps['id'] === charbon.id);
 
-          if (!eventExists) {
-            this.calendarApi?.addEvent({
-              id: charbon.id.toString(),
-              title: charbon.course,
-              date: isoFormattedDate!,
-              display: 'block',
-              backgroundColor: '#' + charbon.courseType,
-              borderColor: '#D2D2D2',
-              extendedProps: charbon,
-            });
-          }
-        });
-      });
+    if (!eventExists) {
+      this.addEvent(charbon);
+    }
+  }
+
+  addEvent(charbon: Charbon): void {
+    const isoFormattedDate = this.datePipe.transform(
+      charbon.date,
+      'yyyy-MM-ddTHH:mm:ss'
+    );
+
+    this.calendarApi?.addEvent({
+      id: charbon.id.toString(),
+      title: charbon.course,
+      date: isoFormattedDate!,
+      display: 'block',
+      backgroundColor: '#' + charbon.courseType,
+      borderColor: '#D2D2D2',
+      extendedProps: charbon,
+    });
   }
 
   calendarOptions: CalendarOptions = {
