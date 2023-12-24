@@ -1,5 +1,5 @@
 import { CharbonPostParameters } from '../../shared/models/charbon-post-parameters.model';
-import { CoursesService } from '../../shared/services/courses.service';
+import { CourseService } from '../../shared/services/course.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
@@ -28,7 +28,7 @@ export class AddCharbonComponent implements OnInit {
 
   constructor(
     private charbonService: CharbonService,
-    private courseService: CoursesService,
+    private courseService: CourseService,
     private actionneurService: ActionneurService,
     private formBuilder: FormBuilder
   ) {}

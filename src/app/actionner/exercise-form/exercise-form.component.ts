@@ -4,7 +4,7 @@ import { ExerciseService } from 'src/app/shared/services/exercise.service';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.service';
 import { Course } from 'src/app/shared/models/course.model';
-import { CoursesService } from 'src/app/shared/services/courses.service';
+import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
@@ -25,7 +25,7 @@ export class AddExerciceComponent implements OnInit {
 
   constructor(
     private exerciseService: ExerciseService,
-    private courseService: CoursesService,
+    private courseService: CourseService,
     private exerciseTopicService: ExerciseTopicService,
     private formBuilder: FormBuilder
   ) {}

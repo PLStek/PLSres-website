@@ -44,13 +44,13 @@
                 </div>
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
-                    <label class="form-label">Type d'UE :</label>
+                    <label class="form-label">Type d'UE:</label>
                     <select class="form-select" formControlName="courseType">
-                        <option [value]="courseTypeEnum.undefined">Tous</option>
-                        <option [value]="courseTypeEnum.meca">Mécanique</option>
-                        <option [value]="courseTypeEnum.info">Informatique</option>
-                        <option [value]="courseTypeEnum.maths">Mathématique</option>
-                        <option [value]="courseTypeEnum.elec">Électricité</option>
+                        <option [ngValue]="courseTypeEnum.undefined">Tous</option>
+                        <option [ngValue]="courseTypeEnum.meca">Mécanique</option>
+                        <option [ngValue]="courseTypeEnum.info">Informatique</option>
+                        <option [ngValue]="courseTypeEnum.maths">Mathématique</option>
+                        <option [ngValue]="courseTypeEnum.elec">Électricité</option>
                     </select>
                 </div>
             </div>
@@ -61,13 +61,11 @@
                 </div>
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
-                    <label class="form-label">UE :</label>
-                    <select class="form-select">
-                        <option selected>-----------------</option>
-                        <option value="1">MT1</option>
-                        <option value="2">MT2</option>
-                        <option value="1">MT3</option>
-                        <option value="2">MT3A</option>
+                    <label class="form-label">UE:</label>
+                    <select class="form-select" formControlName="course">
+                        <option [ngValue]="undefined">Toutes</option>
+                        <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">{{course.id}}
+                        </option>
                     </select>
                 </div>
             </div>

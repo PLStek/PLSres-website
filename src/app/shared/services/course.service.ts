@@ -7,7 +7,7 @@ import { getCourseType } from '../utils/course-type.model';
 @Injectable({
   providedIn: 'root',
 })
-export class CoursesService {
+export class CourseService {
   constructor(private http: HttpClient) {}
 
   getCourses(): Observable<Course[]> {

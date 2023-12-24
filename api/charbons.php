@@ -44,7 +44,6 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
 
     $result = $conn->query($query);
 
-
     $charbons = array();
     while ($row = $result->fetch_assoc()) {
         $charbon_id = $row['id'];
@@ -102,6 +101,7 @@ function addCharbon($title, $description, $date, $course, $replayLink, $resource
     $stmt2->close();
 
     $conn->commit();
+
 }
 
 
