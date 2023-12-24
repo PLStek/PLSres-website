@@ -1,5 +1,5 @@
 import { CharbonGetParameters } from './../../shared/models/charbon-get-parameters.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
@@ -14,10 +14,13 @@ import {
   styleUrls: ['./charbons-page.component.scss'],
 })
 export class CharbonsPageComponent implements OnInit {
-  title = 'PLSres';
+  readonly CHARBON_PER_PAGE = 10;
+
   charbonList: Charbon[] = [];
   nextThreeCharbons: Charbon[] = [];
   selectedCharbon: Charbon | null = null;
+  isLoading = false;
+  fullyfetched = false;
 
   sortForm!: FormGroup;
 
@@ -28,12 +31,7 @@ export class CharbonsPageComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {}
 
-  //TODO: handle dynamic fetch of charbons 20 par 20
   ngOnInit(): void {
-    this.charbonService.getCharbonList({ limit: 50 }).subscribe((charbons) => {
-      this.charbonList = charbons;
-    });
-
     this.charbonService
       .getCharbonList({ minDate: new Date(), limit: 3 })
       .subscribe((charbons) => {
@@ -47,19 +45,53 @@ export class CharbonsPageComponent implements OnInit {
       maxDuration: null,
     });
 
-    this.sortForm.valueChanges.subscribe((data) => {
-      const params: CharbonGetParameters = {
-        courses: data.course ? [data.course] : undefined,
-        courseType: data.courseType === CourseType.undefined ? undefined : data.courseType,
-        minDuration: data.minDuration,
-        maxDuration: data.maxDuration,
-        limit: 50,
-      };
+    this.fetchNextCharbons();
 
-      this.charbonService.getCharbonList(params).subscribe((charbons) => {
-        this.charbonList = charbons;
-      });
+    this.sortForm.valueChanges.subscribe((data) => {
+      this.charbonList = [];
+
+      this.fullyfetched = false;
+      this.fetchNextCharbons();
     });
+  }
+
+  fetchNextCharbons(): void {
+    const offset: number = this.charbonList.length + 1;
+    const formData = this.sortForm.value;
+
+    this.isLoading = true;
+
+    const params: CharbonGetParameters = {
+      courses: formData.course ? [formData.course] : undefined,
+      courseType:
+        formData.courseType === CourseType.undefined
+          ? undefined
+          : formData.courseType,
+      minDuration: formData.minDuration,
+      maxDuration: formData.maxDuration,
+      limit: this.CHARBON_PER_PAGE,
+      offset: offset,
+    };
+
+    this.charbonService.getCharbonList(params).subscribe((charbons) => {
+      this.charbonList.push(...charbons);
+      this.isLoading = false;
+      if (charbons.length < this.CHARBON_PER_PAGE) {
+        this.fullyfetched = true;
+      }
+    });
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll() {
+    // Check if the user has reached the bottom of the page
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      // Load more users when reaching the bottom
+      if (!this.isLoading && !this.fullyfetched) {
+        console.log('fetching next charbons');
+        this.fetchNextCharbons();
+      }
+    }
   }
 
   handleSelectedCharbonChange(selectedCharbon: Charbon | null): void {
