@@ -3,12 +3,10 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  OnChanges,
   Output,
 } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import {
-  Calendar,
   CalendarApi,
   CalendarOptions,
   EventClickArg,
@@ -44,7 +42,7 @@ export class CalendarComponent {
       const clickedEvent = clickInfo.event;
       const charbonId = clickedEvent.extendedProps['charbonId'];
 
-      const matchedCharbon = this.charbonList!.find((charbon: Charbon) => {
+      const matchedCharbon = this.charbonList.find((charbon: Charbon) => {
         return charbon && charbon.id == charbonId;
       });
 
@@ -60,15 +58,17 @@ export class CalendarComponent {
       .getCharbonList({ minDate: minDate, maxDate: maxDate })
       .subscribe((charbons) => {
         charbons.forEach((charbon: Charbon) => {
+          
           const isoFormattedDate = this.datePipe.transform(
             charbon.date,
             'yyyy-MM-ddTHH:mm:ss'
-          );
-          const eventExists = this.calendarApi
+            );
+            const eventExists = this.calendarApi
             ?.getEvents()
             .some((event) => event.extendedProps['charbonId'] === charbon.id);
-
-          if (!eventExists) {
+            
+            if (!eventExists) {
+            this.charbonList.push(charbon);
             this.calendarApi?.addEvent({
               title: charbon.course,
               date: isoFormattedDate!,
