@@ -1,47 +1,42 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
-import { CalendarOptions, EventClickArg, EventInput } from '@fullcalendar/core';
+import {
+  Calendar,
+  CalendarApi,
+  CalendarOptions,
+  EventClickArg,
+  EventInput,
+} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { render } from '@fullcalendar/core/preact';
+import { CharbonService } from 'src/app/shared/services/charbon.service';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent implements OnChanges {
-  @Input() charbonList: Charbon[] = [];
+export class CalendarComponent {
+  charbonList: Charbon[] = [];
   calendarEvents: EventInput[] = [];
   selectedCharbon: Charbon | null = null;
+  calendarApi?: CalendarApi;
 
   @Output() selectedCharbonChange = new EventEmitter<Charbon | null>();
 
-  constructor(private datePipe: DatePipe, private elementRef: ElementRef) {
-    this.charbonList;
-  }
+  constructor(
+    private charbonService: CharbonService,
+    private datePipe: DatePipe,
+    private elementRef: ElementRef
+  ) {}
 
-  ngOnChanges(): void {
-    this.charbonList!.forEach((charbon: Charbon) => {
-      const isoFormattedDate = this.datePipe.transform(
-        charbon.date,
-        'yyyy-MM-ddTHH:mm:ss'
-      );
-      this.calendarEvents.push({
-        title: charbon.course,
-        date: isoFormattedDate!,
-        display: 'block',
-        backgroundColor: '#' + charbon.courseType,
-        borderColor: '#D2D2D2',
-        extendedProps: {
-          charbonId: charbon.id,
-        },
-      });
-    });
-
-    //TODO: try to find a better way to refresh the calendar
-    this.elementRef.nativeElement.querySelector('calendar').fullCalendar(render);
-  }
   handleEventClick(clickInfo: EventClickArg): void {
     this.selectedCharbon = null; // Réinitialise selectedCharbon
 
@@ -60,6 +55,36 @@ export class CalendarComponent implements OnChanges {
     }
   }
 
+  addCurrentMonthEvents(minDate: Date, maxDate: Date): void {
+    this.charbonService
+      .getCharbonList({ minDate: minDate, maxDate: maxDate })
+      .subscribe((charbons) => {
+        charbons.forEach((charbon: Charbon) => {
+          const isoFormattedDate = this.datePipe.transform(
+            charbon.date,
+            'yyyy-MM-ddTHH:mm:ss'
+          );
+          const eventExists = this.calendarApi
+            ?.getEvents()
+            .some((event) => event.extendedProps['charbonId'] === charbon.id);
+
+          if (!eventExists) {
+            this.calendarApi?.addEvent({
+              title: charbon.course,
+              date: isoFormattedDate!,
+              display: 'block',
+              backgroundColor: '#' + charbon.courseType,
+              borderColor: '#D2D2D2',
+              extendedProps: {
+                charbonId: charbon.id,
+              },
+            });
+          }
+        });
+        console.log(this.calendarApi);
+      });
+  }
+
   calendarOptions: CalendarOptions = {
     timeZone: 'Europe/France',
     initialView: 'dayGridMonth',
@@ -74,6 +99,12 @@ export class CalendarComponent implements OnChanges {
     eventClick: this.handleEventClick.bind(this),
     dayHeaderFormat: {
       weekday: 'long',
+    },
+    datesSet: (dateInfo) => {
+      if (!this.calendarApi) {
+        this.calendarApi = dateInfo.view.calendar;
+      }
+      this.addCurrentMonthEvents(dateInfo.start, dateInfo.end);
     },
   };
 }
