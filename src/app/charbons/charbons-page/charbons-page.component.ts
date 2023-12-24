@@ -32,27 +32,28 @@ export class CharbonsPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.charbonService
-      .getCharbonList({ minDate: new Date(), limit: 3 })
-      .subscribe((charbons) => {
-        this.nextThreeCharbons = charbons;
-      });
-
     this.sortForm = this.formBuilder.group({
       courseType: CourseType.undefined,
       course: null,
       minDuration: null,
       maxDuration: null,
     });
-
-    this.fetchNextCharbons();
+    
+    this.fetchThreeUpcomingCharbons();
 
     this.sortForm.valueChanges.subscribe((data) => {
       this.charbonList = [];
-
       this.fullyfetched = false;
       this.fetchNextCharbons();
     });
+  }
+
+  fetchThreeUpcomingCharbons(): void {
+    this.charbonService
+      .getCharbonList({ minDate: new Date(), limit: 3 })
+      .subscribe((charbons) => {
+        this.nextThreeCharbons = charbons;
+      });
   }
 
   fetchNextCharbons(): void {

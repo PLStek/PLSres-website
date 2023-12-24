@@ -10,8 +10,6 @@ require_once 'database.php';
 
 $method = $_SERVER["REQUEST_METHOD"];
 
-usleep(300000);
-
 function getExercises($id, $max_difficulty, $topic_id, $corrected_only)
 {
     global $conn;
