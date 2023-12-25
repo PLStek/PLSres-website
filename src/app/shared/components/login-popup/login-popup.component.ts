@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionneurService } from 'src/app/shared/services/actionneur.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class LoginPopupComponent implements OnInit {
   Password: string = '';
   ConfirmPassword: string = '';
 
-  constructor(private actionneurService: ActionneurService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
   }
