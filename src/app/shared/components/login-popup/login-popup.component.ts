@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
-
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login-popup',
   templateUrl: './login-popup.component.html',
-  styleUrls: ['./login-popup.component.scss']
+  styleUrls: ['./login-popup.component.scss'],
 })
 export class LoginPopupComponent implements OnInit {
-
   email_username: string = '';
   password: string = '';
   Email: string = '';
@@ -17,9 +16,10 @@ export class LoginPopupComponent implements OnInit {
   Password: string = '';
   ConfirmPassword: string = '';
 
-  constructor(private userService: UserService) { }
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.authService.login('admin', 'admin');
   }
 
   login(): void {
@@ -33,20 +33,23 @@ export class LoginPopupComponent implements OnInit {
     this.checkRegisterForm(this.Email, this.Password, this.ConfirmPassword);
   }
 
-  private checkRegisterForm(email: string , password : string, ConfirmPassword : string): void {
+  private checkRegisterForm(
+    email: string,
+    password: string,
+    ConfirmPassword: string
+  ): void {
     const utbmEmailRegex: RegExp = /@utbm\.fr$/;
     const isUtbmEmail: boolean = utbmEmailRegex.test(email);
 
     if (isUtbmEmail) {
-      console.log('L\'email se termine par @utbm.fr');
+      console.log("L'email se termine par @utbm.fr");
     } else {
-      console.log('L\'email ne se termine pas par @utbm.fr');
+      console.log("L'email ne se termine pas par @utbm.fr");
     }
     if (password === ConfirmPassword) {
       console.log('Les mots de passe correspondent');
     } else {
       console.log('Les mots de passe ne correspondent pas');
     }
-
   }
 }
