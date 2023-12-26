@@ -10,22 +10,24 @@ require_once 'database.php';
 
 $method = $_SERVER["REQUEST_METHOD"];
 
-
 if ($method != 'POST') {
     throw new Exception('This method is not allowed.');
     exit;
 }
 
+$username = $_POST['username'] ?? '';
 $email = $_POST['email'] ?? '';
 $password = $_POST['password'] ?? '';
+$password_hash = password_hash($password, PASSWORD_BCRYPT);
 
 
-$query = "SELECT id, username, email, password_hash, actionneur, admin FROM user WHERE email = ?";
+$query = "INSERT INTO user (username, email, password_hash) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("s", $email);
+$stmt->bind_param("sss", $username, $email, $password_hash);
 
 $stmt->execute();
 $result = $stmt->get_result()->fetch_assoc();
+
 $stmt->close();
 
 
@@ -36,14 +38,7 @@ if (!$result || !isset($result['id'])) {
     echo json_encode(array("success" => false, "message" => "Wrong password"));
     exit;
 } else {
-    $user = array(
-        "id" => $result['id'],
-        "username" => $result['username'],
-        "email" => $result['email'],
-        "actionneur" => $result['actionneur'],
-        "admin" => $result['admin']
-    );
-    echo json_encode(array("success" => true, "user" => $user));
+    echo json_encode(array("success" => true));
 }
 
 exit;

@@ -20,6 +20,8 @@ try {
         $courses = $result->fetch_all(MYSQLI_ASSOC);
 
         echo json_encode($courses);
+    } else {
+        throw new Exception('This method is not allowed.');
     }
 } catch (Exception $e) {
     echo json_encode(array('success' => false, 'error' => $e->getMessage()));

@@ -29,6 +29,7 @@ import { EditPopupComponent } from './actionner/edit-popup/edit-popup.component'
 import { AddExerciceComponent } from './actionner/exercise-form/exercise-form.component';
 import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AccountPopupComponent } from './shared/components/account-popup/account-popup.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     EditPopupComponent,
     AddExerciceComponent,
     LoginPopupComponent,
+    AccountPopupComponent,
   ],
   imports: [
     HttpClientModule,

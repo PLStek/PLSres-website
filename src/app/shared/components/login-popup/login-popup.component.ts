@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
 import { AuthService } from '../../services/auth.service';
+import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-login-popup',
@@ -9,31 +15,57 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login-popup.component.scss'],
 })
 export class LoginPopupComponent implements OnInit {
-  email_username: string = '';
-  password: string = '';
-  Email: string = '';
-  username: string = '';
-  Password: string = '';
-  ConfirmPassword: string = '';
+  loginForm!: FormGroup;
+  registerForm!: FormGroup;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
-    this.authService.login('admin', 'admin');
+    this.loginForm = this.formBuilder.group({
+      emailOrUsername: '',
+      password: '',
+    });
+
+    this.registerForm = this.formBuilder.group({
+      email: '',
+      username: '',
+      password: '',
+      passwordConfirmation: '',
+    });
   }
 
   login(): void {
-    console.log('Email:', this.email_username);
-    console.log('Mot de passe:', this.password);
+    const emailOrUsername: string = this.loginForm.value.emailOrUsername;
+    const password: string = this.loginForm.value.password;
+    this.authService.login(emailOrUsername, password).subscribe((response) => {
+      console.log(this.authService.getLoggedUser());
+    });
   }
 
   register(): void {
-    console.log('email:', this.Email);
-    console.log('mot de passe:', this.Password);
-    this.checkRegisterForm(this.Email, this.Password, this.ConfirmPassword);
+    const email: string = this.registerForm.value.email;
+    const username: string = this.registerForm.value.username;
+    const password: string = this.registerForm.value.password;
+    this.authService
+      .register(email, username, password)
+      .pipe(
+        switchMap((response) => {
+          if (response) {
+            return this.authService.login(username, password);
+          } else {
+            return of(undefined);
+          }
+        })
+      )
+      .subscribe((response) => {
+        console.log(this.authService.getLoggedUser());
+      });
   }
 
-  private checkRegisterForm(
+  /* private checkRegisterForm(
     email: string,
     password: string,
     ConfirmPassword: string
@@ -51,5 +83,5 @@ export class LoginPopupComponent implements OnInit {
     } else {
       console.log('Les mots de passe ne correspondent pas');
     }
-  }
+  } */
 }
