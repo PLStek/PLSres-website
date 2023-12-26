@@ -9,13 +9,12 @@ export class AuthService {
 
   login(email: string, password: string) {
     // Basic auth login
-    const credentials = btoa(`${email}:${password}`);
-    const headers = new HttpHeaders({
-      Authorization: `Basic ${credentials}`,
-    });
-    console.log('Headers:', headers);
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+
     return this.http
-      .post('http://localhost/PLSres/api/login', {}, { headers })
+      .post<any>('http://localhost/PLSres/api/login', formData)
       .subscribe((data: any) => {
         console.log(data.success);
       });
