@@ -25,17 +25,12 @@ $query = "INSERT INTO user (username, email, password_hash) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("sss", $username, $email, $password_hash);
 
-$stmt->execute();
-$result = $stmt->get_result()->fetch_assoc();
-
+$result = $stmt->execute();
 $stmt->close();
 
 
-if (!$result || !isset($result['id'])) {
-    echo json_encode(array("success" => false, "message" => "Cannot find user"));
-    exit;
-} else if (!password_verify($password, $result['password_hash'])) {
-    echo json_encode(array("success" => false, "message" => "Wrong password"));
+if (!$result) {
+    echo json_encode(array("success" => false, "message" => "Could not register user."));
     exit;
 } else {
     echo json_encode(array("success" => true));

@@ -54,7 +54,8 @@ export class LoginPopupComponent implements OnInit {
       .pipe(
         switchMap((response) => {
           if (response) {
-            return this.authService.login(username, password);
+            console.log(response);
+            return this.authService.login(email, password);
           } else {
             return of(undefined);
           }
