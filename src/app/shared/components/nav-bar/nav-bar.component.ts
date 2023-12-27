@@ -14,8 +14,6 @@ export class NavBarComponent implements OnInit {
   loggedUser?: User;
   isToggled = false;
 
-  modalRef?: BsModalRef;
-
   toggleClasses() {
     this.isToggled = !this.isToggled;
   }
@@ -26,20 +24,19 @@ export class NavBarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.getLoggedUser().subscribe((user) => {
-      console.log(user);
-      this.loggedUser = user;
-    });
+    this.authService
+      .getLoggedUser()
+      .subscribe((user) => (this.loggedUser = user));
   }
 
   openLoginForm() {
-    this.modalRef = this.modalService.show(LoginPopupComponent, {
+    this.modalService.show(LoginPopupComponent, {
       class: 'modal-xl',
     });
   }
 
   openAccountForm() {
-    this.modalRef = this.modalService.show(AccountPopupComponent, {
+    this.modalService.show(AccountPopupComponent, {
       class: 'modal-lg',
     });
   }

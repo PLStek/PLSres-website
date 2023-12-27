@@ -13,8 +13,6 @@ export class CharbonCardComponent {
   @Input() charbon!: Charbon;
   @Input() editable: boolean = false;
 
-  editModalRef?: BsModalRef;
-
   constructor(
     private userService: UserService,
     private modalService: BsModalService
@@ -32,13 +30,9 @@ export class CharbonCardComponent {
   }
 
   openEditPopup(): void {
-    this.editModalRef = this.modalService.show(EditPopupComponent, {
+    this.modalService.show(EditPopupComponent, {
       class: 'modal-xl modal-dialog-centered',
       initialState: { editedCharbon: this.charbon },
     });
-  }
-
-  closeEditPopup(): void {
-    this.editModalRef?.hide();
   }
 }
