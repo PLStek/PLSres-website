@@ -1,13 +1,15 @@
 <nav class="navbar navbar-expand-lg primary-website-bg-color text-light fixed-top" style="height: 60px;">
     <div class="container">
         <a routerLink="/accueil">
-            <img class="a-icon" src="../../assets/images/icon.png" >
+            <img class="a-icon" src="../../assets/images/icon.png">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleClasses()">
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            (click)="toggleClasses()">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" [ngClass]="{'primary-website-bg-color p-3 rounded': isToggled}" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" [ngClass]="{'primary-website-bg-color p-3 rounded': isToggled}"
+            id="navbarSupportedContent">
             <div class="me-5"></div>
             <div class="me-5"></div>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -25,9 +27,11 @@
                 </li>
             </ul>
             <div class="d-flex justify-content-between">
-                <app-main-button *ngIf="isActionneur" content="Actionner" [isFilled]="true" routerLink="/action/accueil"></app-main-button>
+                <app-main-button *ngIf="loggedUser?.isActionneur" content="Actionner" [isFilled]="true"
+                    routerLink="/action/accueil"></app-main-button>
                 <div class="me-3"></div>
-                <app-main-button *ngIf="isConnected; else login" content="username" [isFilled]="false" (click)="openLoginForm()"></app-main-button>
+                <app-main-button *ngIf="loggedUser != undefined; else login" [content]="this.loggedUser.username" [isFilled]="false"
+                    (click)="openAccountForm()"></app-main-button>
                 <ng-template #login>
                     <app-main-button content="Connexion" [isFilled]="false" (click)="openLoginForm()"></app-main-button>
                 </ng-template>

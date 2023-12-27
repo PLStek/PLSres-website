@@ -6,7 +6,7 @@ import { User } from '../models/user.model';
 @Injectable({
   providedIn: 'root',
 })
-export class ActionneurService {
+export class UserService {
   constructor(private http: HttpClient) {}
 
   getActionneurs(): Observable<User[]> {

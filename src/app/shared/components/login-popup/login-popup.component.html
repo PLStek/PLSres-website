@@ -1,48 +1,50 @@
-<app-background-card>  
-    <div class="row">
-      <div class="col-md-6 d-flex flex-column justify-content-between">
+<app-background-card>
+  <div class="row">
+    <div class="col-md-6 d-flex flex-column justify-content-between">
+      <form [formGroup]="loginForm">
         <div>
           <h2 class="d-flex justify-content-center mb-3">Connexion</h2>
-          <form (ngSubmit)="login()">
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="email_username" placeholder="Nom d'utilisateur / Email" name="email" [(ngModel)]="email_username">
-              <label for="email_username">Nom d'utilisateur / Email</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" [(ngModel)]="password">
-              <label for="password">Mot de passe</label>
-            </div>
-          </form>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="email" formControlName="emailOrUsername" placeholder>
+            <label for="email_username">Email ou nom d'utilisateur</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" name="password" formControlName="password" placeholder>
+            <label for="password">Mot de passe</label>
+          </div>
         </div>
         <div class="d-flex justify-content-center">
-          <app-main-button content="Connexion" [isFilled]="false" [isBig]="true"></app-main-button>
+          <app-main-button type="submit" content="Connexion" [isFilled]="false" [isBig]="true"
+          (click)="login()"></app-main-button>
         </div>
+      </form>
+    </div>
+    <div class="col-md-6 border-start border-3 d-flex flex-column justify-content-between">
+      <div>
+        <h2 class="d-flex justify-content-center mb-3">Inscription</h2>
+        <form [formGroup]="registerForm">
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" name="newEmail" formControlName="email" placeholder>
+            <label for="newEmail">Email</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="newUsername" formControlName="username" placeholder>
+            <label for="newUsername">Nom d'utilisateur</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" name="Password" formControlName="password" placeholder>
+            <label for="Password">Mot de passe</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" name="ConfirmPassword" formControlName="passwordConfirmation"
+              placeholder>
+            <label for="ConfirmPassword">Confirmer Mot de passe</label>
+          </div>
+        </form>
       </div>
-      <div class="col-md-6 border-start border-3 d-flex flex-column justify-content-between">
-        <div>
-          <h2 class="d-flex justify-content-center mb-3">Inscription</h2>
-          <form (ngSubmit)="register()">
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="newEmail" name="newEmail" placeholder="UTBM Email" [(ngModel)]="Email">
-              <label for="newEmail">Email</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="newUsername" name="newUsername" placeholder="Nom d'utilisateur" [(ngModel)]="username">
-              <label for="newUsername">Nom d'utilisateur</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="Password" name="Password" placeholder="Mot de passe" [(ngModel)]="Password">
-              <label for="Password">Mot de passe</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirmer mot de passe" [(ngModel)]="ConfirmPassword">
-              <label for="ConfirmPassword">Confirmer Mot de passe</label>
-            </div>
-          </form>
-        </div>
-        <div class="d-flex justify-content-center">
-          <app-main-button content="Inscription" [isFilled]="false" [isBig]="true"></app-main-button>
-        </div>
+      <div class="d-flex justify-content-center">
+        <app-main-button content="Inscription" [isFilled]="false" [isBig]="true" (click)="register()"></app-main-button>
       </div>
     </div>
+  </div>
 </app-background-card>

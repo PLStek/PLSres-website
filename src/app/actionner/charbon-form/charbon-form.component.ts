@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
 import { User } from 'src/app/shared/models/user.model';
-import { ActionneurService } from 'src/app/shared/services/actionneur.service';
+import { UserService } from 'src/app/shared/services/user.service';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 
@@ -29,7 +29,7 @@ export class AddCharbonComponent implements OnInit {
   constructor(
     private charbonService: CharbonService,
     private courseService: CourseService,
-    private actionneurService: ActionneurService,
+    private userService: UserService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -93,7 +93,7 @@ export class AddCharbonComponent implements OnInit {
       this.updateCourseList();
     });
 
-    this.actionneurService.getActionneurs().subscribe((data) => {
+    this.userService.getActionneurs().subscribe((data) => {
       this.actionneurList = data;
       this.form
         .get('actionneurs')

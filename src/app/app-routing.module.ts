@@ -8,6 +8,7 @@ import { ExerciseDetailsPageComponent } from './exercises/exercise-details-page/
 import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
 import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
 import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
+import { ActionneurGuard } from './actionneur.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/accueil', pathMatch: 'full' },
@@ -16,9 +17,9 @@ const routes: Routes = [
   { path: 'charbons', component: CharbonsPageComponent },
   { path: 'exercices', component: ExercisesPageComponent },
   { path: 'exercices/:id', component: ExerciseDetailsPageComponent },
-  { path: 'action/accueil', component: ActionnerHomePageComponent },
-  { path: 'action/edit-charbon', component: EditCharbonActionneurComponent },
   { path: 'connexion', component: LoginPopupComponent },
+  { path: 'action/accueil', component: ActionnerHomePageComponent, canActivate: [ActionneurGuard] },
+  { path: 'action/edit-charbon', component: EditCharbonActionneurComponent, canActivate: [ActionneurGuard] },
 ];
 
 @NgModule({
