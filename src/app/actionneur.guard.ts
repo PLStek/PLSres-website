@@ -5,7 +5,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { AuthService } from './shared/services/auth.service';
 
 @Injectable({
@@ -22,7 +22,15 @@ export class ActionneurGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log(this.authService.getLoggedUser()?.isActionneur);
-    return this.authService.getLoggedUser()?.isActionneur ? true : false;
+    return this.authService.getLoggedUser().pipe(
+      map((user) => {
+        console.log(user);
+        if (user?.isActionneur) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    );
   }
 }

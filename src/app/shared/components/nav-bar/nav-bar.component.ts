@@ -26,10 +26,10 @@ export class NavBarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.authService.isLogged()) {
-      this.loggedUser = this.authService.getLoggedUser();
-      console.log(this.loggedUser);
-    }
+    this.authService.getLoggedUser().subscribe((user) => {
+      console.log(user);
+      this.loggedUser = user;
+    });
   }
 
   openLoginForm() {

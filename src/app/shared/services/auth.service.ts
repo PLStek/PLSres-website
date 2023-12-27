@@ -1,12 +1,17 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, Subject, map, takeUntil } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
+  private userSubject = new BehaviorSubject<User | undefined>(
+    this.getStoredUser()
+  );
+  private destroy$ = new Subject<void>();
+
   constructor(private http: HttpClient) {}
 
   login(login: String, password: String): Observable<User | undefined> {
@@ -27,6 +32,7 @@ export class AuthService {
               data.user.admin
             );
             localStorage.setItem('user', JSON.stringify(user));
+            this.userSubject.next(user);
             return user;
           } else {
             return undefined;
@@ -39,24 +45,33 @@ export class AuthService {
     email: String,
     username: String,
     password: String
-  ): Observable<User | undefined> {
+  ): Observable<boolean> {
     const formData = new FormData();
     formData.append('email', email.toString());
     formData.append('username', username.toString());
     formData.append('password', password.toString());
 
-    return this.http.post<User>(
+    return this.http.post<any>(
       'http://localhost/PLSres/api/register',
       formData
     );
-    //TODO: return user
+    //TODO: return bool
   }
 
-  isLogged(): boolean {
-    return localStorage.getItem('user') !== null;
+  logout(): void {
+    localStorage.removeItem('user');
+    this.userSubject.next(undefined);
   }
 
-  getLoggedUser(): User | undefined {
+  getLoggedUser(): Observable<User | undefined> {
+    return this.userSubject.asObservable().pipe(takeUntil(this.destroy$));
+  }
+
+  private getStoredUser(): User | undefined {
+    if (!localStorage.getItem('user')) {
+      return undefined;
+    }
+
     const data = JSON.parse(localStorage.getItem('user') || '{}');
     return new User(
       data.id,
@@ -67,7 +82,8 @@ export class AuthService {
     );
   }
 
-  logout(): void {
-    localStorage.removeItem('user');
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
