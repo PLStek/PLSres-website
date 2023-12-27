@@ -22,13 +22,14 @@ import { NavBarComponent } from './shared/components/nav-bar/nav-bar.component';
 import { SocialNetworksComponent } from './shared/components/social-networks/social-networks.component';
 import { DateIntervalPipe } from './shared/pipes/date-interval.pipe';
 import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
-import { AddCharbonComponent } from './actionner/add-charbon/add-charbon.component';
+import { AddCharbonComponent } from './actionner/charbon-form/charbon-form.component';
 import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditPopupComponent } from './actionner/edit-popup/edit-popup.component';
-import { AddExerciceComponent } from './actionner/add-exercice/add-exercice.component';
+import { AddExerciceComponent } from './actionner/exercise-form/exercise-form.component';
 import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AccountPopupComponent } from './shared/components/account-popup/account-popup.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     EditPopupComponent,
     AddExerciceComponent,
     LoginPopupComponent,
+    AccountPopupComponent,
   ],
   imports: [
     HttpClientModule,

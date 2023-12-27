@@ -1,30 +1,50 @@
 <app-background-card>
-    <div class="container">
-        <h2>Connexion</h2>
-        <form (ngSubmit)="login()">
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="email">
+  <div class="row">
+    <div class="col-md-6 d-flex flex-column justify-content-between">
+      <form [formGroup]="loginForm">
+        <div>
+          <h2 class="d-flex justify-content-center mb-3">Connexion</h2>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="email" formControlName="emailOrUsername" placeholder>
+            <label for="email_username">Email ou nom d'utilisateur</label>
           </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Mot de passe</label>
-            <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password">
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" name="password" formControlName="password" placeholder>
+            <label for="password">Mot de passe</label>
           </div>
-          <button type="submit" class="btn btn-primary">Se connecter</button>
-        </form>
-        <div class="mt-4">
-          <h2>Inscription</h2>
-          <form (ngSubmit)="register()">
-            <div class="mb-3">
-              <label for="newEmail" class="form-label">Nouvel email</label>
-              <input type="email" class="form-control" id="newEmail" name="newEmail" [(ngModel)]="newEmail">
-            </div>
-            <div class="mb-3">
-              <label for="newPassword" class="form-label">Nouveau mot de passe</label>
-              <input type="password" class="form-control" id="newPassword" name="newPassword" [(ngModel)]="newPassword">
-            </div>
-            <button type="submit" class="btn btn-primary">S'inscrire</button>
-          </form>
         </div>
+        <div class="d-flex justify-content-center">
+          <app-main-button type="submit" content="Connexion" [isFilled]="false" [isBig]="true"
+          (click)="login()"></app-main-button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6 border-start border-3 d-flex flex-column justify-content-between">
+      <div>
+        <h2 class="d-flex justify-content-center mb-3">Inscription</h2>
+        <form [formGroup]="registerForm">
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" name="newEmail" formControlName="email" placeholder>
+            <label for="newEmail">Email</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="newUsername" formControlName="username" placeholder>
+            <label for="newUsername">Nom d'utilisateur</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" name="Password" formControlName="password" placeholder>
+            <label for="Password">Mot de passe</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" name="ConfirmPassword" formControlName="passwordConfirmation"
+              placeholder>
+            <label for="ConfirmPassword">Confirmer Mot de passe</label>
+          </div>
+        </form>
       </div>
+      <div class="d-flex justify-content-center">
+        <app-main-button content="Inscription" [isFilled]="false" [isBig]="true" (click)="register()"></app-main-button>
+      </div>
+    </div>
+  </div>
 </app-background-card>

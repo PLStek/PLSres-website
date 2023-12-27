@@ -4,18 +4,17 @@ import { ExerciseService } from 'src/app/shared/services/exercise.service';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.service';
 import { Course } from 'src/app/shared/models/course.model';
-import { CoursesService } from 'src/app/shared/services/courses.service';
+import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ExercicePostParameters } from 'src/app/shared/models/exercice-post-parameters.model';
+import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 
 @Component({
-  selector: 'app-add-exercice',
-  templateUrl: './add-exercice.component.html',
-  styleUrls: ['./add-exercice.component.scss']
+  selector: 'app-exercise-form',
+  templateUrl: './exercise-form.component.html',
+  styleUrls: ['./exercise-form.component.scss'],
 })
 export class AddExerciceComponent implements OnInit {
-  newExercise!: Exercise;
   form!: FormGroup;
 
   courseList: Course[] = [];
@@ -25,62 +24,62 @@ export class AddExerciceComponent implements OnInit {
   courseTypeEnum = CourseType;
 
   constructor(
-    private exerciseService : ExerciseService,
-    private courseService : CoursesService,
-    private exerciseTopicService : ExerciseTopicService,
+    private exerciseService: ExerciseService,
+    private courseService: CourseService,
+    private exerciseTopicService: ExerciseTopicService,
     private formBuilder: FormBuilder
-    ) { }
+  ) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       title: '',
       difficulty: 0,
+      course: '',
+      courseType: CourseType.undefined,
       topic: 0,
       is_corrected: false,
       source: '',
+      content: null,
     });
 
     this.courseService.getCourses().subscribe((data) => {
       this.courseList = data;
     });
+
     this.exerciseTopicService.getExerciseTopicList().subscribe((data) => {
       this.exerciseTopicList = data;
-    });  
+    });
+
+    this.form.get('courseType')?.valueChanges.subscribe((data) => {
+      this.updateCourseList();
+      this.form.get('course')?.setValue('');
+    });
   }
-  onTypeSelected(event: Event) {
-    const selectedType = (event.target as HTMLSelectElement).value;
-    this.courseListForSelectedType = this.courseList.filter(course => course.type === selectedType);
+
+  updateCourseList(): void {
+    this.courseListForSelectedType = this.courseList.filter(
+      (course) => course.type === this.form.get('courseType')?.value
+    );
   }
-  
-  addExerciec() : void{
-    let newExercise: ExercicePostParameters = {
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    this.form.get('content')?.setValue(file);
+  }
+
+  addExercise(): void {
+    let newExercise: ExercisePostParameters = {
       title: this.form.get('title')?.value,
       difficulty: this.form.get('difficulty')?.value,
       topicId: this.form.get('topic')?.value,
       is_corrected: this.form.get('is_corrected')?.value,
       source: this.form.get('source')?.value,
+      content: this.form.get('content')?.value,
     };
 
-    console.log(this.newExercise);
+    console.log(newExercise);
+    this.exerciseService.addExercise(newExercise).subscribe((data) => {
+      console.log(data);
+    });
   }
-  /*
-    onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    const dummyExercise = new Exercise(
-      0,
-      'Test exercise',
-      1,
-      1,
-      false,
-      'Source'
-    );
-    if (file) {
-      this.exerciseService
-        .addExercise(dummyExercise, file)
-        .subscribe((data) => {
-          console.log(data);
-        });
-    }
-  }
-  */
 }

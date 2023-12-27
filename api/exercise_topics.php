@@ -15,10 +15,11 @@ $id = $_GET['id'] ?? null;
 $courses = isset($_GET['courses']) ? explode(',', $_GET['courses']) : null;
 $course_type = $_GET['course_type'] ?? null;
 
-$query = "SELECT E.id, E.topic, C.id course, T.type course_type FROM exercise_topic E 
-INNER JOIN course C ON E.course_id = C.id
+$query = "SELECT ET.id, ET.topic, C.id course, T.type course_type, COUNT(E.id) exercise_count FROM exercise_topic ET 
+INNER JOIN course C ON ET.course_id = C.id
 INNER JOIN course_type T ON C.type_id = T.id
-WHERE " . ($id ? "E.id = $id" : "1");
+LEFT JOIN exercise E ON ET.id = E.topic_id
+WHERE " . ($id ? "ET.id = $id" : "1");
 
 if ($course_type) {
     $query .= " AND T.type = '$course_type'";
@@ -26,13 +27,13 @@ if ($course_type) {
 
 if ($courses) {
     $query .= " AND C.course_id IN (";
-
+    
     foreach ($courses as $course) {
         $query .= "'$course',";
     }
     $query = substr($query, 0, -1) . ")";
 }
-
+$query .= " GROUP BY ET.id";
 
 $result = $conn->query($query);
 

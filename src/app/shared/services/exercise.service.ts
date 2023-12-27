@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { base64Decode } from '../utils/base64-converter';
 import { ExerciseTopic } from '../models/exercise-topic.model';
-import { ExercicePostParameters } from 'src/app/shared/models/exercice-post-parameters.model';
+import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 
 @Injectable({
   providedIn: 'root',
@@ -61,14 +61,16 @@ export class ExerciseService {
       .pipe(this.processHttpResponse);
   }
 
-  addExercise(data : ExercicePostParameters, content: File): Observable<boolean> {
+addExercise(
+    data: ExercisePostParameters,
+  ): Observable<boolean> {
     const formData = new FormData();
     formData.append('title', data.title.toString());
     formData.append('difficulty', data.difficulty.toString());
     formData.append('is_corrected', data.is_corrected.toString());
     formData.append('topic_id', data.topicId.toString());
     formData.append('source', data.source.toString());
-    formData.append('thumbnail', content);
+    formData.append('content', data.content);
 
     return this.http
       .post<any>('http://localhost/PLSres/api/exercises', formData)

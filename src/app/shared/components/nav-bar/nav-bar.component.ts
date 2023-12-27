@@ -1,6 +1,9 @@
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Component, OnInit } from '@angular/core';
 import { LoginPopupComponent } from '../login-popup/login-popup.component';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/user.model';
+import { AccountPopupComponent } from '../account-popup/account-popup.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -8,23 +11,36 @@ import { LoginPopupComponent } from '../login-popup/login-popup.component';
   styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent implements OnInit {
-  isConnected = false;
-  isActionneur = true;
+  loggedUser?: User;
   isToggled = false;
 
-  loginModalRef?: BsModalRef;
+  modalRef?: BsModalRef;
 
   toggleClasses() {
     this.isToggled = !this.isToggled;
   }
 
-  constructor(private modalService: BsModalService) {}
+  constructor(
+    private modalService: BsModalService,
+    private authService: AuthService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.getLoggedUser().subscribe((user) => {
+      console.log(user);
+      this.loggedUser = user;
+    });
+  }
 
   openLoginForm() {
-    this.loginModalRef = this.modalService.show(LoginPopupComponent, {
+    this.modalRef = this.modalService.show(LoginPopupComponent, {
       class: 'modal-xl',
+    });
+  }
+
+  openAccountForm() {
+    this.modalRef = this.modalService.show(AccountPopupComponent, {
+      class: 'modal-lg',
     });
   }
 }

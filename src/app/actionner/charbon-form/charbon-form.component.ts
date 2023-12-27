@@ -1,18 +1,18 @@
-import { CharbonPostParameters } from './../../shared/models/charbon-post-parameters.model';
-import { CoursesService } from './../../shared/services/courses.service';
+import { CharbonPostParameters } from '../../shared/models/charbon-post-parameters.model';
+import { CourseService } from '../../shared/services/course.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
 import { User } from 'src/app/shared/models/user.model';
-import { ActionneurService } from 'src/app/shared/services/actionneur.service';
+import { UserService } from 'src/app/shared/services/user.service';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 
 @Component({
-  selector: 'app-add-charbon',
-  templateUrl: './add-charbon.component.html',
-  styleUrls: ['./add-charbon.component.scss'],
+  selector: 'app-charbon-form',
+  templateUrl: './charbon-form.component.html',
+  styleUrls: ['./charbon-form.component.scss'],
 })
 export class AddCharbonComponent implements OnInit {
   @Input() baseCharbon?: Charbon;
@@ -28,8 +28,8 @@ export class AddCharbonComponent implements OnInit {
 
   constructor(
     private charbonService: CharbonService,
-    private courseService: CoursesService,
-    private actionneurService: ActionneurService,
+    private courseService: CourseService,
+    private userService: UserService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -68,7 +68,7 @@ export class AddCharbonComponent implements OnInit {
         resourcesLink: this.baseCharbon.resourcesLink,
       });
     }
-    
+
     this.form.valueChanges.subscribe((data) => {
       this.charbonPreview = new Charbon(
         0,
@@ -93,7 +93,7 @@ export class AddCharbonComponent implements OnInit {
       this.updateCourseList();
     });
 
-    this.actionneurService.getActionneurs().subscribe((data) => {
+    this.userService.getActionneurs().subscribe((data) => {
       this.actionneurList = data;
       this.form
         .get('actionneurs')
@@ -109,11 +109,7 @@ export class AddCharbonComponent implements OnInit {
     );
   }
 
-  updateCharbon(): void {
-    console.log(this.form.value);
-  }
-
-  addCharbon(): void {
+  validate(): void {
     let newCharbon: CharbonPostParameters = {
       title: this.form.get('title')?.value,
       description: this.form.get('description')?.value,
@@ -124,8 +120,24 @@ export class AddCharbonComponent implements OnInit {
       resourcesLink: this.form.get('resourcesLink')?.value,
     };
 
+    if (this.baseCharbon) {
+      this.updateCharbon(newCharbon);
+    } else {
+      this.addCharbon(newCharbon);
+    }
+  }
+
+  private addCharbon(newCharbon: CharbonPostParameters): void {
     this.charbonService.addCharbon(newCharbon).subscribe((data) => {
       console.log(data);
     });
+  }
+
+  private updateCharbon(newCharbon: CharbonPostParameters): void {
+    this.charbonService
+      .updateCharbon(this.baseCharbon?.id ?? 0, newCharbon)
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 }

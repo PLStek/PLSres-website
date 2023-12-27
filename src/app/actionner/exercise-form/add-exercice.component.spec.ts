@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddCharbonComponent } from './add-charbon.component';
+import { AddExerciceComponent } from './exercise-form.component';
 
-describe('AddCharbonComponent', () => {
-  let component: AddCharbonComponent;
-  let fixture: ComponentFixture<AddCharbonComponent>;
+describe('AddExerciceComponent', () => {
+  let component: AddExerciceComponent;
+  let fixture: ComponentFixture<AddExerciceComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddCharbonComponent ]
+      declarations: [ AddExerciceComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddCharbonComponent);
+    fixture = TestBed.createComponent(AddExerciceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

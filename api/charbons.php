@@ -9,7 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 require_once 'database.php';
 
 $method = $_SERVER["REQUEST_METHOD"];
-
+    
 
 function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit)
 {
@@ -44,7 +44,6 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
 
     $result = $conn->query($query);
 
-
     $charbons = array();
     while ($row = $result->fetch_assoc()) {
         $charbon_id = $row['id'];
@@ -64,7 +63,7 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
                 'id' => $charbon_id,
                 'title' => $row['title'],
                 'description' => $row['description'],
-                'datetime' => $row['datetime'],
+                'date' => $row['datetime'],
                 'course' => $row['course'],
                 'course_type' => $row['course_type'],
                 'replay_link' => $row['replay_link'],
@@ -76,7 +75,7 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
     return $charbons;
 }
 
-function addCharbon($title, $description, $datetime, $course, $replayLink, $resourcesLink, $actionneurs)
+function addCharbon($title, $description, $date, $course, $replayLink, $resourcesLink, $actionneurs)
 {
     global $conn;
 
@@ -84,7 +83,7 @@ function addCharbon($title, $description, $datetime, $course, $replayLink, $reso
 
     $query1 = "INSERT INTO charbon (title, description, datetime, course_id, replay_link, resources_link) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt1 = $conn->prepare($query1);
-    $stmt1->bind_param("ssssss", $title, $description, $datetime, $course, $replayLink, $resourcesLink);
+    $stmt1->bind_param("ssssss", $title, $description, $date, $course, $replayLink, $resourcesLink);
     $stmt1->execute();
 
     $id = $conn->insert_id;
@@ -100,6 +99,40 @@ function addCharbon($title, $description, $datetime, $course, $replayLink, $reso
 
     $stmt1->close();
     $stmt2->close();
+
+    $conn->commit();
+
+}
+
+
+function updateCharbon($id, $title, $description, $date, $course, $replayLink, $resourcesLink, $actionneurs)
+{
+    global $conn;
+
+    $conn->begin_transaction();
+
+    $query1 = "UPDATE charbon SET title = ?, description = ?, datetime = ?, course_id = ?, replay_link = ?, resources_link = ? WHERE id = ?";
+    $stmt1 = $conn->prepare($query1);
+    $stmt1->bind_param("ssssssi", $title, $description, $date, $course, $replayLink, $resourcesLink, $id);
+    $stmt1->execute();
+
+    $query2 = "DELETE FROM charbon_host WHERE charbon_id = ?";
+    $stmt2 = $conn->prepare($query2);
+    $stmt2->bind_param("i", $id);
+    $stmt2->execute();
+
+    $query3 = "INSERT INTO charbon_host (charbon_id, actionneur_id) VALUES (?, ?)";
+    $stmt3 = $conn->prepare($query3);
+
+    foreach ($actionneurs as $actionneur) {
+        $stmt3->bind_param("ii", $id, $actionneur);
+        $stmt3->execute();
+        $stmt3->reset();
+    }
+
+    $stmt1->close();
+    $stmt2->close();
+    $stmt3->close();
 
     $conn->commit();
 }
@@ -143,18 +176,37 @@ try {
             echo json_encode($charbons);
             break;
         case 'POST':
-            if (!isset($_POST['title']) || !isset($_POST['description']) || !isset($_POST['datetime']) || !isset($_POST['course']) || !isset($_POST['actionneurs'])) {
+            if (!isset($_POST['title']) || !isset($_POST['description']) || !isset($_POST['date']) || !isset($_POST['course']) || !isset($_POST['actionneurs'])) {
                 throw new Exception('Missing parameters.');
             }
             $title = $_POST['title'];
             $description = $_POST['description'];
-            $datetime = (new DateTime('@' . $_POST['datetime']))->format('Y-m-d H:i:s');
+            $date = (new DateTime('@' . $_POST['date']))->format('Y-m-d H:i:s');
             $course = $_POST['course'];
             $replayLink = $_POST['replay_link'] ?? null;
             $resourcesLink = $_POST['resources_link'] ?? null;
             $actionneurs = explode(',', $_POST['actionneurs']);
 
-            addCharbon($title, $description, $datetime, $course, $replayLink, $resourcesLink, $actionneurs);
+            addCharbon($title, $description, $date, $course, $replayLink, $resourcesLink, $actionneurs);
+            echo json_encode(array('success' => true));
+            break;
+        case 'PUT':
+
+            $data = json_decode(file_get_contents('php://input'), true);
+            print_r($data);
+            if (!isset($data['id']) || !isset($data['title']) || !isset($data['description']) || !isset($data['date']) || !isset($data['course']) || !isset($data['actionneurs'])) {
+                throw new Exception('Missing parameters.');
+            }
+            $id = $data['id'];
+            $title = $data['title'];
+            $description = $data['description'];
+            $date = (new DateTime($data['date']))->format('Y-m-d H:i:s');
+            $course = $data['course'];
+            $replayLink = $data['replay_link'] ?? null;
+            $resourcesLink = $data['resources_link'] ?? null;
+            $actionneurs = $data['actionneurs'];
+
+            updateCharbon($id, $title, $description, $date, $course, $replayLink, $resourcesLink, $actionneurs);
             echo json_encode(array('success' => true));
             break;
         case 'DELETE':
