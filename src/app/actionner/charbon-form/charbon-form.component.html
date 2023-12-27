@@ -13,7 +13,7 @@
                     <option [ngValue]="courseTypeEnum.meca">Meca</option>
                     <option [ngValue]="courseTypeEnum.maths">Maths</option>
                 </select>
-                
+
                 <select class="form-select mb-3" formControlName="course">
                     <option value="" disabled>Choisir une UE</option>
                     <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">{{course.id}}
@@ -30,6 +30,10 @@
                 <div class="col-md-6 mb-3">
                     <input type="datetime-local" class="form-control" formControlName="date" name="date">
                 </div>
+
+                <input *ngIf="isPassedDate()" type="text" class="form-control mb-3" placeholder="Lien de la rediffusion"
+                    formControlName="replayLink">
+
                 <div class="col-12">
                     <app-main-button content="Valider" [isFilled]="true" [isBig]="true"
                         (click)="validate()"></app-main-button>

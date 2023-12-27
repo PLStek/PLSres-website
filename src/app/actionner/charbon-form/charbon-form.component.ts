@@ -50,7 +50,7 @@ export class AddCharbonComponent implements OnInit {
       title: '',
       course: '',
       courseType: CourseType.undefined,
-      date: new Date('2023T20:00'),
+      date: '2023T20:00',
       actionneurs: [],
       description: '',
       replayLink: '',
@@ -109,22 +109,24 @@ export class AddCharbonComponent implements OnInit {
     );
   }
 
+  isPassedDate(): boolean {
+    const date = new Date(this.form.get('date')?.value);
+    return date < new Date();
+  }
+
   validate(): void {
     let newCharbon: CharbonPostParameters = {
-      title: this.form.get('title')?.value,
-      description: this.form.get('description')?.value,
-      date: new Date(this.form.get('date')?.value),
-      course: this.form.get('course')?.value,
+      ...this.form.value,
       actionneurs: this.form.get('actionneurs')?.value.map((a: User) => a.id),
-      replayLink: this.form.get('replayLink')?.value,
-      resourcesLink: this.form.get('resourcesLink')?.value,
+      replayLink: this.isPassedDate()
+        ? this.form.get('replayLink')?.value
+        : undefined,
+      date: new Date(this.form.get('date')?.value),
     };
 
-    if (this.baseCharbon) {
-      this.updateCharbon(newCharbon);
-    } else {
-      this.addCharbon(newCharbon);
-    }
+    this.baseCharbon
+      ? this.updateCharbon(newCharbon)
+      : this.addCharbon(newCharbon);
   }
 
   private addCharbon(newCharbon: CharbonPostParameters): void {
@@ -136,8 +138,6 @@ export class AddCharbonComponent implements OnInit {
   private updateCharbon(newCharbon: CharbonPostParameters): void {
     this.charbonService
       .updateCharbon(this.baseCharbon?.id ?? 0, newCharbon)
-      .subscribe((data) => {
-        console.log(data);
-      });
+      .subscribe();
   }
 }

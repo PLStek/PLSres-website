@@ -67,7 +67,7 @@ addExercise(
     const formData = new FormData();
     formData.append('title', data.title.toString());
     formData.append('difficulty', data.difficulty.toString());
-    formData.append('is_corrected', data.is_corrected.toString());
+    formData.append('is_corrected', data.is_corrected ? '1' : '0');
     formData.append('topic_id', data.topicId.toString());
     formData.append('source', data.source.toString());
     formData.append('content', data.content);
