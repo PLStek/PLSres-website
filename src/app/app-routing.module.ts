@@ -9,6 +9,7 @@ import { ActionnerHomePageComponent } from './actionner/actionner-home-page/acti
 import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
 import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
 import { ActionneurGuard } from './shared/guards/actionneur.guard';
+import { LoggedGuard } from './shared/guards/logged.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/accueil', pathMatch: 'full' },
@@ -16,10 +17,22 @@ const routes: Routes = [
   { path: 'annonces', component: AnnouncementsPageComponent },
   { path: 'charbons', component: CharbonsPageComponent },
   { path: 'exercices', component: ExercisesPageComponent },
-  { path: 'exercices/:id', component: ExerciseDetailsPageComponent },
+  {
+    path: 'exercices/:id',
+    component: ExerciseDetailsPageComponent,
+    canActivate: [LoggedGuard],
+  },
   { path: 'connexion', component: LoginPopupComponent },
-  { path: 'action/accueil', component: ActionnerHomePageComponent, canActivate: [ActionneurGuard] },
-  { path: 'action/edit-charbon', component: EditCharbonActionneurComponent, canActivate: [ActionneurGuard] },
+  {
+    path: 'action/accueil',
+    component: ActionnerHomePageComponent,
+    canActivate: [ActionneurGuard],
+  },
+  {
+    path: 'action/edit-charbon',
+    component: EditCharbonActionneurComponent,
+    canActivate: [ActionneurGuard],
+  },
 ];
 
 @NgModule({

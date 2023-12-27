@@ -24,7 +24,6 @@ export class ActionneurGuard implements CanActivate {
     | UrlTree {
     return this.authService.getLoggedUser().pipe(
       map((user) => {
-        console.log(user);
         if (user?.isActionneur) {
           return true;
         } else {
