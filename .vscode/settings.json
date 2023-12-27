@@ -1,5 +1,0 @@
-{
-    "files.exclude": {
-        "**/*.spec.ts": true
-    }
-}

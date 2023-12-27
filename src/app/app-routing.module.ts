@@ -8,7 +8,7 @@ import { ExerciseDetailsPageComponent } from './exercises/exercise-details-page/
 import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
 import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
 import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
-import { ActionneurGuard } from './actionneur.guard';
+import { ActionneurGuard } from './shared/guards/actionneur.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/accueil', pathMatch: 'full' },

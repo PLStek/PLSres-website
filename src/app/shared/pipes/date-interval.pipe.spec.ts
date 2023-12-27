@@ -1,4 +1,4 @@
-import { DateIntervalPipe } from './pipes/date-interval.pipe';
+import { DateIntervalPipe } from './date-interval.pipe';
 
 describe('DateIntervalPipe', () => {
   it('create an instance', () => {
