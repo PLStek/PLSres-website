@@ -170,7 +170,7 @@ try {
             $max_duration = $_GET['max_duration'] ?? 99;
             $null_duration = $_GET['null_duration'] ?? true;
             $offset = $_GET['offset'] ?? 0;
-            $limit = $_GET['limit'] ?? 10;
+            $limit = $_GET['limit'] ?? 1000;
 
             $charbons = getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit);
             echo json_encode($charbons);
