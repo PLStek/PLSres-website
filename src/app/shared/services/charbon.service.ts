@@ -72,6 +72,7 @@ export class CharbonService {
   }
 
   addCharbon(data: CharbonPostParameters): Observable<boolean> {
+    console.log(data);
     const formData = new FormData();
     formData.append('title', data.title.toString());
     formData.append('description', data.description.toString());

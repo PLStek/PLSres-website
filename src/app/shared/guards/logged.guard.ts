@@ -27,17 +27,14 @@ export class LoggedGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authService.getLoggedUser().pipe(
-      map((user) => {
-        console.log('User: ' + user);
-        if (user) {
-          return true;
-        } else {
+    return this.authService.isLogged().pipe(
+      map((isLogged) => {
+        if (!isLogged) {
           this.modalService.show(LoginPopupComponent, {
             class: 'modal-xl',
           });
-          return false;
-        }
+        } 
+        return isLogged;
       })
     );
   }

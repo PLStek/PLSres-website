@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, map, takeUntil } from 'rxjs';
 import { User } from '../models/user.model';
@@ -71,6 +71,10 @@ export class AuthService implements OnDestroy {
 
   getLoggedUser(): Observable<User | undefined> {
     return this.userSubject.asObservable().pipe(takeUntil(this.destroy$));
+  }
+
+  isLogged(): Observable<boolean> {
+    return this.getLoggedUser().pipe(map((user) => user !== undefined));
   }
 
   private getStoredUser(): User | undefined {
