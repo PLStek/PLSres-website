@@ -14,7 +14,7 @@ export class AuthService implements OnDestroy {
 
   constructor(private http: HttpClient) {}
 
-  login(login: String, password: String): Observable<User | undefined> {
+  login(login: String, password: String): Observable<boolean> {
     const formData = new FormData();
     formData.append('email', login.toString());
     formData.append('password', password.toString());
@@ -33,9 +33,9 @@ export class AuthService implements OnDestroy {
             );
             localStorage.setItem('user', JSON.stringify(user));
             this.userSubject.next(user);
-            return user;
+            return true;
           } else {
-            return undefined;
+            return false;
           }
         })
       );
@@ -51,11 +51,17 @@ export class AuthService implements OnDestroy {
     formData.append('username', username.toString());
     formData.append('password', password.toString());
 
-    return this.http.post<any>(
-      'http://localhost/PLSres/api/register',
-      formData
-    );
-    //TODO: return bool
+    return this.http
+      .post<any>('http://localhost/PLSres/api/register', formData)
+      .pipe(
+        map((data: any) => {
+          if (data.success) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+      );
   }
 
   logout(): void {

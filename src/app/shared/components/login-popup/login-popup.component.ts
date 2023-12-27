@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { UserService } from 'src/app/shared/services/user.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { of, switchMap } from 'rxjs';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-login-popup',
@@ -19,6 +14,7 @@ export class LoginPopupComponent implements OnInit {
   registerForm!: FormGroup;
 
   constructor(
+    private bsModalRef: BsModalRef,
     private authService: AuthService,
     private formBuilder: FormBuilder
   ) {}
@@ -40,9 +36,9 @@ export class LoginPopupComponent implements OnInit {
   login(): void {
     const emailOrUsername: string = this.loginForm.value.emailOrUsername;
     const password: string = this.loginForm.value.password;
-    this.authService.login(emailOrUsername, password).subscribe((response) => {
-      console.log(this.authService.getLoggedUser());
-    });
+    this.authService
+      .login(emailOrUsername, password)
+      .subscribe((success) => this.closeIfSuccessful(success));
   }
 
   register(): void {
@@ -52,18 +48,22 @@ export class LoginPopupComponent implements OnInit {
     this.authService
       .register(email, username, password)
       .pipe(
-        switchMap((response) => {
-          if (response) {
-            console.log(response);
+        switchMap((success) => {
+          console.log(success);
+          if (success) {
             return this.authService.login(email, password);
           } else {
-            return of(undefined);
+            return of(false);
           }
         })
       )
-      .subscribe((response) => {
-        console.log(this.authService.getLoggedUser());
-      });
+      .subscribe((success) => this.closeIfSuccessful(success));
+  }
+
+  private closeIfSuccessful(success: boolean): void {
+    if (success) {
+      this.bsModalRef.hide();
+    }
   }
 
   /* private checkRegisterForm(
