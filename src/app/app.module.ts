@@ -23,7 +23,7 @@ import { SocialNetworksComponent } from './shared/components/social-networks/soc
 import { DateIntervalPipe } from './shared/pipes/date-interval.pipe';
 import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
 import { AddCharbonComponent } from './actionner/charbon-form/charbon-form.component';
-import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
+import { CharbonEditionPageComponent } from './actionner/charbon-edition-page/charbon-edition-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditPopupComponent } from './actionner/edit-popup/edit-popup.component';
 import { AddExerciceComponent } from './actionner/exercise-form/exercise-form.component';
@@ -52,7 +52,7 @@ import { AccountPopupComponent } from './shared/components/account-popup/account
     ExerciseDetailsPageComponent,
     ActionnerHomePageComponent,
     AddCharbonComponent,
-    EditCharbonActionneurComponent,
+    CharbonEditionPageComponent,
     EditPopupComponent,
     AddExerciceComponent,
     LoginPopupComponent,
