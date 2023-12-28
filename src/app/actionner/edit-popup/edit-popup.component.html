@@ -2,5 +2,5 @@
     <div class="pb-3">
         <h4>Modifier un charbon</h4>
     </div>
-    <app-charbon-form [baseCharbon]="editedCharbon"></app-charbon-form>
+    <app-charbon-form [baseCharbon]="editedCharbon" (onValidate)="close()"></app-charbon-form>
 </div>

@@ -17,4 +17,8 @@ export class EditPopupComponent implements OnInit {
       this.editedCharbon = this.bsModalRef.content.editedCharbon;
     }
   }
+
+  close(): void {
+    this.bsModalRef.hide();
+  }
 }
