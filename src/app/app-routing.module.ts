@@ -10,6 +10,7 @@ import { CharbonEditionPageComponent } from './actionner/charbon-edition-page/ch
 import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
 import { ActionneurGuard } from './shared/guards/actionneur.guard';
 import { LoggedGuard } from './shared/guards/logged.guard';
+import { ExerciseEditionPageComponent } from './actionner/exercise-edition-page/exercise-edition-page.component';
 
 const routes: Routes = [
   { path: 'accueil', component: HomePageComponent },
@@ -30,6 +31,11 @@ const routes: Routes = [
   {
     path: 'actionner/charbons',
     component: CharbonEditionPageComponent,
+    canActivate: [ActionneurGuard],
+  },
+  {
+    path: 'actionner/exercices',
+    component: ExerciseEditionPageComponent,
     canActivate: [ActionneurGuard],
   },
   { path: '**', redirectTo: '/accueil' },
