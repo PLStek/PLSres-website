@@ -12,7 +12,6 @@ import { ActionneurGuard } from './shared/guards/actionneur.guard';
 import { LoggedGuard } from './shared/guards/logged.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/accueil', pathMatch: 'full' },
   { path: 'accueil', component: HomePageComponent },
   { path: 'annonces', component: AnnouncementsPageComponent },
   { path: 'charbons', component: CharbonsPageComponent },
@@ -24,15 +23,16 @@ const routes: Routes = [
   },
   { path: 'connexion', component: LoginPopupComponent },
   {
-    path: 'action/accueil',
+    path: 'actionner/accueil',
     component: ActionnerHomePageComponent,
     canActivate: [ActionneurGuard],
   },
   {
-    path: 'action/edit-charbon',
+    path: 'actionner/charbons',
     component: EditCharbonActionneurComponent,
     canActivate: [ActionneurGuard],
   },
+  { path: '**', redirectTo: '/accueil' },
 ];
 
 @NgModule({

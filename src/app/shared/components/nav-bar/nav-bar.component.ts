@@ -4,6 +4,7 @@ import { LoginPopupComponent } from '../login-popup/login-popup.component';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 import { AccountPopupComponent } from '../account-popup/account-popup.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -20,7 +21,8 @@ export class NavBarComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -39,5 +41,9 @@ export class NavBarComponent implements OnInit {
     this.modalService.show(AccountPopupComponent, {
       class: 'modal-lg',
     });
+  }
+
+  isActionneurRoute(): boolean {
+    return this.router.url.includes('actionner');
   }
 }
