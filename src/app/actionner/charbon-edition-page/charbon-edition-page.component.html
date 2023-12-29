@@ -2,40 +2,5 @@
     <app-main-button routerLink="/actionner/accueil" content="Zone Actionneur" [isBig]="true" [isFilled]="false"></app-main-button>
 </div>
 <app-background-card title="Modifier Charbon">
-    <div class="m-3">
-        <div class="row">
-            <div class="col-md-4">
-                <label for="inputTri" class="form-label">Trier par :</label>
-                <select id="inputTri" class="form-select">
-                    <option selected>-----------------</option>
-                    <option value="1">Durée croissante</option>
-                    <option value="2">Plus récent</option>
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="TypeUE" class="form-label">Type d'UE :</label>
-                <select id="TypeUE" class="form-select">
-                    <option selected>-----------------</option>
-                    <option value="1">Mécanique</option>
-                    <option value="2">Informatique</option>
-                    <option value="2">Mathématique</option>
-                    <option value="2">Électricité</option>
-                   
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="inputUE" class="form-label">UE :</label>
-                <select id="inputUE" class="form-select">
-                    <option selected>-----------------</option>
-                    <option value="1">MT1</option>
-                    <option value="2">MT2</option>
-                    <option value="1">MT3</option>
-                    <option value="2">MT3A</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="row row-cols-auto" style="justify-content: center;">
-        <app-charbon-card class="mt-4" *ngFor="let charbon of charbonList" [charbon]="charbon" [editable]="true"></app-charbon-card>
-    </div>
+    <app-charbon-list [editable]="true"></app-charbon-list>
 </app-background-card>

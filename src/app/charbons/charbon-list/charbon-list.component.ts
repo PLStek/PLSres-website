@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CharbonGetParameters } from 'src/app/shared/models/charbon-get-parameters.model';
 import { Charbon } from 'src/app/shared/models/charbon.model';
@@ -13,7 +13,9 @@ import { CourseType } from 'src/app/shared/utils/course-type.model';
   styleUrls: ['./charbon-list.component.scss'],
 })
 export class CharbonListComponent implements OnInit {
-  readonly CHARBON_PER_PAGE = 10;
+  readonly CHARBON_PER_PAGE = 9;
+
+  @Input() editable = false;
 
   charbonList: Charbon[] = [];
 
@@ -31,30 +33,37 @@ export class CharbonListComponent implements OnInit {
     private charbonService: CharbonService,
     private formBuilder: FormBuilder,
     private courseService: CourseService
-  ) {}
+  ) {
+    this.editable = false;
+  }
 
   ngOnInit(): void {
     this.sortForm = this.formBuilder.group({
       courseType: CourseType.undefined,
       course: undefined,
     });
-
+    
     this.courseService.getCourses().subscribe((data) => {
       this.courseList = data;
       this.updateCourseList();
     });
-
-    this.sortForm.valueChanges.subscribe((data) => {
+    
+    this.sortForm.valueChanges.subscribe(() => {
       this.charbonList = [];
       this.fullyfetched = false;
+      if (!this.isLoading) {
+        this.fetchNextCharbons();
+      }
     });
-
-    this.sortForm.get('courseType')?.valueChanges.subscribe((data) => {
+    
+    this.sortForm.get('courseType')?.valueChanges.subscribe(() => {
       this.updateCourseList();
       this.sortForm.get('course')?.setValue(undefined);
     });
-  }
 
+    this.fetchNextCharbons();
+  }
+  
   updateCourseList(): void {
     this.courseListForSelectedType = this.courseList.filter(
       (course) => course.type === this.sortForm.get('courseType')?.value
@@ -62,10 +71,10 @@ export class CharbonListComponent implements OnInit {
   }
 
   fetchNextCharbons(): void {
+    this.isLoading = true;
+
     const offset: number = this.charbonList.length;
     const formData = this.sortForm.value;
-
-    this.isLoading = true;
 
     const params: CharbonGetParameters = {
       courses: formData.course ? [formData.course] : undefined,
