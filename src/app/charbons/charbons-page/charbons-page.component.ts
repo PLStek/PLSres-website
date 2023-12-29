@@ -5,10 +5,7 @@ import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CourseService } from 'src/app/shared/services/course.service';
-import {
-  CourseType,
-  getCourseTypeName,
-} from 'src/app/shared/utils/course-type.model';
+import { CourseType } from 'src/app/shared/utils/course-type.model';
 
 @Component({
   selector: 'app-charbons-page',
@@ -21,7 +18,6 @@ export class CharbonsPageComponent implements OnInit {
   charbonList: Charbon[] = [];
   nextThreeCharbons: Charbon[] = [];
   selectedCharbon: Charbon | null = null;
-
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
@@ -43,10 +39,8 @@ export class CharbonsPageComponent implements OnInit {
     this.sortForm = this.formBuilder.group({
       courseType: CourseType.undefined,
       course: undefined,
-      minDuration: undefined,
-      maxDuration: undefined,
     });
-    
+
     this.fetchThreeUpcomingCharbons();
 
     this.courseService.getCourses().subscribe((data) => {
@@ -64,6 +58,7 @@ export class CharbonsPageComponent implements OnInit {
       this.sortForm.get('course')?.setValue(undefined);
     });
   }
+
 
   fetchThreeUpcomingCharbons(): void {
     this.charbonService
@@ -91,8 +86,6 @@ export class CharbonsPageComponent implements OnInit {
         formData.courseType === CourseType.undefined
           ? undefined
           : formData.courseType,
-      minDuration: formData.minDuration,
-      maxDuration: formData.maxDuration,
       limit: this.CHARBON_PER_PAGE,
       offset: offset,
     };

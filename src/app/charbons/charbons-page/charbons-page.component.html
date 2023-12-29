@@ -42,7 +42,7 @@
                         <option value="2">Plus récent</option>
                     </select>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-1"></div>
                 <div class="col-md-3">
                     <label class="form-label">Type d'UE:</label>
                     <select class="form-select" formControlName="courseType">
@@ -53,13 +53,7 @@
                         <option [ngValue]="courseTypeEnum.elec">Électricité</option>
                     </select>
                 </div>
-            </div>
-            <div class="row pt-3">
-                <div class="col-md-3">
-                    <label class="form-label">Durée du charbon</label>
-                    <input type="range" class="form-range" min="0" max="3" step="0.25" id="customRange3">
-                </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-1"></div>
                 <div class="col-md-3">
                     <label class="form-label">UE:</label>
                     <select class="form-select" formControlName="course">
@@ -67,7 +61,7 @@
                         <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">{{course.id}}
                         </option>
                     </select>
-                </div>
+            </div>
             </div>
         </form>
     </div>
