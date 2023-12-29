@@ -31,6 +31,7 @@ import { LoginPopupComponent } from './shared/components/login-popup/login-popup
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AccountPopupComponent } from './shared/components/account-popup/account-popup.component';
 import { ExerciseEditionPageComponent } from './actionner/exercise-edition-page/exercise-edition-page.component';
+import { CharbonListComponent } from './charbons/charbon-list/charbon-list.component';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { ExerciseEditionPageComponent } from './actionner/exercise-edition-page/
     LoginPopupComponent,
     AccountPopupComponent,
     ExerciseEditionPageComponent,
+    CharbonListComponent,
   ],
   imports: [
     HttpClientModule,
