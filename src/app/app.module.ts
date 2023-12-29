@@ -25,13 +25,14 @@ import { ActionnerHomePageComponent } from './actionner/actionner-home-page/acti
 import { AddCharbonComponent } from './actionner/charbon-form/charbon-form.component';
 import { CharbonEditionPageComponent } from './actionner/charbon-edition-page/charbon-edition-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EditPopupComponent } from './actionner/edit-popup/edit-popup.component';
+import { CharbonEditionPopup } from './actionner/charbon-edition-popup/charbon-edition-popup.component';
 import { AddExerciceComponent } from './actionner/exercise-form/exercise-form.component';
 import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AccountPopupComponent } from './shared/components/account-popup/account-popup.component';
 import { ExerciseEditionPageComponent } from './actionner/exercise-edition-page/exercise-edition-page.component';
 import { CharbonListComponent } from './charbons/charbon-list/charbon-list.component';
+import { ExerciseEditionPopupComponent } from './actionner/exercise-edition-popup/exercise-edition-popup.component';
 
 
 @NgModule({
@@ -55,12 +56,13 @@ import { CharbonListComponent } from './charbons/charbon-list/charbon-list.compo
     ActionnerHomePageComponent,
     AddCharbonComponent,
     CharbonEditionPageComponent,
-    EditPopupComponent,
+    CharbonEditionPopup,
     AddExerciceComponent,
     LoginPopupComponent,
     AccountPopupComponent,
     ExerciseEditionPageComponent,
     CharbonListComponent,
+    ExerciseEditionPopupComponent,
   ],
   imports: [
     HttpClientModule,
