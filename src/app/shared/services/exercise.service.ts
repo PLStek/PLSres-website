@@ -25,13 +25,13 @@ export class ExerciseService {
     return response.pipe(
       map((data: any) =>
         data.map(
-          (element: any) =>
+          (element: any) => 
             new Exercise(
               Number(element.id),
               String(element.title),
               Number(element.difficulty),
               Number(element.topic_id),
-              Boolean(element.is_corrected),
+              element.is_corrected == '1' ? true : false,
               String(element.source),
               element.content ? base64Decode(element.content) : undefined
             )
@@ -48,6 +48,7 @@ export class ExerciseService {
       correctedOnly?: boolean;
       content?: boolean;
     } = {}
+    //TODO: replace by ExerciseGetParameters
   ): Observable<Exercise[]> {
     let params = new HttpParams();
     params = this.setParam(params, 'id', options.id);
@@ -67,7 +68,7 @@ addExercise(
     const formData = new FormData();
     formData.append('title', data.title.toString());
     formData.append('difficulty', data.difficulty.toString());
-    formData.append('is_corrected', data.is_corrected ? '1' : '0');
+    formData.append('is_corrected', data.isCorrected ? '1' : '0');
     formData.append('topic_id', data.topicId.toString());
     formData.append('source', data.source.toString());
     formData.append('content', data.content);
