@@ -17,14 +17,16 @@
                     <th scope="col">Source</th>
                     <th scope="col">Corrigé ?</th>
                     <th scope="col">Difficulté</th>
+                    <th *ngIf="editable"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let exercise of exerciseList">
-                    <td><a [routerLink]="['/exercices', exercise.id]">{{exercise.title}}</a></td>
+                    <td><a class="custom-link" [routerLink]="['/exercices', exercise.id]">{{exercise.title}}</a></td>
                     <td>{{exercise.source}}</td>
                     <td>{{exercise.isCorrected ? 'Oui' : 'Non'}}</td>
                     <td>{{generateStars(exercise.difficulty)}}</td>
+                    <td *ngIf="editable"><a class="custom-link" (click)="openEditPopup(exercise)">Edit</a></td>
                 </tr>
             </tbody>
         </table>

@@ -84,26 +84,27 @@ export class AddCharbonComponent implements OnInit {
   }
 
   initForm(baseCharbon?: Charbon): void {
-    this.form = this.formBuilder.group({
-      title: '',
-      course: '',
-      courseType: CourseType.undefined,
-      date: '2023T20:00',
-      actionneurs: [],
-      description: '',
-      replayLink: '',
-      resourcesLink: '',
-    });
-
     if (baseCharbon) {
-      this.form.patchValue({
+      this.form = this.formBuilder.group({
         title: baseCharbon.title,
         course: baseCharbon.course,
         courseType: baseCharbon.courseType,
         date: baseCharbon.date.toISOString(),
+        actionneurs: [],
         description: baseCharbon.description,
         replayLink: baseCharbon.replayLink,
         resourcesLink: baseCharbon.resourcesLink,
+      });
+    } else {
+      this.form = this.formBuilder.group({
+        title: '',
+        course: '',
+        courseType: CourseType.undefined,
+        date: '2023T20:00',
+        actionneurs: [],
+        description: '',
+        replayLink: '',
+        resourcesLink: '',
       });
     }
   }

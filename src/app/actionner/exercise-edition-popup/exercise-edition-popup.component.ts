@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 
 @Component({

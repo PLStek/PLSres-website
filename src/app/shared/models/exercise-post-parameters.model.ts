@@ -2,7 +2,7 @@ export interface ExercisePostParameters {
     title: String,
     difficulty: number,
     topicId: number,
-    is_corrected: boolean,
+    isCorrected: boolean,
     source: String,
     content: File,
 }

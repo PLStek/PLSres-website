@@ -2,6 +2,8 @@ import { Exercise } from 'src/app/shared/models/exercise.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { ExerciseService } from 'src/app/shared/services/exercise.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { ExerciseEditionPopupComponent } from 'src/app/actionner/exercise-edition-popup/exercise-edition-popup.component';
 
 @Component({
   selector: 'app-exercise',
@@ -10,9 +12,10 @@ import { ExerciseService } from 'src/app/shared/services/exercise.service';
 })
 export class ExerciseComponent implements OnInit {
   @Input() exerciseTopic!: ExerciseTopic;
+  @Input() editable: boolean = true ;
   exerciseList!: Exercise[];
 
-  constructor(private exerciseService: ExerciseService) {
+  constructor(private exerciseService: ExerciseService, private modalService: BsModalService) {
     this.exerciseList;
   }
 
@@ -26,5 +29,12 @@ export class ExerciseComponent implements OnInit {
       .subscribe((data: Exercise[]) => {
         this.exerciseList = data;
       });
+  }
+
+  openEditPopup(exercise: Exercise): void {
+    this.modalService.show(ExerciseEditionPopupComponent, {
+      class: 'modal-lg modal-dialog-centered',
+      initialState: { editedExercise: exercise},
+    });
   }
 }
