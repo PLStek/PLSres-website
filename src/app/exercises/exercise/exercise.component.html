@@ -26,14 +26,16 @@
                     <td>{{exercise.source}}</td>
                     <td>{{exercise.isCorrected ? 'Oui' : 'Non'}}</td>
                     <td>{{generateStars(exercise.difficulty)}}</td>
-                    <td *ngIf="editable"><a class="custom-link" (click)="openEditPopup(exercise)">Edit</a></td>
+                    <td *ngIf="editable"><a class="custom-link" (click)="openEditPopup(exercise)">Editer</a></td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div [ngClass]="'course-color-'+exerciseTopic.courseType"
         class="card-footer text-body-secondary d-flex justify-content-evenly">
-        <app-color-button [courseType]="exerciseTopic.courseType" [isFilled]="true"
-            content="Pose nous tes questions !"></app-color-button>
+        <app-color-button *ngIf="!editable" [courseType]="exerciseTopic.courseType" [isFilled]="true"
+            content="Pose nous tes questions !" (click)="openDiscordLink()"></app-color-button>
+        <app-color-button *ngIf="editable" [courseType]="exerciseTopic.courseType" [isFilled]="true"
+            content="Editer la catégorie" (click)="openTopicEditPopup()"></app-color-button>
     </div>
 </div>

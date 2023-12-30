@@ -33,6 +33,8 @@ import { AccountPopupComponent } from './shared/components/account-popup/account
 import { ExerciseEditionPageComponent } from './actionner/exercise-edition-page/exercise-edition-page.component';
 import { CharbonListComponent } from './charbons/charbon-list/charbon-list.component';
 import { ExerciseEditionPopupComponent } from './actionner/exercise-edition-popup/exercise-edition-popup.component';
+import { ExerciseTopicFormComponent } from './actionner/exercise-topic-form/exercise-topic-form.component';
+import { ExerciseTopicEditionPopupComponent } from './actionner/exercise-topic-edition-popup/exercise-topic-edition-popup.component';
 
 
 @NgModule({
@@ -63,6 +65,8 @@ import { ExerciseEditionPopupComponent } from './actionner/exercise-edition-popu
     ExerciseEditionPageComponent,
     CharbonListComponent,
     ExerciseEditionPopupComponent,
+    ExerciseTopicFormComponent,
+    ExerciseTopicEditionPopupComponent,
   ],
   imports: [
     HttpClientModule,

@@ -4,6 +4,7 @@ import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { ExerciseService } from 'src/app/shared/services/exercise.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { ExerciseEditionPopupComponent } from 'src/app/actionner/exercise-edition-popup/exercise-edition-popup.component';
+import { ExerciseTopicEditionPopupComponent } from 'src/app/actionner/exercise-topic-edition-popup/exercise-topic-edition-popup.component';
 
 @Component({
   selector: 'app-exercise',
@@ -36,5 +37,16 @@ export class ExerciseComponent implements OnInit {
       class: 'modal-lg modal-dialog-centered',
       initialState: { editedExercise: exercise},
     });
+  }
+
+  openTopicEditPopup(): void {
+    this.modalService.show(ExerciseTopicEditionPopupComponent, {
+      class: 'modal-lg modal-dialog-centered',
+      initialState: { editedExerciseTopic: this.exerciseTopic},
+    });
+  }
+
+  openDiscordLink() {
+    window.open("https://discord.com", '_blank');
   }
 }
