@@ -88,7 +88,7 @@ export class AddExerciceComponent implements OnInit {
     this.form.get('content')?.setValue(file);
   }
 
-  addExercise(): void {
+  validate(): void {
     let newExercise: ExercisePostParameters = {
       title: this.form.get('title')?.value,
       difficulty: this.form.get('difficulty')?.value,
@@ -98,9 +98,24 @@ export class AddExerciceComponent implements OnInit {
       content: this.form.get('content')?.value,
     };
 
+    this.baseExercise
+      ? this.updateExercise(newExercise)
+      : this.addExercise(newExercise);
+  }
+
+  addExercise(newExercise: ExercisePostParameters): void {
     this.exerciseService.addExercise(newExercise).subscribe((success) => {
       if (success) this.onValidate.emit();
       console.log(success);
     });
+  }
+
+  updateExercise(newExercise: ExercisePostParameters): void {
+    this.exerciseService
+      .updateExercise(this.baseExercise?.id ?? 0, newExercise)
+      .subscribe((success) => {
+        if (success) this.onValidate.emit();
+        console.log(success);
+      });
   }
 }

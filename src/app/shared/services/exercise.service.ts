@@ -30,8 +30,8 @@ export class ExerciseService {
               Number(element.id),
               String(element.title),
               Number(element.difficulty),
-              Number(element.topic_id),
-              element.is_corrected == '1' ? true : false,
+              Number(element.topicId),
+              element.isCorrected == '1' ? true : false,
               String(element.source),
               element.content ? base64Decode(element.content) : undefined
             )
@@ -52,9 +52,9 @@ export class ExerciseService {
   ): Observable<Exercise[]> {
     let params = new HttpParams();
     params = this.setParam(params, 'id', options.id);
-    params = this.setParam(params, 'max_difficulty', options.maxDifficulty);
-    params = this.setParam(params, 'topic_id', options.topicId);
-    params = this.setParam(params, 'corrected_only', options.correctedOnly);
+    params = this.setParam(params, 'maxDifficulty', options.maxDifficulty);
+    params = this.setParam(params, 'topicId', options.topicId);
+    params = this.setParam(params, 'correctedOnly', options.correctedOnly);
     params = this.setParam(params, 'content', options.content);
 
     return this.http
@@ -75,6 +75,22 @@ addExercise(
 
     return this.http
       .post<any>('http://localhost/PLSres/api/exercises', formData)
+      .pipe(
+        map((res) => {
+          return Boolean(res.success) ?? false;
+        })
+      );
+  }
+
+  updateExercise(
+    id: number,
+    data: ExercisePostParameters,
+  ): Observable<boolean> {
+    const putData = {id, ...data};
+
+
+    return this.http
+      .put<any>(`http://localhost/PLSres/api/exercises`, putData)
       .pipe(
         map((res) => {
           return Boolean(res.success) ?? false;

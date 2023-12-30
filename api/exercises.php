@@ -31,7 +31,17 @@ function getExercises($id, $max_difficulty, $topic_id, $corrected_only)
 
     $result = $conn->query($query);
 
-    $exercises = $result->fetch_all(MYSQLI_ASSOC);
+    $exercises = array();
+    while ($row = $result->fetch_assoc()) {
+        $exercises[] = array(
+            'id' => $row['id'],
+            'title' => $row['title'],
+            'difficulty' => $row['difficulty'],
+            'isCorrected' => $row['is_corrected'],
+            'source' => $row['source'],
+            'topicId' => $row['topic_id']
+        );
+    }
 
     return $exercises;
 }
@@ -89,15 +99,26 @@ function compileContent($input)
     }
 }
 
+function updateExercise($id, $title, $difficulty, $is_corrected, $source, $topic_id)
+{
+    global $conn;
+
+    $query = "UPDATE exercise SET title = ?, difficulty = ?, is_corrected = ?, source = ?, topic_id = ? WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("siisii", $title, $difficulty, $is_corrected, $source, $topic_id, $id);
+    $stmt->execute();
+    $stmt->close();
+}
+
 
 try {
     switch ($method) {
         case 'GET':
             $id = $_GET['id'] ?? null;
-            $max_difficulty = $_GET['max_difficulty'] ?? 5;
+            $max_difficulty = $_GET['maxDifficulty'] ?? 5;
             $content = $_GET['content'] ?? false;
-            $topic_id = $_GET['topic_id'] ?? null;
-            $corrected_only = $_GET['corrected_only'] ?? false;
+            $topic_id = $_GET['topicId'] ?? null;
+            $corrected_only = $_GET['correctedOnly'] ?? false;
             $content = $_GET['content'] ?? false;
 
             $exercises = getExercises($id, $max_difficulty, $topic_id, $corrected_only);
@@ -110,20 +131,36 @@ try {
             echo json_encode($exercises);
             break;
         case 'POST':
-            if (!isset($_POST['title']) || !isset($_POST['difficulty']) || !isset($_POST['is_corrected']) || !isset($_POST['source']) || !isset($_POST['topic_id']) || !isset($_FILES['content']) || $_FILES['content']['error'] != 0) {
+            if (!isset($_POST['title']) || !isset($_POST['difficulty']) || !isset($_POST['isCorrected']) || !isset($_POST['source']) || !isset($_POST['topicId']) || !isset($_FILES['content']) || $_FILES['content']['error'] != 0) {
                 throw new Exception('Missing parameters.');
             }
             $title = $_POST['title'];
             $difficulty = $_POST['difficulty'];
-            $is_corrected = $_POST['is_corrected'];
+            $is_corrected = $_POST['isCorrected'];
             $source = $_POST['source'];
-            $topic_id = $_POST['topic_id'];
+            $topic_id = $_POST['topicId'];
             $content = file_get_contents($_FILES['content']['tmp_name']);
 
             $id = addExercise($title, $difficulty, $is_corrected, $source, $topic_id);
             $compiled = compileContent($content);
             file_put_contents("content/exercises/ex_$id.html", $compiled);
 
+            echo json_encode(array('success' => true));
+            break;
+
+        case 'PUT':
+            $data = json_decode(file_get_contents('php://input'), true);
+            if (!isset($data['id']) || !isset($data['title']) || !isset($data['difficulty']) || !isset($data['isCorrected']) || !isset($data['source']) || !isset($data['topicId'])) {
+                throw new Exception('Missing parameters.');
+            }
+            $id = $data['id'];
+            $title = $data['title'];
+            $difficulty = $data['difficulty'];
+            $is_corrected = $data['isCorrected'];
+            $source = $data['source'];
+            $topic_id = $data['topicId'];
+
+            updateExercise($id, $title, $difficulty, $is_corrected, $source, $topic_id);
             echo json_encode(array('success' => true));
             break;
         default:
