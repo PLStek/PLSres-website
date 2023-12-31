@@ -4,8 +4,9 @@ import {
   getCourseType,
 } from 'src/app/shared/utils/course-type.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ExerciseTopicPostParameters } from '../models/exercise-topic-post-parameters';
 
 @Injectable({
   providedIn: 'root',
@@ -32,5 +33,25 @@ export class ExerciseTopicService {
           )
         )
       );
+  }
+
+  addExerciseTopic(data: ExerciseTopicPostParameters): Observable<boolean> {
+    console.log(data);
+    return of(true);
+    /* return this.http
+      .post<any>('http://localhost/PLSres/api/exercise_topics', exerciseTopic)
+      .pipe(map((data: any) => data.success)); */
+  }
+
+  updateExerciseTopic(
+    id: number,
+    data: ExerciseTopicPostParameters
+  ): Observable<boolean> {
+    const putData = { id, ...data };
+    console.log(putData);
+
+    return this.http
+      .put<any>('http://localhost/PLSres/api/exercise_topics', putData)
+      .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

@@ -2,5 +2,5 @@
     <div class="ps-4 pb-3 ">
         <h4>Modifier une catégorie</h4>
     </div>
-    <app-exercise-topic-form class="px-4" (onValidate)="close()"></app-exercise-topic-form>
+    <app-exercise-topic-form class="px-4" [baseExerciseTopic]="editedExerciseTopic" (onValidate)="close()"></app-exercise-topic-form>
 </div>

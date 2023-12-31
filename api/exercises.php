@@ -147,7 +147,6 @@ try {
 
             echo json_encode(array('success' => true));
             break;
-
         case 'PUT':
             $data = json_decode(file_get_contents('php://input'), true);
             if (!isset($data['id']) || !isset($data['title']) || !isset($data['difficulty']) || !isset($data['isCorrected']) || !isset($data['source']) || !isset($data['topicId'])) {
