@@ -36,11 +36,12 @@ export class ExerciseTopicService {
   }
 
   addExerciseTopic(data: ExerciseTopicPostParameters): Observable<boolean> {
-    console.log(data);
-    return of(true);
-    /* return this.http
-      .post<any>('http://localhost/PLSres/api/exercise_topics', exerciseTopic)
-      .pipe(map((data: any) => data.success)); */
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('course', data.course);
+    return this.http
+      .post<any>('http://localhost/PLSres/api/exercise_topics', formData  )
+      .pipe(map((data) => data.success));
   }
 
   updateExerciseTopic(

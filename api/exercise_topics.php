@@ -40,13 +40,23 @@ function getExerciseTopics($id, $courses, $course_type)
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
+function addExerciseTopic($title, $course_id)
+{
+    global $conn;
+    $query = "INSERT INTO exercise_topic (topic, course_id) VALUES (?, ?)";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("ss", $title, $course_id);
+
+    $stmt->execute();
+}
+
 function updateExerciseTopic($id, $title, $course_id)
 {
     global $conn;
     $query = "UPDATE exercise_topic SET topic = ?, course_id = ? WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ssi", $title, $course_id, $id);
-    
+
     $stmt->execute();
 }
 
@@ -58,6 +68,15 @@ try {
             $course_type = $_GET['course_type'] ?? null;
             $exercise_topics = getExerciseTopics($id, $courses, $course_type);
             echo json_encode($exercise_topics);
+            break;
+        case 'POST':
+            if (!isset($_POST['title']) || !isset($_POST['course'])) {
+                throw new Exception('Missing parameters');
+            }
+            $title = $_POST['title'];
+            $course_id = $_POST['course'];
+            addExerciseTopic($title, $course_id);
+            echo json_encode(array('success' => true));
             break;
         case 'PUT':
             $data = json_decode(file_get_contents('php://input'), true);
@@ -71,6 +90,7 @@ try {
             updateExerciseTopic($id, $title, $course_id);
             echo json_encode(array('success' => true));
             break;
+
         default:
             break;
     }
