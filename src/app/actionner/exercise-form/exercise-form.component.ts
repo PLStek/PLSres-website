@@ -105,7 +105,10 @@ export class AddExerciceComponent implements OnInit {
 
   addExercise(newExercise: ExercisePostParameters): void {
     this.exerciseService.addExercise(newExercise).subscribe((success) => {
-      if (success) this.onValidate.emit();
+      if (success) {
+        this.initForm();
+        this.onValidate.emit();
+      }
     });
   }
 
@@ -113,7 +116,10 @@ export class AddExerciceComponent implements OnInit {
     this.exerciseService
       .updateExercise(this.baseExercise?.id ?? 0, newExercise)
       .subscribe((success) => {
-        if (success) this.onValidate.emit();
+        if (success) {
+          this.initForm();
+          this.onValidate.emit();
+        }
       });
   }
 }

@@ -81,7 +81,10 @@ export class ExerciseTopicFormComponent implements OnInit {
     this.exerciseTopicService
       .addExerciseTopic(newExerciseTopic)
       .subscribe((success) => {
-        if (success) this.onValidate.emit();
+        if (success) {
+          this.initForm();
+          this.onValidate.emit();
+        }
       });
   }
 
@@ -89,7 +92,10 @@ export class ExerciseTopicFormComponent implements OnInit {
     this.exerciseTopicService
       .updateExerciseTopic(this.baseExerciseTopic?.id ?? 0, newExerciseTopic)
       .subscribe((success) => {
-        if (success) this.onValidate.emit();
+        if (success) {
+          this.initForm();
+          this.onValidate.emit();
+        }
       });
   }
 }
