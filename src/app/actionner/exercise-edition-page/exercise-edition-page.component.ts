@@ -12,9 +12,5 @@ export class ExerciseEditionPageComponent implements OnInit {
   constructor(private modalService: BsModalService) {}
 
   ngOnInit(): void {
-    this.modalService.show(ExerciseEditionPopupComponent, {
-      class: 'modal-lg modal-dialog-centered',
-      initialState: { editedExercise: undefined },
-    });
   }
 }
