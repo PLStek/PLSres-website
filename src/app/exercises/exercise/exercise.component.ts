@@ -13,7 +13,7 @@ import { ExerciseTopicEditionPopupComponent } from 'src/app/actionner/exercise-t
 })
 export class ExerciseComponent implements OnInit {
   @Input() exerciseTopic!: ExerciseTopic;
-  @Input() editable: boolean = true ;
+  @Input() editable: boolean = false ;
   exerciseList!: Exercise[];
 
   constructor(private exerciseService: ExerciseService, private modalService: BsModalService) {

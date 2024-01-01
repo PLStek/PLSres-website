@@ -35,6 +35,7 @@ import { CharbonListComponent } from './charbons/charbon-list/charbon-list.compo
 import { ExerciseEditionPopupComponent } from './actionner/exercise-edition-popup/exercise-edition-popup.component';
 import { ExerciseTopicFormComponent } from './actionner/exercise-topic-form/exercise-topic-form.component';
 import { ExerciseTopicEditionPopupComponent } from './actionner/exercise-topic-edition-popup/exercise-topic-edition-popup.component';
+import { ExerciseListComponent } from './exercises/exercise-list/exercise-list.component';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { ExerciseTopicEditionPopupComponent } from './actionner/exercise-topic-e
     ExerciseEditionPopupComponent,
     ExerciseTopicFormComponent,
     ExerciseTopicEditionPopupComponent,
+    ExerciseListComponent,
   ],
   imports: [
     HttpClientModule,
