@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 19, 2023 at 10:40 PM
+-- Generation Time: Dec 27, 2023 at 05:08 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -58,13 +58,20 @@ CREATE TABLE `charbon` (
 --
 
 INSERT INTO `charbon` (`id`, `title`, `description`, `datetime`, `duration`, `course_id`, `replay_link`, `resources_link`) VALUES
-(1, 'Premier charbon de l\'histoire', 'On fait le premier charbon de l\'histoire', '2023-12-15 20:32:17', NULL, 'PS22', 'https://youtube.com', NULL),
-(2, 'AAP 4, 5 et 6 de PM1 !', 'On prépare le CC2 de PM en révisant les AAP 4, 5 et 6. Nous utiliserons l\'ECA du CC2 en distanciel A22, alors jetez-y un coup d\'oeil !', '2023-12-16 13:54:57', NULL, 'PM1', 'https://youbube.com', NULL),
-(3, 'Révision pour le final d\'EL22', 'On révise toutes les notions depuis le début de l\'année', '2023-12-29 20:15:57', NULL, 'EL22', NULL, NULL),
+(1, 'Premier charbon de l\'histoire', 'On fait le premier charbon de l\'histoire', '2023-12-01 10:39:00', NULL, 'PS22', NULL, NULL),
+(2, 'AAP 4, 5 et 6 de PM1 !', 'On prépare le CC2 de PM en révisant les AAP 4, 5 et 6. Nous utiliserons l\'ECA du CC2 en distanciel A22, alors jetez-y un coup d\'oeil !', '2023-12-16 13:54:57', NULL, 'PM1', 'https://youtube.com', NULL),
+(3, 'Révision pour le final d\'EL22', 'On révise toutes les notions depuis le début de l\'année', '2023-12-29 20:15:57', NULL, 'EL22', 'https://youtube.com', NULL),
 (4, 'Révisions pour le médian de PS2', 'On revoit les coordonnées cartésiennes et polaires', '2023-11-13 18:15:57', '02:07:57', 'PS2', 'http://youtube.com', NULL),
 (5, 'Chapitres 3 et 4', 'On fait des exercices sur l\'algèbre linéaire et les fonctions à 2 variables', '2023-11-02 20:00:00', '02:42:12', 'MT2', 'http://youtube.com', NULL),
-(8, 'test', 'test', '2020-12-12 12:12:12', NULL, 'MT3', NULL, NULL),
-(16, 'Revisions final', 'On revise toutes les notions vues depuis le debut de l\'annee', '2018-04-26 06:22:22', NULL, 'PS25', NULL, NULL);
+(8, 'test', 'test', '2020-12-12 12:12:12', NULL, 'MT3', 'https://youtube.com', NULL),
+(16, 'Revisions final', 'On revise toutes les notions vues depuis le debut de l\'annee', '2018-04-26 06:22:22', NULL, 'PS25', 'https://youtube.com', NULL),
+(22, 'Révisions BDD', 'On revoit les BDD', '2023-12-14 19:00:00', NULL, 'IF3A', NULL, NULL),
+(23, 'Test2', 'Uwu', '2023-12-13 18:52:00', NULL, 'EL22', NULL, NULL),
+(24, 'Test2', 'Uwu', '2023-12-13 18:52:00', NULL, 'PS22', NULL, NULL),
+(25, 'uwu', 'kaka', '2023-12-22 21:28:00', NULL, 'PS25', NULL, NULL),
+(26, 'Suua', '', '2023-12-22 21:28:00', NULL, 'IF1', NULL, NULL),
+(27, 'Révisions PHP', 'On revoit ensemble la connexion aux bases de données', '2023-12-20 11:47:00', NULL, 'IF3A', NULL, NULL),
+(28, 'Révisions PHP', 'On revoit ensemble la connexion aux bases de données', '2023-12-20 11:47:00', NULL, 'IF3A', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -87,7 +94,20 @@ INSERT INTO `charbon_host` (`charbon_id`, `actionneur_id`) VALUES
 (8, 1),
 (8, 2),
 (16, 1),
-(16, 2);
+(16, 2),
+(22, 1),
+(22, 2),
+(23, 1),
+(23, 2),
+(24, 1),
+(24, 2),
+(25, 1),
+(25, 2),
+(26, 1),
+(27, 1),
+(27, 2),
+(28, 1),
+(28, 2);
 
 -- --------------------------------------------------------
 
@@ -118,6 +138,7 @@ INSERT INTO `course` (`id`, `type_id`) VALUES
 ('LP2B', 2),
 ('EL21', 3),
 ('EL22', 3),
+('PS1', 3),
 ('PS22', 3),
 ('MT1', 4),
 ('MT2', 4),
@@ -171,7 +192,11 @@ INSERT INTO `exercise` (`id`, `title`, `difficulty`, `is_corrected`, `source`, `
 (2, 'Parcours d\'une liste chainée', 2, 0, 'Wiqiro', 2),
 (3, 'Inversion d\'une liste chainée', 3, 0, 'Wiqiro', 2),
 (4, 'Parcours d\'un graphe', 4, 1, 'Trytoon', 3),
-(7, 'Test exercise', 1, 0, 'Source', 1);
+(7, 'Test exercise', 1, 0, 'Source', 1),
+(8, 'TestExercise', 5, 0, 'William', 2),
+(9, 'Un cas assez particulier', 4, 0, 'Tatouille', 8),
+(10, 'dfg', 4, 0, 'po', 5),
+(11, 'Test', 4, 0, 'William', 6);
 
 -- --------------------------------------------------------
 
@@ -192,7 +217,12 @@ CREATE TABLE `exercise_topic` (
 INSERT INTO `exercise_topic` (`id`, `topic`, `course_id`) VALUES
 (1, 'Arbres binaires', 'LO21'),
 (2, 'Listes chaînées', 'LO21'),
-(3, 'Graphes', 'LO21');
+(3, 'Graphes', 'LO21'),
+(4, 'Coordonnées polaires', 'PS2'),
+(5, 'Coordonnées intrinsèques', 'PS2'),
+(6, 'Nombres complexes', 'MT1'),
+(7, 'Fonctions à deux variables', 'MT2'),
+(8, 'Equivalence Thevenin-Norton', 'PS1');
 
 -- --------------------------------------------------------
 
@@ -205,8 +235,8 @@ CREATE TABLE `user` (
   `username` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password_hash` varchar(100) NOT NULL,
-  `actionneur` tinyint(1) NOT NULL,
-  `admin` tinyint(1) NOT NULL
+  `actionneur` tinyint(1) NOT NULL DEFAULT 0,
+  `admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -214,8 +244,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `actionneur`, `admin`) VALUES
-(1, 'William', 'william.imbert@utbm.fr', 'QSD', 1, 1),
-(2, 'Tyuvetou', 'gregori.machin@utbm.fr', 'UWU', 1, 1);
+(1, 'William', 'william.imbert@utbm.fr', '$2y$10$MyDpbLIZhLScjJxDH7GKGu.Y/G5XhznRq0hozGgmFZ7SI0Pj9TTk.', 1, 1),
+(2, 'Tyuvetou', 'gregori.machin@utbm.fr', 'UWU', 1, 1),
+(12, 'Michel', 'michel@utbm.fr', '$2y$10$3MxqdrWuezokz1IcZLr1DOgy5hCLHXvmSXV/Xi/q37XorxK/AvEpm', 0, 0),
+(17, 'Robert', 'robert@utbm.fr', '$2y$10$OVp11374Sw2bQKs6ebfeTe26TDP.FA.60iz0JkL3oft1mR2OP4IFu', 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -273,7 +305,9 @@ ALTER TABLE `exercise_topic`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -289,7 +323,7 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT for table `charbon`
 --
 ALTER TABLE `charbon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `course_type`
@@ -301,19 +335,19 @@ ALTER TABLE `course_type`
 -- AUTO_INCREMENT for table `exercise`
 --
 ALTER TABLE `exercise`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `exercise_topic`
 --
 ALTER TABLE `exercise_topic`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables

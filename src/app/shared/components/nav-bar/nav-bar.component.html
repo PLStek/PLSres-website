@@ -14,24 +14,27 @@
             <div class="me-5"></div>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/accueil" routerLinkActive="active-page">Accueil</a>
+                    <a class="nav-link" [routerLink]="isActionneurRoute() ?'/actionner/accueil' : '/accueil' "
+                        routerLinkActive="active-page">Accueil</a>
                 </li>
-                <li class="nav-item">
+                <li *ngIf="!isActionneurRoute()" class="nav-item">
                     <a class="nav-link" routerLink="/annonces" routerLinkActive="active-page">Annonces</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/charbons" routerLinkActive="active-page">Charbons</a>
+                    <a class="nav-link" [routerLink]="isActionneurRoute() ?'/actionner/charbons' : '/charbons' "
+                        routerLinkActive="active-page">Charbons</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/exercices" routerLinkActive="active-page">Exercices</a>
+                    <a class="nav-link" [routerLink]="isActionneurRoute() ?'/actionner/exercices' : '/exercices' "
+                        routerLinkActive="active-page">Exercices</a>
                 </li>
             </ul>
             <div class="d-flex justify-content-between">
-                <app-main-button *ngIf="loggedUser?.isActionneur" content="Actionner" [isFilled]="true"
-                    routerLink="/action/accueil"></app-main-button>
+                <app-main-button *ngIf="loggedUser?.isActionneur && !isActionneurRoute()" content="Actionner"
+                    [isFilled]="true" routerLink="/actionner/accueil"></app-main-button>
                 <div class="me-3"></div>
-                <app-main-button *ngIf="loggedUser != undefined; else login" [content]="this.loggedUser.username" [isFilled]="false"
-                    (click)="openAccountForm()"></app-main-button>
+                <app-main-button *ngIf="loggedUser != undefined; else login" [content]="this.loggedUser.username"
+                    [isFilled]="false" (click)="openAccountForm()"></app-main-button>
                 <ng-template #login>
                     <app-main-button content="Connexion" [isFilled]="false" (click)="openLoginForm()"></app-main-button>
                 </ng-template>

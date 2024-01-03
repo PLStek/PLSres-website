@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { ExerciseService } from 'src/app/shared/services/exercise.service';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
@@ -15,12 +15,16 @@ import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-para
   styleUrls: ['./exercise-form.component.scss'],
 })
 export class AddExerciceComponent implements OnInit {
+  @Input() baseExercise?: Exercise;
+  @Output() onValidate = new EventEmitter<void>();
+
   form!: FormGroup;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
   exerciseTopicList: ExerciseTopic[] = [];
 
+  //TODO: make static everywhere and check case
   courseTypeEnum = CourseType;
 
   constructor(
@@ -31,16 +35,7 @@ export class AddExerciceComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      title: '',
-      difficulty: 0,
-      course: '',
-      courseType: CourseType.undefined,
-      topic: 0,
-      is_corrected: false,
-      source: '',
-      content: null,
-    });
+    this.initForm(this.baseExercise);
 
     this.courseService.getCourses().subscribe((data) => {
       this.courseList = data;
@@ -56,6 +51,32 @@ export class AddExerciceComponent implements OnInit {
     });
   }
 
+  initForm(baseExercise?: Exercise): void {
+    if (baseExercise) {
+      this.form = this.formBuilder.group({
+        title: baseExercise.title,
+        difficulty: baseExercise.difficulty,
+        course: '',
+        courseType: CourseType.undefined,
+        topic: baseExercise.topicId,
+        isCorrected: baseExercise.isCorrected,
+        source: baseExercise.source,
+        content: null,
+      });
+    } else {
+      this.form = this.formBuilder.group({
+        title: '',
+        difficulty: 0,
+        course: '',
+        courseType: CourseType.undefined,
+        topic: 0,
+        isCorrected: false,
+        source: '',
+        content: null,
+      });
+    }
+  }
+
   updateCourseList(): void {
     this.courseListForSelectedType = this.courseList.filter(
       (course) => course.type === this.form.get('courseType')?.value
@@ -67,19 +88,38 @@ export class AddExerciceComponent implements OnInit {
     this.form.get('content')?.setValue(file);
   }
 
-  addExercise(): void {
+  validate(): void {
     let newExercise: ExercisePostParameters = {
       title: this.form.get('title')?.value,
       difficulty: this.form.get('difficulty')?.value,
       topicId: this.form.get('topic')?.value,
-      is_corrected: this.form.get('is_corrected')?.value,
+      isCorrected: this.form.get('isCorrected')?.value,
       source: this.form.get('source')?.value,
       content: this.form.get('content')?.value,
     };
 
-    console.log(newExercise);
-    this.exerciseService.addExercise(newExercise).subscribe((data) => {
-      console.log(data);
+    this.baseExercise
+      ? this.updateExercise(newExercise)
+      : this.addExercise(newExercise);
+  }
+
+  addExercise(newExercise: ExercisePostParameters): void {
+    this.exerciseService.addExercise(newExercise).subscribe((success) => {
+      if (success) {
+        this.initForm();
+        this.onValidate.emit();
+      }
     });
+  }
+
+  updateExercise(newExercise: ExercisePostParameters): void {
+    this.exerciseService
+      .updateExercise(this.baseExercise?.id ?? 0, newExercise)
+      .subscribe((success) => {
+        if (success) {
+          this.initForm();
+          this.onValidate.emit();
+        }
+      });
   }
 }

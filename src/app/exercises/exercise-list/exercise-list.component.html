@@ -1,0 +1,45 @@
+<div>
+    <div class="row pt-3">
+        <div class="col-md-4">
+            <label for="inputTri" class="form-label">Trier par :</label>
+            <select id="inputTri" class="form-select">
+                <option selected>A à Z</option>
+                <option value="1">Date</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="TypeUE" class="form-label">Type d'UE :</label>
+            <select id="TypeUE" class="form-select">
+                <option selected>-----------------</option>
+                <option value="1">Mécanique</option>
+                <option value="2">Informatique</option>
+                <option value="2">Mathématique</option>
+                <option value="2">Électricité</option>
+            </select>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-md-4">
+            <label for="rating">Difficulté :</label>
+            <div class="rating">
+                <span class="star" *ngFor="let i of [1, 2, 3, 4, 5]" (click)="setDifficulty(i)">
+                    &#9734;
+                </span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label for="inputUE" class="form-label">UE :</label>
+            <select id="inputUE" class="form-select">
+                <option selected>-----------------</option>
+                <option value="1">MT1</option>
+                <option value="2">MT2</option>
+                <option value="1">MT3</option>
+                <option value="2">MT3A</option>
+            </select>
+        </div>
+    </div>
+    <div class="d-flex flex-column align-items-center mt-5">
+        <app-exercise class="col-12  col-md-10 col-xxl-8" *ngFor="let exerciseTopic of exerciseTopicList"
+            [exerciseTopic]="exerciseTopic" [editable]="editable"></app-exercise>
+    </div>
+</div>

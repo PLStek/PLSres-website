@@ -4,6 +4,7 @@ import { LoginPopupComponent } from '../login-popup/login-popup.component';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 import { AccountPopupComponent } from '../account-popup/account-popup.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,33 +15,35 @@ export class NavBarComponent implements OnInit {
   loggedUser?: User;
   isToggled = false;
 
-  modalRef?: BsModalRef;
-
   toggleClasses() {
     this.isToggled = !this.isToggled;
   }
 
   constructor(
     private modalService: BsModalService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.authService.getLoggedUser().subscribe((user) => {
-      console.log(user);
-      this.loggedUser = user;
-    });
+    this.authService
+      .getLoggedUser()
+      .subscribe((user) => (this.loggedUser = user));
   }
 
   openLoginForm() {
-    this.modalRef = this.modalService.show(LoginPopupComponent, {
+    this.modalService.show(LoginPopupComponent, {
       class: 'modal-xl',
     });
   }
 
   openAccountForm() {
-    this.modalRef = this.modalService.show(AccountPopupComponent, {
+    this.modalService.show(AccountPopupComponent, {
       class: 'modal-lg',
     });
+  }
+
+  isActionneurRoute(): boolean {
+    return this.router.url.includes('actionner');
   }
 }

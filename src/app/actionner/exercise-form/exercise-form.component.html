@@ -1,54 +1,39 @@
-<div class="row mt-4 ms-2">
-    <div class="col-md-6">
-        <h5 d-flex justify-content-center>Ajouter Exercice</h5>
-        <div class="row pt-2">
-            <div class="row">
-                <form [formGroup]="form">
-                    <input type="text" class="form-control mb-3" placeholder="Titre du l'exercice"
-                        aria-label="Titre charbon" formControlName="title">
-                    <label for="difficulty">Difficulté :</label>
-                    <input type="number" class="form-control mb-3"
-                        aria-label="difficulté" max="5" min="1" formControlName="difficulty">
-                    <select class="form-select form-select-md mb-3" formControlName="courseType">
-                        <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
-                        <option [ngValue]="courseTypeEnum.elec">Elec</option>
-                        <option [ngValue]="courseTypeEnum.info">Info</option>
-                        <option [ngValue]="courseTypeEnum.meca">Meca</option>
-                        <option [ngValue]="courseTypeEnum.maths">Maths</option>
-                    </select>
-                    <select class="form-select mb-3" formControlName="course">
-                        <option value="" disabled>Choisir une UE</option>
-                        <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">
-                          {{ course.id }}
-                        </option>
-                      </select>
-                    <select class="form-select mb-3" formControlName="topic">
-                        <option disabled>Choisir topics</option>
-                        <option *ngFor="let exerciceTopic of exerciseTopicList" [ngValue]="exerciceTopic.id">
-                            {{exerciceTopic.topic}} 
-                        </option>
-                    </select>
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input" type="checkbox" id="isCorrected"
-                            formControlName="is_corrected">
-                        <label class="form-check-label" for="isCorrected">Exercice corrigé</label>
-                    </div>
-                    <input type="text" class="form-control mb-3" placeholder="Source de l'exercice"
-                        aria-label="Source de l'exercice" formControlName="source">
-                    <input type="file" class="form-control" (change)="onFileSelected($event)">
-                    <div class="col-12 mt-2">
-                        <app-main-button content="Ajouter Charbon" [isFilled]="true" [isBig]="true"
-                            (click)="addExercise()"></app-main-button>
-                    </div>
-                </form>
-            </div>
+<div class="row pt-2">
+    <form [formGroup]="form">
+        <input type="text" class="form-control mb-3" placeholder="Titre du l'exercice" aria-label="Titre charbon"
+            formControlName="title">
+        <label for="difficulty">Difficulté :</label>
+        <input type="number" class="form-control mb-3" aria-label="difficulté" max="5" min="1"
+            formControlName="difficulty">
+        <select class="form-select form-select-md mb-3" formControlName="courseType">
+            <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
+            <option [ngValue]="courseTypeEnum.elec">Elec</option>
+            <option [ngValue]="courseTypeEnum.info">Info</option>
+            <option [ngValue]="courseTypeEnum.meca">Meca</option>
+            <option [ngValue]="courseTypeEnum.maths">Maths</option>
+        </select>
+        <select class="form-select mb-3" formControlName="course">
+            <option value="" disabled>Choisir une UE</option>
+            <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">
+                {{ course.id }}
+            </option>
+        </select>
+        <select class="form-select mb-3" formControlName="topic">
+            <option disabled>Choisir topics</option>
+            <option *ngFor="let exerciceTopic of exerciseTopicList" [ngValue]="exerciceTopic.id">
+                {{exerciceTopic.topic}}
+            </option>
+        </select>
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" formControlName="isCorrected">
+            <label class="form-check-label" for="isCorrected">Exercice corrigé</label>
         </div>
-    </div>
-    <div class="col-md-6 border-start border-3 ps-3">
-        <h5 class="d-flex justify-content-center">Modifier Exercice</h5>
-        <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
-            <app-main-button content="Editer Exercice" [isFilled]="false" [isBig]="true"
-                routerLink="/"></app-main-button>
+        <input type="text" class="form-control mb-3" placeholder="Source de l'exercice"
+            aria-label="Source de l'exercice" formControlName="source">
+        <input type="file" class="form-control" (change)="onFileSelected($event)">
+        <div class="col-12 mt-2">
+            <app-main-button content="Valider" [isFilled]="true" [isBig]="true"
+                (click)="validate()"></app-main-button>
         </div>
-    </div>
+    </form>
 </div>

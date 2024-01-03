@@ -1,6 +1,6 @@
 import { CharbonPostParameters } from '../../shared/models/charbon-post-parameters.model';
 import { CourseService } from '../../shared/services/course.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
@@ -16,6 +16,7 @@ import { CourseType } from 'src/app/shared/utils/course-type.model';
 })
 export class AddCharbonComponent implements OnInit {
   @Input() baseCharbon?: Charbon;
+  @Output() onValidate = new EventEmitter<void>();
 
   charbonPreview!: Charbon;
   form!: FormGroup;
@@ -34,40 +35,19 @@ export class AddCharbonComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initForm(this.baseCharbon);
+
     this.charbonPreview = new Charbon(
       0,
       '',
       CourseType.undefined,
-      new Date('2023T20:00'),
+      new Date('2023-01-01T20:00'),
       '',
       [],
       '',
       '',
       ''
     );
-
-    this.form = this.formBuilder.group({
-      title: '',
-      course: '',
-      courseType: CourseType.undefined,
-      date: new Date('2023T20:00'),
-      actionneurs: [],
-      description: '',
-      replayLink: '',
-      resourcesLink: '',
-    });
-
-    if (this.baseCharbon) {
-      this.form.patchValue({
-        title: this.baseCharbon.title,
-        course: this.baseCharbon.course,
-        courseType: this.baseCharbon.courseType,
-        date: this.baseCharbon.date.toISOString(),
-        description: this.baseCharbon.description,
-        replayLink: this.baseCharbon.replayLink,
-        resourcesLink: this.baseCharbon.resourcesLink,
-      });
-    }
 
     this.form.valueChanges.subscribe((data) => {
       this.charbonPreview = new Charbon(
@@ -83,7 +63,7 @@ export class AddCharbonComponent implements OnInit {
       );
     });
 
-    this.form.get('courseType')?.valueChanges.subscribe((data) => {
+    this.form.get('courseType')?.valueChanges.subscribe(() => {
       this.updateCourseList();
       this.form.get('course')?.setValue('');
     });
@@ -103,41 +83,75 @@ export class AddCharbonComponent implements OnInit {
     });
   }
 
+  initForm(baseCharbon?: Charbon): void {
+    if (baseCharbon) {
+      this.form = this.formBuilder.group({
+        title: baseCharbon.title,
+        course: baseCharbon.course,
+        courseType: baseCharbon.courseType,
+        date: baseCharbon.date.toISOString(),
+        actionneurs: [],
+        description: baseCharbon.description,
+        replayLink: baseCharbon.replayLink,
+        resourcesLink: baseCharbon.resourcesLink,
+      });
+    } else {
+      this.form = this.formBuilder.group({
+        title: '',
+        course: '',
+        courseType: CourseType.undefined,
+        date: '2023T20:00',
+        actionneurs: [],
+        description: '',
+        replayLink: '',
+        resourcesLink: '',
+      });
+    }
+  }
+
   updateCourseList(): void {
     this.courseListForSelectedType = this.courseList.filter(
       (course) => course.type === this.form.get('courseType')?.value
     );
   }
 
+  isPassedDate(): boolean {
+    const date = new Date(this.form.get('date')?.value);
+    return date < new Date();
+  }
+
   validate(): void {
     let newCharbon: CharbonPostParameters = {
-      title: this.form.get('title')?.value,
-      description: this.form.get('description')?.value,
-      date: new Date(this.form.get('date')?.value),
-      course: this.form.get('course')?.value,
+      ...this.form.value,
       actionneurs: this.form.get('actionneurs')?.value.map((a: User) => a.id),
-      replayLink: this.form.get('replayLink')?.value,
-      resourcesLink: this.form.get('resourcesLink')?.value,
+      replayLink: this.isPassedDate()
+        ? this.form.get('replayLink')?.value
+        : undefined,
+      date: new Date(this.form.get('date')?.value),
     };
 
-    if (this.baseCharbon) {
-      this.updateCharbon(newCharbon);
-    } else {
-      this.addCharbon(newCharbon);
-    }
+    this.baseCharbon
+      ? this.updateCharbon(newCharbon)
+      : this.addCharbon(newCharbon);
   }
 
   private addCharbon(newCharbon: CharbonPostParameters): void {
-    this.charbonService.addCharbon(newCharbon).subscribe((data) => {
-      console.log(data);
+    this.charbonService.addCharbon(newCharbon).subscribe((success) => {
+      if (success) {
+        this.initForm();
+        this.onValidate.emit();
+      }
     });
   }
 
   private updateCharbon(newCharbon: CharbonPostParameters): void {
     this.charbonService
       .updateCharbon(this.baseCharbon?.id ?? 0, newCharbon)
-      .subscribe((data) => {
-        console.log(data);
+      .subscribe((success) => {
+        if (success) {
+          this.initForm();
+          this.onValidate.emit();
+        }
       });
   }
 }

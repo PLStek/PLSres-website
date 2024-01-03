@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormConnectionComponent } from './login-popup.component';
+import { ExerciseListComponent } from './exercise-list.component';
 
-describe('FormConnectionComponent', () => {
-  let component: FormConnectionComponent;
-  let fixture: ComponentFixture<FormConnectionComponent>;
+describe('ExerciseListComponent', () => {
+  let component: ExerciseListComponent;
+  let fixture: ComponentFixture<ExerciseListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormConnectionComponent ]
+      declarations: [ ExerciseListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormConnectionComponent);
+    fixture = TestBed.createComponent(ExerciseListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

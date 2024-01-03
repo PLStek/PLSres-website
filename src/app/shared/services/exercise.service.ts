@@ -25,13 +25,13 @@ export class ExerciseService {
     return response.pipe(
       map((data: any) =>
         data.map(
-          (element: any) =>
+          (element: any) => 
             new Exercise(
               Number(element.id),
               String(element.title),
               Number(element.difficulty),
-              Number(element.topic_id),
-              Boolean(element.is_corrected),
+              Number(element.topicId),
+              element.isCorrected == '1' ? true : false,
               String(element.source),
               element.content ? base64Decode(element.content) : undefined
             )
@@ -48,12 +48,13 @@ export class ExerciseService {
       correctedOnly?: boolean;
       content?: boolean;
     } = {}
+    //TODO: replace by ExerciseGetParameters
   ): Observable<Exercise[]> {
     let params = new HttpParams();
     params = this.setParam(params, 'id', options.id);
-    params = this.setParam(params, 'max_difficulty', options.maxDifficulty);
-    params = this.setParam(params, 'topic_id', options.topicId);
-    params = this.setParam(params, 'corrected_only', options.correctedOnly);
+    params = this.setParam(params, 'maxDifficulty', options.maxDifficulty);
+    params = this.setParam(params, 'topicId', options.topicId);
+    params = this.setParam(params, 'correctedOnly', options.correctedOnly);
     params = this.setParam(params, 'content', options.content);
 
     return this.http
@@ -67,13 +68,29 @@ addExercise(
     const formData = new FormData();
     formData.append('title', data.title.toString());
     formData.append('difficulty', data.difficulty.toString());
-    formData.append('is_corrected', data.is_corrected.toString());
-    formData.append('topic_id', data.topicId.toString());
+    formData.append('isCorrected', data.isCorrected ? '1' : '0');
+    formData.append('topicId', data.topicId.toString());
     formData.append('source', data.source.toString());
     formData.append('content', data.content);
 
     return this.http
       .post<any>('http://localhost/PLSres/api/exercises', formData)
+      .pipe(
+        map((res) => {
+          return Boolean(res.success) ?? false;
+        })
+      );
+  }
+
+  updateExercise(
+    id: number,
+    data: ExercisePostParameters,
+  ): Observable<boolean> {
+    const putData = {id, ...data};
+
+
+    return this.http
+      .put<any>(`http://localhost/PLSres/api/exercises`, putData)
       .pipe(
         map((res) => {
           return Boolean(res.success) ?? false;

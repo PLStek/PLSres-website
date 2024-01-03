@@ -78,8 +78,10 @@ export class CharbonService {
     formData.append('date', (data.date.getTime() / 1000).toString());
     formData.append('course', data.course.toString());
     formData.append('actionneurs', data.actionneurs.join(','));
-    if (data.replayLink) formData.append('replay_link', data.replayLink.toString());
-    if (data.resourcesLink) formData.append('resources_link', data.resourcesLink.toString());
+    if (data.replayLink)
+      formData.append('replay_link', data.replayLink.toString());
+    if (data.resourcesLink)
+      formData.append('resources_link', data.resourcesLink.toString());
 
     return this.http
       .post<any>(`http://localhost/PLSres/api/charbons`, formData)
@@ -91,15 +93,11 @@ export class CharbonService {
   }
 
   updateCharbon(id: number, data: CharbonPostParameters): Observable<boolean> {
-    const putData = {id, ...data};
+    const putData = { id, ...data };
 
     return this.http
       .put<any>(`http://localhost/PLSres/api/charbons`, putData)
-      .pipe(
-        map((res) => {
-          return Boolean(res.success) ?? false;
-        })
-      );
+      .pipe(map((res) => Boolean(res.success) ?? false));
   }
 
   deleteCharbon(id: number): Observable<boolean> {
@@ -109,10 +107,6 @@ export class CharbonService {
       .delete<any>(`http://localhost/PLSres/api/charbons`, {
         params,
       })
-      .pipe(
-        map((res) => {
-          return Boolean(res.success) ?? false;
-        })
-      );
+      .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

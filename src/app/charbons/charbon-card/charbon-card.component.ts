@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { UserService } from 'src/app/shared/services/user.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { EditPopupComponent } from 'src/app/actionner/edit-popup/edit-popup.component';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { CharbonEditionPopup } from 'src/app/actionner/charbon-edition-popup/charbon-edition-popup.component';
 
 @Component({
   selector: 'app-charbon-card',
@@ -13,10 +13,7 @@ export class CharbonCardComponent {
   @Input() charbon!: Charbon;
   @Input() editable: boolean = false;
 
-  editModalRef?: BsModalRef;
-
   constructor(
-    private userService: UserService,
     private modalService: BsModalService
   ) {
     this.charbon;
@@ -32,13 +29,9 @@ export class CharbonCardComponent {
   }
 
   openEditPopup(): void {
-    this.editModalRef = this.modalService.show(EditPopupComponent, {
+    this.modalService.show(CharbonEditionPopup, {
       class: 'modal-xl modal-dialog-centered',
       initialState: { editedCharbon: this.charbon },
     });
-  }
-
-  closeEditPopup(): void {
-    this.editModalRef?.hide();
   }
 }

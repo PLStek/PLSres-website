@@ -9,7 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 require_once 'database.php';
 
 $method = $_SERVER["REQUEST_METHOD"];
-    
+
 
 function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit)
 {
@@ -101,7 +101,6 @@ function addCharbon($title, $description, $date, $course, $replayLink, $resource
     $stmt2->close();
 
     $conn->commit();
-
 }
 
 
@@ -170,7 +169,7 @@ try {
             $max_duration = $_GET['max_duration'] ?? 99;
             $null_duration = $_GET['null_duration'] ?? true;
             $offset = $_GET['offset'] ?? 0;
-            $limit = $_GET['limit'] ?? 10;
+            $limit = $_GET['limit'] ?? 1000;
 
             $charbons = getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit);
             echo json_encode($charbons);
@@ -191,9 +190,7 @@ try {
             echo json_encode(array('success' => true));
             break;
         case 'PUT':
-
             $data = json_decode(file_get_contents('php://input'), true);
-            print_r($data);
             if (!isset($data['id']) || !isset($data['title']) || !isset($data['description']) || !isset($data['date']) || !isset($data['course']) || !isset($data['actionneurs'])) {
                 throw new Exception('Missing parameters.');
             }
@@ -202,8 +199,8 @@ try {
             $description = $data['description'];
             $date = (new DateTime($data['date']))->format('Y-m-d H:i:s');
             $course = $data['course'];
-            $replayLink = $data['replay_link'] ?? null;
-            $resourcesLink = $data['resources_link'] ?? null;
+            $replayLink = $data['replayLink'] ?? null;
+            $resourcesLink = $data['resourcesLink'] ?? null;
             $actionneurs = $data['actionneurs'];
 
             updateCharbon($id, $title, $description, $date, $course, $replayLink, $resourcesLink, $actionneurs);

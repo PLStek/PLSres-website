@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditPopupComponent } from './edit-popup.component';
+import { CharbonListComponent } from './charbon-list.component';
 
-describe('EditPopupComponent', () => {
-  let component: EditPopupComponent;
-  let fixture: ComponentFixture<EditPopupComponent>;
+describe('CharbonListComponent', () => {
+  let component: CharbonListComponent;
+  let fixture: ComponentFixture<CharbonListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditPopupComponent ]
+      declarations: [ CharbonListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditPopupComponent);
+    fixture = TestBed.createComponent(CharbonListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

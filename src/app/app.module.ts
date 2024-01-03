@@ -23,13 +23,19 @@ import { SocialNetworksComponent } from './shared/components/social-networks/soc
 import { DateIntervalPipe } from './shared/pipes/date-interval.pipe';
 import { ActionnerHomePageComponent } from './actionner/actionner-home-page/actionner-home-page.component';
 import { AddCharbonComponent } from './actionner/charbon-form/charbon-form.component';
-import { EditCharbonActionneurComponent } from './actionner/edit-charbon-actionneur/edit-charbon-actionneur.component';
+import { CharbonEditionPageComponent } from './actionner/charbon-edition-page/charbon-edition-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EditPopupComponent } from './actionner/edit-popup/edit-popup.component';
+import { CharbonEditionPopup } from './actionner/charbon-edition-popup/charbon-edition-popup.component';
 import { AddExerciceComponent } from './actionner/exercise-form/exercise-form.component';
 import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AccountPopupComponent } from './shared/components/account-popup/account-popup.component';
+import { ExerciseEditionPageComponent } from './actionner/exercise-edition-page/exercise-edition-page.component';
+import { CharbonListComponent } from './charbons/charbon-list/charbon-list.component';
+import { ExerciseEditionPopupComponent } from './actionner/exercise-edition-popup/exercise-edition-popup.component';
+import { ExerciseTopicFormComponent } from './actionner/exercise-topic-form/exercise-topic-form.component';
+import { ExerciseTopicEditionPopupComponent } from './actionner/exercise-topic-edition-popup/exercise-topic-edition-popup.component';
+import { ExerciseListComponent } from './exercises/exercise-list/exercise-list.component';
 
 
 @NgModule({
@@ -52,11 +58,17 @@ import { AccountPopupComponent } from './shared/components/account-popup/account
     ExerciseDetailsPageComponent,
     ActionnerHomePageComponent,
     AddCharbonComponent,
-    EditCharbonActionneurComponent,
-    EditPopupComponent,
+    CharbonEditionPageComponent,
+    CharbonEditionPopup,
     AddExerciceComponent,
     LoginPopupComponent,
     AccountPopupComponent,
+    ExerciseEditionPageComponent,
+    CharbonListComponent,
+    ExerciseEditionPopupComponent,
+    ExerciseTopicFormComponent,
+    ExerciseTopicEditionPopupComponent,
+    ExerciseListComponent,
   ],
   imports: [
     HttpClientModule,

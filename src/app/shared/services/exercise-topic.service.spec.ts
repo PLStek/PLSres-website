@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CharbonService } from './services/charbon.service';
+import { ExerciseTopicService } from './exercise-topic.service';
 
-describe('CharbonService', () => {
-  let service: CharbonService;
+describe('ExerciseTopicService', () => {
+  let service: ExerciseTopicService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CharbonService);
+    service = TestBed.inject(ExerciseTopicService);
   });
 
   it('should be created', () => {

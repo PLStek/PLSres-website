@@ -1,34 +1,83 @@
+<div class="container-lg mb-3 p-3 rounded" style="background-color: white;">
+    <div class="d-flex">
+        <div style="width: 50em; padding: 3em;">
+            <h1>Bienvenue sur l'espace Actionneur</h1>
+            <h3> Gérez les charbons, annonces, exercices et catégories d'exercices.</h3>
+            <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Placeat ratione eum illo odio, praesentium
+                reprehenderit beatae eius molestias nemo quos labore, architecto quaerat, corrupti modi voluptas! Sit
+                itaque commodi hic.
+            </p>
+        </div>
+        <div>
+            <img src="../assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
+        </div>
+    </div>
+</div>
+
+
+
 <app-background-card title="Edition de charbons">
     <div class="row mt-4 ms-2">
         <div class="col-md-8">
-            <h5>Ajouter Charbon</h5>
+            <h5>Ajouter un charbon</h5>
             <app-charbon-form></app-charbon-form>
         </div>
         <div class="col-md-4 border-start border-3 ps-3">
-            <h5 class="mb-3">Modifier Charbon</h5>
+            <h5 class="mb-3">Modifier un charbon</h5>
             <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
                 <app-main-button content="Editer Charbon" [isFilled]="false" [isBig]="true"
-                    routerLink="/action/edit-charbon"></app-main-button>
+                    routerLink="/actionner/charbons"></app-main-button>
             </div>
         </div>
     </div>
 </app-background-card>
 
-<app-background-card title="Edition annonces">
+<app-background-card title="Edition d'annonces">
     <div class="row mt-4 ms-2">
         <div class="col-md-4 border-end border-3">
-            <h5 class="d-flex justify-content-center">Modifier annonces</h5>
+            <h5 class="d-flex justify-content-center">Modifier une annonce</h5>
             <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
-                <app-main-button content="Editer annonces" [isFilled]="false" [isBig]="true" routerLink="/action/edit-charbon"></app-main-button>
+                <app-main-button content="Editer annonces" [isFilled]="false" [isBig]="true"
+                    routerLink="/actionner/exercices"></app-main-button>
             </div>
         </div>
         <div class="col-md-8 ps-3">
-            <h5 class="d-flex justify-content-center mb-3">Ajouter annonces </h5>
+            <h5 class="d-flex justify-content-center mb-3">Ajouter une annonce</h5>
             <app-announcement-card [isEmpty]="true"></app-announcement-card>
-        </div>   
+        </div>
     </div>
 </app-background-card>
 
-<app-background-card title="Edition d'exercise">
-    <app-exercise-form></app-exercise-form>
+<app-background-card title="Edition d'exercices">
+    <div class="row mt-4 ms-2">
+        <div class="col-md-6">
+            <h5 d-flex justify-content-center>Ajouter un exercice</h5>
+            <app-exercise-form></app-exercise-form>
+        </div>
+        <div class="col-md-6 border-start border-3 ps-3">
+            <h5 class="d-flex justify-content-center">Modifier un exercice</h5>
+            <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                <app-main-button content="Editer Exercice" [isFilled]="false" [isBig]="true"
+                    routerLink="/"></app-main-button>
+            </div>
+        </div>
+    </div>
+</app-background-card>
+
+<app-background-card title="Edition de catégories">
+    <div class="row mt-4 ms-2">
+        <div class="col-md-6">
+            <h5 d-flex justify-content-center>Ajouter une catégorie</h5>
+            <app-exercise-topic-form></app-exercise-topic-form>
+        </div>
+        <div class="col-md-6 border-start border-3 ps-3">
+            <h5 class="d-flex justify-content-center">Modifier une catégorie</h5>
+            <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                <app-main-button content="Editer Exercice" [isFilled]="false" [isBig]="true"
+                    routerLink="/"></app-main-button>
+            </div>
+        </div>
+
+    </div>
 </app-background-card>

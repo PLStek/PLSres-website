@@ -1,0 +1,33 @@
+<div class="container">
+    <app-main-button routerLink="/actionner/accueil" content="Zone Actionneur" [isBig]="true"
+        [isFilled]="false"></app-main-button>
+</div>
+<app-background-card>
+    <div class="d-flex">
+        <div style="width: 50em; padding: 3em;">
+            <h1>Edition d'exercice</h1>
+            <p>
+                Ici, vous pouvez ajouter, modifier ou supprimer des exercices.
+            </p>
+        </div>
+        <div>
+            <img src="../assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
+        </div>
+    </div>
+</app-background-card>
+
+<app-background-card title="Ajouter un exercice">
+    <div class="row mt-4 ms-2">
+        <div class="col-md-12 col-lg-6">
+            <app-exercise-form></app-exercise-form>
+        </div>
+        <div class="col-md-12 col-lg-1 my-5"></div> 
+        <div class="col-md-12 col-lg-4">
+            <app-exercise-topic-form></app-exercise-topic-form>
+        </div>
+    </div>
+</app-background-card>
+
+<app-background-card title="Modifier Charbon">
+    <app-exercise-list [editable]="true"></app-exercise-list>
+</app-background-card>
