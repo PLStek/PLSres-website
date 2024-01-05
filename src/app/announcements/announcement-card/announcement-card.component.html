@@ -1,4 +1,4 @@
-<div class="card" *ngIf="!isEmpty; else emptyCardContent">
+<div class="card">
     <div class="card-header d-flex justify-content-between" [ngClass]="{'rounded' : collapse}" style="background-color: #505050; color: #ffffff;">
         <div>Nouveau semestre et reprise !</div>
         <div>
@@ -41,25 +41,3 @@
         </div>
     </div>
 </div>
-
-<ng-template #emptyCardContent>
-    <div class="card-header d-flex justify-content-between"  [ngClass]="{'rounded' : collapse}" style="background-color: #505050; color: #ffffff;">
-        <div class="p-2"><input type="text" class="form-control" id="titleInput" [(ngModel)]="title" name="title" placeholder="Titre"></div>
-        <div class="p-2 me-2 mt-2">
-            {{currentDate}}
-            <img *ngIf="collapse != undefined" (click)="collapse = !collapse" role="button" data-toggle="collapse"
-                href="#hasToBeCollapse" aria-expanded="false" aria-controls="hasToBeCollapse"
-                [src]="collapse ? '../../../assets/images/down.png' : '../../../assets/images/up.png'"
-                alt="Flèche d'ouverture et de fermeture de la zone d'information" width="20" height="20">
-        </div>
-    </div>
-    <div class="card-body mx-auto" [ngClass]="{'collapse' : collapse}" id="hasToBeCollapse">
-        <div class="p-2">
-            <textarea class="form-control" placeholder="Description" id="contentInput" [(ngModel)]="contentSource" name="contentSource"></textarea>
-        </div>
-        <div class="card-footer d-flex justify-content-end">
-            <button class="btn btn-primary" type="submit" (click)="addAnnouncement()">Ajouter Annonce</button>
-        </div>
-    </div>
-    
-</ng-template>

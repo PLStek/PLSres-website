@@ -10,7 +10,6 @@ export class AnnouncementCardComponent implements OnInit {
   @Input() contentSource!: string;
   @Input() date!: Date;
   @Input() collapse?: boolean = false;
-  @Input() isEmpty?: boolean = false;
 
   currentDate: string = new Date().toISOString().split('T')[0];
 
