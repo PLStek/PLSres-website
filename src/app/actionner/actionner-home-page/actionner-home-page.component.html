@@ -17,51 +17,30 @@
 
 
 
-<app-background-card title="Edition de charbons">
+<app-background-card title="Edition de charbons" buttonText="Gérer les charbons" buttonRouterLink="/actionner/charbons">
     <div class="row mt-4 ms-2">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <h5>Ajouter un charbon</h5>
             <app-charbon-form></app-charbon-form>
         </div>
-        <div class="col-md-4 border-start border-3 ps-3">
-            <h5 class="mb-3">Modifier un charbon</h5>
-            <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
-                <app-main-button content="Editer Charbon" [isFilled]="false" [isBig]="true"
-                    routerLink="/actionner/charbons"></app-main-button>
-            </div>
-        </div>
     </div>
 </app-background-card>
 
-<app-background-card title="Edition d'exercices">
+<app-background-card title="Edition d'exercices" buttonText="Gérer les exercices"
+    buttonRouterLink="/actionner/exercices">
     <div class="row mt-4 ms-2">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <h5 d-flex justify-content-center>Ajouter un exercice</h5>
             <app-exercise-form></app-exercise-form>
         </div>
-        <div class="col-md-6 border-start border-3 ps-3">
-            <h5 class="d-flex justify-content-center">Modifier un exercice</h5>
-            <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
-                <app-main-button content="Editer Exercice" [isFilled]="false" [isBig]="true"
-                    routerLink="/"></app-main-button>
-            </div>
-        </div>
     </div>
 </app-background-card>
 
-<app-background-card title="Edition de catégories">
+<app-background-card title="Edition de catégories d'exercices" buttonText="Edition de catégories" buttonRouterLink="/actionner/exercices">
     <div class="row mt-4 ms-2">
         <div class="col-md-6">
             <h5 d-flex justify-content-center>Ajouter une catégorie</h5>
             <app-exercise-topic-form></app-exercise-topic-form>
         </div>
-        <div class="col-md-6 border-start border-3 ps-3">
-            <h5 class="d-flex justify-content-center">Modifier une catégorie</h5>
-            <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
-                <app-main-button content="Editer Exercice" [isFilled]="false" [isBig]="true"
-                    routerLink="/"></app-main-button>
-            </div>
-        </div>
-
     </div>
 </app-background-card>
