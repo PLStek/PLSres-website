@@ -71,7 +71,7 @@ function addExercise($title, $difficulty, $is_corrected, $source, $topic_id)
 
 function compileContent($input)
 {
-    chdir("./plsres-exdb");
+    chdir("./compiler");
 
     $process = proc_open("python3 compile_plsmarkdown.py", array(
         0 => array("pipe", "r"),
