@@ -17,7 +17,16 @@ function getAnnouncements() {
 
     $result = $conn->query($query);
 
-    $announcements = $result->fetch_all(MYSQLI_ASSOC);
+    $announcements = array();
+
+    while ($row = $result->fetch_assoc()) {
+        $announcements[] = array(
+            'id' => $row['id'],
+            'title' => $row['title'],
+            'content' => $row['content'],
+            'date' => $row['date']
+        );
+    }
 
     return $announcements;
 }
