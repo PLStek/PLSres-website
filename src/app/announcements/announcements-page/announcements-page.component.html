@@ -7,7 +7,8 @@
         <div class="pt-3" style="width: 50em;">
             <h1>Dernières annonces</h1>
             <p class="mt-4">
-                Retrouve ici toutes les annonces en lien avec le PL$tek, également disponibles <u style="color: red;">sur le discord</u> !
+                Retrouve ici toutes les annonces en lien avec le PL$tek, également disponibles <u
+                    style="color: red;">sur le discord</u> !
             </p>
         </div>
         <div>
@@ -20,20 +21,18 @@
             <option selected>A à Z</option>
             <option value="1">Date</option>
         </select>
-    </div> 
+    </div>
 </div>
 
 <app-background-card title="Ce semestre">
     <div class="p-5">
-        <app-announcement-card class="m-1" [collapse] ="true"></app-announcement-card>
-        <app-announcement-card class="m-1" [collapse] ="true"></app-announcement-card>
-        <app-announcement-card class="m-1" [collapse] ="true"></app-announcement-card>
+        <app-announcement-card *ngFor="let ann of announcementList" class="m-1" [collapse]="true" [announcement]="ann"></app-announcement-card>
     </div>
 </app-background-card>
 
 <app-background-card title="Semestre de printemps 2023">
     <div class="p-5">
-        <app-announcement-card class="m-1" [collapse] ="true"></app-announcement-card>
-        <app-announcement-card class="m-1" [collapse] ="true"></app-announcement-card>
+        <app-announcement-card class="m-1" [collapse]="true"></app-announcement-card>
+        <app-announcement-card class="m-1" [collapse]="true"></app-announcement-card>
     </div>
 </app-background-card>

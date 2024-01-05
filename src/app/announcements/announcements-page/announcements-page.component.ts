@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Announcement } from 'src/app/shared/models/announcement.model';
 import { AnnouncementService } from 'src/app/shared/services/announcement.service';
 
 @Component({
@@ -7,11 +8,14 @@ import { AnnouncementService } from 'src/app/shared/services/announcement.servic
   styleUrls: ['./announcements-page.component.scss'],
 })
 export class AnnouncementsPageComponent implements OnInit {
+  announcementList: Announcement[] = [];
+
   constructor(private announcementService: AnnouncementService) {}
 
   ngOnInit(): void {
     this.announcementService.getAnnouncements().subscribe((announcements) => {
-      console.log(announcements);
+      this.announcementList = announcements;
+      console.log(this.announcementList);
     });
   }
 }

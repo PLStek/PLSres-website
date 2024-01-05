@@ -1,43 +1,16 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between" [ngClass]="{'rounded' : collapse}" style="background-color: #505050; color: #ffffff;">
-        <div>Nouveau semestre et reprise !</div>
+        <div>{{announcement?.title}}</div>
         <div>
-            Le 08/12/2023
+            Le {{announcement?.date | date:'dd/MM/yyyy'}}
             <img *ngIf="collapse != undefined" (click)="collapse = !collapse" role="button" data-toggle="collapse"
-                href="#hasToBeCollapse" aria-expanded="false" aria-controls="hasToBeCollapse"
+                href="#cardBody" aria-expanded="false" aria-controls="hasToBeCollapse"
                 [src]="collapse ? '../../../assets/images/down.png' : '../../../assets/images/up.png'"
                 alt="Flèche d'ouverture et de fermeture de la zone d'information" width="20" height="20">
         </div>
     </div>
-    <div class="card-body mx-auto" [ngClass]="{'collapse' : collapse}" id="hasToBeCollapse">
-        <div>
-            <h5>Bonjour à toutes et à tous !</h5> <br>
-
-
-            C'est l'heure ! <br><br>
-
-            Envie de traverser l'océan pour remplir ton CV tout blanc ? <br>
-            Envie de t'ouvrir à d'autres domaines parce que t'en as assez de l'espace Schengen ?
-            <br>
-            Envie de doubler ton diplôme pour viser mieux qu'un toit de chaume ? <br><br>
-
-            <strong>Le PL$tek t'apporte les réponses sur les DD et SEE au CANADA 🇨🇦
-                !</strong><br><br>
-
-            Rejoins-nous MARDI à 19h00 pour charbonner ton prochain programme d'études <br><br>
-
-            <strong>Au menu :</strong>
-            <ul>
-                <li>M'engager dans un Double Diplôme : En suis-je capable ?</li>
-                <li>Quelques opportunités de DD et de SEE au Canada 🇨🇦</li>
-                <li>Témoignages de vaillants explorateurs !</li>
-                <li>Comment me lancer au DD ?</li>
-                <li>Séance Q&A</li>
-            </ul>
-
-            Il est grand temps ! <br>
-            A tantôt ! <br>
-            Le melon d'eau <br>
+    <div class="card-body mx-auto" [ngClass]="{'collapse' : collapse}" id="cardBody">
+        <div [innerHTML]="announcement?.content">
         </div>
     </div>
 </div>
