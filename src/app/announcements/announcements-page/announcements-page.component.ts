@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AnnouncementGetParameters } from 'src/app/shared/models/announcement-get-parameters.model';
 import { Announcement } from 'src/app/shared/models/announcement.model';
 import { AnnouncementService } from 'src/app/shared/services/announcement.service';
 
@@ -13,7 +14,11 @@ export class AnnouncementsPageComponent implements OnInit {
   constructor(private announcementService: AnnouncementService) {}
 
   ngOnInit(): void {
-    this.announcementService.getAnnouncements().subscribe((announcements) => {
+    const params: AnnouncementGetParameters = {
+      limit: 100,
+      sort: 'dateDesc',
+    };
+    this.announcementService.getAnnouncements(params).subscribe((announcements) => {
       this.announcementList = announcements;
       console.log(this.announcementList);
     });

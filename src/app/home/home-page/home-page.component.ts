@@ -21,7 +21,7 @@ export class HomePageComponent implements OnInit {
     const now = new Date();
 
     this.charbonService
-      .getCharbonList({ minDate: now, limit: 3 })
+      .getCharbonList({ minDate: now, limit: 3, sort: 'dateAsc' })
       .subscribe((charbons) => {
         this.charbonList = charbons;
       });
