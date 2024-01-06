@@ -16,10 +16,12 @@
         </div>
     </div>
     <div class="d-flex align-items-center" style="padding-left: 6em; padding-right: 6em;">
-        <label for="inputTri" class="form-label me-5">Trier par :</label>
-        <select id="inputTri" class="form-select" style="width: 15em;">
-            <option selected>A à Z</option>
-            <option value="1">Date</option>
+        <label class="form-label me-5">Trier par :</label>
+        <select class="form-select" style="width: 15em" [(ngModel)]="sortOption" (ngModelChange)="onSortChange()">
+            <option value="dateDesc">Plus récent d'abord</option>
+            <option value="dateAsc">Plus ancien d'abord</option>
+            <option value="nameAsc">Ordre alphabétique</option>
+            <option value="nameDesc">Ordre antalphabétique</option>
         </select>
     </div>
 </div>
