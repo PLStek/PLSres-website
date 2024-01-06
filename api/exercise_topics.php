@@ -11,7 +11,7 @@ require_once 'database.php';
 $method = $_SERVER["REQUEST_METHOD"];
 
 
-function getExerciseTopics($id, $courses, $course_type)
+function getExerciseTopics($id, $courses, $course_type, $sort)
 {
     global $conn;
 
@@ -33,7 +33,7 @@ function getExerciseTopics($id, $courses, $course_type)
         }
         $query = substr($query, 0, -1) . ")";
     }
-    $query .= " GROUP BY ET.id";
+    $query .= " GROUP BY $sort";
 
     $result = $conn->query($query);
 
@@ -65,8 +65,23 @@ try {
         case 'GET':
             $id = $_GET['id'] ?? null;
             $courses = isset($_GET['courses']) ? explode(',', $_GET['courses']) : null;
-            $course_type = $_GET['course_type'] ?? null;
-            $exercise_topics = getExerciseTopics($id, $courses, $course_type);
+            $course_type = $_GET['courseType'] ?? null;
+            $sort = "";
+
+            switch ($_GET['sort'] ?? null) {
+                case 'nameAsc':
+                    $sort = "ET.topic ASC";
+                    break;
+                case 'nameDesc':
+                    $sort = "ET.topic DESC";
+                    break;
+                default:
+                    $sort = "ET.topic ASC";
+                    break;
+            }
+
+            $exercise_topics = getExerciseTopics($id, $courses, $course_type, $sort);
+
             echo json_encode($exercise_topics);
             break;
         case 'POST':
