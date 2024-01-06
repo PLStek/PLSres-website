@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import {
   CourseType,
   getCourseType,
+  getCourseTypeName,
 } from 'src/app/shared/utils/course-type.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { Observable, map, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ExerciseTopicPostParameters } from '../models/exercise-topic-post-parameters';
+import { ExerciseTopicGetParameters } from '../models/exercise-topic-get-parameters.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +18,34 @@ export class ExerciseTopicService {
 
   constructor(private http: HttpClient) {}
 
-  getExerciseTopicList(): Observable<ExerciseTopic[]> {
+  private setParam(params: HttpParams, name: string, value: any): HttpParams {
+    if (name && value) {
+      params = params.set(name, value.toString());
+    }
+    return params;
+  }
+
+  getExerciseTopicList(
+    options: ExerciseTopicGetParameters = {}
+  ): Observable<ExerciseTopic[]> {
+    let params = new HttpParams();
+
+    params = this.setParam(params, 'id', options.id);
+    params = this.setParam(params, 'courses', options.courses);
+    params = this.setParam(
+      params,
+      'courseType',
+      options.courseType ? getCourseTypeName(options.courseType) : undefined
+    );
+    params = this.setParam(params, 'sort', options.sort);
+
     return this.http
-      .get<any>('http://localhost/PLSres/api/exercise_topics')
+      .get<any>('http://localhost/PLSres/api/exercise_topics', { params })
       .pipe(
         map((data: any) =>
-          data.map(
+          {
+            console.log(data);
+            return data.map(
             (el: any) =>
               new ExerciseTopic(
                 Number(el.id),
@@ -30,7 +54,7 @@ export class ExerciseTopicService {
                 getCourseType(el.course_type),
                 Number(el.exercise_count)
               )
-          )
+          )}
         )
       );
   }
@@ -40,7 +64,7 @@ export class ExerciseTopicService {
     formData.append('title', data.title);
     formData.append('course', data.course);
     return this.http
-      .post<any>('http://localhost/PLSres/api/exercise_topics', formData  )
+      .post<any>('http://localhost/PLSres/api/exercise_topics', formData)
       .pipe(map((data) => data.success));
   }
 

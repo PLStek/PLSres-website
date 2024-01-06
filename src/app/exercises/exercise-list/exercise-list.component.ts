@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Course } from 'src/app/shared/models/course.model';
+import { ExerciseTopicGetParameters } from 'src/app/shared/models/exercise-topic-get-parameters.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.service';
@@ -35,7 +36,7 @@ export class ExerciseListComponent implements OnInit {
     this.sortForm = this.formBuilder.group({
       courseType: CourseType.undefined,
       course: undefined,
-      sort: 'dateDesc',
+      sort: "nameAsc",
     });
 
     this.courseService.getCourses().subscribe((data) => {
@@ -62,7 +63,19 @@ export class ExerciseListComponent implements OnInit {
   }
 
   fetchExerciseTopics(): void {
-    this.exerciseTopicService.getExerciseTopicList().subscribe((data) => {
+    const formData = this.sortForm.value;
+
+    const params: ExerciseTopicGetParameters = {
+      courses: formData.course ? [formData.course] : undefined,
+      courseType:
+        formData.courseType === CourseType.undefined
+          ? undefined
+          : formData.courseType,
+      sort: formData.sort,
+    };
+
+
+    this.exerciseTopicService.getExerciseTopicList(params).subscribe((data) => {
       return (this.exerciseTopicList = data.filter(
         (et) => et.exerciseCount > 0
       ));

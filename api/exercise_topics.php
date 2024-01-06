@@ -26,7 +26,7 @@ function getExerciseTopics($id, $courses, $course_type, $sort)
     }
 
     if ($courses) {
-        $query .= " AND C.course_id IN (";
+        $query .= " AND C.id IN (";
 
         foreach ($courses as $course) {
             $query .= "'$course',";
