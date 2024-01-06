@@ -10,4 +10,5 @@ export interface CharbonGetParameters {
   hasDurationOnly?: boolean;
   offset?: number;
   limit?: number;
+  sort ?: string;
 }

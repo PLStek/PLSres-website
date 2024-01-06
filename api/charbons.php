@@ -11,9 +11,9 @@ require_once 'database.php';
 $method = $_SERVER["REQUEST_METHOD"];
 
 
-function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit)
+function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit, $sort)
 {
-    global $conn;
+    global $conn;    
 
     $query = "SELECT C.*, A.username as actionneur FROM (
         SELECT C.id, C.title, C.description, C.datetime, C.course_id course, C.replay_link, C.resources_link, T.type course_type
@@ -36,7 +36,7 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
         $query = rtrim($query, ',') . ")";
     }
     $query .= "
-        ORDER BY id
+        ORDER BY $sort
         LIMIT $limit OFFSET $offset
     ) C
     LEFT JOIN charbon_host H ON C.id = H.charbon_id
@@ -170,8 +170,27 @@ try {
             $null_duration = $_GET['null_duration'] ?? true;
             $offset = $_GET['offset'] ?? 0;
             $limit = $_GET['limit'] ?? 1000;
+            $sort = "";
 
-            $charbons = getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit);
+            switch ($_GET['sort'] ?? null) {
+                case 'dateAsc':
+                    $sort = "C.datetime ASC";
+                    break;
+                case 'dateDesc':
+                    $sort = "C.datetime DESC";
+                    break;
+                case 'durationAsc':
+                    $sort = "C.duration ASC";
+                    break;
+                case 'durationDesc':
+                    $sort = "C.duration DESC";
+                    break;
+                default:
+                    $sort = "C.datetime DESC";
+                    break;
+            }
+
+            $charbons = getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit, $sort);
             echo json_encode($charbons);
             break;
         case 'POST':

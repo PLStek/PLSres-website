@@ -41,6 +41,7 @@ export class CharbonListComponent implements OnInit {
     this.sortForm = this.formBuilder.group({
       courseType: CourseType.undefined,
       course: undefined,
+      sort: 'dateDesc',
     });
     
     this.courseService.getCourses().subscribe((data) => {
@@ -84,6 +85,7 @@ export class CharbonListComponent implements OnInit {
           : formData.courseType,
       limit: this.CHARBON_PER_PAGE,
       offset: offset,
+      sort: formData.sort,
     };
 
     this.charbonService.getCharbonList(params).subscribe((charbons) => {

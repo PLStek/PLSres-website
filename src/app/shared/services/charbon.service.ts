@@ -63,6 +63,7 @@ export class CharbonService {
     params = this.setParam(params, 'null_duration', options.hasDurationOnly);
     params = this.setParam(params, 'offset', options.offset);
     params = this.setParam(params, 'limit', options.limit);
+    params = this.setParam(params, 'sort', options.sort);
 
     return this.http
       .get<any[]>('http://localhost/PLSres/api/charbons', {
