@@ -53,14 +53,14 @@ export class CharbonService {
     params = this.setParam(params, 'courses', options.courses);
     params = this.setParam(
       params,
-      'course_type',
+      'courseType',
       options.courseType ? getCourseTypeName(options.courseType) : undefined
     );
-    params = this.setParam(params, 'min_date', options.minDate);
-    params = this.setParam(params, 'max_date', options.maxDate);
-    params = this.setParam(params, 'min_duration', options.minDuration);
-    params = this.setParam(params, 'max_duration', options.maxDuration);
-    params = this.setParam(params, 'null_duration', options.hasDurationOnly);
+    params = this.setParam(params, 'minDate', options.minDate);
+    params = this.setParam(params, 'maxDate', options.maxDate);
+    params = this.setParam(params, 'minDuration', options.minDuration);
+    params = this.setParam(params, 'maxDuration', options.maxDuration);
+    params = this.setParam(params, 'nullDuration', options.hasDurationOnly);
     params = this.setParam(params, 'offset', options.offset);
     params = this.setParam(params, 'limit', options.limit);
     params = this.setParam(params, 'sort', options.sort);
@@ -80,9 +80,9 @@ export class CharbonService {
     formData.append('course', data.course.toString());
     formData.append('actionneurs', data.actionneurs.join(','));
     if (data.replayLink)
-      formData.append('replay_link', data.replayLink.toString());
+      formData.append('replayLink', data.replayLink.toString());
     if (data.resourcesLink)
-      formData.append('resources_link', data.resourcesLink.toString());
+      formData.append('resourcesLink', data.resourcesLink.toString());
 
     return this.http
       .post<any>(`http://localhost/PLSres/api/charbons`, formData)

@@ -162,12 +162,12 @@ try {
     switch ($method) {
         case 'GET':
             $courses = isset($_GET['courses']) ? explode(',', $_GET['courses']) : null;
-            $course_type = $_GET['course_type'] ?? null;
-            $min_date = isset($_GET['min_date']) ? (new DateTime('@' . $_GET['min_date']))->format('Y-m-d H:i:s') : "0000-00-00 00:00:00";
-            $max_date = isset($_GET['max_date']) ? (new DateTime('@' . $_GET['max_date']))->format('Y-m-d H:i:s') : "9999-12-31 23:59:59";
-            $min_duration = $_GET['min_duration'] ?? 0;
-            $max_duration = $_GET['max_duration'] ?? 99;
-            $null_duration = $_GET['null_duration'] ?? true;
+            $course_type = $_GET['courseType'] ?? null;
+            $min_date = isset($_GET['minDate']) ? (new DateTime('@' . $_GET['minDate']))->format('Y-m-d H:i:s') : "0000-00-00 00:00:00";
+            $max_date = isset($_GET['maxDate']) ? (new DateTime('@' . $_GET['maxDate']))->format('Y-m-d H:i:s') : "9999-12-31 23:59:59";
+            $min_duration = $_GET['minDuration'] ?? 0;
+            $max_duration = $_GET['maxDuration'] ?? 99;
+            $null_duration = $_GET['nullDuration'] ?? true;
             $offset = $_GET['offset'] ?? 0;
             $limit = $_GET['limit'] ?? 1000;
             $sort = "";
@@ -201,8 +201,8 @@ try {
             $description = $_POST['description'];
             $date = (new DateTime('@' . $_POST['date']))->format('Y-m-d H:i:s');
             $course = $_POST['course'];
-            $replayLink = $_POST['replay_link'] ?? null;
-            $resourcesLink = $_POST['resources_link'] ?? null;
+            $replayLink = $_POST['replayLink'] ?? null;
+            $resourcesLink = $_POST['resourcesLink'] ?? null;
             $actionneurs = explode(',', $_POST['actionneurs']);
 
             addCharbon($title, $description, $date, $course, $replayLink, $resourcesLink, $actionneurs);
