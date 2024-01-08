@@ -25,7 +25,7 @@
                     <td><a class="custom-link" [routerLink]="['/exercices', exercise.id]">{{exercise.title}}</a></td>
                     <td>{{exercise.source}}</td>
                     <td>{{exercise.isCorrected ? 'Oui' : 'Non'}}</td>
-                    <td>{{generateStars(exercise.difficulty)}}</td>
+                    <td><app-stars [starCount]="exercise.difficulty"></app-stars></td>
                     <td *ngIf="editable"><a class="custom-link" (click)="openEditPopup(exercise)">Editer</a></td>
                 </tr>
             </tbody>

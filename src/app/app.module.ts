@@ -36,6 +36,7 @@ import { ExerciseEditionPopupComponent } from './actionner/exercise-edition-popu
 import { ExerciseTopicFormComponent } from './actionner/exercise-topic-form/exercise-topic-form.component';
 import { ExerciseTopicEditionPopupComponent } from './actionner/exercise-topic-edition-popup/exercise-topic-edition-popup.component';
 import { ExerciseListComponent } from './exercises/exercise-list/exercise-list.component';
+import { StarsComponent } from './shared/components/stars/stars.component';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import { ExerciseListComponent } from './exercises/exercise-list/exercise-list.c
     ExerciseTopicFormComponent,
     ExerciseTopicEditionPopupComponent,
     ExerciseListComponent,
+    StarsComponent,
   ],
   imports: [
     HttpClientModule,

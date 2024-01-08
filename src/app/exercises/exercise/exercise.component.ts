@@ -20,9 +20,6 @@ export class ExerciseComponent implements OnInit {
     this.exerciseList;
   }
 
-  generateStars(count: number): string {
-    return '★'.repeat(count) + '☆'.repeat(5 - count);
-  }
 
   ngOnInit(): void {
     this.exerciseService
