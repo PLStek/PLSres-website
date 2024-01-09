@@ -36,8 +36,7 @@ import { ExerciseEditionPopupComponent } from './actionner/exercise-edition-popu
 import { ExerciseTopicFormComponent } from './actionner/exercise-topic-form/exercise-topic-form.component';
 import { ExerciseTopicEditionPopupComponent } from './actionner/exercise-topic-edition-popup/exercise-topic-edition-popup.component';
 import { ExerciseListComponent } from './exercises/exercise-list/exercise-list.component';
-import { StarsComponent } from './shared/components/stars/stars.component';
-
+import { RatingModule } from 'ngx-bootstrap/rating';
 
 @NgModule({
   declarations: [
@@ -70,7 +69,6 @@ import { StarsComponent } from './shared/components/stars/stars.component';
     ExerciseTopicFormComponent,
     ExerciseTopicEditionPopupComponent,
     ExerciseListComponent,
-    StarsComponent,
   ],
   imports: [
     HttpClientModule,
@@ -81,6 +79,7 @@ import { StarsComponent } from './shared/components/stars/stars.component';
     FormsModule,
     BrowserAnimationsModule,
     ModalModule.forRoot(),
+    RatingModule.forRoot(),
   ],
   providers: [HttpClientModule, DatePipe],
   bootstrap: [AppComponent],

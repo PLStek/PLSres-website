@@ -13,37 +13,42 @@ import { ExerciseTopicEditionPopupComponent } from 'src/app/actionner/exercise-t
 })
 export class ExerciseComponent implements OnInit {
   @Input() exerciseTopic!: ExerciseTopic;
-  @Input() editable: boolean = false ;
+  @Input() editable: boolean = false;
+  @Input() maxRating: number = 5;
   exerciseList!: Exercise[];
 
-  constructor(private exerciseService: ExerciseService, private modalService: BsModalService) {
+  constructor(
+    private exerciseService: ExerciseService,
+    private modalService: BsModalService
+  ) {
     this.exerciseList;
+    this.editable;
+    this.maxRating;
   }
-
 
   ngOnInit(): void {
     this.exerciseService
       .getExercises({ topicId: this.exerciseTopic.id })
       .subscribe((data: Exercise[]) => {
-        this.exerciseList = data;
+        this.exerciseList = data.filter((e) => e.difficulty <= this.maxRating);
       });
   }
 
   openEditPopup(exercise: Exercise): void {
     this.modalService.show(ExerciseEditionPopupComponent, {
       class: 'modal-lg modal-dialog-centered',
-      initialState: { editedExercise: exercise},
+      initialState: { editedExercise: exercise },
     });
   }
 
   openTopicEditPopup(): void {
     this.modalService.show(ExerciseTopicEditionPopupComponent, {
       class: 'modal-lg modal-dialog-centered',
-      initialState: { editedExerciseTopic: this.exerciseTopic},
+      initialState: { editedExerciseTopic: this.exerciseTopic },
     });
   }
 
   openDiscordLink() {
-    window.open("https://discord.com", '_blank');
+    window.open('https://discord.com', '_blank');
   }
 }

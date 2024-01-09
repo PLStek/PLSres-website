@@ -17,14 +17,13 @@ export class ExerciseListComponent implements OnInit {
 
   exerciseTopicList!: ExerciseTopic[];
 
-
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
 
   sortForm!: FormGroup;
+  
 
   courseTypeEnum = CourseType;
-
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,30 +35,27 @@ export class ExerciseListComponent implements OnInit {
     this.sortForm = this.formBuilder.group({
       courseType: CourseType.undefined,
       course: undefined,
-      sort: "nameAsc",
+      sort: 'nameAsc',
+      maxRating: 5,
     });
 
     this.courseService.getCourses().subscribe((data) => {
       this.courseList = data;
       this.updateCourseList();
     });
-    
+
     this.sortForm.valueChanges.subscribe(() => {
       this.exerciseTopicList = [];
       this.fetchExerciseTopics();
       console.log(this.sortForm.value);
     });
-    
+
     this.sortForm.get('courseType')?.valueChanges.subscribe(() => {
       this.updateCourseList();
       this.sortForm.get('course')?.setValue(undefined);
     });
 
-    
-
     this.fetchExerciseTopics();
-
-    
   }
 
   fetchExerciseTopics(): void {
@@ -73,7 +69,6 @@ export class ExerciseListComponent implements OnInit {
           : formData.courseType,
       sort: formData.sort,
     };
-
 
     this.exerciseTopicService.getExerciseTopicList(params).subscribe((data) => {
       return (this.exerciseTopicList = data.filter(

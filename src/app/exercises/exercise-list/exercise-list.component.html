@@ -21,9 +21,9 @@
         </div>
         <div class="row pt-3">
             <div class="col-md-4">
-                <label for="rating">Difficulté:</label>
+                <label for="rating">Difficulté max:</label>
                 <div class="rating">
-                    <app-stars></app-stars>
+                    <rating formControlName="maxRating" [max]="5"></rating>
                 </div>
             </div>
             <div class="col-md-4">
@@ -37,7 +37,8 @@
         </div>
         <div class="d-flex flex-column align-items-center mt-5">
             <app-exercise class="col-12  col-md-10 col-xxl-8" *ngFor="let exerciseTopic of exerciseTopicList"
-                [exerciseTopic]="exerciseTopic" [editable]="editable"></app-exercise>
+                [maxRating]="sortForm.get('maxRating')?.value" [exerciseTopic]="exerciseTopic"
+                [editable]="editable"></app-exercise>
         </div>
     </form>
 </div>
