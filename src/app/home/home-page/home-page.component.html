@@ -25,26 +25,9 @@
     </div>
 </app-background-card>
 
-<app-background-card title="Dernières annonces" buttonText="Toutes les annonces" buttonOnClick="">
-    <div id="carouselExampleControlsNoTouching" class="carousel slide mt-3" data-bs-touch="false">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <app-announcement-card></app-announcement-card>
-            </div>
-            <div class="carousel-item">
-                <app-announcement-card></app-announcement-card>
-            </div>
-            <div class="carousel-item">
-                <app-announcement-card></app-announcement-card>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching"
-            data-bs-slide="prev">
-            <img src="../assets/images/prev.png" alt="" width="40" height="40">
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching"
-            data-bs-slide="next">
-            <img src="../assets/images/next.png" alt="" width="40" height="40">
-        </button>
+<app-background-card title="Dernière annonce" buttonText="Toutes les annonces" buttonOnClick="">
+
+    <div class="p-5">
+        <app-announcement-card [announcement]="lastAnnouncement"></app-announcement-card>
     </div>
 </app-background-card>
