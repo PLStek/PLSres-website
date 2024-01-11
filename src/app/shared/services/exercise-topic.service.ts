@@ -79,4 +79,14 @@ export class ExerciseTopicService {
       .put<any>('http://localhost/PLSres/api/exercise_topics', putData)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
+
+  deleteExerciseTopic(id: number): Observable<boolean> {
+    let params = new HttpParams().set('id', id);
+
+    return this.http
+      .delete<any>('http://localhost/PLSres/api/exercise_topics', {
+        params,
+      })
+      .pipe(map((res) => Boolean(res.success) ?? false));
+  }
 }

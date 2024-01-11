@@ -60,6 +60,21 @@ function updateExerciseTopic($id, $title, $course_id)
     $stmt->execute();
 }
 
+function deleteExerciseTopic($id)
+{
+    global $conn;
+    $query1 = "DELETE FROM exercise WHERE topic_id = ?";
+    $stmt1 = $conn->prepare($query1);
+    $stmt1->bind_param("i", $id);
+
+    $query = "DELETE FROM exercise_topic WHERE id = ?";
+    $stmt2 = $conn->prepare($query);
+    $stmt2->bind_param("i", $id);
+
+    $stmt1->execute();
+    $stmt2->execute();
+}
+
 try {
     switch ($method) {
         case 'GET':
@@ -105,7 +120,14 @@ try {
             updateExerciseTopic($id, $title, $course_id);
             echo json_encode(array('success' => true));
             break;
-
+        case 'DELETE':
+            if (!isset($_GET['id'])) {
+                throw new Exception('Missing parameters');
+            }
+            $id = $_GET['id'];
+            deleteExerciseTopic($id);
+            echo json_encode(array('success' => true));
+            break;
         default:
             break;
     }
