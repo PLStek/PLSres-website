@@ -6,7 +6,7 @@ import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.ser
 import { Course } from 'src/app/shared/models/course.model';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 
 @Component({
@@ -43,6 +43,20 @@ export class AddExerciceComponent implements OnInit {
 
     this.exerciseTopicService.getExerciseTopicList().subscribe((data) => {
       this.exerciseTopicList = data;
+      if (this.baseExercise) {
+        this.form
+          .get('courseType')
+          ?.setValue(
+            data.find((topic) => topic.id === this.baseExercise?.topicId)
+              ?.courseType
+          );
+        this.form
+          .get('course')
+          ?.setValue(
+            data.find((topic) => topic.id === this.baseExercise?.topicId)
+              ?.course
+          );
+      }
     });
 
     this.form.get('courseType')?.valueChanges.subscribe((data) => {
@@ -52,8 +66,18 @@ export class AddExerciceComponent implements OnInit {
   }
 
   initForm(baseExercise?: Exercise): void {
+    this.form = this.formBuilder.group({
+      title: ['', [Validators.required, Validators.minLength(8)]],
+      difficulty: [0],
+      course: ['', Validators.required],
+      courseType: CourseType.undefined,
+      topic: ['', Validators.required],
+      isCorrected: [false],
+      source: ['', Validators.required],
+      content: [null],
+    });
     if (baseExercise) {
-      this.form = this.formBuilder.group({
+      this.form.setValue({
         title: baseExercise.title,
         difficulty: baseExercise.difficulty,
         course: '',
@@ -61,17 +85,6 @@ export class AddExerciceComponent implements OnInit {
         topic: baseExercise.topicId,
         isCorrected: baseExercise.isCorrected,
         source: baseExercise.source,
-        content: null,
-      });
-    } else {
-      this.form = this.formBuilder.group({
-        title: '',
-        difficulty: 0,
-        course: '',
-        courseType: CourseType.undefined,
-        topic: 0,
-        isCorrected: false,
-        source: '',
         content: null,
       });
     }
@@ -88,19 +101,23 @@ export class AddExerciceComponent implements OnInit {
     this.form.get('content')?.setValue(file);
   }
 
-  validate(): void {
-    let newExercise: ExercisePostParameters = {
-      title: this.form.get('title')?.value,
-      difficulty: this.form.get('difficulty')?.value,
-      topicId: this.form.get('topic')?.value,
-      isCorrected: this.form.get('isCorrected')?.value,
-      source: this.form.get('source')?.value,
-      content: this.form.get('content')?.value,
-    };
+  submit(): void {
+    if (this.form.valid) {
+      let newExercise: ExercisePostParameters = {
+        title: this.form.get('title')?.value,
+        difficulty: this.form.get('difficulty')?.value,
+        topicId: this.form.get('topic')?.value,
+        isCorrected: this.form.get('isCorrected')?.value,
+        source: this.form.get('source')?.value,
+        content: this.form.get('content')?.value,
+      };
 
-    this.baseExercise
-      ? this.updateExercise(newExercise)
-      : this.addExercise(newExercise);
+      this.baseExercise
+        ? this.updateExercise(newExercise)
+        : this.addExercise(newExercise);
+    } else {
+      console.log('Formulaire invalide');
+    }
   }
 
   addExercise(newExercise: ExercisePostParameters): void {

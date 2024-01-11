@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { of, switchMap } from 'rxjs';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -26,11 +26,47 @@ export class LoginPopupComponent implements OnInit {
     });
 
     this.registerForm = this.formBuilder.group({
-      email: '',
-      username: '',
-      password: '',
-      passwordConfirmation: '',
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9._%+-]+@utbm.fr$'),
+        ],
+      ],
+      username: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(20),
+        ],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(32),
+        ],
+      ],
+      passwordConfirmation: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(32),
+        ],
+      ],
     });
+  }
+
+  submitLogin(): void {
+    if (this.loginForm.valid) {
+      this.login();
+    } else {
+      //TODO: show message
+      console.log('Formulaire invalide');
+    }
   }
 
   login(): void {
@@ -41,6 +77,15 @@ export class LoginPopupComponent implements OnInit {
       .subscribe((success) => this.closeIfSuccessful(success));
   }
 
+  submitRegister(): void {
+    if (this.registerForm.valid) {
+      this.register();
+    } else {
+      //TODO: show message
+      console.log('Formulaire invalide');
+    }
+  }
+
   register(): void {
     const email: string = this.registerForm.value.email;
     const username: string = this.registerForm.value.username;
@@ -48,14 +93,9 @@ export class LoginPopupComponent implements OnInit {
     this.authService
       .register(email, username, password)
       .pipe(
-        switchMap((success) => {
-          console.log(success);
-          if (success) {
-            return this.authService.login(email, password);
-          } else {
-            return of(false);
-          }
-        })
+        switchMap((success) =>
+          success ? this.authService.login(email, password) : of(false)
+        )
       )
       .subscribe((success) => this.closeIfSuccessful(success));
   }
@@ -65,24 +105,4 @@ export class LoginPopupComponent implements OnInit {
       this.bsModalRef.hide();
     }
   }
-
-  /* private checkRegisterForm(
-    email: string,
-    password: string,
-    ConfirmPassword: string
-  ): void {
-    const utbmEmailRegex: RegExp = /@utbm\.fr$/;
-    const isUtbmEmail: boolean = utbmEmailRegex.test(email);
-
-    if (isUtbmEmail) {
-      console.log("L'email se termine par @utbm.fr");
-    } else {
-      console.log("L'email ne se termine pas par @utbm.fr");
-    }
-    if (password === ConfirmPassword) {
-      console.log('Les mots de passe correspondent');
-    } else {
-      console.log('Les mots de passe ne correspondent pas');
-    }
-  } */
 }

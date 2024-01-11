@@ -26,15 +26,8 @@
     </div>
 </div>
 
-<app-background-card title="Ce semestre">
+<app-background-card title="Toutes les annonces">
     <div class="p-5">
         <app-announcement-card *ngFor="let ann of announcementList" class="m-1" [collapse]="true" [announcement]="ann"></app-announcement-card>
-    </div>
-</app-background-card>
-
-<app-background-card title="Semestre de printemps 2023">
-    <div class="p-5">
-        <app-announcement-card class="m-1" [collapse]="true"></app-announcement-card>
-        <app-announcement-card class="m-1" [collapse]="true"></app-announcement-card>
     </div>
 </app-background-card>
