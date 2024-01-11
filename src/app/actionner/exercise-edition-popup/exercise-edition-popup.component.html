@@ -1,6 +1,9 @@
 <div class="container d-flex flex-column justify-content-between p-5">
-    <div class="ps-4 pb-3 ">
+    <div class="px-4 pb-3 d-flex justify-content-between">
         <h4>Modifier un exercice</h4>
+        <div>
+            <img class="clickable" src="../../../assets/images/trash.svg" (click)="delete()" alt="">
+        </div>
     </div>
     <app-exercise-form class="px-4" [baseExercise]="editedExercise" (onValidate)="close()"></app-exercise-form>
 </div>
