@@ -38,7 +38,7 @@
         <div class="d-flex flex-column align-items-center mt-5">
             <app-exercise class="col-12  col-md-10 col-xxl-8" *ngFor="let exerciseTopic of exerciseTopicList"
                 [maxRating]="sortForm.get('maxRating')?.value" [exerciseTopic]="exerciseTopic"
-                [editable]="editable"></app-exercise>
+                [editable]="editable" (popupClosed)="resetExerciseTopics()"></app-exercise>
         </div>
     </form>
 </div>

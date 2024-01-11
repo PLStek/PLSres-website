@@ -1,5 +1,5 @@
 import { Exercise } from 'src/app/shared/models/exercise.model';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { ExerciseService } from 'src/app/shared/services/exercise.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -17,6 +17,8 @@ export class ExerciseComponent implements OnInit {
   @Input() maxRating: number = 5;
   exerciseList!: Exercise[];
 
+  @Output() popupClosed: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(
     private exerciseService: ExerciseService,
     private modalService: BsModalService
@@ -27,6 +29,15 @@ export class ExerciseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchExercises();
+  }
+
+  resetExerciseList(): void {
+    this.exerciseList = [];
+    this.fetchExercises();
+  }
+
+  fetchExercises(): void {
     this.exerciseService
       .getExercises({ topicId: this.exerciseTopic.id })
       .subscribe((data: Exercise[]) => {
@@ -35,16 +46,27 @@ export class ExerciseComponent implements OnInit {
   }
 
   openEditPopup(exercise: Exercise): void {
-    this.modalService.show(ExerciseEditionPopupComponent, {
+    const modalRef = this.modalService.show(ExerciseEditionPopupComponent, {
       class: 'modal-lg modal-dialog-centered',
       initialState: { editedExercise: exercise },
+    });
+
+    modalRef.onHidden?.subscribe(() => {
+      this.resetExerciseList();
     });
   }
 
   openTopicEditPopup(): void {
-    this.modalService.show(ExerciseTopicEditionPopupComponent, {
-      class: 'modal-lg modal-dialog-centered',
-      initialState: { editedExerciseTopic: this.exerciseTopic },
+    const modalRef = this.modalService.show(
+      ExerciseTopicEditionPopupComponent,
+      {
+        class: 'modal-lg modal-dialog-centered',
+        initialState: { editedExerciseTopic: this.exerciseTopic },
+      }
+    );
+
+    modalRef.onHidden?.subscribe(() => {
+      this.popupClosed.emit();
     });
   }
 

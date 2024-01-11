@@ -45,4 +45,8 @@ export class HomePageComponent implements OnInit {
         this.lastAnnouncement = announcements[0];
       });
   }
+
+  openDiscordLink() {
+    window.open('https://discord.com', '_blank');
+  }
 }

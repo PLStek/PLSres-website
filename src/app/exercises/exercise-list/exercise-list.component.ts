@@ -58,6 +58,11 @@ export class ExerciseListComponent implements OnInit {
     this.fetchExerciseTopics();
   }
 
+  resetExerciseTopics(): void {
+    this.exerciseTopicList = [];
+    this.fetchExerciseTopics();
+  }
+
   fetchExerciseTopics(): void {
     const formData = this.sortForm.value;
 
