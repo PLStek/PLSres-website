@@ -158,13 +158,15 @@ function deleteCharbon($id)
     $conn->commit();
 }
 
+date_default_timezone_set('UTC');
+
 try {
     switch ($method) {
         case 'GET':
             $courses = isset($_GET['courses']) ? explode(',', $_GET['courses']) : null;
             $course_type = $_GET['courseType'] ?? null;
-            $min_date = isset($_GET['minDate']) ? (new DateTime('@' . $_GET['minDate']))->format('Y-m-d H:i:s') : "0000-00-00 00:00:00";
-            $max_date = isset($_GET['maxDate']) ? (new DateTime('@' . $_GET['maxDate']))->format('Y-m-d H:i:s') : "9999-12-31 23:59:59";
+            $min_date = $_GET['minDate'] ?? "0";
+            $max_date = $_GET['maxDate'] ?? "99999999999";
             $min_duration = $_GET['minDuration'] ?? 0;
             $max_duration = $_GET['maxDuration'] ?? 99;
             $null_duration = $_GET['nullDuration'] ?? true;
@@ -199,7 +201,7 @@ try {
             }
             $title = $_POST['title'];
             $description = $_POST['description'];
-            $date = (new DateTime('@' . $_POST['date']))->format('Y-m-d H:i:s');
+            $date = $_POST['date'];
             $course = $_POST['course'];
             $replayLink = $_POST['replayLink'] ?? null;
             $resourcesLink = $_POST['resourcesLink'] ?? null;
@@ -216,7 +218,7 @@ try {
             $id = $data['id'];
             $title = $data['title'];
             $description = $data['description'];
-            $date = (new DateTime($data['date']))->format('Y-m-d H:i:s');
+            $date = $data['date'];
             $course = $data['course'];
             $replayLink = $data['replayLink'] ?? null;
             $resourcesLink = $data['resourcesLink'] ?? null;

@@ -22,7 +22,7 @@ export class CharbonService {
               Number(ch.id),
               String(ch.course),
               getCourseType(ch.course_type),
-              new Date(ch.date),
+              new Date(Number(ch.date) * 1000),
               String(ch.title),
               ch.actionneurs.map(String),
               String(ch.description),
@@ -83,7 +83,6 @@ export class CharbonService {
       formData.append('replayLink', data.replayLink.toString());
     if (data.resourcesLink)
       formData.append('resourcesLink', data.resourcesLink.toString());
-
     return this.http
       .post<any>(`http://localhost/PLSres/api/charbons`, formData)
       .pipe(
@@ -94,7 +93,16 @@ export class CharbonService {
   }
 
   updateCharbon(id: number, data: CharbonPostParameters): Observable<boolean> {
-    const putData = { id, ...data };
+    const putData = {
+      id,
+      title: data.title,
+      description: data.description,
+      date: (data.date.getTime() / 1000).toString(),
+      course: data.course,
+      actionneurs: data.actionneurs,
+      replayLink: data.replayLink,
+      resourcesLink: data.resourcesLink,
+    };
 
     return this.http
       .put<any>(`http://localhost/PLSres/api/charbons`, putData)
