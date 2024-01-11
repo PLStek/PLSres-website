@@ -29,12 +29,13 @@
                     <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">{{course.id}}
                     </option>
                 </select>
-        </div>
+            </div>
         </div>
     </form>
 </div>
 <div class="row row-cols-auto" style="justify-content: center;">
-    <app-charbon-card class="mt-4" *ngFor="let charbon of charbonList" [charbon]="charbon" [editable]="editable"></app-charbon-card>
+    <app-charbon-card class="mt-4" *ngFor="let charbon of charbonList" [charbon]="charbon" [editable]="editable"
+        (popupClosed)="resetCharbons()"></app-charbon-card>
 </div>
 <div class="d-flex justify-content-center mt-5">
     <div *ngIf="isLoading" class="spinner-border" role="status"></div>

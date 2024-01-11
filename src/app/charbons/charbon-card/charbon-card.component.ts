@@ -1,6 +1,5 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
-import { UserService } from 'src/app/shared/services/user.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CharbonEditionPopup } from 'src/app/actionner/charbon-edition-popup/charbon-edition-popup.component';
 
@@ -13,9 +12,9 @@ export class CharbonCardComponent {
   @Input() charbon!: Charbon;
   @Input() editable: boolean = false;
 
-  constructor(
-    private modalService: BsModalService
-  ) {
+  @Output() popupClosed: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor(private modalService: BsModalService) {
     this.charbon;
     this.editable;
   }
@@ -29,9 +28,13 @@ export class CharbonCardComponent {
   }
 
   openEditPopup(): void {
-    this.modalService.show(CharbonEditionPopup, {
+    const modalRef = this.modalService.show(CharbonEditionPopup, {
       class: 'modal-xl modal-dialog-centered',
       initialState: { editedCharbon: this.charbon },
+    });
+
+    modalRef.onHidden?.subscribe(() => {
+      this.popupClosed.emit();
     });
   }
 }

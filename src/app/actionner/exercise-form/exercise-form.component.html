@@ -33,7 +33,7 @@
             aria-label="Source de l'exercice" formControlName="source">
         <input type="file" class="form-control" (change)="onFileSelected($event)">
         <div class="col-12 mt-2">
-            <app-main-button content="Valider" [isFilled]="true" [isBig]="true" (click)="submit()"></app-main-button>
+            <app-main-button [isFilled]="true" [isBig]="true" (click)="submit()">Valider</app-main-button>
         </div>
     </form>
 </div>

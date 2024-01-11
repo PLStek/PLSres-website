@@ -50,11 +50,7 @@ export class CharbonListComponent implements OnInit {
     });
     
     this.sortForm.valueChanges.subscribe(() => {
-      this.charbonList = [];
-      this.fullyfetched = false;
-      if (!this.isLoading) {
-        this.fetchNextCharbons();
-      }
+      this.resetCharbons();
     });
     
     this.sortForm.get('courseType')?.valueChanges.subscribe(() => {
@@ -63,6 +59,14 @@ export class CharbonListComponent implements OnInit {
     });
 
     this.fetchNextCharbons();
+  }
+
+  resetCharbons(): void {
+    this.charbonList = [];
+    this.fullyfetched = false;
+    if (!this.isLoading) {
+      this.fetchNextCharbons();
+    }
   }
   
   updateCourseList(): void {

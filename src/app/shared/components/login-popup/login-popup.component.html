@@ -14,8 +14,8 @@
           </div>
         </div>
         <div class="d-flex justify-content-center">
-          <app-main-button type="submit" content="Connexion" [isFilled]="false" [isBig]="true"
-          (click)="submitLogin()"></app-main-button>
+          <app-main-button type="submit" [isFilled]="false" [isBig]="true"
+          (click)="submitLogin()">Connexion</app-main-button>
         </div>
       </form>
     </div>
@@ -43,7 +43,7 @@
         </form>
       </div>
       <div class="d-flex justify-content-center">
-        <app-main-button content="Inscription" [isFilled]="false" [isBig]="true" (click)="submitRegister()"></app-main-button>
+        <app-main-button [isFilled]="false" [isBig]="true" (click)="submitRegister()">Inscription</app-main-button>
       </div>
     </div>
   </div>

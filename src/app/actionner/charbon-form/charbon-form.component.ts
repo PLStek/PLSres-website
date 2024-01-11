@@ -121,7 +121,7 @@ export class AddCharbonComponent implements OnInit {
     return date < new Date();
   }
 
-  validate(): void {
+  submit(): void {
     if (this.form.valid) {
       let newCharbon: CharbonPostParameters = {
         ...this.form.value,
