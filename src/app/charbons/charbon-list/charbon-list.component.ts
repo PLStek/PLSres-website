@@ -108,7 +108,6 @@ export class CharbonListComponent implements OnInit {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
       // Load more users when reaching the bottom
       if (!this.isLoading && !this.fullyfetched) {
-        console.log('fetching next charbons');
         this.fetchNextCharbons();
       }
     }

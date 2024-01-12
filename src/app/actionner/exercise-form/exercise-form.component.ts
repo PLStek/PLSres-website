@@ -67,7 +67,7 @@ export class AddExerciceComponent implements OnInit {
 
   initForm(baseExercise?: Exercise): void {
     this.form = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(8)]],
+      title: ['', [Validators.required, Validators.minLength(4)]],
       difficulty: [0],
       course: ['', Validators.required],
       courseType: CourseType.undefined,

@@ -38,7 +38,7 @@ export class LoginPopupComponent implements OnInit {
           '',
           [
             Validators.required,
-            Validators.minLength(5),
+            Validators.minLength(4),
             Validators.maxLength(20),
           ],
         ],
@@ -72,11 +72,15 @@ export class LoginPopupComponent implements OnInit {
     }
   }
 
-  checkPasswords(): boolean {
-    return (
-      this.registerForm.get('password')?.value ===
-      this.registerForm.get('passwordConfirmation')?.value
-    );
+  checkPasswords(group: FormGroup) {
+    if (
+      group.get('password')?.value !==
+      group.get('passwordConfirmation')?.value
+    ) {
+      return { 'passwordMismatch': true };
+    } else {
+      return null;
+    }
   }
 
   login(): void {

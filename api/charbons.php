@@ -20,7 +20,7 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
         FROM charbon C
         INNER JOIN course CO ON C.course_id = CO.id
         INNER JOIN course_type T ON T.id = CO.type_id
-        WHERE C.datetime BETWEEN '$min_date' AND '$max_date'
+        WHERE C.datetime BETWEEN $min_date AND $max_date
         AND (HOUR(C.duration) BETWEEN $min_duration AND $max_duration" . ($null_duration ? " OR C.duration IS NULL)" : ")");
 
     if ($course_type) {
@@ -41,6 +41,8 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
     ) C
     LEFT JOIN charbon_host H ON C.id = H.charbon_id
     LEFT JOIN user A ON H.actionneur_id = A.id";
+
+    
 
     $result = $conn->query($query);
 

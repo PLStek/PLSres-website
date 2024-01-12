@@ -85,12 +85,12 @@ export class AddCharbonComponent implements OnInit {
 
   initForm(baseCharbon?: Charbon): void {
     this.form = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(8)]],
+      title: ['', [Validators.required, Validators.minLength(4)]],
       course: ['', [Validators.required]],
       courseType: [CourseType.undefined, [Validators.required]],
       date: ['2023T20:00', [Validators.required]],
       actionneurs: [[], [Validators.required]],
-      description: ['', [Validators.required, Validators.minLength(16)]],
+      description: ['', [Validators.required, Validators.minLength(8)]],
       replayLink: [
         '',
         [Validators.pattern('youtube.com/watch')],

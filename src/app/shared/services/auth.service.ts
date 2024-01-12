@@ -64,6 +64,29 @@ export class AuthService implements OnDestroy {
       );
   }
 
+  changePassword(
+    email: String,
+    oldPassword: String,
+    newPassword: String
+  ): Observable<boolean> {
+    const formData = new FormData();
+    formData.append('email', email.toString());
+    formData.append('oldPassword', oldPassword.toString());
+    formData.append('newPassword', newPassword.toString());
+
+    return this.http
+      .post<any>('http://localhost/PLSres/api/change_password', formData)
+      .pipe(
+        map((data: any) => {
+          if (data.success) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+      );
+  }
+
   logout(): void {
     localStorage.removeItem('user');
     this.userSubject.next(undefined);
