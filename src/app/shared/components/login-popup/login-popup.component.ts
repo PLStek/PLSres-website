@@ -25,39 +25,42 @@ export class LoginPopupComponent implements OnInit {
       password: '',
     });
 
-    this.registerForm = this.formBuilder.group({
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[a-zA-Z0-9._%+-]+@utbm.fr$'),
+    this.registerForm = this.formBuilder.group(
+      {
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('^[a-zA-Z0-9._%+-]+@utbm.fr$'),
+          ],
         ],
-      ],
-      username: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(20),
+        username: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(5),
+            Validators.maxLength(20),
+          ],
         ],
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(32),
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(32),
+          ],
         ],
-      ],
-      passwordConfirmation: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(32),
+        passwordConfirmation: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(32),
+          ],
         ],
-      ],
-    });
+      },
+      { validators: this.checkPasswords }
+    );
   }
 
   submitLogin(): void {
@@ -67,6 +70,13 @@ export class LoginPopupComponent implements OnInit {
       //TODO: show message
       console.log('Formulaire invalide');
     }
+  }
+
+  checkPasswords(): boolean {
+    return (
+      this.registerForm.get('password')?.value ===
+      this.registerForm.get('passwordConfirmation')?.value
+    );
   }
 
   login(): void {

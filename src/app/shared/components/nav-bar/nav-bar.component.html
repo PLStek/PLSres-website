@@ -34,9 +34,9 @@
                     routerLink="/actionner/accueil">Actionner</app-main-button>
                 <div class="me-3"></div>
                 <app-main-button *ngIf="loggedUser != undefined; else login" [isFilled]="false"
-                    (click)="openAccountForm()">{{this.loggedUser.username}}</app-main-button>
+                    (click)="openAccountPopup()">{{this.loggedUser.username}}</app-main-button>
                 <ng-template #login>
-                    <app-main-button [isFilled]="false" (click)="openLoginForm()">Connexion</app-main-button>
+                    <app-main-button [isFilled]="false" (click)="openLoginPopup()">Connexion</app-main-button>
                 </ng-template>
             </div>
         </div>

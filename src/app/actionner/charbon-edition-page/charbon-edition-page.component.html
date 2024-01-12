@@ -14,6 +14,14 @@
             <img src="../assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
         </div>
     </div>
+    <div class="d-flex">
+        <div style="width: 70%; padding: 3em; padding-top: 0;">
+            <app-calendar (selectedCharbonChange)="handleSelectedCharbonChange($event)"></app-calendar>
+        </div>
+        <div *ngIf="selectedCharbon" style="width: 30%; padding: 3em; padding-top: 7em; padding-left: 0;">
+            <app-charbon-card [charbon]="selectedCharbon" [editable]="true"></app-charbon-card>
+        </div>
+    </div>
 </app-background-card>
 
 <app-background-card title="Ajouter un charbon">
