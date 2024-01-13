@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { User } from '../../models/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-popup',
@@ -19,7 +20,8 @@ export class AccountPopupComponent implements OnInit {
   constructor(
     private bsModalRef: BsModalRef,
     private authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -74,6 +76,7 @@ export class AccountPopupComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.bsModalRef.hide();
+    this.router.navigate(['/acceuil']);
   }
 
   togglePasswordEdition() {
