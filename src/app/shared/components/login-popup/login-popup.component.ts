@@ -68,6 +68,7 @@ export class LoginPopupComponent implements OnInit {
       this.login();
     } else {
       //TODO: show message
+      this.loginForm.setErrors({ 'invalidCredentials': true });
       console.log('Formulaire invalide');
     }
   }
@@ -88,14 +89,23 @@ export class LoginPopupComponent implements OnInit {
     const password: string = this.loginForm.value.password;
     this.authService
       .login(emailOrUsername, password)
-      .subscribe((success) => this.closeIfSuccessful(success));
+      .subscribe((success) => {
+        if (!success) {
+          this.loginForm.setErrors({ 'invalidCredentials': true });
+        } else {
+          this.closeIfSuccessful(success);
+        }
+      });
   }
 
   submitRegister(): void {
     if (this.registerForm.valid) {
       this.register();
     } else {
-      //TODO: show message
+      if (this.registerForm.get('email')?.hasError('pattern')) {
+
+      }
+      this.registerForm.setErrors({ 'passwordMismatch': true });
       console.log('Formulaire invalide');
     }
   }
@@ -111,7 +121,13 @@ export class LoginPopupComponent implements OnInit {
           success ? this.authService.login(email, password) : of(false)
         )
       )
-      .subscribe((success) => this.closeIfSuccessful(success));
+      .subscribe((success) => {
+        if (!success) {
+          this.registerForm.setErrors({ 'emailAlreadyExists': true });
+        } else {
+          this.closeIfSuccessful(success);
+        }
+      });
   }
 
   private closeIfSuccessful(success: boolean): void {

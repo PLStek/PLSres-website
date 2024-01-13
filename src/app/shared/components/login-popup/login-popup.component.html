@@ -13,6 +13,9 @@
             <label for="password">Mot de passe</label>
           </div>
         </div>
+        <div *ngIf="loginForm.hasError('invalidCredentials')">
+          <p class="text-danger">Email ou mot de passe incorrect.</p>
+        </div>
         <div class="d-flex justify-content-center">
           <app-main-button type="submit" [isFilled]="false" [isBig]="true"
           (click)="submitLogin()">Connexion</app-main-button>
@@ -27,6 +30,9 @@
             <input type="email" class="form-control" name="newEmail" formControlName="email" placeholder>
             <label for="newEmail">Email</label>
           </div>
+          <div *ngIf="registerForm.get('email')?.hasError('pattern')">
+            <p class="text-danger">Vous devez avoir une adresse utbm pour vous créer un compte</p>
+          </div>
           <div class="form-floating mb-3">
             <input type="text" class="form-control" name="newUsername" formControlName="username" placeholder>
             <label for="newUsername">Nom d'utilisateur</label>
@@ -39,6 +45,9 @@
             <input type="password" class="form-control" name="ConfirmPassword" formControlName="passwordConfirmation"
               placeholder>
             <label for="ConfirmPassword">Confirmer Mot de passe</label>
+          </div>
+          <div *ngIf="registerForm.hasError('passwordMismatch')">
+            <p class="text-danger">Les mots de passe ne correspondent pas.</p>
           </div>
         </form>
       </div>
