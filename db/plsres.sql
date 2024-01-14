@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 11, 2024 at 10:44 PM
+-- Generation Time: Jan 14, 2024 at 02:32 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,8 +41,11 @@ CREATE TABLE `announcement` (
 --
 
 INSERT INTO `announcement` (`id`, `title`, `date`, `content`) VALUES
-(1, 'Nouveau semestre et reprise !', '2023-09-04 10:13:19', '<h5>Bonjour à toutes et à tous !</h5> <br>\r\n\r\n\r\n            C\'est l\'heure ! <br><br>\r\n\r\n            Envie de traverser l\'océan pour remplir ton CV tout blanc ? <br>\r\n            Envie de t\'ouvrir à d\'autres domaines parce que t\'en as assez de l\'espace Schengen ?\r\n            <br>\r\n            Envie de doubler ton diplôme pour viser mieux qu\'un toit de chaume ? <br><br>\r\n\r\n            <strong>Le PL$tek t\'apporte les réponses sur les DD et SEE au CANADA 🇨🇦\r\n                !</strong><br><br>\r\n\r\n            Rejoins-nous MARDI à 19h00 pour charbonner ton prochain programme d\'études <br><br>\r\n\r\n            <strong>Au menu :</strong>\r\n            <ul>\r\n                <li>M\'engager dans un Double Diplôme : En suis-je capable ?</li>\r\n                <li>Quelques opportunités de DD et de SEE au Canada 🇨🇦</li>\r\n                <li>Témoignages de vaillants explorateurs !</li>\r\n                <li>Comment me lancer au DD ?</li>\r\n                <li>Séance Q&A</li>\r\n            </ul>\r\n\r\n            Il est grand temps ! <br>\r\n            A tantôt ! <br>\r\n            Le melon d\'eau <br>'),
-(2, 'Annonce de test', '2023-10-04 22:41:03', 'Ceci est une annonce de test\r\n\r\nLe site arrive bientot');
+(1, 'Nouveau semestre et reprise !', '2023-09-04 10:13:19', '<h5>Bonjour à toutes et à tous !</h5> <br>\n\n\n            C\'est l\'heure ! <br><br>\n\n            Envie de traverser l\'océan pour remplir ton CV tout blanc ? <br>\n            Envie de t\'ouvrir à d\'autres domaines parce que t\'en as assez de l\'espace Schengen ?\n            <br>\n            Envie de doubler ton diplôme pour viser mieux qu\'un toit de chaume ? <br><br>\n\n            <strong>Le PL$tek t\'apporte les réponses sur les DD et SEE au CANADA 🇨🇦\n                !</strong><br><br>\n\n            Rejoins-nous MARDI à 19h00 pour charbonner ton prochain programme d\'études <br><br>\n\n            <strong>Au menu :</strong>\n            <ul>\n                <li>M\'engager dans un Double Diplôme : En suis-je capable ?</li>\n                <li>Quelques opportunités de DD et de SEE au Canada 🇨🇦</li>\n                <li>Témoignages de vaillants explorateurs !</li>\n                <li>Comment me lancer au DD ?</li>\n                <li>Séance Q&A</li>\n            </ul>\n\n            Il est grand temps ! <br>\n            A tantôt ! <br>\n            Le melon d\'eau <br>'),
+(2, 'Annonce de test', '2023-10-04 22:41:03', 'Ceci est une annonce de test\n\nLe site arrive bientot'),
+(3, 'Annonce 1', '2024-01-03 16:35:31', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris venenatis a nisl vitae tempor. Morbi sit amet molestie nibh, ut dapibus velit. Vestibulum eu purus in ipsum commodo accumsan sit amet sit amet sem. Fusce congue eros eu ante placerat, eget ultrices turpis blandit. Proin ultrices purus sed tincidunt congue. Fusce fringilla nunc et ex sodales dignissim. Aliquam cursus tincidunt orci vel vestibulum. In vitae finibus leo. Integer ut rhoncus tellus. Sed facilisis erat et risus cursus vulputate. Sed porttitor nunc ipsum, dignissim efficitur turpis suscipit a.</p>'),
+(4, 'Annonce 2', '2023-12-01 16:37:23', 'Vivamus mollis felis sem, vel volutpat urna suscipit a. Suspendisse potenti. Quisque non convallis quam. Maecenas ac aliquet orci. Vivamus eget pulvinar velit, tempor viverra tellus. Pellentesque purus sem, volutpat id nisi ac, congue placerat nisl. Aliquam erat volutpat. Pellentesque eu diam at nibh elementum bibendum. Quisque in orci id sem tincidunt pulvinar. Pellentesque in turpis nisi. Phasellus ullamcorper a lorem et bibendum. Cras et auctor enim. Integer sem justo, mollis non efficitur ut, tincidunt vitae turpis. Nulla id eleifend arcu, eu cursus tortor. Suspendisse orci nulla, fringilla sed odio vitae, laoreet placerat lectus. Nullam feugiat, mauris nec eleifend tincidunt, elit odio tristique purus, sit amet sodales libero erat nec arcu.'),
+(5, 'Annonce 3', '2023-11-23 16:37:40', 'Praesent viverra mi nec tempor mollis. Pellentesque vehicula, massa in lacinia tincidunt, sapien quam tincidunt est, nec posuere turpis sem eget magna. Nulla sem nunc, mollis eget rutrum non, hendrerit ac justo. Donec eleifend tempor lectus bibendum tincidunt. Nam egestas mi id eros fringilla scelerisque. Donec tortor justo, aliquet ut leo a, convallis pharetra diam. Suspendisse potenti.\r\n\r\n');
 
 -- --------------------------------------------------------
 
@@ -66,28 +69,9 @@ CREATE TABLE `charbon` (
 --
 
 INSERT INTO `charbon` (`id`, `title`, `description`, `datetime`, `duration`, `course_id`, `replay_link`, `resources_link`) VALUES
-(1, 'Premier charbon de l\'histoir', 'On fait le premier charbon de l\'histoire', 1701362340, NULL, 'PS22', 'youtube.com/watch', 'null'),
-(2, 'AAP 4, 5 et 6 de PM1 !', 'On prépare le CC2 de PM en révisant les AAP 4, 5 et 6. Nous utiliserons l\'ECA du CC2 en distanciel A22, alors jetez-y un coup d\'oeil !', 1702731297, NULL, 'PM1', 'youtube.com/watch', NULL),
-(3, 'Révision pour le final d\'EL22', 'On révise toutes les notions depuis le début de l\'année', 1703877357, NULL, 'EL22', 'youtube.com/watch', NULL),
-(4, 'Révisions pour le médian de PS2', 'On revoit les coordonnées cartésiennes et polaires', 1699895757, '02:07:57', 'PS2', 'youtube.com/watch', NULL),
-(5, 'Chapitres 3 et 4', 'On fait des exercices sur l\'algèbre linéaire et les fonctions à 2 variables', 1698951600, '02:42:12', 'MT2', 'youtube.com/watch', NULL),
-(8, 'test', 'test', 1607771532, NULL, 'MT3', 'youtube.com/watch', NULL),
-(16, 'Revisions final', 'On revise toutes les notions vues depuis le debut de l\'annee', 1524716542, NULL, 'PS25', 'youtube.com/watch', NULL),
-(22, 'Révisions BDD', 'On revoit les BDD', 1702576800, NULL, 'IF3A', 'youtube.com/watch', NULL),
-(23, 'Test2', 'Uwu', 1702489920, NULL, 'EL22', 'youtube.com/watch', NULL),
-(24, 'Test2', 'Uwu', 1702486320, NULL, 'PS22', 'youtube.com/watch', 'null'),
-(25, 'uwu', 'kaka', 1703276880, NULL, 'PS25', 'youtube.com/watch', NULL),
-(26, 'Suua', '', 1703276880, NULL, 'IF1', 'youtube.com/watch', NULL),
-(27, 'Révisions PHP', 'On revoit ensemble la connexion aux bases de données', 1703065620, NULL, 'IF3A', 'youtube.com/watch', 'null'),
-(28, 'Révisions PHP', 'On revoit ensemble la connexion aux bases de données', 1703069220, NULL, 'IF3A', 'youtube.com/watch', NULL),
-(31, 'Le test ultime', 'C\'est un test !!', 1705010400, NULL, 'IF3B', NULL, NULL),
-(32, 'Le test', 'C\'est un test', 1702413780, NULL, 'IF3B', 'youtube.com/watch', NULL),
-(33, 'Révision pour le final d\'EL22', 'On révise toutes les notions depuis le début de l\'année', 1703877357, NULL, 'EL22', 'youtube.com/watch', NULL),
-(34, 'Charbon test (le 1800e)', 'Le 1800e charbon de test, déj', 1705011600, NULL, 'PS25', '', NULL),
-(40, 'Charbon de PS2', 'Une description', 1703257020, NULL, 'PS2', 'youtube.com/watch', NULL),
-(45, 'ddddddddddddddf', 'dddddddddddddddf', 1704311100, NULL, 'IF2', '', NULL),
-(46, 'ddddddddddddaaaaad', 'aaaaaaaaaaaaaqsd', 1704310680, NULL, 'IF1', '', NULL),
-(47, 'TTTTTTTTTTTTTTTTTTTTT', 'EEEEEEEEEEEEEEEEEEEEEE', 1704225120, NULL, 'IF2', '', NULL);
+(49, 'Révisions CC1 de PM', 'On révise les notions du CC1 !', 1702148400, NULL, 'PM1', 'https://youtube.com/watch', NULL),
+(53, 'Révisions bases de données', 'On revoit le SQl basique', 1705429800, NULL, 'IF3A', NULL, NULL),
+(54, 'On revoit le CC2', 'Révision des notions du CC2 ensemble', 1704223800, NULL, 'PS22', 'https://youtube.com/watch', NULL);
 
 -- --------------------------------------------------------
 
@@ -105,32 +89,10 @@ CREATE TABLE `charbon_host` (
 --
 
 INSERT INTO `charbon_host` (`charbon_id`, `actionneur_id`) VALUES
-(3, 1),
-(8, 1),
-(8, 2),
-(16, 1),
-(16, 2),
-(22, 1),
-(22, 2),
-(23, 1),
-(23, 2),
-(24, 1),
-(24, 2),
-(25, 1),
-(25, 2),
-(26, 1),
-(27, 1),
-(27, 2),
-(28, 1),
-(28, 2),
-(31, 1),
-(32, 1),
-(34, 2),
-(40, 1),
-(40, 2),
-(45, 1),
-(46, 1),
-(47, 1);
+(49, 35),
+(49, 36),
+(53, 34),
+(54, 36);
 
 -- --------------------------------------------------------
 
@@ -211,17 +173,11 @@ CREATE TABLE `exercise` (
 --
 
 INSERT INTO `exercise` (`id`, `title`, `difficulty`, `is_corrected`, `source`, `topic_id`) VALUES
-(1, 'Parcours d\'un BST', 2, 1, 'Tyuvetou', 1),
-(2, 'Parcours d\'une liste chainée', 2, 0, 'Wiqiro', 2),
-(3, 'Inversion d\'une liste chainée', 3, 0, 'Wiqiro', 2),
-(4, 'Parcours d\'un graphe', 3, 1, 'Trytoon', 3),
-(7, 'Test exercice', 3, 0, 'Source', 1),
-(8, 'TestExercise', 5, 0, 'William', 2),
-(9, 'Un cas assez particulier', 4, 0, 'Tatouille', 8),
-(11, 'Test', 4, 0, 'William', 6),
-(16, 'Ma source', 4, 1, 'Ma source', 8),
-(18, 'Teeeest', 2, 1, 'Wiqiro', 6),
-(19, 'Pmartituo', 2, 1, 'Test', 1);
+(20, 'Mise en application DFS', 4, 0, 'Cours de LO21', 3),
+(21, 'Mise en application Thévenin-Norton', 2, 1, 'Tatouille', 8),
+(22, 'Exercice de découverte des graphs', 4, 1, 'W3school', 3),
+(23, 'Inversion de liste chainée', 4, 1, 'W3school', 2),
+(24, 'Dérivation partielle d\'une fonction compliquée', 5, 0, 'Poly de MT2', 7);
 
 -- --------------------------------------------------------
 
@@ -269,15 +225,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `actionneur`, `admin`) VALUES
-(1, 'William', 'william.imbert@utbm.fr', '$2y$10$MyDpbLIZhLScjJxDH7GKGu.Y/G5XhznRq0hozGgmFZ7SI0Pj9TTk.', 1, 1),
-(2, 'Tyuvetou', 'gregori.machin@utbm.fr', 'UWU', 1, 1),
-(12, 'Michel', 'michel@utbm.fr', '$2y$10$3MxqdrWuezokz1IcZLr1DOgy5hCLHXvmSXV/Xi/q37XorxK/AvEpm', 0, 0),
-(17, 'Robert', 'robert@utbm.fr', '$2y$10$OVp11374Sw2bQKs6ebfeTe26TDP.FA.60iz0JkL3oft1mR2OP4IFu', 0, 0),
-(18, '1234', '1234@utbm.fr', '$2y$10$9EoBXxtEp5zdlThT28p3nOuNdqaK9xKQ8YGAjuF9.7TLZui3MMx2O', 0, 0),
-(20, '123', '123', '$2y$10$gKc4PzoAHNXSRWwLeyWUaeP6iq9LCYBbAtyd11r/TKPgulmmoxmQO', 0, 0),
-(24, '12345', '12345', '$2y$10$pr3PMrNjUczsldf1Hws/rewK0bpUCNXff2qU.5D5cQ/r43aOgq5ze', 0, 0),
-(25, '', '', '$2y$10$TLrhv27w77h7bxn5eCHy6.Q5300wMRuWpAB1bW6AanqXedfRNevpe', 0, 0),
-(29, 'Uwuwuwu', 'michell@utbm.fr', '$2y$10$n/TcZH2JYyir7JnbNoZfX.Y7Iz9eQgX7Q2WJswNoB2xAN9NhwHGDy', 0, 0);
+(1, 'Admin', 'admin@utbm.fr', '$2y$10$SvGeVi2BSsvSivR55PGmI.xpzuPfXWAIaCmtC.6cxbhDUjdDciIkW', 1, 1),
+(34, 'Vertonox', 'jean.charles@utbm.fr', '$2y$10$SvGeVi2BSsvSivR55PGmI.xpzuPfXWAIaCmtC.6cxbhDUjdDciIkW', 1, 0),
+(35, 'Loopy', 'nathan.pretendu@utbm.fr', '$2y$10$SvGeVi2BSsvSivR55PGmI.xpzuPfXWAIaCmtC.6cxbhDUjdDciIkW', 1, 0),
+(36, 'Tax', 'amelie.tronque@utbm.fr', '$2y$10$SvGeVi2BSsvSivR55PGmI.xpzuPfXWAIaCmtC.6cxbhDUjdDciIkW', 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -347,13 +298,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `announcement`
 --
 ALTER TABLE `announcement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `charbon`
 --
 ALTER TABLE `charbon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `course_type`
@@ -365,7 +316,7 @@ ALTER TABLE `course_type`
 -- AUTO_INCREMENT for table `exercise`
 --
 ALTER TABLE `exercise`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `exercise_topic`
@@ -377,7 +328,7 @@ ALTER TABLE `exercise_topic`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Constraints for dumped tables
