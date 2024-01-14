@@ -44,7 +44,6 @@ export class ExerciseTopicService {
       .pipe(
         map((data: any) =>
           {
-            console.log(data);
             return data.map(
             (el: any) =>
               new ExerciseTopic(
@@ -73,7 +72,6 @@ export class ExerciseTopicService {
     data: ExerciseTopicPostParameters
   ): Observable<boolean> {
     const putData = { id, ...data };
-    console.log(putData);
 
     return this.http
       .put<any>('http://localhost/PLSres/api/exercise_topics', putData)

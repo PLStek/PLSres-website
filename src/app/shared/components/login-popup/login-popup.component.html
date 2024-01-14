@@ -37,6 +37,9 @@
             <input type="text" class="form-control" name="newUsername" formControlName="username" placeholder>
             <label for="newUsername">Nom d'utilisateur</label>
           </div>
+          <div *ngIf="registerForm.get('username')?.hasError('minlength') || registerForm.get('username')?.hasError('maxlength')">
+            <p class="text-danger">La taille doit être supérieure à 4 et inférieure à 20</p>
+          </div>
           <div class="form-floating mb-3">
             <input type="password" class="form-control" name="Password" formControlName="password" placeholder>
             <label for="Password">Mot de passe</label>

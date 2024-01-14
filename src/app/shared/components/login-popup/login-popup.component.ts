@@ -101,12 +101,6 @@ export class LoginPopupComponent implements OnInit {
   submitRegister(): void {
     if (this.registerForm.valid) {
       this.register();
-    } else {
-      if (this.registerForm.get('email')?.hasError('pattern')) {
-
-      }
-      this.registerForm.setErrors({ 'passwordMismatch': true });
-      console.log('Formulaire invalide');
     }
   }
 

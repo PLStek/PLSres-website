@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CharbonEditionPopup } from 'src/app/actionner/charbon-edition-popup/charbon-edition-popup.component';
@@ -8,7 +8,7 @@ import { CharbonEditionPopup } from 'src/app/actionner/charbon-edition-popup/cha
   templateUrl: './charbon-card.component.html',
   styleUrls: ['./charbon-card.component.scss'],
 })
-export class CharbonCardComponent {
+export class CharbonCardComponent  {
   @Input() charbon!: Charbon;
   @Input() editable: boolean = false;
 
@@ -18,6 +18,7 @@ export class CharbonCardComponent {
     this.charbon;
     this.editable;
   }
+  
 
   goToLink(url: string) {
     window.open(url, '_blank');

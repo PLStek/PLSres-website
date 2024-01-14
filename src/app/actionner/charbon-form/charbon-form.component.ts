@@ -91,10 +91,7 @@ export class AddCharbonComponent implements OnInit {
       date: ['2023T20:00', [Validators.required]],
       actionneurs: [[], [Validators.required]],
       description: ['', [Validators.required, Validators.minLength(8)]],
-      replayLink: [
-        '',
-        [Validators.pattern('youtube.com/watch')],
-      ],
+      replayLink: ['', [Validators.pattern('.*youtube.com/watch.*')]],
     });
 
     if (baseCharbon) {
