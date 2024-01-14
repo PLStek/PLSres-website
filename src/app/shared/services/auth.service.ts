@@ -16,7 +16,7 @@ export class AuthService implements OnDestroy {
 
   login(login: String, password: String): Observable<boolean> {
     const formData = new FormData();
-    formData.append('email', login.toString());
+    formData.append('loginInfo', login.toString());
     formData.append('password', password.toString());
 
     return this.http
