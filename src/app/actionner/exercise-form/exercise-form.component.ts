@@ -6,7 +6,7 @@ import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.ser
 import { Course } from 'src/app/shared/models/course.model';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 
 @Component({
@@ -18,7 +18,7 @@ export class AddExerciceComponent implements OnInit {
   @Input() baseExercise?: Exercise;
   @Output() onValidate = new EventEmitter<void>();
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
@@ -31,7 +31,7 @@ export class AddExerciceComponent implements OnInit {
     private exerciseService: ExerciseService,
     private courseService: CourseService,
     private exerciseTopicService: ExerciseTopicService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {

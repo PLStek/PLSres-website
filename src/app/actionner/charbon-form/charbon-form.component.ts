@@ -1,7 +1,7 @@
 import { CharbonPostParameters } from '../../shared/models/charbon-post-parameters.model';
 import { CourseService } from '../../shared/services/course.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -19,7 +19,7 @@ export class AddCharbonComponent implements OnInit {
   @Output() onValidate = new EventEmitter<void>();
 
   charbonPreview!: Charbon;
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
@@ -31,7 +31,7 @@ export class AddCharbonComponent implements OnInit {
     private charbonService: CharbonService,
     private courseService: CourseService,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {

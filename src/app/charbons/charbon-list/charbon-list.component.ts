@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { CharbonGetParameters } from 'src/app/shared/models/charbon-get-parameters.model';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
@@ -25,13 +25,13 @@ export class CharbonListComponent implements OnInit {
   isLoading = false;
   fullyfetched = false;
 
-  sortForm!: FormGroup;
+  sortForm!: UntypedFormGroup;
 
   courseTypeEnum = CourseType;
 
   constructor(
     private charbonService: CharbonService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private courseService: CourseService
   ) {
     this.editable = false;

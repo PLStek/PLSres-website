@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Course } from 'src/app/shared/models/course.model';
 import { ExerciseTopicGetParameters } from 'src/app/shared/models/exercise-topic-get-parameters.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
@@ -20,13 +20,13 @@ export class ExerciseListComponent implements OnInit {
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
 
-  sortForm!: FormGroup;
+  sortForm!: UntypedFormGroup;
   
 
   courseTypeEnum = CourseType;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private exerciseTopicService: ExerciseTopicService,
     private courseService: CourseService
   ) {}

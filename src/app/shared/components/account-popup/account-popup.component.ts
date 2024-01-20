@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { User } from '../../models/user.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,12 +15,12 @@ export class AccountPopupComponent implements OnInit {
 
   editPassword: boolean = false;
 
-  passwordForm!: FormGroup;
+  passwordForm!: UntypedFormGroup;
 
   constructor(
     private bsModalRef: BsModalRef,
     private authService: AuthService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router
   ) {}
 
@@ -62,7 +62,7 @@ export class AccountPopupComponent implements OnInit {
     );
   }
 
-  checkPasswords(group: FormGroup) {
+  checkPasswords(group: UntypedFormGroup) {
     if (
       group.get('newPassword')?.value !==
       group.get('newPasswordConfirmation')?.value

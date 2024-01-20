@@ -1,6 +1,6 @@
 import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Course } from 'src/app/shared/models/course.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { CourseService } from 'src/app/shared/services/course.service';
@@ -16,7 +16,7 @@ export class ExerciseTopicFormComponent implements OnInit {
   @Input() baseExerciseTopic?: ExerciseTopic;
   @Output() onValidate = new EventEmitter<void>();
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
@@ -25,7 +25,7 @@ export class ExerciseTopicFormComponent implements OnInit {
   courseTypeEnum = CourseType;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private exerciseTopicService: ExerciseTopicService,
     private courseService: CourseService
   ) {}

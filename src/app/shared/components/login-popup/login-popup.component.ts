@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { of, switchMap } from 'rxjs';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -10,13 +10,13 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   styleUrls: ['./login-popup.component.scss'],
 })
 export class LoginPopupComponent implements OnInit {
-  loginForm!: FormGroup;
-  registerForm!: FormGroup;
+  loginForm!: UntypedFormGroup;
+  registerForm!: UntypedFormGroup;
 
   constructor(
     private bsModalRef: BsModalRef,
     private authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -73,7 +73,7 @@ export class LoginPopupComponent implements OnInit {
     }
   }
 
-  checkPasswords(group: FormGroup) {
+  checkPasswords(group: UntypedFormGroup) {
     if (
       group.get('password')?.value !==
       group.get('passwordConfirmation')?.value
