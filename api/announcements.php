@@ -10,12 +10,17 @@ require_once 'database.php';
 
 $method = $_SERVER["REQUEST_METHOD"];
 
-function getAnnouncements() {
+function getAnnouncements($limit, $offset, $sort) {
     global $conn;
 
-    $query = "SELECT * FROM announcement ORDER BY date DESC";
+    $query = "SELECT * FROM announcement ORDER BY $sort LIMIT ? OFFSET ?";
 
-    $result = $conn->query($query);
+
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("ii", $limit, $offset);
+
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     $announcements = array();
 
@@ -34,7 +39,30 @@ function getAnnouncements() {
 try {
     switch ($method) {
         case 'GET':
-            $announcements = getAnnouncements();
+            $limit = $_GET['limit'] ?? 10;
+            $offset = $_GET['offset'] ?? 0;
+            $sort = "";
+
+            switch ($_GET['sort'] ?? null) {
+                case 'nameAsc':
+                    $sort = "title ASC";
+                    break;
+                case 'nameDesc':
+                    $sort = "title DESC";
+                    break;
+                case 'dateAsc':
+                    $sort = "date ASC";
+                    break;
+                case 'dateDesc':
+                    $sort = "date DESC";
+                    break;
+                default:
+                    $sort = "date DESC";
+                    break;
+            }
+
+
+            $announcements = getAnnouncements($limit, $offset, $sort);
             echo json_encode($announcements);
             break;
 

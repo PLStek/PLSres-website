@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { of, switchMap } from 'rxjs';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -25,12 +25,63 @@ export class LoginPopupComponent implements OnInit {
       password: '',
     });
 
-    this.registerForm = this.formBuilder.group({
-      email: '',
-      username: '',
-      password: '',
-      passwordConfirmation: '',
-    });
+    this.registerForm = this.formBuilder.group(
+      {
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('^[a-zA-Z0-9._%+-]+@utbm.fr$'),
+          ],
+        ],
+        username: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(20),
+          ],
+        ],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(32),
+          ],
+        ],
+        passwordConfirmation: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(32),
+          ],
+        ],
+      },
+      { validators: this.checkPasswords }
+    );
+  }
+
+  submitLogin(): void {
+    if (this.loginForm.valid) {
+      this.login();
+    } else {
+      //TODO: show message
+      this.loginForm.setErrors({ 'invalidCredentials': true });
+      console.log('Formulaire invalide');
+    }
+  }
+
+  checkPasswords(group: FormGroup) {
+    if (
+      group.get('password')?.value !==
+      group.get('passwordConfirmation')?.value
+    ) {
+      return { 'passwordMismatch': true };
+    } else {
+      return null;
+    }
   }
 
   login(): void {
@@ -38,7 +89,19 @@ export class LoginPopupComponent implements OnInit {
     const password: string = this.loginForm.value.password;
     this.authService
       .login(emailOrUsername, password)
-      .subscribe((success) => this.closeIfSuccessful(success));
+      .subscribe((success) => {
+        if (!success) {
+          this.loginForm.setErrors({ 'invalidCredentials': true });
+        } else {
+          this.closeIfSuccessful(success);
+        }
+      });
+  }
+
+  submitRegister(): void {
+    if (this.registerForm.valid) {
+      this.register();
+    }
   }
 
   register(): void {
@@ -48,16 +111,17 @@ export class LoginPopupComponent implements OnInit {
     this.authService
       .register(email, username, password)
       .pipe(
-        switchMap((success) => {
-          console.log(success);
-          if (success) {
-            return this.authService.login(email, password);
-          } else {
-            return of(false);
-          }
-        })
+        switchMap((success) =>
+          success ? this.authService.login(email, password) : of(false)
+        )
       )
-      .subscribe((success) => this.closeIfSuccessful(success));
+      .subscribe((success) => {
+        if (!success) {
+          this.registerForm.setErrors({ 'emailAlreadyExists': true });
+        } else {
+          this.closeIfSuccessful(success);
+        }
+      });
   }
 
   private closeIfSuccessful(success: boolean): void {
@@ -65,24 +129,4 @@ export class LoginPopupComponent implements OnInit {
       this.bsModalRef.hide();
     }
   }
-
-  /* private checkRegisterForm(
-    email: string,
-    password: string,
-    ConfirmPassword: string
-  ): void {
-    const utbmEmailRegex: RegExp = /@utbm\.fr$/;
-    const isUtbmEmail: boolean = utbmEmailRegex.test(email);
-
-    if (isUtbmEmail) {
-      console.log("L'email se termine par @utbm.fr");
-    } else {
-      console.log("L'email ne se termine pas par @utbm.fr");
-    }
-    if (password === ConfirmPassword) {
-      console.log('Les mots de passe correspondent');
-    } else {
-      console.log('Les mots de passe ne correspondent pas');
-    }
-  } */
 }

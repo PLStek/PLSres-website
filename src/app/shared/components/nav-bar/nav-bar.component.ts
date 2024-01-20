@@ -31,15 +31,16 @@ export class NavBarComponent implements OnInit {
       .subscribe((user) => (this.loggedUser = user));
   }
 
-  openLoginForm() {
+  openLoginPopup() {
     this.modalService.show(LoginPopupComponent, {
       class: 'modal-xl',
     });
   }
 
-  openAccountForm() {
+  openAccountPopup() {
     this.modalService.show(AccountPopupComponent, {
       class: 'modal-lg',
+      initialState: { loggedUser: this.loggedUser },
     });
   }
 

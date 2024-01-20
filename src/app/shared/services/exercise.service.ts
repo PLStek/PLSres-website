@@ -25,7 +25,7 @@ export class ExerciseService {
     return response.pipe(
       map((data: any) =>
         data.map(
-          (element: any) => 
+          (element: any) =>
             new Exercise(
               Number(element.id),
               String(element.title),
@@ -62,9 +62,7 @@ export class ExerciseService {
       .pipe(this.processHttpResponse);
   }
 
-addExercise(
-    data: ExercisePostParameters,
-  ): Observable<boolean> {
+  addExercise(data: ExercisePostParameters): Observable<boolean> {
     const formData = new FormData();
     formData.append('title', data.title.toString());
     formData.append('difficulty', data.difficulty.toString());
@@ -84,10 +82,9 @@ addExercise(
 
   updateExercise(
     id: number,
-    data: ExercisePostParameters,
+    data: ExercisePostParameters
   ): Observable<boolean> {
-    const putData = {id, ...data};
-
+    const putData = { id, ...data };
 
     return this.http
       .put<any>(`http://localhost/PLSres/api/exercises`, putData)
@@ -96,5 +93,13 @@ addExercise(
           return Boolean(res.success) ?? false;
         })
       );
+  }
+
+  deleteExercise(id: number): Observable<boolean> {
+    let params = new HttpParams().set('id', id);
+
+    return this.http
+      .delete<any>(`http://localhost/PLSres/api/exercises`, { params })
+      .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

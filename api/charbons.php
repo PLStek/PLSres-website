@@ -11,16 +11,16 @@ require_once 'database.php';
 $method = $_SERVER["REQUEST_METHOD"];
 
 
-function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit)
+function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit, $sort)
 {
-    global $conn;
+    global $conn;    
 
     $query = "SELECT C.*, A.username as actionneur FROM (
         SELECT C.id, C.title, C.description, C.datetime, C.course_id course, C.replay_link, C.resources_link, T.type course_type
         FROM charbon C
         INNER JOIN course CO ON C.course_id = CO.id
         INNER JOIN course_type T ON T.id = CO.type_id
-        WHERE C.datetime BETWEEN '$min_date' AND '$max_date'
+        WHERE C.datetime BETWEEN $min_date AND $max_date
         AND (HOUR(C.duration) BETWEEN $min_duration AND $max_duration" . ($null_duration ? " OR C.duration IS NULL)" : ")");
 
     if ($course_type) {
@@ -36,11 +36,13 @@ function getCharbons($courses, $course_type, $min_date, $max_date, $min_duration
         $query = rtrim($query, ',') . ")";
     }
     $query .= "
-        ORDER BY id
+        ORDER BY $sort
         LIMIT $limit OFFSET $offset
     ) C
     LEFT JOIN charbon_host H ON C.id = H.charbon_id
     LEFT JOIN user A ON H.actionneur_id = A.id";
+
+    
 
     $result = $conn->query($query);
 
@@ -158,20 +160,41 @@ function deleteCharbon($id)
     $conn->commit();
 }
 
+date_default_timezone_set('UTC');
+
 try {
     switch ($method) {
         case 'GET':
             $courses = isset($_GET['courses']) ? explode(',', $_GET['courses']) : null;
-            $course_type = $_GET['course_type'] ?? null;
-            $min_date = isset($_GET['min_date']) ? (new DateTime('@' . $_GET['min_date']))->format('Y-m-d H:i:s') : "0000-00-00 00:00:00";
-            $max_date = isset($_GET['max_date']) ? (new DateTime('@' . $_GET['max_date']))->format('Y-m-d H:i:s') : "9999-12-31 23:59:59";
-            $min_duration = $_GET['min_duration'] ?? 0;
-            $max_duration = $_GET['max_duration'] ?? 99;
-            $null_duration = $_GET['null_duration'] ?? true;
+            $course_type = $_GET['courseType'] ?? null;
+            $min_date = $_GET['minDate'] ?? "0";
+            $max_date = $_GET['maxDate'] ?? "99999999999";
+            $min_duration = $_GET['minDuration'] ?? 0;
+            $max_duration = $_GET['maxDuration'] ?? 99;
+            $null_duration = $_GET['nullDuration'] ?? true;
             $offset = $_GET['offset'] ?? 0;
             $limit = $_GET['limit'] ?? 1000;
+            $sort = "";
 
-            $charbons = getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit);
+            switch ($_GET['sort'] ?? null) {
+                case 'dateAsc':
+                    $sort = "C.datetime ASC";
+                    break;
+                case 'dateDesc':
+                    $sort = "C.datetime DESC";
+                    break;
+                case 'durationAsc':
+                    $sort = "C.duration ASC";
+                    break;
+                case 'durationDesc':
+                    $sort = "C.duration DESC";
+                    break;
+                default:
+                    $sort = "C.datetime DESC";
+                    break;
+            }
+
+            $charbons = getCharbons($courses, $course_type, $min_date, $max_date, $min_duration, $max_duration, $null_duration, $offset, $limit, $sort);
             echo json_encode($charbons);
             break;
         case 'POST':
@@ -180,10 +203,10 @@ try {
             }
             $title = $_POST['title'];
             $description = $_POST['description'];
-            $date = (new DateTime('@' . $_POST['date']))->format('Y-m-d H:i:s');
+            $date = $_POST['date'];
             $course = $_POST['course'];
-            $replayLink = $_POST['replay_link'] ?? null;
-            $resourcesLink = $_POST['resources_link'] ?? null;
+            $replayLink = $_POST['replayLink'] ?? null;
+            $resourcesLink = $_POST['resourcesLink'] ?? null;
             $actionneurs = explode(',', $_POST['actionneurs']);
 
             addCharbon($title, $description, $date, $course, $replayLink, $resourcesLink, $actionneurs);
@@ -197,7 +220,7 @@ try {
             $id = $data['id'];
             $title = $data['title'];
             $description = $data['description'];
-            $date = (new DateTime($data['date']))->format('Y-m-d H:i:s');
+            $date = $data['date'];
             $course = $data['course'];
             $replayLink = $data['replayLink'] ?? null;
             $resourcesLink = $data['resourcesLink'] ?? null;

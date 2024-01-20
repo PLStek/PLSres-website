@@ -9,8 +9,8 @@ export class Charbon {
     public title: string,
     public actionneurs: string[],
     public description: string,
-    public replayLink: string,
-    public resourcesLink: string
+    public replayLink?: string,
+    public resourcesLink?: string
   ) {
     this.id = id;
     this.course = course;

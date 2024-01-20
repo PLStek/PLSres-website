@@ -16,8 +16,9 @@
             <h6>Actionneur(s):</h6>
             <p>{{charbon.actionneurs}}</p>
             <p style="font-weight: lighter; font-size: small;">{{charbon.description}}</p>
-            <app-color-button *ngIf="editable" [courseType]="charbon.courseType" [isFilled]="false" content="Editer"
-                (click)="openEditPopup()"></app-color-button>
+            <app-color-button *ngIf="editable" [courseType]="charbon.courseType" [isFilled]="false"
+                (click)="openEditPopup()">Editer</app-color-button>
+
             <h5 *ngIf="!editable">
                 <img src="../assets/images/charbon.svg" class="charbon-img-inline">
                 {{charbon.date | dateInterval}}
@@ -25,12 +26,11 @@
         </div>
         <div [ngClass]="'course-color-'+charbon.courseType"
             class="card-footer text-body-secondary d-flex justify-content-evenly">
-            <app-color-button [courseType]="charbon.courseType" [isFilled]="true"
-                content="Ressources"></app-color-button>
-            <app-color-button *ngIf="!isPassed()" [courseType]="charbon.courseType" [isFilled]="false"
-                content="Participer"></app-color-button>
-            <app-color-button *ngIf="isPassed()" [courseType]="charbon.courseType" [isFilled]="false" content="Rediffusion"
-                (click)="goToLink(charbon.replayLink)"></app-color-button>
+            <app-color-button [courseType]="charbon.courseType" [isFilled]="true">Ressources</app-color-button>
+            <app-color-button *ngIf="!isPassed()" [courseType]="charbon.courseType"
+                [isFilled]="false" (click)="goToLink('https://discord.com')">Participer</app-color-button>
+            <app-color-button *ngIf="isPassed()" [courseType]="charbon.courseType" [isFilled]="false"
+                (click)="goToLink(charbon.replayLink!)">Rediffusion</app-color-button>
         </div>
     </ng-container>
 </div>

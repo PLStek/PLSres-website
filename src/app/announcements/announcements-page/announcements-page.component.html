@@ -1,5 +1,5 @@
 <div class="container">
-    <app-main-button routerLink="/accueil" content="Page d'accueil" [isBig]="true" [isFilled]="false"></app-main-button>
+    <app-main-button routerLink="/accueil" [isBig]="true" [isFilled]="false">Page d'accueil</app-main-button>
 </div>
 
 <div class="container-lg mb-3 p-3 rounded mt-5" style="background-color: white;">
@@ -7,8 +7,8 @@
         <div class="pt-3" style="width: 50em;">
             <h1>Dernières annonces</h1>
             <p class="mt-4">
-                Retrouve ici toutes les annonces en lien avec le PL$tek, également disponibles <u
-                    style="color: red;">sur le discord</u> !
+                Retrouve ici toutes les annonces en lien avec le PL$tek, également disponibles <a
+                    href="https://discord.com" style="color: red;">sur le discord</a> !
             </p>
         </div>
         <div>
@@ -16,23 +16,19 @@
         </div>
     </div>
     <div class="d-flex align-items-center" style="padding-left: 6em; padding-right: 6em;">
-        <label for="inputTri" class="form-label me-5">Trier par :</label>
-        <select id="inputTri" class="form-select" style="width: 15em;">
-            <option selected>A à Z</option>
-            <option value="1">Date</option>
+        <label class="form-label me-5">Trier par :</label>
+        <select class="form-select" style="width: 15em" [(ngModel)]="sortOption" (ngModelChange)="onSortChange()">
+            <option value="dateDesc">Plus récent d'abord</option>
+            <option value="dateAsc">Plus ancien d'abord</option>
+            <option value="nameAsc">Ordre alphabétique</option>
+            <option value="nameDesc">Ordre antalphabétique</option>
         </select>
     </div>
 </div>
 
-<app-background-card title="Ce semestre">
+<app-background-card title="Toutes les annonces">
     <div class="p-5">
-        <app-announcement-card *ngFor="let ann of announcementList" class="m-1" [collapse]="true" [announcement]="ann"></app-announcement-card>
-    </div>
-</app-background-card>
-
-<app-background-card title="Semestre de printemps 2023">
-    <div class="p-5">
-        <app-announcement-card class="m-1" [collapse]="true"></app-announcement-card>
-        <app-announcement-card class="m-1" [collapse]="true"></app-announcement-card>
+        <app-announcement-card *ngFor="let ann of announcementList" class="m-1" [collapse]="true"
+            [announcement]="ann"></app-announcement-card>
     </div>
 </app-background-card>

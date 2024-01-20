@@ -30,13 +30,13 @@
                 </li>
             </ul>
             <div class="d-flex justify-content-between">
-                <app-main-button *ngIf="loggedUser?.isActionneur && !isActionneurRoute()" content="Actionner"
-                    [isFilled]="true" routerLink="/actionner/accueil"></app-main-button>
+                <app-main-button *ngIf="loggedUser?.isActionneur && !isActionneurRoute()" [isFilled]="true"
+                    routerLink="/actionner/accueil">Actionner</app-main-button>
                 <div class="me-3"></div>
-                <app-main-button *ngIf="loggedUser != undefined; else login" [content]="this.loggedUser.username"
-                    [isFilled]="false" (click)="openAccountForm()"></app-main-button>
+                <app-main-button *ngIf="loggedUser != undefined; else login" [isFilled]="false"
+                    (click)="openAccountPopup()">{{this.loggedUser.username}}</app-main-button>
                 <ng-template #login>
-                    <app-main-button content="Connexion" [isFilled]="false" (click)="openLoginForm()"></app-main-button>
+                    <app-main-button [isFilled]="false" (click)="openLoginPopup()">Connexion</app-main-button>
                 </ng-template>
             </div>
         </div>

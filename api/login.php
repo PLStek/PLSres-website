@@ -15,13 +15,13 @@ try {
         throw new Exception('This method is not allowed.');
     }
     
-    $email = $_POST['email'] ?? '';
+    $login = $_POST['loginInfo'] ?? '';
     $password = $_POST['password'] ?? '';
     
     
-    $query = "SELECT id, username, email, password_hash, actionneur, admin FROM user WHERE email = ?";
+    $query = "SELECT id, username, email, password_hash, actionneur, admin FROM user WHERE email = ? OR username = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("s", $email);
+    $stmt->bind_param("ss", $login, $login);
     
     $stmt->execute();
     $result = $stmt->get_result()->fetch_assoc();

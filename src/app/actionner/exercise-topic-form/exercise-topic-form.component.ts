@@ -1,6 +1,6 @@
 import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Course } from 'src/app/shared/models/course.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { CourseService } from 'src/app/shared/services/course.service';
@@ -45,17 +45,17 @@ export class ExerciseTopicFormComponent implements OnInit {
   }
 
   initForm(baseExerciseTopic?: ExerciseTopic): void {
+    this.form = this.formBuilder.group({
+      title: ['', [Validators.required, Validators.minLength(4)]],
+      course: ['', Validators.required],
+      courseType: CourseType.undefined,
+    });
+
     if (baseExerciseTopic) {
-      this.form = this.formBuilder.group({
+      this.form.setValue({
         title: baseExerciseTopic.topic,
         course: baseExerciseTopic.course,
         courseType: baseExerciseTopic.courseType,
-      });
-    } else {
-      this.form = this.formBuilder.group({
-        title: '',
-        course: '',
-        courseType: CourseType.undefined,
       });
     }
   }
@@ -66,15 +66,19 @@ export class ExerciseTopicFormComponent implements OnInit {
     );
   }
 
-  validate(): void {
-    const newExerciseTopic: ExerciseTopicPostParameters = {
-      title: this.form.get('title')?.value,
-      course: this.form.get('course')?.value,
-    };
+  submit(): void {
+    if (this.form.valid) {
+      const newExerciseTopic: ExerciseTopicPostParameters = {
+        title: this.form.get('title')?.value,
+        course: this.form.get('course')?.value,
+      };
 
-    this.baseExerciseTopic
-      ? this.updateExerciseTopic(newExerciseTopic)
-      : this.addExerciseTopic(newExerciseTopic);
+      this.baseExerciseTopic
+        ? this.updateExerciseTopic(newExerciseTopic)
+        : this.addExerciseTopic(newExerciseTopic);
+    } else {
+      console.log('Formulaire invalide');
+    }
   }
 
   addExerciseTopic(newExerciseTopic: ExerciseTopicPostParameters): void {

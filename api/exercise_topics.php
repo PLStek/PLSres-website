@@ -11,7 +11,7 @@ require_once 'database.php';
 $method = $_SERVER["REQUEST_METHOD"];
 
 
-function getExerciseTopics($id, $courses, $course_type)
+function getExerciseTopics($id, $courses, $course_type, $sort)
 {
     global $conn;
 
@@ -26,14 +26,14 @@ function getExerciseTopics($id, $courses, $course_type)
     }
 
     if ($courses) {
-        $query .= " AND C.course_id IN (";
+        $query .= " AND C.id IN (";
 
         foreach ($courses as $course) {
             $query .= "'$course',";
         }
         $query = substr($query, 0, -1) . ")";
     }
-    $query .= " GROUP BY ET.id";
+    $query .= " GROUP BY $sort";
 
     $result = $conn->query($query);
 
@@ -60,13 +60,43 @@ function updateExerciseTopic($id, $title, $course_id)
     $stmt->execute();
 }
 
+function deleteExerciseTopic($id)
+{
+    global $conn;
+    $query1 = "DELETE FROM exercise WHERE topic_id = ?";
+    $stmt1 = $conn->prepare($query1);
+    $stmt1->bind_param("i", $id);
+
+    $query = "DELETE FROM exercise_topic WHERE id = ?";
+    $stmt2 = $conn->prepare($query);
+    $stmt2->bind_param("i", $id);
+
+    $stmt1->execute();
+    $stmt2->execute();
+}
+
 try {
     switch ($method) {
         case 'GET':
             $id = $_GET['id'] ?? null;
             $courses = isset($_GET['courses']) ? explode(',', $_GET['courses']) : null;
-            $course_type = $_GET['course_type'] ?? null;
-            $exercise_topics = getExerciseTopics($id, $courses, $course_type);
+            $course_type = $_GET['courseType'] ?? null;
+            $sort = "";
+
+            switch ($_GET['sort'] ?? null) {
+                case 'nameAsc':
+                    $sort = "ET.topic ASC";
+                    break;
+                case 'nameDesc':
+                    $sort = "ET.topic DESC";
+                    break;
+                default:
+                    $sort = "ET.topic ASC";
+                    break;
+            }
+
+            $exercise_topics = getExerciseTopics($id, $courses, $course_type, $sort);
+
             echo json_encode($exercise_topics);
             break;
         case 'POST':
@@ -90,7 +120,14 @@ try {
             updateExerciseTopic($id, $title, $course_id);
             echo json_encode(array('success' => true));
             break;
-
+        case 'DELETE':
+            if (!isset($_GET['id'])) {
+                throw new Exception('Missing parameters');
+            }
+            $id = $_GET['id'];
+            deleteExerciseTopic($id);
+            echo json_encode(array('success' => true));
+            break;
         default:
             break;
     }

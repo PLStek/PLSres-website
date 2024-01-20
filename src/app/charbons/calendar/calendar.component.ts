@@ -61,10 +61,16 @@ export class CalendarComponent {
       'yyyy-MM-ddTHH:mm:ss'
     );
 
+    const endDate = this.datePipe.transform(
+      charbon.date,
+      'yyyy-MM-ddTHH:mm:59'
+    );
+
     this.calendarApi?.addEvent({
       id: charbon.id.toString(),
       title: charbon.course,
-      date: isoFormattedDate!,
+      start: isoFormattedDate!,
+      end: endDate!, 
       display: 'block',
       backgroundColor: '#' + charbon.courseType,
       borderColor: '#D2D2D2',
@@ -73,7 +79,6 @@ export class CalendarComponent {
   }
 
   calendarOptions: CalendarOptions = {
-    timeZone: 'Europe/France',
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
     events: this.calendarEvents,

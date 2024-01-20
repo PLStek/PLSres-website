@@ -2,9 +2,10 @@
     <form [formGroup]="form">
         <input type="text" class="form-control mb-3" placeholder="Titre du l'exercice" aria-label="Titre charbon"
             formControlName="title">
-        <label for="difficulty">Difficulté :</label>
-        <input type="number" class="form-control mb-3" aria-label="difficulté" max="5" min="1"
-            formControlName="difficulty">
+        <div class="mb-3">
+            <label for="difficulty">Difficulté :</label>
+            <rating class="mx-2" [max]="5" formControlName="difficulty"></rating>
+        </div>
         <select class="form-select form-select-md mb-3" formControlName="courseType">
             <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
             <option [ngValue]="courseTypeEnum.elec">Elec</option>
@@ -32,8 +33,7 @@
             aria-label="Source de l'exercice" formControlName="source">
         <input type="file" class="form-control" (change)="onFileSelected($event)">
         <div class="col-12 mt-2">
-            <app-main-button content="Valider" [isFilled]="true" [isBig]="true"
-                (click)="validate()"></app-main-button>
+            <app-main-button [isFilled]="true" [isBig]="true" (click)="submit()">Valider</app-main-button>
         </div>
     </form>
 </div>

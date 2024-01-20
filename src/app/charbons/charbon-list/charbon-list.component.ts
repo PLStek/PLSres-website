@@ -41,6 +41,7 @@ export class CharbonListComponent implements OnInit {
     this.sortForm = this.formBuilder.group({
       courseType: CourseType.undefined,
       course: undefined,
+      sort: 'dateDesc',
     });
     
     this.courseService.getCourses().subscribe((data) => {
@@ -49,11 +50,7 @@ export class CharbonListComponent implements OnInit {
     });
     
     this.sortForm.valueChanges.subscribe(() => {
-      this.charbonList = [];
-      this.fullyfetched = false;
-      if (!this.isLoading) {
-        this.fetchNextCharbons();
-      }
+      this.resetCharbons();
     });
     
     this.sortForm.get('courseType')?.valueChanges.subscribe(() => {
@@ -62,6 +59,14 @@ export class CharbonListComponent implements OnInit {
     });
 
     this.fetchNextCharbons();
+  }
+
+  resetCharbons(): void {
+    this.charbonList = [];
+    this.fullyfetched = false;
+    if (!this.isLoading) {
+      this.fetchNextCharbons();
+    }
   }
   
   updateCourseList(): void {
@@ -84,6 +89,7 @@ export class CharbonListComponent implements OnInit {
           : formData.courseType,
       limit: this.CHARBON_PER_PAGE,
       offset: offset,
+      sort: formData.sort,
     };
 
     this.charbonService.getCharbonList(params).subscribe((charbons) => {
@@ -102,7 +108,6 @@ export class CharbonListComponent implements OnInit {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
       // Load more users when reaching the bottom
       if (!this.isLoading && !this.fullyfetched) {
-        console.log('fetching next charbons');
         this.fetchNextCharbons();
       }
     }

@@ -110,6 +110,17 @@ function updateExercise($id, $title, $difficulty, $is_corrected, $source, $topic
     $stmt->close();
 }
 
+function deleteExercise($id)
+{
+    global $conn;
+
+    $query = "DELETE FROM exercise WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
+}
+
 
 try {
     switch ($method) {
@@ -160,6 +171,14 @@ try {
             $topic_id = $data['topicId'];
 
             updateExercise($id, $title, $difficulty, $is_corrected, $source, $topic_id);
+            echo json_encode(array('success' => true));
+            break;
+        case 'DELETE':
+            if (!isset($_GET['id'])) {
+                throw new Exception('Missing parameters.');
+            }
+            $id = $_GET['id'];
+            deleteExercise($id);
             echo json_encode(array('success' => true));
             break;
         default:

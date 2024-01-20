@@ -1,7 +1,7 @@
 import { CharbonPostParameters } from '../../shared/models/charbon-post-parameters.model';
 import { CourseService } from '../../shared/services/course.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -84,8 +84,18 @@ export class AddCharbonComponent implements OnInit {
   }
 
   initForm(baseCharbon?: Charbon): void {
+    this.form = this.formBuilder.group({
+      title: ['', [Validators.required, Validators.minLength(4)]],
+      course: ['', [Validators.required]],
+      courseType: [CourseType.undefined, [Validators.required]],
+      date: ['2023T20:00', [Validators.required]],
+      actionneurs: [[], [Validators.required]],
+      description: ['', [Validators.required, Validators.minLength(8)]],
+      replayLink: ['', [Validators.pattern('.*youtube.com/watch.*')]],
+    });
+
     if (baseCharbon) {
-      this.form = this.formBuilder.group({
+      this.form.setValue({
         title: baseCharbon.title,
         course: baseCharbon.course,
         courseType: baseCharbon.courseType,
@@ -93,18 +103,6 @@ export class AddCharbonComponent implements OnInit {
         actionneurs: [],
         description: baseCharbon.description,
         replayLink: baseCharbon.replayLink,
-        resourcesLink: baseCharbon.resourcesLink,
-      });
-    } else {
-      this.form = this.formBuilder.group({
-        title: '',
-        course: '',
-        courseType: CourseType.undefined,
-        date: '2023T20:00',
-        actionneurs: [],
-        description: '',
-        replayLink: '',
-        resourcesLink: '',
       });
     }
   }
@@ -120,19 +118,23 @@ export class AddCharbonComponent implements OnInit {
     return date < new Date();
   }
 
-  validate(): void {
-    let newCharbon: CharbonPostParameters = {
-      ...this.form.value,
-      actionneurs: this.form.get('actionneurs')?.value.map((a: User) => a.id),
-      replayLink: this.isPassedDate()
-        ? this.form.get('replayLink')?.value
-        : undefined,
-      date: new Date(this.form.get('date')?.value),
-    };
+  submit(): void {
+    if (this.form.valid) {
+      let newCharbon: CharbonPostParameters = {
+        ...this.form.value,
+        actionneurs: this.form.get('actionneurs')?.value.map((a: User) => a.id),
+        replayLink: this.isPassedDate()
+          ? this.form.get('replayLink')?.value
+          : undefined,
+        date: new Date(this.form.get('date')?.value),
+      };
 
-    this.baseCharbon
-      ? this.updateCharbon(newCharbon)
-      : this.addCharbon(newCharbon);
+      this.baseCharbon
+        ? this.updateCharbon(newCharbon)
+        : this.addCharbon(newCharbon);
+    } else {
+      console.log('Formulaire invalide');
+    }
   }
 
   private addCharbon(newCharbon: CharbonPostParameters): void {

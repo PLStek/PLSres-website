@@ -1,3 +1,3 @@
 <button [ngClass]="isFilled ? 'btn-filled-'+courseType : 'btn-white-'+courseType" class="btn-style">
-    {{ content }}
+    <ng-content></ng-content>
 </button>

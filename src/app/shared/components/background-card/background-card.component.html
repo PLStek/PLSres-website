@@ -4,8 +4,8 @@
             <h4>{{title}}</h4>
         </div>
         <div>
-            <app-main-button *ngIf="buttonText != undefined" [isBig]="true" content="{{buttonText}}"
-                [routerLink]="buttonRouterLink"></app-main-button>
+            <app-main-button *ngIf="buttonText != undefined" [isBig]="true"
+                [routerLink]="buttonRouterLink">{{buttonText}}</app-main-button>
         </div>
     </div>
     <ng-content></ng-content>

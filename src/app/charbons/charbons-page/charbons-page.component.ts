@@ -19,7 +19,7 @@ export class CharbonsPageComponent implements OnInit {
 
   fetchThreeUpcomingCharbons(): void {
     this.charbonService
-      .getCharbonList({ minDate: new Date(), limit: 3 })
+      .getCharbonList({ minDate: new Date(), limit: 3, sort: 'dateAsc' })
       .subscribe((charbons) => {
         this.nextThreeCharbons = charbons;
       });

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AnnouncementGetParameters } from 'src/app/shared/models/announcement-get-parameters.model';
 import { Announcement } from 'src/app/shared/models/announcement.model';
 import { AnnouncementService } from 'src/app/shared/services/announcement.service';
 
@@ -10,12 +11,26 @@ import { AnnouncementService } from 'src/app/shared/services/announcement.servic
 export class AnnouncementsPageComponent implements OnInit {
   announcementList: Announcement[] = [];
 
+  sortOption: string = 'dateDesc';
+
   constructor(private announcementService: AnnouncementService) {}
 
   ngOnInit(): void {
-    this.announcementService.getAnnouncements().subscribe((announcements) => {
+    this.fetchAnnouncements();
+  }
+
+  fetchAnnouncements(): void {
+    const params: AnnouncementGetParameters = {
+      limit: 100,
+      sort: this.sortOption,
+    };
+    this.announcementService.getAnnouncements(params).subscribe((announcements) => {
       this.announcementList = announcements;
-      console.log(this.announcementList);
     });
+  }
+
+  onSortChange(): void {
+    this.announcementList = [];
+    this.fetchAnnouncements();
   }
 }
