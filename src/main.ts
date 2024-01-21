@@ -1,12 +1,129 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
 
-import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
+import { AppComponent } from './app/app.component';
+import { ExerciseEditionPageComponent } from './app/actionner/exercise-edition-page/exercise-edition-page.component';
+import { CharbonEditionPageComponent } from './app/actionner/charbon-edition-page/charbon-edition-page.component';
+import { ActionneurGuard } from './app/shared/guards/actionneur.guard';
+import { ActionnerHomePageComponent } from './app/actionner/actionner-home-page/actionner-home-page.component';
+import { LoginPopupComponent } from './app/shared/components/login-popup/login-popup.component';
+import { LoggedGuard } from './app/shared/guards/logged.guard';
+import { ExerciseDetailsPageComponent } from './app/exercises/exercise-details-page/exercise-details-page.component';
+import { ExercisesPageComponent } from './app/exercises/exercises-page/exercises-page.component';
+import { CharbonsPageComponent } from './app/charbons/charbons-page/charbons-page.component';
+import { AnnouncementsPageComponent } from './app/announcements/announcements-page/announcements-page.component';
+import { HomePageComponent } from './app/home/home-page/home-page.component';
+import { provideRouter, Routes } from '@angular/router';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { DatePipe } from '@angular/common';
+import {
+  HttpClientModule,
+  withInterceptorsFromDi,
+  provideHttpClient,
+} from '@angular/common/http';
+
+const routes: Routes = [
+  {
+    path: 'accueil',
+    loadComponent: () =>
+      import('./app/home/home-page/home-page.component').then(
+        (m) => m.HomePageComponent
+      ),
+  },
+  {
+    path: 'annonces',
+    loadComponent: () =>
+      import(
+        './app/announcements/announcements-page/announcements-page.component'
+      ).then((m) => m.AnnouncementsPageComponent),
+  },
+  {
+    path: 'charbons',
+    loadComponent: () =>
+      import('./app/charbons/charbons-page/charbons-page.component').then(
+        (m) => m.CharbonsPageComponent
+      ),
+  },
+  {
+    path: 'exercices',
+    loadComponent: () =>
+      import('./app/exercises/exercises-page/exercises-page.component').then(
+        (m) => m.ExercisesPageComponent
+      ),
+  },
+  {
+    path: 'exercices/:id',
+    loadComponent: () =>
+      import(
+        './app/exercises/exercise-details-page/exercise-details-page.component'
+      ).then((m) => m.ExerciseDetailsPageComponent),
+    canActivate: [LoggedGuard],
+  },
+  {
+    path: 'connexion',
+    loadComponent: () =>
+      import('./app/shared/components/login-popup/login-popup.component').then(
+        (m) => m.LoginPopupComponent
+      ),
+  },
+  {
+    path: 'actionner/accueil',
+    loadComponent: () =>
+      import(
+        './app/actionner/actionner-home-page/actionner-home-page.component'
+      ).then((m) => m.ActionnerHomePageComponent),
+    canActivate: [ActionneurGuard],
+  },
+  {
+    path: 'actionner/charbons',
+    loadComponent: () =>
+      import(
+        './app/actionner/charbon-edition-page/charbon-edition-page.component'
+      ).then((m) => m.CharbonEditionPageComponent),
+    canActivate: [ActionneurGuard],
+  },
+  {
+    path: 'actionner/charbons',
+    loadComponent: () =>
+      import(
+        './app/actionner/charbon-edition-page/charbon-edition-page.component'
+      ).then((m) => m.CharbonEditionPageComponent),
+    canActivate: [ActionneurGuard],
+  },
+  {
+    path: 'actionner/exercices',
+    loadComponent: () =>
+      import(
+        './app/actionner/exercise-edition-page/exercise-edition-page.component'
+      ).then((m) => m.ExerciseEditionPageComponent),
+    canActivate: [ActionneurGuard],
+  },
+  { path: '**', redirectTo: '/accueil' },
+];
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(
+      BrowserModule,
+      FullCalendarModule,
+      ReactiveFormsModule,
+      FormsModule,
+      ModalModule.forRoot(),
+      RatingModule.forRoot()
+    ),
+    HttpClientModule,
+    DatePipe,
+    provideHttpClient(withInterceptorsFromDi()),
+    provideAnimations(),
+    provideRouter(routes),
+  ],
+}).catch((err) => console.error(err));
