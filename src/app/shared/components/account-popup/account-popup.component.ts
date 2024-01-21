@@ -2,13 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { User } from '../../models/user.model';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { MainButtonComponent } from '../main-button/main-button.component';
 
 @Component({
-  selector: 'app-account-popup',
-  templateUrl: './account-popup.component.html',
-  styleUrls: ['./account-popup.component.scss'],
+    selector: 'app-account-popup',
+    templateUrl: './account-popup.component.html',
+    styleUrls: ['./account-popup.component.scss'],
+    standalone: true,
+    imports: [
+        MainButtonComponent,
+        NgIf,
+        ReactiveFormsModule,
+    ],
 })
 export class AccountPopupComponent implements OnInit {
   loggedUser!: User;

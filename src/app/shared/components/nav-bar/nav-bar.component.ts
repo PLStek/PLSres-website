@@ -4,12 +4,22 @@ import { LoginPopupComponent } from '../login-popup/login-popup.component';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 import { AccountPopupComponent } from '../account-popup/account-popup.component';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { MainButtonComponent } from '../main-button/main-button.component';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.scss'],
+    selector: 'app-nav-bar',
+    templateUrl: './nav-bar.component.html',
+    styleUrls: ['./nav-bar.component.scss'],
+    standalone: true,
+    imports: [
+        RouterLink,
+        NgClass,
+        RouterLinkActive,
+        NgIf,
+        MainButtonComponent,
+    ],
 })
 export class NavBarComponent implements OnInit {
   loggedUser?: User;

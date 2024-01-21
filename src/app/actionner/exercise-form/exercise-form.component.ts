@@ -6,13 +6,23 @@ import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.ser
 import { Course } from 'src/app/shared/models/course.model';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
+import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
+import { NgFor } from '@angular/common';
+import { RatingModule } from 'ngx-bootstrap/rating';
 
 @Component({
-  selector: 'app-exercise-form',
-  templateUrl: './exercise-form.component.html',
-  styleUrls: ['./exercise-form.component.scss'],
+    selector: 'app-exercise-form',
+    templateUrl: './exercise-form.component.html',
+    styleUrls: ['./exercise-form.component.scss'],
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        RatingModule,
+        NgFor,
+        MainButtonComponent,
+    ],
 })
 export class AddExerciceComponent implements OnInit {
   @Input() baseExercise?: Exercise;

@@ -5,11 +5,27 @@ import { ExerciseService } from 'src/app/shared/services/exercise.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { ExerciseEditionPopupComponent } from 'src/app/actionner/exercise-edition-popup/exercise-edition-popup.component';
 import { ExerciseTopicEditionPopupComponent } from 'src/app/actionner/exercise-topic-edition-popup/exercise-topic-edition-popup.component';
+import { ColorButtonComponent } from '../../shared/components/color-button/color-button.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { RouterLink } from '@angular/router';
+import { NgClass, NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-exercise',
-  templateUrl: './exercise.component.html',
-  styleUrls: ['./exercise.component.scss'],
+    selector: 'app-exercise',
+    templateUrl: './exercise.component.html',
+    styleUrls: ['./exercise.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        NgIf,
+        NgFor,
+        RouterLink,
+        RatingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        ColorButtonComponent,
+    ],
 })
 export class ExerciseComponent implements OnInit {
   @Input() exerciseTopic!: ExerciseTopic;

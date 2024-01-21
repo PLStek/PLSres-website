@@ -8,8 +8,8 @@ describe('ExerciseEditionPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExerciseEditionPageComponent ]
-    })
+    imports: [ExerciseEditionPageComponent]
+})
     .compileComponents();
   });
 

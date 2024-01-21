@@ -1,11 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
+import { CharbonListComponent } from '../charbon-list/charbon-list.component';
+import { CharbonCardComponent } from '../charbon-card/charbon-card.component';
+import { NgIf, NgFor } from '@angular/common';
+import { CalendarComponent } from '../calendar/calendar.component';
+import { BackgroundCardComponent } from '../../shared/components/background-card/background-card.component';
+import { RouterLink } from '@angular/router';
+import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 
 @Component({
-  selector: 'app-charbons-page',
-  templateUrl: './charbons-page.component.html',
-  styleUrls: ['./charbons-page.component.scss'],
+    selector: 'app-charbons-page',
+    templateUrl: './charbons-page.component.html',
+    styleUrls: ['./charbons-page.component.scss'],
+    standalone: true,
+    imports: [
+        MainButtonComponent,
+        RouterLink,
+        BackgroundCardComponent,
+        CalendarComponent,
+        NgIf,
+        CharbonCardComponent,
+        NgFor,
+        CharbonListComponent,
+    ],
 })
 export class CharbonsPageComponent implements OnInit {
   nextThreeCharbons: Charbon[] = [];

@@ -8,8 +8,8 @@ describe('CharbonsPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CharbonsPageComponent ]
-    })
+    imports: [CharbonsPageComponent]
+})
     .compileComponents();
   });
 

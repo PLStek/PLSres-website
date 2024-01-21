@@ -1,16 +1,25 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CharbonGetParameters } from 'src/app/shared/models/charbon-get-parameters.model';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
+import { CharbonCardComponent } from '../charbon-card/charbon-card.component';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-charbon-list',
-  templateUrl: './charbon-list.component.html',
-  styleUrls: ['./charbon-list.component.scss'],
+    selector: 'app-charbon-list',
+    templateUrl: './charbon-list.component.html',
+    styleUrls: ['./charbon-list.component.scss'],
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        NgFor,
+        CharbonCardComponent,
+        NgIf,
+    ],
 })
 export class CharbonListComponent implements OnInit {
   readonly CHARBON_PER_PAGE = 9;

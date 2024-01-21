@@ -8,8 +8,8 @@ describe('ExerciseTopicEditionPopupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExerciseTopicEditionPopupComponent ]
-    })
+    imports: [ExerciseTopicEditionPopupComponent]
+})
     .compileComponents();
   });
 

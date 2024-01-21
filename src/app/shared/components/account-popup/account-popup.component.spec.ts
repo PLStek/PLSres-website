@@ -8,8 +8,8 @@ describe('AccountPopupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccountPopupComponent ]
-    })
+    imports: [AccountPopupComponent]
+})
     .compileComponents();
   });
 

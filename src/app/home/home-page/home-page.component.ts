@@ -6,11 +6,26 @@ import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { AnnouncementGetParameters } from 'src/app/shared/models/announcement-get-parameters.model';
 import { Announcement } from 'src/app/shared/models/announcement.model';
 import { CharbonGetParameters } from 'src/app/shared/models/charbon-get-parameters.model';
+import { AnnouncementCardComponent } from '../../announcements/announcement-card/announcement-card.component';
+import { CharbonCardComponent } from '../../charbons/charbon-card/charbon-card.component';
+import { NgFor } from '@angular/common';
+import { BackgroundCardComponent } from '../../shared/components/background-card/background-card.component';
+import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
+import { SocialNetworksComponent } from '../../shared/components/social-networks/social-networks.component';
 
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss'],
+    selector: 'app-home-page',
+    templateUrl: './home-page.component.html',
+    styleUrls: ['./home-page.component.scss'],
+    standalone: true,
+    imports: [
+        SocialNetworksComponent,
+        MainButtonComponent,
+        BackgroundCardComponent,
+        NgFor,
+        CharbonCardComponent,
+        AnnouncementCardComponent,
+    ],
 })
 export class HomePageComponent implements OnInit {
   title = 'PLSres';

@@ -3,11 +3,14 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { ExerciseService } from 'src/app/shared/services/exercise.service';
+import { AddExerciceComponent } from '../exercise-form/exercise-form.component';
 
 @Component({
-  selector: 'app-exercise-edition-popup',
-  templateUrl: './exercise-edition-popup.component.html',
-  styleUrls: ['./exercise-edition-popup.component.scss']
+    selector: 'app-exercise-edition-popup',
+    templateUrl: './exercise-edition-popup.component.html',
+    styleUrls: ['./exercise-edition-popup.component.scss'],
+    standalone: true,
+    imports: [AddExerciceComponent]
 })
 export class ExerciseEditionPopupComponent {
   editedExercise!: Exercise;

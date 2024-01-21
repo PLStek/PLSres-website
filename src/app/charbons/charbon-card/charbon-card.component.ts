@@ -2,11 +2,22 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CharbonEditionPopup } from 'src/app/actionner/charbon-edition-popup/charbon-edition-popup.component';
+import { DateIntervalPipe } from '../../shared/pipes/date-interval.pipe';
+import { ColorButtonComponent } from '../../shared/components/color-button/color-button.component';
+import { NgClass, NgIf, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-charbon-card',
-  templateUrl: './charbon-card.component.html',
-  styleUrls: ['./charbon-card.component.scss'],
+    selector: 'app-charbon-card',
+    templateUrl: './charbon-card.component.html',
+    styleUrls: ['./charbon-card.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        NgIf,
+        ColorButtonComponent,
+        DatePipe,
+        DateIntervalPipe,
+    ],
 })
 export class CharbonCardComponent  {
   @Input() charbon!: Charbon;

@@ -9,11 +9,14 @@ import {
 } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
+    selector: 'app-calendar',
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.scss'],
+    standalone: true,
+    imports: [FullCalendarModule],
 })
 export class CalendarComponent {
   calendarEvents: EventInput[] = [];

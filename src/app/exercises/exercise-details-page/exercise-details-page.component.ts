@@ -1,12 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { ExerciseService } from 'src/app/shared/services/exercise.service';
+import { BackgroundCardComponent } from '../../shared/components/background-card/background-card.component';
+import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 
 @Component({
-  selector: 'app-exercise-details-page',
-  templateUrl: './exercise-details-page.component.html',
-  styleUrls: ['./exercise-details-page.component.scss'],
+    selector: 'app-exercise-details-page',
+    templateUrl: './exercise-details-page.component.html',
+    styleUrls: ['./exercise-details-page.component.scss'],
+    standalone: true,
+    imports: [
+        MainButtonComponent,
+        RouterLink,
+        BackgroundCardComponent,
+    ],
 })
 export class ExerciseDetailsPageComponent implements OnInit {
   exercise?: Exercise = undefined;

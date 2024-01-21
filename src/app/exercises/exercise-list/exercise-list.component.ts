@@ -1,16 +1,26 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Course } from 'src/app/shared/models/course.model';
 import { ExerciseTopicGetParameters } from 'src/app/shared/models/exercise-topic-get-parameters.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
+import { ExerciseComponent } from '../exercise/exercise.component';
+import { NgFor } from '@angular/common';
+import { RatingModule } from 'ngx-bootstrap/rating';
 
 @Component({
-  selector: 'app-exercise-list',
-  templateUrl: './exercise-list.component.html',
-  styleUrls: ['./exercise-list.component.scss'],
+    selector: 'app-exercise-list',
+    templateUrl: './exercise-list.component.html',
+    styleUrls: ['./exercise-list.component.scss'],
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        RatingModule,
+        NgFor,
+        ExerciseComponent,
+    ],
 })
 export class ExerciseListComponent implements OnInit {
   @Input() editable = false;
