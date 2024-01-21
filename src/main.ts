@@ -1,18 +1,8 @@
 import { enableProdMode, importProvidersFrom } from '@angular/core';
-
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
-import { ExerciseEditionPageComponent } from './app/actionner/exercise-edition-page/exercise-edition-page.component';
-import { CharbonEditionPageComponent } from './app/actionner/charbon-edition-page/charbon-edition-page.component';
 import { ActionneurGuard } from './app/shared/guards/actionneur.guard';
-import { ActionnerHomePageComponent } from './app/actionner/actionner-home-page/actionner-home-page.component';
-import { LoginPopupComponent } from './app/shared/components/login-popup/login-popup.component';
 import { LoggedGuard } from './app/shared/guards/logged.guard';
-import { ExerciseDetailsPageComponent } from './app/exercises/exercise-details-page/exercise-details-page.component';
-import { ExercisesPageComponent } from './app/exercises/exercises-page/exercises-page.component';
-import { CharbonsPageComponent } from './app/charbons/charbons-page/charbons-page.component';
-import { AnnouncementsPageComponent } from './app/announcements/announcements-page/announcements-page.component';
-import { HomePageComponent } from './app/home/home-page/home-page.component';
 import { provideRouter, Routes } from '@angular/router';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ModalModule } from 'ngx-bootstrap/modal';

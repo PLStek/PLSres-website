@@ -1,30 +1,17 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { map } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { inject } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class ActionneurGuard  {
-  constructor(private authService: AuthService) {}
+export const ActionneurGuard = () => {
+  const authService = inject(AuthService);
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
-    return this.authService.getLoggedUser().pipe(
-      map((user) => {
-        if (user?.isActionneur) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-    );
-  }
+  return authService.getLoggedUser().pipe(
+    map((user) => {
+      if (user?.isActionneur) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+  );
 }
