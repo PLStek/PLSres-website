@@ -8,8 +8,8 @@ describe('FormConnectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LoginPopupComponent],
-    }).compileComponents();
+    imports: [LoginPopupComponent],
+}).compileComponents();
   });
 
   beforeEach(() => {

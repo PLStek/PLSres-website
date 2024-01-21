@@ -8,8 +8,8 @@ describe('ExerciseTopicFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExerciseTopicFormComponent ]
-    })
+    imports: [ExerciseTopicFormComponent]
+})
     .compileComponents();
   });
 

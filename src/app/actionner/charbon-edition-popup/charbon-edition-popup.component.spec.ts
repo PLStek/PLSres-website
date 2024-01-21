@@ -8,8 +8,8 @@ describe('CharbonEditionPopup', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CharbonEditionPopup ]
-    })
+    imports: [CharbonEditionPopup]
+})
     .compileComponents();
   });
 

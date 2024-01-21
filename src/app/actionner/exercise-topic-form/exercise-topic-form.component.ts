@@ -1,22 +1,30 @@
 import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Course } from 'src/app/shared/models/course.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { ExerciseTopicPostParameters } from 'src/app/shared/models/exercise-topic-post-parameters';
+import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
+import { NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-exercise-topic-form',
-  templateUrl: './exercise-topic-form.component.html',
-  styleUrls: ['./exercise-topic-form.component.scss'],
+    selector: 'app-exercise-topic-form',
+    templateUrl: './exercise-topic-form.component.html',
+    styleUrls: ['./exercise-topic-form.component.scss'],
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        NgFor,
+        MainButtonComponent,
+    ],
 })
 export class ExerciseTopicFormComponent implements OnInit {
   @Input() baseExerciseTopic?: ExerciseTopic;
   @Output() onValidate = new EventEmitter<void>();
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
@@ -25,7 +33,7 @@ export class ExerciseTopicFormComponent implements OnInit {
   courseTypeEnum = CourseType;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private exerciseTopicService: ExerciseTopicService,
     private courseService: CourseService
   ) {}

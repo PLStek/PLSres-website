@@ -8,8 +8,8 @@ describe('ActionnerHomePageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ActionnerHomePageComponent ]
-    })
+    imports: [ActionnerHomePageComponent]
+})
     .compileComponents();
   });
 

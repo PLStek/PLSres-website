@@ -1,25 +1,36 @@
 import { CharbonPostParameters } from '../../shared/models/charbon-post-parameters.model';
 import { CourseService } from '../../shared/services/course.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
 import { User } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/shared/services/user.service';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
+import { CharbonCardComponent } from '../../charbons/charbon-card/charbon-card.component';
+import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-charbon-form',
-  templateUrl: './charbon-form.component.html',
-  styleUrls: ['./charbon-form.component.scss'],
+    selector: 'app-charbon-form',
+    templateUrl: './charbon-form.component.html',
+    styleUrls: ['./charbon-form.component.scss'],
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        NgFor,
+        NgIf,
+        MainButtonComponent,
+        CharbonCardComponent,
+    ],
 })
 export class AddCharbonComponent implements OnInit {
   @Input() baseCharbon?: Charbon;
   @Output() onValidate = new EventEmitter<void>();
 
   charbonPreview!: Charbon;
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
@@ -31,7 +42,7 @@ export class AddCharbonComponent implements OnInit {
     private charbonService: CharbonService,
     private courseService: CourseService,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {
