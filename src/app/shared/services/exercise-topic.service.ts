@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {
-  CourseType,
   getCourseType,
   getCourseTypeName,
 } from 'src/app/shared/utils/course-type.model';
@@ -42,9 +41,8 @@ export class ExerciseTopicService {
     return this.http
       .get<any>('http://localhost/PLSres/api/exercise_topics', { params })
       .pipe(
-        map((data: any) =>
-          {
-            return data.map(
+        map((data: any) => {
+          return data.map(
             (el: any) =>
               new ExerciseTopic(
                 Number(el.id),
@@ -53,8 +51,8 @@ export class ExerciseTopicService {
                 getCourseType(el.course_type),
                 Number(el.exercise_count)
               )
-          )}
-        )
+          );
+        })
       );
   }
 
