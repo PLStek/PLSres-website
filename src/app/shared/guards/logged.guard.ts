@@ -1,11 +1,6 @@
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { LoginPopupComponent } from '../components/login-popup/login-popup.component';
@@ -13,7 +8,7 @@ import { LoginPopupComponent } from '../components/login-popup/login-popup.compo
 @Injectable({
   providedIn: 'root',
 })
-export class LoggedGuard implements CanActivate {
+export class LoggedGuard  {
   constructor(
     private authService: AuthService,
     private modalService: BsModalService
