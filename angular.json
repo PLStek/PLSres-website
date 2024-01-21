@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "PLSres:build:production"
+              "buildTarget": "PLSres:build:production"
             },
             "development": {
-              "browserTarget": "PLSres:build:development"
+              "buildTarget": "PLSres:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "PLSres:build"
+            "buildTarget": "PLSres:build"
           }
         },
         "test": {

@@ -25,12 +25,6 @@ export class AccountPopupComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.bsModalRef.content) {
-      this.loggedUser = this.bsModalRef.content.loggedUser;
-    } else {
-      this.bsModalRef.hide();
-    }
-
     this.passwordForm = this.formBuilder.group(
       {
         oldPassword: [
@@ -76,7 +70,7 @@ export class AccountPopupComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.bsModalRef.hide();
-    this.router.navigate(['/acceuil']);
+    this.router.navigate(['/accueil']);
   }
 
   togglePasswordEdition() {

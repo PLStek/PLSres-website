@@ -1,4 +1,4 @@
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { Component, OnInit } from '@angular/core';
 import { LoginPopupComponent } from '../login-popup/login-popup.component';
 import { AuthService } from '../../services/auth.service';

@@ -8,19 +8,13 @@ import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.ser
   templateUrl: './exercise-topic-edition-popup.component.html',
   styleUrls: ['./exercise-topic-edition-popup.component.scss'],
 })
-export class ExerciseTopicEditionPopupComponent implements OnInit {
+export class ExerciseTopicEditionPopupComponent {
   editedExerciseTopic!: ExerciseTopic;
 
   constructor(
     private bsModalRef: BsModalRef,
     private exerciseTopicService: ExerciseTopicService
   ) {}
-
-  ngOnInit(): void {
-    if (this.bsModalRef.content) {
-      this.editedExerciseTopic = this.bsModalRef.content.editedExercise;
-    }
-  }
 
   close(): void {
     this.bsModalRef.hide();
