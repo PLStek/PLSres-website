@@ -1,7 +1,13 @@
 import { CharbonPostParameters } from '../../shared/models/charbon-post-parameters.model';
 import { CourseService } from '../../shared/services/course.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  Validators,
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+} from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -11,24 +17,19 @@ import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { CharbonCardComponent } from '../../charbons/charbon-card/charbon-card.component';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 
-
 @Component({
-    selector: 'app-charbon-form',
-    templateUrl: './charbon-form.component.html',
-    styleUrls: ['./charbon-form.component.scss'],
-    standalone: true,
-    imports: [
-    ReactiveFormsModule,
-    MainButtonComponent,
-    CharbonCardComponent
-],
+  selector: 'app-charbon-form',
+  templateUrl: './charbon-form.component.html',
+  styleUrls: ['./charbon-form.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, MainButtonComponent, CharbonCardComponent],
 })
 export class AddCharbonComponent implements OnInit {
   @Input() baseCharbon?: Charbon;
   @Output() onValidate = new EventEmitter<void>();
 
   charbonPreview!: Charbon;
-  form!: UntypedFormGroup;
+  form!: FormGroup;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
@@ -40,7 +41,7 @@ export class AddCharbonComponent implements OnInit {
     private charbonService: CharbonService,
     private courseService: CourseService,
     private userService: UserService,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -94,13 +95,22 @@ export class AddCharbonComponent implements OnInit {
 
   initForm(baseCharbon?: Charbon): void {
     this.form = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(4)]],
-      course: ['', [Validators.required]],
-      courseType: [CourseType.undefined, [Validators.required]],
-      date: ['2023T20:00', [Validators.required]],
-      actionneurs: [[], [Validators.required]],
-      description: ['', [Validators.required, Validators.minLength(8)]],
-      replayLink: ['', [Validators.pattern('.*youtube.com/watch.*')]],
+      title: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.minLength(4)])
+      ),
+      course: new FormControl('', Validators.required),
+      courseType: new FormControl(CourseType.undefined, Validators.required),
+      date: new FormControl('2023T20:00', Validators.required),
+      actionneurs: new FormControl([], Validators.required),
+      description: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.minLength(8)])
+      ),
+      replayLink: new FormControl(
+        '',
+        Validators.pattern('.*youtube.com/watch.*')
+      ),
     });
 
     if (baseCharbon) {

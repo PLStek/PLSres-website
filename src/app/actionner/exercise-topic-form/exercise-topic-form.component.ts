@@ -1,6 +1,6 @@
 import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Validators, ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { Course } from 'src/app/shared/models/course.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { CourseService } from 'src/app/shared/services/course.service';
@@ -23,7 +23,7 @@ export class ExerciseTopicFormComponent implements OnInit {
   @Input() baseExerciseTopic?: ExerciseTopic;
   @Output() onValidate = new EventEmitter<void>();
 
-  form!: UntypedFormGroup;
+  form!: FormGroup;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
@@ -32,7 +32,7 @@ export class ExerciseTopicFormComponent implements OnInit {
   courseTypeEnum = CourseType;
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private exerciseTopicService: ExerciseTopicService,
     private courseService: CourseService
   ) {}
@@ -53,9 +53,9 @@ export class ExerciseTopicFormComponent implements OnInit {
 
   initForm(baseExerciseTopic?: ExerciseTopic): void {
     this.form = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(4)]],
-      course: ['', Validators.required],
-      courseType: CourseType.undefined,
+      title: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4)])),
+      course: new FormControl('', Validators.required),
+      courseType: new FormControl(CourseType.undefined),
     });
 
     if (baseExerciseTopic) {

@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 import { Course } from 'src/app/shared/models/course.model';
 import { ExerciseTopicGetParameters } from 'src/app/shared/models/exercise-topic-get-parameters.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
@@ -11,15 +16,11 @@ import { ExerciseComponent } from '../exercise/exercise.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 
 @Component({
-    selector: 'app-exercise-list',
-    templateUrl: './exercise-list.component.html',
-    styleUrls: ['./exercise-list.component.scss'],
-    standalone: true,
-    imports: [
-    ReactiveFormsModule,
-    RatingModule,
-    ExerciseComponent
-],
+  selector: 'app-exercise-list',
+  templateUrl: './exercise-list.component.html',
+  styleUrls: ['./exercise-list.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, RatingModule, ExerciseComponent],
 })
 export class ExerciseListComponent implements OnInit {
   @Input() editable = false;
@@ -29,23 +30,22 @@ export class ExerciseListComponent implements OnInit {
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
 
-  sortForm!: UntypedFormGroup;
-  
+  sortForm!: FormGroup;
 
   courseTypeEnum = CourseType;
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private exerciseTopicService: ExerciseTopicService,
     private courseService: CourseService
   ) {}
 
   ngOnInit(): void {
     this.sortForm = this.formBuilder.group({
-      courseType: CourseType.undefined,
-      course: undefined,
-      sort: 'nameAsc',
-      maxRating: 5,
+      courseType: new FormControl(CourseType.undefined),
+      course: new FormControl(undefined),
+      sort: new FormControl('nameAsc'),
+      maxRating: new FormControl(5),
     });
 
     this.courseService.getCourses().subscribe((data) => {

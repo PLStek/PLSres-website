@@ -6,7 +6,7 @@ import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.ser
 import { Course } from 'src/app/shared/models/course.model';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Validators, ReactiveFormsModule, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 
@@ -27,7 +27,7 @@ export class AddExerciceComponent implements OnInit {
   @Input() baseExercise?: Exercise;
   @Output() onValidate = new EventEmitter<void>();
 
-  form!: UntypedFormGroup;
+  form!: FormGroup;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
@@ -40,7 +40,7 @@ export class AddExerciceComponent implements OnInit {
     private exerciseService: ExerciseService,
     private courseService: CourseService,
     private exerciseTopicService: ExerciseTopicService,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -76,15 +76,16 @@ export class AddExerciceComponent implements OnInit {
 
   initForm(baseExercise?: Exercise): void {
     this.form = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(4)]],
-      difficulty: [0],
-      course: ['', Validators.required],
-      courseType: CourseType.undefined,
-      topic: ['', Validators.required],
-      isCorrected: [false],
-      source: ['', Validators.required],
-      content: [null],
+      title: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4)])),
+      difficulty: new FormControl(0),
+      course: new FormControl('', Validators.required),
+      courseType: new FormControl(CourseType.undefined),
+      topic: new FormControl('', Validators.required),
+      isCorrected: new FormControl(false),
+      source: new FormControl('', Validators.required),
+      content: new FormControl(null),
     });
+    
     if (baseExercise) {
       this.form.setValue({
         title: baseExercise.title,
