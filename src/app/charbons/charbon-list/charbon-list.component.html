@@ -1,42 +1,48 @@
 <div class="m-3">
-    <form [formGroup]="sortForm">
-        <div class="row">
-            <div class="col-md-3">
-                <label class="form-label">Trier par :</label>
-                <select class="form-select" formControlName="sort">
-                    <option ngValue="dateDesc">Plus récent d'abord</option>
-                    <option ngValue="dateAsc">Plus ancien d'abord</option>
-                    <option ngValue="durationAsc">Durée croissante</option>
-                    <option ngValue="durationDesc">Durée décroissante</option>
-                </select>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
-                <label class="form-label">Type d'UE:</label>
-                <select class="form-select" formControlName="courseType">
-                    <option [ngValue]="courseTypeEnum.undefined">Tous</option>
-                    <option [ngValue]="courseTypeEnum.meca">Mécanique</option>
-                    <option [ngValue]="courseTypeEnum.info">Informatique</option>
-                    <option [ngValue]="courseTypeEnum.maths">Mathématique</option>
-                    <option [ngValue]="courseTypeEnum.elec">Électricité</option>
-                </select>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
-                <label class="form-label">UE:</label>
-                <select class="form-select" formControlName="course">
-                    <option [ngValue]="undefined">Toutes</option>
-                    <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">{{course.id}}
-                    </option>
-                </select>
-            </div>
-        </div>
-    </form>
+  <form [formGroup]="sortForm">
+    <div class="row">
+      <div class="col-md-3">
+        <label class="form-label">Trier par :</label>
+        <select class="form-select" formControlName="sort">
+          <option ngValue="dateDesc">Plus récent d'abord</option>
+          <option ngValue="dateAsc">Plus ancien d'abord</option>
+          <option ngValue="durationAsc">Durée croissante</option>
+          <option ngValue="durationDesc">Durée décroissante</option>
+        </select>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-3">
+        <label class="form-label">Type d'UE:</label>
+        <select class="form-select" formControlName="courseType">
+          <option [ngValue]="courseTypeEnum.undefined">Tous</option>
+          <option [ngValue]="courseTypeEnum.meca">Mécanique</option>
+          <option [ngValue]="courseTypeEnum.info">Informatique</option>
+          <option [ngValue]="courseTypeEnum.maths">Mathématique</option>
+          <option [ngValue]="courseTypeEnum.elec">Électricité</option>
+        </select>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-3">
+        <label class="form-label">UE:</label>
+        <select class="form-select" formControlName="course">
+          <option [ngValue]="undefined">Toutes</option>
+          @for (course of courseListForSelectedType; track course) {
+            <option [ngValue]="course.id">{{course.id}}
+            </option>
+          }
+        </select>
+      </div>
+    </div>
+  </form>
 </div>
 <div class="row row-cols-auto" style="justify-content: center;">
-    <app-charbon-card class="mt-4" *ngFor="let charbon of charbonList" [charbon]="charbon" [editable]="editable"
-        (popupClosed)="resetCharbons()"></app-charbon-card>
+  @for (charbon of charbonList; track charbon) {
+    <app-charbon-card class="mt-4" [charbon]="charbon" [editable]="editable"
+    (popupClosed)="resetCharbons()"></app-charbon-card>
+  }
 </div>
 <div class="d-flex justify-content-center mt-5">
-    <div *ngIf="isLoading" class="spinner-border" role="status"></div>
+  @if (isLoading) {
+    <div class="spinner-border" role="status"></div>
+  }
 </div>

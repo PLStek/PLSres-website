@@ -9,7 +9,7 @@ import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
-import { NgFor } from '@angular/common';
+
 import { RatingModule } from 'ngx-bootstrap/rating';
 
 @Component({
@@ -18,11 +18,10 @@ import { RatingModule } from 'ngx-bootstrap/rating';
     styleUrls: ['./exercise-form.component.scss'],
     standalone: true,
     imports: [
-        ReactiveFormsModule,
-        RatingModule,
-        NgFor,
-        MainButtonComponent,
-    ],
+    ReactiveFormsModule,
+    RatingModule,
+    MainButtonComponent
+],
 })
 export class AddExerciceComponent implements OnInit {
   @Input() baseExercise?: Exercise;

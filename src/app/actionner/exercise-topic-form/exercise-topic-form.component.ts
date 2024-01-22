@@ -7,7 +7,7 @@ import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { ExerciseTopicPostParameters } from 'src/app/shared/models/exercise-topic-post-parameters';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
-import { NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'app-exercise-topic-form',
@@ -15,10 +15,9 @@ import { NgFor } from '@angular/common';
     styleUrls: ['./exercise-topic-form.component.scss'],
     standalone: true,
     imports: [
-        ReactiveFormsModule,
-        NgFor,
-        MainButtonComponent,
-    ],
+    ReactiveFormsModule,
+    MainButtonComponent
+],
 })
 export class ExerciseTopicFormComponent implements OnInit {
   @Input() baseExerciseTopic?: ExerciseTopic;

@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MainButtonComponent } from '../main-button/main-button.component';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-background-card',
     templateUrl: './background-card.component.html',
     styleUrls: ['./background-card.component.scss'],
     standalone: true,
-    imports: [NgIf, MainButtonComponent, RouterLink]
+    imports: [MainButtonComponent, RouterLink]
 })
 export class BackgroundCardComponent implements OnInit {
 

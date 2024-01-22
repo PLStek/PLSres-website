@@ -10,7 +10,7 @@ import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { CharbonCardComponent } from '../../charbons/charbon-card/charbon-card.component';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
-import { NgFor, NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-charbon-form',
@@ -18,12 +18,10 @@ import { NgFor, NgIf } from '@angular/common';
     styleUrls: ['./charbon-form.component.scss'],
     standalone: true,
     imports: [
-        ReactiveFormsModule,
-        NgFor,
-        NgIf,
-        MainButtonComponent,
-        CharbonCardComponent,
-    ],
+    ReactiveFormsModule,
+    MainButtonComponent,
+    CharbonCardComponent
+],
 })
 export class AddCharbonComponent implements OnInit {
   @Input() baseCharbon?: Charbon;

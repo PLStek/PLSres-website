@@ -7,7 +7,7 @@ import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { CharbonCardComponent } from '../charbon-card/charbon-card.component';
-import { NgFor, NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-charbon-list',
@@ -15,11 +15,9 @@ import { NgFor, NgIf } from '@angular/common';
     styleUrls: ['./charbon-list.component.scss'],
     standalone: true,
     imports: [
-        ReactiveFormsModule,
-        NgFor,
-        CharbonCardComponent,
-        NgIf,
-    ],
+    ReactiveFormsModule,
+    CharbonCardComponent
+],
 })
 export class CharbonListComponent implements OnInit {
   readonly CHARBON_PER_PAGE = 9;

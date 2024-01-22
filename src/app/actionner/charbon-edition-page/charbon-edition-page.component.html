@@ -1,35 +1,37 @@
 <div class="container">
-    <app-main-button routerLink="/actionner/accueil" [isBig]="true"
-        [isFilled]="false">Zone actionneur</app-main-button>
+  <app-main-button routerLink="/actionner/accueil" [isBig]="true"
+  [isFilled]="false">Zone actionneur</app-main-button>
 </div>
 <app-background-card>
-    <div class="d-flex">
-        <div style="width: 50em; padding: 3em;">
-            <h1>Edition de charbons</h1>
-            <p>
-                Ici, vous pouvez ajouter, modifier ou supprimer des charbons.
-            </p>
-        </div>
-        <div>
-            <img src="../assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
-        </div>
+  <div class="d-flex">
+    <div style="width: 50em; padding: 3em;">
+      <h1>Edition de charbons</h1>
+      <p>
+        Ici, vous pouvez ajouter, modifier ou supprimer des charbons.
+      </p>
     </div>
-    <div class="d-flex">
-        <div style="width: 70%; padding: 3em; padding-top: 0;">
-            <app-calendar (selectedCharbonChange)="handleSelectedCharbonChange($event)"></app-calendar>
-        </div>
-        <div *ngIf="selectedCharbon" style="width: 30%; padding: 3em; padding-top: 7em; padding-left: 0;">
-            <app-charbon-card [charbon]="selectedCharbon" [editable]="true"></app-charbon-card>
-        </div>
+    <div>
+      <img src="../assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
     </div>
+  </div>
+  <div class="d-flex">
+    <div style="width: 70%; padding: 3em; padding-top: 0;">
+      <app-calendar (selectedCharbonChange)="handleSelectedCharbonChange($event)"></app-calendar>
+    </div>
+    @if (selectedCharbon) {
+      <div style="width: 30%; padding: 3em; padding-top: 7em; padding-left: 0;">
+        <app-charbon-card [charbon]="selectedCharbon" [editable]="true"></app-charbon-card>
+      </div>
+    }
+  </div>
 </app-background-card>
 
 <app-background-card title="Ajouter un charbon">
-    <div class="row mt-4 ms-2">
-            <app-charbon-form></app-charbon-form>
-        </div>
+  <div class="row mt-4 ms-2">
+    <app-charbon-form></app-charbon-form>
+  </div>
 </app-background-card>
 
 <app-background-card title="Modifier Charbon">
-    <app-charbon-list [editable]="true"></app-charbon-list>
+  <app-charbon-list [editable]="true"></app-charbon-list>
 </app-background-card>

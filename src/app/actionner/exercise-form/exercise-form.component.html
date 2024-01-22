@@ -1,39 +1,43 @@
 <div class="row pt-2">
-    <form [formGroup]="form">
-        <input type="text" class="form-control mb-3" placeholder="Titre du l'exercice" aria-label="Titre charbon"
-            formControlName="title">
-        <div class="mb-3">
-            <label for="difficulty">Difficulté :</label>
-            <rating class="mx-2" [max]="5" formControlName="difficulty"></rating>
-        </div>
-        <select class="form-select form-select-md mb-3" formControlName="courseType">
-            <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
-            <option [ngValue]="courseTypeEnum.elec">Elec</option>
-            <option [ngValue]="courseTypeEnum.info">Info</option>
-            <option [ngValue]="courseTypeEnum.meca">Meca</option>
-            <option [ngValue]="courseTypeEnum.maths">Maths</option>
-        </select>
-        <select class="form-select mb-3" formControlName="course">
-            <option value="" disabled>Choisir une UE</option>
-            <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">
-                {{ course.id }}
-            </option>
-        </select>
-        <select class="form-select mb-3" formControlName="topic">
-            <option disabled>Choisir topics</option>
-            <option *ngFor="let exerciceTopic of exerciseTopicList" [ngValue]="exerciceTopic.id">
-                {{exerciceTopic.topic}}
-            </option>
-        </select>
-        <div class="form-check form-switch mb-3">
-            <input class="form-check-input" type="checkbox" formControlName="isCorrected">
-            <label class="form-check-label" for="isCorrected">Exercice corrigé</label>
-        </div>
-        <input type="text" class="form-control mb-3" placeholder="Source de l'exercice"
-            aria-label="Source de l'exercice" formControlName="source">
-        <input type="file" class="form-control" (change)="onFileSelected($event)">
-        <div class="col-12 mt-2">
-            <app-main-button [isFilled]="true" [isBig]="true" (click)="submit()">Valider</app-main-button>
-        </div>
-    </form>
+  <form [formGroup]="form">
+    <input type="text" class="form-control mb-3" placeholder="Titre du l'exercice" aria-label="Titre charbon"
+      formControlName="title">
+    <div class="mb-3">
+      <label for="difficulty">Difficulté :</label>
+      <rating class="mx-2" [max]="5" formControlName="difficulty"></rating>
+    </div>
+    <select class="form-select form-select-md mb-3" formControlName="courseType">
+      <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
+      <option [ngValue]="courseTypeEnum.elec">Elec</option>
+      <option [ngValue]="courseTypeEnum.info">Info</option>
+      <option [ngValue]="courseTypeEnum.meca">Meca</option>
+      <option [ngValue]="courseTypeEnum.maths">Maths</option>
+    </select>
+    <select class="form-select mb-3" formControlName="course">
+      <option value="" disabled>Choisir une UE</option>
+      @for (course of courseListForSelectedType; track course) {
+        <option [ngValue]="course.id">
+          {{ course.id }}
+        </option>
+      }
+    </select>
+    <select class="form-select mb-3" formControlName="topic">
+      <option disabled>Choisir topics</option>
+      @for (exerciceTopic of exerciseTopicList; track exerciceTopic) {
+        <option [ngValue]="exerciceTopic.id">
+          {{exerciceTopic.topic}}
+        </option>
+      }
+    </select>
+    <div class="form-check form-switch mb-3">
+      <input class="form-check-input" type="checkbox" formControlName="isCorrected">
+      <label class="form-check-label" for="isCorrected">Exercice corrigé</label>
+    </div>
+    <input type="text" class="form-control mb-3" placeholder="Source de l'exercice"
+      aria-label="Source de l'exercice" formControlName="source">
+    <input type="file" class="form-control" (change)="onFileSelected($event)">
+    <div class="col-12 mt-2">
+      <app-main-button [isFilled]="true" [isBig]="true" (click)="submit()">Valider</app-main-button>
+    </div>
+  </form>
 </div>

@@ -10,22 +10,24 @@
     </div>
   </div>
   <br>
-  <p>Adresse mail: <strong>{{loggedUser.email}}</strong></p>
-  <p class=" mt-4"><a class="custom-link" (click)="togglePasswordEdition()">Modifier le mot de passe</a></p>
-  <div class="" *ngIf="editPassword">
-    <form [formGroup]="passwordForm">
-      <div class="row">
-        <div class="col-md-6">
-          <input type="password" class="form-control mb-3" placeholder="Mot de passe actuel" formControlName="oldPassword">
-          <input type="password" class="form-control mb-3" placeholder="Nouveau mot de passe" formControlName="newPassword">
-          <input type="password" class="form-control mb-3" placeholder="Confirmer nouveau mot de passe"
-            formControlName="newPasswordConfirmation">
-        </div>
+    <p>Adresse mail: <strong>{{loggedUser.email}}</strong></p>
+    <p class=" mt-4"><a class="custom-link" (click)="togglePasswordEdition()">Modifier le mot de passe</a></p>
+    @if (editPassword) {
+      <div class="">
+        <form [formGroup]="passwordForm">
+          <div class="row">
+            <div class="col-md-6">
+              <input type="password" class="form-control mb-3" placeholder="Mot de passe actuel" formControlName="oldPassword">
+              <input type="password" class="form-control mb-3" placeholder="Nouveau mot de passe" formControlName="newPassword">
+              <input type="password" class="form-control mb-3" placeholder="Confirmer nouveau mot de passe"
+                formControlName="newPasswordConfirmation">
+            </div>
+          </div>
+          <app-main-button [isFilled]="false" [isBig]="true" (click)="submitPasswordChange()">Valider</app-main-button>
+        </form>
       </div>
-      <app-main-button [isFilled]="false" [isBig]="true" (click)="submitPasswordChange()">Valider</app-main-button>
-    </form>
-  </div>
+    }
 
-  <div>
+    <div>
+    </div>
   </div>
-</div>

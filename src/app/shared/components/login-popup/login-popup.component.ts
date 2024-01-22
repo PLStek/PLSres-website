@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { of, switchMap } from 'rxjs';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MainButtonComponent } from '../main-button/main-button.component';
-import { NgIf } from '@angular/common';
+
 import { BackgroundCardComponent } from '../background-card/background-card.component';
 
 @Component({
@@ -13,11 +13,10 @@ import { BackgroundCardComponent } from '../background-card/background-card.comp
     styleUrls: ['./login-popup.component.scss'],
     standalone: true,
     imports: [
-        BackgroundCardComponent,
-        ReactiveFormsModule,
-        NgIf,
-        MainButtonComponent,
-    ],
+    BackgroundCardComponent,
+    ReactiveFormsModule,
+    MainButtonComponent
+],
 })
 export class LoginPopupComponent implements OnInit {
   loginForm!: UntypedFormGroup;

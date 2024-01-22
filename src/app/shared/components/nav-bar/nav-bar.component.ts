@@ -6,7 +6,7 @@ import { User } from '../../models/user.model';
 import { AccountPopupComponent } from '../account-popup/account-popup.component';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MainButtonComponent } from '../main-button/main-button.component';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-nav-bar',
@@ -14,12 +14,11 @@ import { NgClass, NgIf } from '@angular/common';
     styleUrls: ['./nav-bar.component.scss'],
     standalone: true,
     imports: [
-        RouterLink,
-        NgClass,
-        RouterLinkActive,
-        NgIf,
-        MainButtonComponent,
-    ],
+    RouterLink,
+    NgClass,
+    RouterLinkActive,
+    MainButtonComponent
+],
 })
 export class NavBarComponent implements OnInit {
   loggedUser?: User;

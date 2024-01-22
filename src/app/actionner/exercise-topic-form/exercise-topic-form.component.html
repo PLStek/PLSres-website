@@ -1,22 +1,24 @@
 <div class="row pt-2">
-    <form [formGroup]="form">
-        <input type="text" class="form-control mb-3" placeholder="Nom de la catégorie" aria-label="Titre charbon"
-            formControlName="title">
-        <select class="form-select form-select-md mb-3" formControlName="courseType">
-            <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
-            <option [ngValue]="courseTypeEnum.elec">Elec</option>
-            <option [ngValue]="courseTypeEnum.info">Info</option>
-            <option [ngValue]="courseTypeEnum.meca">Meca</option>
-            <option [ngValue]="courseTypeEnum.maths">Maths</option>
-        </select>
-        <select class="form-select mb-3" formControlName="course">
-            <option value="" disabled>Choisir une UE</option>
-            <option *ngFor="let course of courseListForSelectedType" [ngValue]="course.id">
-                {{ course.id }}
-            </option>
-        </select>
-        <div class="col-12 mt-2">
-            <app-main-button [isFilled]="true" [isBig]="true" (click)="submit()">Valider</app-main-button>
-        </div>
-    </form>
+  <form [formGroup]="form">
+    <input type="text" class="form-control mb-3" placeholder="Nom de la catégorie" aria-label="Titre charbon"
+      formControlName="title">
+    <select class="form-select form-select-md mb-3" formControlName="courseType">
+      <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
+      <option [ngValue]="courseTypeEnum.elec">Elec</option>
+      <option [ngValue]="courseTypeEnum.info">Info</option>
+      <option [ngValue]="courseTypeEnum.meca">Meca</option>
+      <option [ngValue]="courseTypeEnum.maths">Maths</option>
+    </select>
+    <select class="form-select mb-3" formControlName="course">
+      <option value="" disabled>Choisir une UE</option>
+      @for (course of courseListForSelectedType; track course) {
+        <option [ngValue]="course.id">
+          {{ course.id }}
+        </option>
+      }
+    </select>
+    <div class="col-12 mt-2">
+      <app-main-button [isFilled]="true" [isBig]="true" (click)="submit()">Valider</app-main-button>
+    </div>
+  </form>
 </div>

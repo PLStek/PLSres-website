@@ -1,33 +1,35 @@
 <div class="container-lg mb-3 p-3 rounded" style="background-color: white;">
-    <div class="d-flex">
-        <div style="width: 50em; padding: 3em;">
-            <h1>Bienvenue sur le site du PL$tek !</h1>
-            <h3>Notre mission: t'aider à réussir tes UE</h3>
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Placeat ratione eum illo odio, praesentium
-                reprehenderit beatae eius molestias nemo quos labore, architecto quaerat, corrupti modi voluptas! Sit
-                itaque commodi hic.
-            </p>
-        </div>
-        <div>
-            <img src="../assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
-        </div>
+  <div class="d-flex">
+    <div style="width: 50em; padding: 3em;">
+      <h1>Bienvenue sur le site du PL$tek !</h1>
+      <h3>Notre mission: t'aider à réussir tes UE</h3>
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Placeat ratione eum illo odio, praesentium
+        reprehenderit beatae eius molestias nemo quos labore, architecto quaerat, corrupti modi voluptas! Sit
+        itaque commodi hic.
+      </p>
     </div>
-    <app-social-networks></app-social-networks>
-    <div class="text-center mt-4">
-        <app-main-button (click)="openDiscordLink()" [isFilled]="true" [isBig]="true" >Nous rejoindre</app-main-button>
+    <div>
+      <img src="../assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
     </div>
+  </div>
+  <app-social-networks></app-social-networks>
+  <div class="text-center mt-4">
+    <app-main-button (click)="openDiscordLink()" [isFilled]="true" [isBig]="true" >Nous rejoindre</app-main-button>
+  </div>
 </div>
 
 <app-background-card title="Prochains charbons" buttonText="Planning complet" buttonRouterLink="/charbons">
-    <div class="row row-cols-auto" style="justify-content: center;">
-        <app-charbon-card class="mt-4" *ngFor="let charbon of charbonList" [charbon]="charbon"></app-charbon-card>
-    </div>
+  <div class="row row-cols-auto" style="justify-content: center;">
+    @for (charbon of charbonList; track charbon) {
+      <app-charbon-card class="mt-4" [charbon]="charbon"></app-charbon-card>
+    }
+  </div>
 </app-background-card>
 
 <app-background-card title="Dernière annonce" buttonText="Toutes les annonces" buttonRouterLink="/annonces">
 
-    <div class="p-5">
-        <app-announcement-card [announcement]="lastAnnouncement"></app-announcement-card>
-    </div>
+  <div class="p-5">
+    <app-announcement-card [announcement]="lastAnnouncement"></app-announcement-card>
+  </div>
 </app-background-card>
