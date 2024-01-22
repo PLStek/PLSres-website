@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  FormControl,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { of, switchMap } from 'rxjs';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -8,65 +16,61 @@ import { MainButtonComponent } from '../main-button/main-button.component';
 import { BackgroundCardComponent } from '../background-card/background-card.component';
 
 @Component({
-    selector: 'app-login-popup',
-    templateUrl: './login-popup.component.html',
-    styleUrls: ['./login-popup.component.scss'],
-    standalone: true,
-    imports: [
-    BackgroundCardComponent,
-    ReactiveFormsModule,
-    MainButtonComponent
-],
+  selector: 'app-login-popup',
+  templateUrl: './login-popup.component.html',
+  styleUrls: ['./login-popup.component.scss'],
+  standalone: true,
+  imports: [BackgroundCardComponent, ReactiveFormsModule, MainButtonComponent],
 })
 export class LoginPopupComponent implements OnInit {
-  loginForm!: UntypedFormGroup;
-  registerForm!: UntypedFormGroup;
+  loginForm!: FormGroup;
+  registerForm!: FormGroup;
 
   constructor(
     private bsModalRef: BsModalRef,
     private authService: AuthService,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      emailOrUsername: '',
-      password: '',
+      emailOrUsername: new FormControl(''),
+      password: new FormControl(''),
     });
 
     this.registerForm = this.formBuilder.group(
       {
-        email: [
+        email: new FormControl(
           '',
-          [
+          Validators.compose([
             Validators.required,
             Validators.pattern('^[a-zA-Z0-9._%+-]+@utbm.fr$'),
-          ],
-        ],
-        username: [
+          ])
+        ),
+        username: new FormControl(
           '',
-          [
+          Validators.compose([
             Validators.required,
             Validators.minLength(4),
             Validators.maxLength(20),
-          ],
-        ],
-        password: [
+          ])
+        ),
+        password: new FormControl(
           '',
-          [
+          Validators.compose([
             Validators.required,
             Validators.minLength(6),
             Validators.maxLength(32),
-          ],
-        ],
-        passwordConfirmation: [
+          ])
+        ),
+        passwordConfirmation: new FormControl(
           '',
-          [
+          Validators.compose([
             Validators.required,
             Validators.minLength(6),
             Validators.maxLength(32),
-          ],
-        ],
+          ])
+        ),
       },
       { validators: this.checkPasswords }
     );
@@ -77,34 +81,29 @@ export class LoginPopupComponent implements OnInit {
       this.login();
     } else {
       //TODO: show message
-      this.loginForm.setErrors({ 'invalidCredentials': true });
+      this.loginForm.setErrors({ invalidCredentials: true });
       console.log('Formulaire invalide');
     }
   }
 
-  checkPasswords(group: UntypedFormGroup) {
-    if (
-      group.get('password')?.value !==
-      group.get('passwordConfirmation')?.value
-    ) {
-      return { 'passwordMismatch': true };
-    } else {
-      return null;
-    }
+  checkPasswords(group: AbstractControl): ValidationErrors | null {
+    const password = group.get('password')?.value;
+    const passwordConfirmation = group.get('passwordConfirmation')?.value;
+    return password === passwordConfirmation
+      ? null
+      : { passwordMismatch: true };
   }
 
   login(): void {
     const emailOrUsername: string = this.loginForm.value.emailOrUsername;
     const password: string = this.loginForm.value.password;
-    this.authService
-      .login(emailOrUsername, password)
-      .subscribe((success) => {
-        if (!success) {
-          this.loginForm.setErrors({ 'invalidCredentials': true });
-        } else {
-          this.closeIfSuccessful(success);
-        }
-      });
+    this.authService.login(emailOrUsername, password).subscribe((success) => {
+      if (!success) {
+        this.loginForm.setErrors({ invalidCredentials: true });
+      } else {
+        this.closeIfSuccessful(success);
+      }
+    });
   }
 
   submitRegister(): void {
@@ -126,7 +125,7 @@ export class LoginPopupComponent implements OnInit {
       )
       .subscribe((success) => {
         if (!success) {
-          this.registerForm.setErrors({ 'emailAlreadyExists': true });
+          this.registerForm.setErrors({ emailAlreadyExists: true });
         } else {
           this.closeIfSuccessful(success);
         }
