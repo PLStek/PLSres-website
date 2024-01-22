@@ -24,6 +24,7 @@ const routes: Routes = [
       import('./app/home/home-page/home-page.component').then(
         (m) => m.HomePageComponent
       ),
+      title: 'Accueil - PLSres',
   },
   {
     path: 'annonces',
@@ -31,6 +32,7 @@ const routes: Routes = [
       import(
         './app/announcements/announcements-page/announcements-page.component'
       ).then((m) => m.AnnouncementsPageComponent),
+      title: 'Annonces - PLSres',
   },
   {
     path: 'charbons',
@@ -38,6 +40,7 @@ const routes: Routes = [
       import('./app/charbons/charbons-page/charbons-page.component').then(
         (m) => m.CharbonsPageComponent
       ),
+      title: 'Charbons - PLSres',
   },
   {
     path: 'exercices',
@@ -45,6 +48,7 @@ const routes: Routes = [
       import('./app/exercises/exercises-page/exercises-page.component').then(
         (m) => m.ExercisesPageComponent
       ),
+      title: 'Exercices - PLSres',
   },
   {
     path: 'exercices/:id',
@@ -55,19 +59,13 @@ const routes: Routes = [
     canActivate: [LoggedGuard],
   },
   {
-    path: 'connexion',
-    loadComponent: () =>
-      import('./app/shared/components/login-popup/login-popup.component').then(
-        (m) => m.LoginPopupComponent
-      ),
-  },
-  {
     path: 'actionner/accueil',
     loadComponent: () =>
       import(
         './app/actionner/actionner-home-page/actionner-home-page.component'
       ).then((m) => m.ActionnerHomePageComponent),
     canActivate: [ActionneurGuard],
+    title: 'Actionner - PLSres',
   },
   {
     path: 'actionner/charbons',
@@ -76,14 +74,7 @@ const routes: Routes = [
         './app/actionner/charbon-edition-page/charbon-edition-page.component'
       ).then((m) => m.CharbonEditionPageComponent),
     canActivate: [ActionneurGuard],
-  },
-  {
-    path: 'actionner/charbons',
-    loadComponent: () =>
-      import(
-        './app/actionner/charbon-edition-page/charbon-edition-page.component'
-      ).then((m) => m.CharbonEditionPageComponent),
-    canActivate: [ActionneurGuard],
+    title: 'Actionner - PLSres',
   },
   {
     path: 'actionner/exercices',
@@ -92,6 +83,7 @@ const routes: Routes = [
         './app/actionner/exercise-edition-page/exercise-edition-page.component'
       ).then((m) => m.ExerciseEditionPageComponent),
     canActivate: [ActionneurGuard],
+    title: 'Actionner - PLSres',
   },
   { path: '**', redirectTo: '/accueil' },
 ];
