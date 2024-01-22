@@ -13,9 +13,11 @@
             <label for="password">Mot de passe</label>
           </div>
         </div>
-        <div *ngIf="loginForm.hasError('invalidCredentials')">
-          <p class="text-danger">Email ou mot de passe incorrect.</p>
-        </div>
+        @if (loginForm.hasError('invalidCredentials')) {
+          <div>
+            <p class="text-danger">Email ou mot de passe incorrect.</p>
+          </div>
+        }
         <div class="d-flex justify-content-center">
           <app-main-button type="submit" [isFilled]="false" [isBig]="true"
           (click)="submitLogin()">Connexion</app-main-button>
@@ -30,16 +32,20 @@
             <input type="email" class="form-control" name="newEmail" formControlName="email" placeholder>
             <label for="newEmail">Email</label>
           </div>
-          <div *ngIf="registerForm.get('email')?.hasError('pattern')">
-            <p class="text-danger">Vous devez avoir une adresse utbm pour vous créer un compte</p>
-          </div>
+          @if (registerForm.get('email')?.hasError('pattern')) {
+            <div>
+              <p class="text-danger">Vous devez avoir une adresse utbm pour vous créer un compte</p>
+            </div>
+          }
           <div class="form-floating mb-3">
             <input type="text" class="form-control" name="newUsername" formControlName="username" placeholder>
             <label for="newUsername">Nom d'utilisateur</label>
           </div>
-          <div *ngIf="registerForm.get('username')?.hasError('minlength') || registerForm.get('username')?.hasError('maxlength')">
-            <p class="text-danger">La taille doit être supérieure à 4 et inférieure à 20</p>
-          </div>
+          @if (registerForm.get('username')?.hasError('minlength') || registerForm.get('username')?.hasError('maxlength')) {
+            <div>
+              <p class="text-danger">La taille doit être supérieure à 4 et inférieure à 20</p>
+            </div>
+          }
           <div class="form-floating mb-3">
             <input type="password" class="form-control" name="Password" formControlName="password" placeholder>
             <label for="Password">Mot de passe</label>
@@ -49,9 +55,11 @@
               placeholder>
             <label for="ConfirmPassword">Confirmer Mot de passe</label>
           </div>
-          <div *ngIf="registerForm.hasError('passwordMismatch')">
-            <p class="text-danger">Les mots de passe ne correspondent pas.</p>
-          </div>
+          @if (registerForm.hasError('passwordMismatch')) {
+            <div>
+              <p class="text-danger">Les mots de passe ne correspondent pas.</p>
+            </div>
+          }
         </form>
       </div>
       <div class="d-flex justify-content-center">

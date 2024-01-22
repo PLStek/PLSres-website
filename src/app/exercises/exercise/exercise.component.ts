@@ -9,7 +9,7 @@ import { ColorButtonComponent } from '../../shared/components/color-button/color
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { RouterLink } from '@angular/router';
-import { NgClass, NgIf, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-exercise',
@@ -17,15 +17,13 @@ import { NgClass, NgIf, NgFor } from '@angular/common';
     styleUrls: ['./exercise.component.scss'],
     standalone: true,
     imports: [
-        NgClass,
-        NgIf,
-        NgFor,
-        RouterLink,
-        RatingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        ColorButtonComponent,
-    ],
+    NgClass,
+    RouterLink,
+    RatingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ColorButtonComponent
+],
 })
 export class ExerciseComponent implements OnInit {
   @Input() exerciseTopic!: ExerciseTopic;

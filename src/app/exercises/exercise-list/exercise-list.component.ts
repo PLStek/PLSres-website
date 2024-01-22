@@ -7,7 +7,7 @@ import { CourseService } from 'src/app/shared/services/course.service';
 import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { ExerciseComponent } from '../exercise/exercise.component';
-import { NgFor } from '@angular/common';
+
 import { RatingModule } from 'ngx-bootstrap/rating';
 
 @Component({
@@ -16,11 +16,10 @@ import { RatingModule } from 'ngx-bootstrap/rating';
     styleUrls: ['./exercise-list.component.scss'],
     standalone: true,
     imports: [
-        ReactiveFormsModule,
-        RatingModule,
-        NgFor,
-        ExerciseComponent,
-    ],
+    ReactiveFormsModule,
+    RatingModule,
+    ExerciseComponent
+],
 })
 export class ExerciseListComponent implements OnInit {
   @Input() editable = false;

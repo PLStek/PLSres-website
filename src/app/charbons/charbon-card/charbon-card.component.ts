@@ -3,14 +3,14 @@ import { Charbon } from 'src/app/shared/models/charbon.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { DateIntervalPipe } from '../../shared/pipes/date-interval.pipe';
 import { ColorButtonComponent } from '../../shared/components/color-button/color-button.component';
-import { NgClass, NgIf, DatePipe } from '@angular/common';
+import { NgClass, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-charbon-card',
   templateUrl: './charbon-card.component.html',
   styleUrls: ['./charbon-card.component.scss'],
   standalone: true,
-  imports: [NgClass, NgIf, ColorButtonComponent, DatePipe, DateIntervalPipe],
+  imports: [NgClass, ColorButtonComponent, DatePipe, DateIntervalPipe],
 })
 export class CharbonCardComponent {
   @Input() charbon!: Charbon;

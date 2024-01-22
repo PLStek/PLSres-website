@@ -1,16 +1,18 @@
 <div class="card">
-    <div class="card-header d-flex justify-content-between" [ngClass]="{'rounded' : collapse}" style="background-color: #505050; color: #ffffff;">
-        <div>{{announcement?.title}}</div>
-        <div>
-            Le {{announcement?.date | date:'dd/MM/yyyy'}}
-            <img *ngIf="collapse != undefined" (click)="collapse = !collapse" role="button" data-toggle="collapse"
-                href="#cardBody" aria-expanded="false" aria-controls="hasToBeCollapse"
-                [src]="collapse ? '../../../assets/images/down.png' : '../../../assets/images/up.png'"
-                alt="Flèche d'ouverture et de fermeture de la zone d'information" width="20" height="20">
-        </div>
+  <div class="card-header d-flex justify-content-between" [ngClass]="{'rounded' : collapse}" style="background-color: #505050; color: #ffffff;">
+    <div>{{announcement?.title}}</div>
+    <div>
+      Le {{announcement?.date | date:'dd/MM/yyyy'}}
+      @if (collapse != undefined) {
+        <img (click)="collapse = !collapse" role="button" data-toggle="collapse"
+          href="#cardBody" aria-expanded="false" aria-controls="hasToBeCollapse"
+          [src]="collapse ? '../../../assets/images/down.png' : '../../../assets/images/up.png'"
+          alt="Flèche d'ouverture et de fermeture de la zone d'information" width="20" height="20">
+      }
     </div>
-    <div class="card-body mx-auto" [ngClass]="{'collapse' : collapse}" id="cardBody">
-        <div [innerHTML]="announcement?.content">
-        </div>
+  </div>
+  <div class="card-body mx-auto" [ngClass]="{'collapse' : collapse}" id="cardBody">
+    <div [innerHTML]="announcement?.content">
     </div>
+  </div>
 </div>
