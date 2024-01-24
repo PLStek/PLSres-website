@@ -8,6 +8,7 @@ import { Observable, map, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ExerciseTopicPostParameters } from '../models/exercise-topic-post-parameters';
 import { ExerciseTopicGetParameters } from '../models/exercise-topic-get-parameters.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +40,7 @@ export class ExerciseTopicService {
     params = this.setParam(params, 'sort', options.sort);
 
     return this.http
-      .get<any>('http://localhost/PLSres/api/exercise_topics', { params })
+      .get<any>(environment.apiURL + '/exercise_topics', { params })
       .pipe(
         map((data: any) => {
           return data.map(
@@ -61,7 +62,7 @@ export class ExerciseTopicService {
     formData.append('title', data.title);
     formData.append('course', data.course);
     return this.http
-      .post<any>('http://localhost/PLSres/api/exercise_topics', formData)
+      .post<any>(environment.apiURL + '/exercise_topics', formData)
       .pipe(map((data) => data.success));
   }
 
@@ -72,7 +73,7 @@ export class ExerciseTopicService {
     const putData = { id, ...data };
 
     return this.http
-      .put<any>('http://localhost/PLSres/api/exercise_topics', putData)
+      .put<any>(environment.apiURL + '/exercise_topics', putData)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 
@@ -80,7 +81,7 @@ export class ExerciseTopicService {
     let params = new HttpParams().set('id', id);
 
     return this.http
-      .delete<any>('http://localhost/PLSres/api/exercise_topics', {
+      .delete<any>(environment.apiURL + '/exercise_topics', {
         params,
       })
       .pipe(map((res) => Boolean(res.success) ?? false));

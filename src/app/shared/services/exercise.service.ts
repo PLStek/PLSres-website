@@ -5,6 +5,7 @@ import { Exercise } from 'src/app/shared/models/exercise.model';
 import { base64Decode } from '../utils/base64-converter';
 import { ExerciseTopic } from '../models/exercise-topic.model';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +59,7 @@ export class ExerciseService {
     params = this.setParam(params, 'content', options.content);
 
     return this.http
-      .get<any>('http://localhost/PLSres/api/exercises', { params })
+      .get<any>(environment.apiURL + '/exercises', { params })
       .pipe(this.processHttpResponse);
   }
 
@@ -72,7 +73,7 @@ export class ExerciseService {
     formData.append('content', data.content);
 
     return this.http
-      .post<any>('http://localhost/PLSres/api/exercises', formData)
+      .post<any>(environment.apiURL + '/exercises', formData)
       .pipe(
         map((res) => {
           return Boolean(res.success) ?? false;
@@ -87,7 +88,7 @@ export class ExerciseService {
     const putData = { id, ...data };
 
     return this.http
-      .put<any>(`http://localhost/PLSres/api/exercises`, putData)
+      .put<any>(environment.apiURL + '/exercises', putData)
       .pipe(
         map((res) => {
           return Boolean(res.success) ?? false;
@@ -99,7 +100,7 @@ export class ExerciseService {
     let params = new HttpParams().set('id', id);
 
     return this.http
-      .delete<any>(`http://localhost/PLSres/api/exercises`, { params })
+      .delete<any>(environment.apiURL + '/exercises', { params })
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

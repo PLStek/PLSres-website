@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Announcement } from '../models/announcement.model';
 import { Observable, map } from 'rxjs';
 import { AnnouncementGetParameters } from '../models/announcement-get-parameters.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -43,7 +44,7 @@ export class AnnouncementService {
 
 
     return this.http
-      .get<any>('http://localhost/PLSres/api/announcements', {params})
+      .get<any>(environment.apiURL + '/announcements', {params})
       .pipe(this.processHttpResponses);
   }
 }

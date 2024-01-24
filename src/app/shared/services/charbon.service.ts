@@ -6,6 +6,7 @@ import { Observable, map, tap } from 'rxjs';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { getCourseType } from '../utils/course-type.model';
 import { CharbonGetParameters } from '../models/charbon-get-parameters.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -66,7 +67,7 @@ export class CharbonService {
     params = this.setParam(params, 'sort', options.sort);
 
     return this.http
-      .get<any[]>('http://localhost/PLSres/api/charbons', {
+      .get<any[]>(environment.apiURL + '/charbons', {
         params,
       })
       .pipe(this.processHttpResponses);
@@ -84,7 +85,7 @@ export class CharbonService {
     if (data.resourcesLink)
       formData.append('resourcesLink', data.resourcesLink.toString());
     return this.http
-      .post<any>(`http://localhost/PLSres/api/charbons`, formData)
+      .post<any>(environment.apiURL + '/charbons', formData)
       .pipe(
         map((res) => {
           return Boolean(res.success) ?? false;
@@ -105,7 +106,7 @@ export class CharbonService {
     };
 
     return this.http
-      .put<any>(`http://localhost/PLSres/api/charbons`, putData)
+      .put<any>(environment.apiURL + '/charbons', putData)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 
@@ -113,7 +114,7 @@ export class CharbonService {
     let params = new HttpParams().set('id', id);
 
     return this.http
-      .delete<any>(`http://localhost/PLSres/api/charbons`, {
+      .delete<any>(environment.apiURL + '/charbons', {
         params,
       })
       .pipe(map((res) => Boolean(res.success) ?? false));
