@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, map, takeUntil } from 'rxjs';
 import { User } from '../models/user.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class AuthService implements OnDestroy {
     formData.append('password', password.toString());
 
     return this.http
-      .post<any>('http://localhost/PLSres/api/login', formData)
+      .post<any>(environment.apiURL + '/login', formData)
       .pipe(
         map((data: any) => {
           if (data.success) {
@@ -52,7 +53,7 @@ export class AuthService implements OnDestroy {
     formData.append('password', password.toString());
 
     return this.http
-      .post<any>('http://localhost/PLSres/api/register', formData)
+      .post<any>(environment.apiURL + '/register', formData)
       .pipe(
         map((data: any) => {
           if (data.success) {
@@ -75,7 +76,7 @@ export class AuthService implements OnDestroy {
     formData.append('newPassword', newPassword.toString());
 
     return this.http
-      .post<any>('http://localhost/PLSres/api/change_password', formData)
+      .post<any>(environment.apiURL + '/change_password', formData)
       .pipe(
         map((data: any) => {
           if (data.success) {
