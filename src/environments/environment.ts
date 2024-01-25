@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiURL: 'http://localhost/PLSres/api/',
+  apiURL: 'http://localhost/PLSres/api/'
 };
 
 /*
