@@ -30,7 +30,6 @@ export class ExerciseTopicService {
   ): Observable<ExerciseTopic[]> {
     let params = new HttpParams();
 
-    params = this.setParam(params, 'id', options.id);
     params = this.setParam(params, 'courses', options.courses);
     params = this.setParam(
       params,
@@ -50,7 +49,7 @@ export class ExerciseTopicService {
                 String(el.topic),
                 String(el.course),
                 getCourseType(el.course_type),
-                Number(el.exercise_count)
+                el.exercise_count ? Number(el.exercise_count) : 0
               )
           );
         })

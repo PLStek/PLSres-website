@@ -12,7 +12,7 @@ export function getCourseType(value: string): CourseType {
             return CourseType.meca;
         case 'info':
             return CourseType.info;
-        case 'maths':
+        case 'math':
             return CourseType.maths;
         case 'elec':
             return CourseType.elec;
