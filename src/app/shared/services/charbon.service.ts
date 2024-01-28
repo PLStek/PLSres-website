@@ -21,9 +21,9 @@ export class CharbonService {
           (ch: any) =>
             new Charbon(
               Number(ch.id),
-              String(ch.course),
+              String(ch.course_id),
               getCourseType(ch.course_type),
-              new Date(Number(ch.date) * 1000),
+              new Date(Number(ch.datetime) * 1000),
               String(ch.title),
               ch.actionneurs.map(String),
               String(ch.description),
@@ -85,7 +85,7 @@ export class CharbonService {
     if (data.resourcesLink)
       formData.append('resourcesLink', data.resourcesLink.toString());
     return this.http
-      .post<any>(environment.apiURL + '/charbons', formData)
+      .post<any>(environment.apiURL + '/charbons/', formData)
       .pipe(
         map((res) => {
           return Boolean(res.success) ?? false;
@@ -95,7 +95,6 @@ export class CharbonService {
 
   updateCharbon(id: number, data: CharbonPostParameters): Observable<boolean> {
     const putData = {
-      id,
       title: data.title,
       description: data.description,
       date: (data.date.getTime() / 1000).toString(),
@@ -106,17 +105,13 @@ export class CharbonService {
     };
 
     return this.http
-      .put<any>(environment.apiURL + '/charbons', putData)
+      .put<any>(environment.apiURL + '/charbons/' + id, putData)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 
   deleteCharbon(id: number): Observable<boolean> {
-    let params = new HttpParams().set('id', id);
-
     return this.http
-      .delete<any>(environment.apiURL + '/charbons', {
-        params,
-      })
+      .delete<any>(environment.apiURL + '/charbons/' + id)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

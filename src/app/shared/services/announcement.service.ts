@@ -45,7 +45,7 @@ export class AnnouncementService {
 
 
     return this.http
-      .get<any>(environment.apiURL + 'announcements/', {params})
+      .get<any>(environment.apiURL + '/announcements/', {params})
       .pipe(this.processHttpResponses);
   }
 }
