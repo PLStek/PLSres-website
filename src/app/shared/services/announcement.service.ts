@@ -20,6 +20,7 @@ export class AnnouncementService {
 
   
   processHttpResponses(response: Observable<any>): Observable<Announcement[]> {
+    response.subscribe((data) => console.log(data));
     return response.pipe(
       map((announcements: any[]) =>
         announcements.map(
@@ -28,7 +29,7 @@ export class AnnouncementService {
               Number(announcement.id),
               String(announcement.title),
               String(announcement.content),
-              new Date(announcement.date)
+              new Date(announcement.datetime)
             )
         )
       )
@@ -44,7 +45,7 @@ export class AnnouncementService {
 
 
     return this.http
-      .get<any>(environment.apiURL + '/announcements', {params})
+      .get<any>(environment.apiURL + 'announcements/', {params})
       .pipe(this.processHttpResponses);
   }
 }
