@@ -85,9 +85,9 @@ export class ExerciseListComponent implements OnInit {
     };
 
     this.exerciseTopicService.getExerciseTopicList(params).subscribe((data) => {
-      return (this.exerciseTopicList = data.filter(
+      this.exerciseTopicList = data.filter(
         (et) => et.exerciseCount > 0
-      ));
+      );
     });
   }
 

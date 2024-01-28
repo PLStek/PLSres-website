@@ -31,8 +31,8 @@ export class ExerciseService {
               Number(element.id),
               String(element.title),
               Number(element.difficulty),
-              Number(element.topicId),
-              element.isCorrected == '1' ? true : false,
+              Number(element.topic_id),
+              element.is_corrected ? true : false,
               String(element.source),
               element.content ? base64Decode(element.content) : undefined
             )
@@ -43,7 +43,6 @@ export class ExerciseService {
 
   getExercises(
     options: {
-      id?: number;
       maxDifficulty?: number;
       topicId?: number;
       correctedOnly?: boolean;
@@ -52,15 +51,31 @@ export class ExerciseService {
     //TODO: replace by ExerciseGetParameters
   ): Observable<Exercise[]> {
     let params = new HttpParams();
-    params = this.setParam(params, 'id', options.id);
     params = this.setParam(params, 'maxDifficulty', options.maxDifficulty);
     params = this.setParam(params, 'topicId', options.topicId);
     params = this.setParam(params, 'correctedOnly', options.correctedOnly);
     params = this.setParam(params, 'content', options.content);
 
     return this.http
-      .get<any>(environment.apiURL + '/exercises', { params })
+      .get<any>(environment.apiURL + '/exercises/', { params })
       .pipe(this.processHttpResponse);
+  }
+
+
+  getExercise(id: number): Observable<Exercise> {
+    return this.http.get<any>(environment.apiURL + '/exercises/' + id).pipe(
+      map((data) => {
+        return new Exercise(
+          Number(data.id),
+          String(data.title),
+          Number(data.difficulty),
+          Number(data.topic_id),
+          data.is_corrected ? true : false,
+          String(data.source),
+          data.content ? base64Decode(data.content) : undefined
+        );
+      })
+    );
   }
 
   addExercise(data: ExercisePostParameters): Observable<boolean> {
@@ -87,13 +102,11 @@ export class ExerciseService {
   ): Observable<boolean> {
     const putData = { id, ...data };
 
-    return this.http
-      .put<any>(environment.apiURL + '/exercises', putData)
-      .pipe(
-        map((res) => {
-          return Boolean(res.success) ?? false;
-        })
-      );
+    return this.http.put<any>(environment.apiURL + '/exercises', putData).pipe(
+      map((res) => {
+        return Boolean(res.success) ?? false;
+      })
+    );
   }
 
   deleteExercise(id: number): Observable<boolean> {

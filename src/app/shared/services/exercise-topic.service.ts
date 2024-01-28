@@ -47,9 +47,9 @@ export class ExerciseTopicService {
               new ExerciseTopic(
                 Number(el.id),
                 String(el.topic),
-                String(el.course),
+                String(el.course_id),
                 getCourseType(el.course_type),
-                el.exercise_count ? Number(el.exercise_count) : 0
+                el.exercise_count ? Number(el.exercise_count) : 1
               )
           );
         })
