@@ -1,5 +1,12 @@
 import { CourseType } from '../utils/course-type.model';
 
+export enum CharbonSortOption {
+  dateAsc = 'date_asc',
+  dateDesc = 'date_desc',
+  durationAsc = 'duration_asc',
+  durationDesc = 'duration_desc',
+}
+
 export interface CharbonGetParameters {
   course?: String[];
   courseType?: CourseType;
@@ -7,5 +14,5 @@ export interface CharbonGetParameters {
   maxDate?: Date;
   offset?: number;
   limit?: number;
-  sort ?: string;
+  sort ?: CharbonSortOption;
 }

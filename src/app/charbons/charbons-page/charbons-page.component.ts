@@ -8,20 +8,21 @@ import { CalendarComponent } from '../calendar/calendar.component';
 import { BackgroundCardComponent } from '../../shared/components/background-card/background-card.component';
 import { RouterLink } from '@angular/router';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
+import { CharbonSortOption } from 'src/app/shared/models/charbon-get-parameters.model';
 
 @Component({
-    selector: 'app-charbons-page',
-    templateUrl: './charbons-page.component.html',
-    styleUrls: ['./charbons-page.component.scss'],
-    standalone: true,
-    imports: [
+  selector: 'app-charbons-page',
+  templateUrl: './charbons-page.component.html',
+  styleUrls: ['./charbons-page.component.scss'],
+  standalone: true,
+  imports: [
     MainButtonComponent,
     RouterLink,
     BackgroundCardComponent,
     CalendarComponent,
     CharbonCardComponent,
-    CharbonListComponent
-],
+    CharbonListComponent,
+  ],
 })
 export class CharbonsPageComponent implements OnInit {
   nextThreeCharbons: Charbon[] = [];
@@ -35,11 +36,15 @@ export class CharbonsPageComponent implements OnInit {
 
   fetchThreeUpcomingCharbons(): void {
     this.charbonService
-      .getCharbonList({ minDate: new Date(), limit: 3, sort: 'dateAsc' })
+      .getCharbonList({
+        minDate: new Date(),
+        limit: 3,
+        sort: CharbonSortOption.dateAsc,
+      })
       .subscribe((charbons) => {
         this.nextThreeCharbons = charbons;
       });
-  }  
+  }
 
   handleSelectedCharbonChange(selectedCharbon: Charbon | null): void {
     this.selectedCharbon = selectedCharbon;

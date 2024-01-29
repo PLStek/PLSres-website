@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { CharbonGetParameters } from 'src/app/shared/models/charbon-get-parameters.model';
+import { CharbonGetParameters, CharbonSortOption } from 'src/app/shared/models/charbon-get-parameters.model';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
@@ -35,6 +35,7 @@ export class CharbonListComponent implements OnInit {
   sortForm!: FormGroup;
 
   courseTypeEnum = CourseType;
+  charbonSortOption = CharbonSortOption;
 
   constructor(
     private charbonService: CharbonService,
@@ -48,7 +49,7 @@ export class CharbonListComponent implements OnInit {
     this.sortForm = this.formBuilder.group({
       courseType: new FormControl(CourseType.undefined),
       course: new FormControl(undefined),
-      sort: new FormControl('dateDesc'),
+      sort: new FormControl(CharbonSortOption.dateDesc),
     });
     
     this.courseService.getCourses().subscribe((data) => {
