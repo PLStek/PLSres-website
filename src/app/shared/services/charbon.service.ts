@@ -51,17 +51,14 @@ export class CharbonService {
 
   getCharbonList(options: CharbonGetParameters = {}): Observable<Charbon[]> {
     let params = new HttpParams();
-    params = this.setParam(params, 'courses', options.courses);
+    params = this.setParam(params, 'course', options.course);
     params = this.setParam(
       params,
-      'courseType',
+      'course_type',
       options.courseType ? getCourseTypeName(options.courseType) : undefined
     );
-    params = this.setParam(params, 'minDate', options.minDate);
-    params = this.setParam(params, 'maxDate', options.maxDate);
-    params = this.setParam(params, 'minDuration', options.minDuration);
-    params = this.setParam(params, 'maxDuration', options.maxDuration);
-    params = this.setParam(params, 'nullDuration', options.hasDurationOnly);
+    params = this.setParam(params, 'min_date', options.minDate);
+    params = this.setParam(params, 'max_date', options.maxDate);
     params = this.setParam(params, 'offset', options.offset);
     params = this.setParam(params, 'limit', options.limit);
     params = this.setParam(params, 'sort', options.sort);

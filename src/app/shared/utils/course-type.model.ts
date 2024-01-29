@@ -28,7 +28,7 @@ export function getCourseTypeName(value: CourseType): String {
         case CourseType.info:
             return "info";
         case CourseType.maths:
-            return "maths";
+            return "math";
         case CourseType.elec:
             return "elec";
         default:

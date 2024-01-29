@@ -89,7 +89,7 @@ export class CharbonListComponent implements OnInit {
     const formData = this.sortForm.value;
 
     const params: CharbonGetParameters = {
-      courses: formData.course ? [formData.course] : undefined,
+      course: formData.course ? [formData.course] : undefined,
       courseType:
         formData.courseType === CourseType.undefined
           ? undefined
