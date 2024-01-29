@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AnnouncementGetParameters } from 'src/app/shared/models/announcement-get-parameters.model';
+import {
+  AnnouncementGetParameters,
+  AnnouncementSortOption,
+} from 'src/app/shared/models/announcement-get-parameters.model';
 import { Announcement } from 'src/app/shared/models/announcement.model';
 import { AnnouncementService } from 'src/app/shared/services/announcement.service';
 import { AnnouncementCardComponent } from '../announcement-card/announcement-card.component';
@@ -10,23 +13,25 @@ import { RouterLink } from '@angular/router';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 
 @Component({
-    selector: 'app-announcements-page',
-    templateUrl: './announcements-page.component.html',
-    styleUrls: ['./announcements-page.component.scss'],
-    standalone: true,
-    imports: [
+  selector: 'app-announcements-page',
+  templateUrl: './announcements-page.component.html',
+  styleUrls: ['./announcements-page.component.scss'],
+  standalone: true,
+  imports: [
     MainButtonComponent,
     RouterLink,
     ReactiveFormsModule,
     FormsModule,
     BackgroundCardComponent,
-    AnnouncementCardComponent
-],
+    AnnouncementCardComponent,
+  ],
 })
 export class AnnouncementsPageComponent implements OnInit {
   announcementList: Announcement[] = [];
 
-  sortOption: string = 'dateDesc';
+  sortOption = AnnouncementSortOption.dateDesc;
+
+  announcementSortOption = AnnouncementSortOption;
 
   constructor(private announcementService: AnnouncementService) {}
 
@@ -39,9 +44,11 @@ export class AnnouncementsPageComponent implements OnInit {
       limit: 100,
       sort: this.sortOption,
     };
-    this.announcementService.getAnnouncements(params).subscribe((announcements) => {
-      this.announcementList = announcements;
-    });
+    this.announcementService
+      .getAnnouncements(params)
+      .subscribe((announcements) => {
+        this.announcementList = announcements;
+      });
   }
 
   onSortChange(): void {

@@ -1,3 +1,4 @@
+import { AnnouncementSortOption } from './../../shared/models/announcement-get-parameters.model';
 import { AnnouncementService } from 'src/app/shared/services/announcement.service';
 import { Component, OnInit } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
@@ -54,7 +55,7 @@ export class HomePageComponent implements OnInit {
 
     const announcementParams: AnnouncementGetParameters = {
       limit: 1,
-      sort: 'dateDesc',
+      sort: AnnouncementSortOption.dateDesc,
     };
     this.announcementService
       .getAnnouncements(announcementParams)
