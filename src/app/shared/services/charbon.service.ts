@@ -87,18 +87,17 @@ export class CharbonService {
   }
 
   updateCharbon(id: number, data: CharbonPostParameters): Observable<boolean> {
-    const putData = {
+    const body = {
       title: data.title,
       description: data.description,
-      date: (data.date.getTime() / 1000).toString(),
-      course: data.course,
+      datetime: data.date.getTime() / 1000,
+      course_id: data.course,
       actionneurs: data.actionneurs,
-      replayLink: data.replayLink,
-      resourcesLink: data.resourcesLink,
+      replay_link: data.replayLink,
     };
 
     return this.http
-      .put<any>(environment.apiURL + '/charbons/' + id, putData)
+      .put<any>(environment.apiURL + '/charbons/' + id, body)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 

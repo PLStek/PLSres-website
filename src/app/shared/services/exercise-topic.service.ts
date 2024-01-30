@@ -33,7 +33,7 @@ export class ExerciseTopicService {
     params = this.setParam(params, 'courses', options.courses);
     params = this.setParam(
       params,
-      'courseType',
+      'course_type',
       options.courseType ? getCourseTypeName(options.courseType) : undefined
     );
     params = this.setParam(params, 'sort', options.sort);
@@ -57,11 +57,12 @@ export class ExerciseTopicService {
   }
 
   addExerciseTopic(data: ExerciseTopicPostParameters): Observable<boolean> {
-    const formData = new FormData();
-    formData.append('title', data.title);
-    formData.append('course', data.course);
+    const body = {
+      topic: data.title,
+      course_id: data.course,
+    };
     return this.http
-      .post<any>(environment.apiURL + '/exercise_topics', formData)
+      .post<any>(environment.apiURL + '/exercise_topics/', body)
       .pipe(map((data) => data.success));
   }
 
@@ -69,20 +70,19 @@ export class ExerciseTopicService {
     id: number,
     data: ExerciseTopicPostParameters
   ): Observable<boolean> {
-    const putData = { id, ...data };
+    const body = {
+      topic: data.title,
+      course_id: data.course,
+    };
 
     return this.http
-      .put<any>(environment.apiURL + '/exercise_topics', putData)
+      .put<any>(environment.apiURL + '/exercise_topics/' + id, body)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 
   deleteExerciseTopic(id: number): Observable<boolean> {
-    let params = new HttpParams().set('id', id);
-
     return this.http
-      .delete<any>(environment.apiURL + '/exercise_topics', {
-        params,
-      })
+      .delete<any>(environment.apiURL + '/exercise_topics/' + id)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }
