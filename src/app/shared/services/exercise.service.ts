@@ -1,9 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { Exercise } from 'src/app/shared/models/exercise.model';
-import { base64Decode } from '../utils/base64-converter';
-import { ExerciseTopic } from '../models/exercise-topic.model';
+import { base64Decode, convertFileToBase64 } from '../utils/base64-converter';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 import { environment } from 'src/environments/environment';
 
@@ -61,7 +60,6 @@ export class ExerciseService {
       .pipe(this.processHttpResponse);
   }
 
-
   getExercise(id: number): Observable<Exercise> {
     return this.http.get<any>(environment.apiURL + '/exercises/' + id).pipe(
       map((data) => {
@@ -79,32 +77,50 @@ export class ExerciseService {
   }
 
   addExercise(data: ExercisePostParameters): Observable<boolean> {
-    const formData = new FormData();
-    formData.append('title', data.title.toString());
-    formData.append('difficulty', data.difficulty.toString());
-    formData.append('isCorrected', data.isCorrected ? '1' : '0');
-    formData.append('topicId', data.topicId.toString());
-    formData.append('source', data.source.toString());
-    formData.append('content', data.content);
+    return convertFileToBase64(data).pipe(
+      switchMap((base64data) => {
+        const body = {
+          title: data.title,
+          difficulty: data.difficulty,
+          is_corrected: data.isCorrected,
+          topic_id: data.topicId,
+          source: data.source,
+          content: base64data,
+        };
 
-    return this.http
-      .post<any>(environment.apiURL + '/exercises', formData)
-      .pipe(
-        map((res) => {
-          return Boolean(res.success) ?? false;
-        })
-      );
+        return this.http
+          .post<any>(`${environment.apiURL}/exercises`, body)
+          .pipe(
+            map((res) => {
+              return Boolean(res.success) ?? false;
+            })
+          );
+      })
+    );
   }
 
   updateExercise(
     id: number,
     data: ExercisePostParameters
   ): Observable<boolean> {
-    const putData = { id, ...data };
+    return convertFileToBase64(data).pipe(
+      switchMap((base64data) => {
+        const body = {
+          title: data.title,
+          difficulty: data.difficulty,
+          is_corrected: data.isCorrected,
+          topic_id: data.topicId,
+          source: data.source,
+          content: base64data,
+        };
 
-    return this.http.put<any>(environment.apiURL + '/exercises', putData).pipe(
-      map((res) => {
-        return Boolean(res.success) ?? false;
+        return this.http
+          .put<any>(`${environment.apiURL}/exercises/${id}`, body)
+          .pipe(
+            map((res) => {
+              return Boolean(res.success) ?? false;
+            })
+          );
       })
     );
   }
