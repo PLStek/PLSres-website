@@ -71,23 +71,19 @@ export class CharbonService {
   }
 
   addCharbon(data: CharbonPostParameters): Observable<boolean> {
-    const formData = new FormData();
-    formData.append('title', data.title.toString());
-    formData.append('description', data.description.toString());
-    formData.append('date', (data.date.getTime() / 1000).toString());
-    formData.append('course', data.course.toString());
-    formData.append('actionneurs', data.actionneurs.join(','));
-    if (data.replayLink)
-      formData.append('replayLink', data.replayLink.toString());
-    if (data.resourcesLink)
-      formData.append('resourcesLink', data.resourcesLink.toString());
-    return this.http
-      .post<any>(environment.apiURL + '/charbons/', formData)
-      .pipe(
-        map((res) => {
-          return Boolean(res.success) ?? false;
-        })
-      );
+    const body = {
+      title: data.title,
+      description: data.description,
+      datetime: data.date.getTime() / 1000,
+      course_id: data.course,
+      actionneurs: data.actionneurs,
+      replay_link: data.replayLink ?? null,
+    };
+    return this.http.post<any>(environment.apiURL + '/charbons/', body).pipe(
+      map((res) => {
+        return Boolean(res.success) ?? false;
+      })
+    );
   }
 
   updateCharbon(id: number, data: CharbonPostParameters): Observable<boolean> {
