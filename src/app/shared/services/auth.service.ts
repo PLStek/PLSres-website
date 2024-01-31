@@ -47,20 +47,32 @@ export class AuthService implements OnDestroy {
     username: String,
     password: String
   ): Observable<boolean> {
-    const formData = new FormData();
-    formData.append('email', email.toString());
-    formData.append('username', username.toString());
-    formData.append('password', password.toString());
+    const body = {
+      email,
+      username,
+      password,
+    };
 
-    return this.http.post<any>(`${environment.apiURL}/register`, formData).pipe(
-      map((data: any) => {
-        if (data.success) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-    );
+    return this.http
+      .post<any>(`${environment.apiURL}/auth/register`, body)
+      .pipe(
+        map((data: any) => {
+          if (data) {
+            const user: User = new User(
+              data.id,
+              data.email,
+              data.username,
+              data.is_actionneur,
+              data.is_admin
+            );
+            localStorage.setItem('user', JSON.stringify(user));
+            this.userSubject.next(user);
+            return true;
+          } else {
+            return false;
+          }
+        })
+      );
   }
 
   changePassword(
