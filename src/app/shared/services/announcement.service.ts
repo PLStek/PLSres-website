@@ -45,7 +45,7 @@ export class AnnouncementService {
     params = this.setParam(params, 'sort', options.sort);
 
     return this.http
-      .get<any>(environment.apiURL + '/announcements/', { params })
+      .get<any>(`${environment.apiURL}/announcements/`, { params })
       .pipe(this.processHttpResponses);
   }
 }

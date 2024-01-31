@@ -12,7 +12,7 @@ export class CourseService {
   constructor(private http: HttpClient) {}
 
   getCourses(): Observable<Course[]> {
-    return this.http.get<any>(environment.apiURL + '/courses').pipe(
+    return this.http.get<any>(`${environment.apiURL}/courses`).pipe(
       map((data: any) =>
         data.map((element: any) => ({
           id: element.id,

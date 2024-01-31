@@ -39,7 +39,7 @@ export class ExerciseTopicService {
     params = this.setParam(params, 'sort', options.sort);
 
     return this.http
-      .get<any>(environment.apiURL + '/exercise_topics', { params })
+      .get<any>(`${environment.apiURL}/exercise_topics/`, { params })
       .pipe(
         map((data: any) => {
           return data.map(
@@ -62,7 +62,7 @@ export class ExerciseTopicService {
       course_id: data.course,
     };
     return this.http
-      .post<any>(environment.apiURL + '/exercise_topics/', body)
+      .post<any>(`${environment.apiURL}/exercise_topics/`, body)
       .pipe(map((data) => data.success));
   }
 
@@ -76,13 +76,13 @@ export class ExerciseTopicService {
     };
 
     return this.http
-      .put<any>(environment.apiURL + '/exercise_topics/' + id, body)
+      .put<any>(`${environment.apiURL}/exercise_topics/${id}`, body)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 
   deleteExerciseTopic(id: number): Observable<boolean> {
     return this.http
-      .delete<any>(environment.apiURL + '/exercise_topics/' + id)
+      .delete<any>(`${environment.apiURL}/exercise_topics/${id}`)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

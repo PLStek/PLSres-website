@@ -129,7 +129,7 @@ export class ExerciseService {
     let params = new HttpParams().set('id', id);
 
     return this.http
-      .delete<any>(environment.apiURL + '/exercises', { params })
+      .delete<any>(`${environment.apiURL}/exercises/`, { params })
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

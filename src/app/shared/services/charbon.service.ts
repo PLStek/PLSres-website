@@ -64,7 +64,7 @@ export class CharbonService {
     params = this.setParam(params, 'sort', options.sort);
 
     return this.http
-      .get<any[]>(environment.apiURL + '/charbons', {
+      .get<any[]>(`${environment.apiURL}/charbons/`, {
         params,
       })
       .pipe(this.processHttpResponses);
@@ -79,7 +79,7 @@ export class CharbonService {
       actionneurs: data.actionneurs,
       replay_link: data.replayLink ?? null,
     };
-    return this.http.post<any>(environment.apiURL + '/charbons/', body).pipe(
+    return this.http.post<any>(`${environment.apiURL}/charbons/`, body).pipe(
       map((res) => {
         return Boolean(res.success) ?? false;
       })
@@ -97,13 +97,13 @@ export class CharbonService {
     };
 
     return this.http
-      .put<any>(environment.apiURL + '/charbons/' + id, body)
+      .put<any>(`${environment.apiURL}/charbons/${id}`, body)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 
   deleteCharbon(id: number): Observable<boolean> {
     return this.http
-      .delete<any>(environment.apiURL + '/charbons/' + id)
+      .delete<any>(`${environment.apiURL}/charbons/${id}`)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }
