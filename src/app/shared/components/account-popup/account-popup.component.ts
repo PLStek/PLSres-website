@@ -84,11 +84,7 @@ export class AccountPopupComponent implements OnInit {
     if (this.passwordForm.valid) {
       const data = this.passwordForm.value;
       this.authService
-        .changePassword(
-          this.loggedUser.email,
-          data.oldPassword,
-          data.newPassword
-        )
+        .changePassword(this.loggedUser.id, data.oldPassword, data.newPassword)
         .subscribe((success) => {
           if (success) {
             this.togglePasswordEdition();

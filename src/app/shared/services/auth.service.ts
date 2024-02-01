@@ -76,17 +76,17 @@ export class AuthService implements OnDestroy {
   }
 
   changePassword(
-    email: String,
+    id: number,
     oldPassword: String,
     newPassword: String
   ): Observable<boolean> {
-    const formData = new FormData();
-    formData.append('email', email.toString());
-    formData.append('oldPassword', oldPassword.toString());
-    formData.append('newPassword', newPassword.toString());
+    const body = {
+      password: oldPassword,
+      new_password: newPassword,
+    };
 
     return this.http
-      .post<any>(`${environment.apiURL}/change_password`, formData)
+      .put<any>(`${environment.apiURL}/auth/change_password/${id}`, body)
       .pipe(
         map((data: any) => {
           if (data.success) {
