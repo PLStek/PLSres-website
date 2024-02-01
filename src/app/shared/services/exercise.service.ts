@@ -42,17 +42,13 @@ export class ExerciseService {
 
   getExercises(
     options: {
-      maxDifficulty?: number;
       topicId?: number;
-      correctedOnly?: boolean;
       content?: boolean;
     } = {}
     //TODO: replace by ExerciseGetParameters
   ): Observable<Exercise[]> {
     let params = new HttpParams();
-    params = this.setParam(params, 'maxDifficulty', options.maxDifficulty);
-    params = this.setParam(params, 'topicId', options.topicId);
-    params = this.setParam(params, 'correctedOnly', options.correctedOnly);
+    params = this.setParam(params, 'topic_id', options.topicId);
     params = this.setParam(params, 'content', options.content);
 
     return this.http
