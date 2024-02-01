@@ -21,9 +21,9 @@ export class CharbonService {
           (ch: any) =>
             new Charbon(
               Number(ch.id),
-              String(ch.course),
+              String(ch.course_id),
               getCourseType(ch.course_type),
-              new Date(Number(ch.date) * 1000),
+              new Date(Number(ch.datetime) * 1000),
               String(ch.title),
               ch.actionneurs.map(String),
               String(ch.description),
@@ -51,72 +51,59 @@ export class CharbonService {
 
   getCharbonList(options: CharbonGetParameters = {}): Observable<Charbon[]> {
     let params = new HttpParams();
-    params = this.setParam(params, 'courses', options.courses);
+    params = this.setParam(params, 'course', options.course);
     params = this.setParam(
       params,
-      'courseType',
+      'course_type',
       options.courseType ? getCourseTypeName(options.courseType) : undefined
     );
-    params = this.setParam(params, 'minDate', options.minDate);
-    params = this.setParam(params, 'maxDate', options.maxDate);
-    params = this.setParam(params, 'minDuration', options.minDuration);
-    params = this.setParam(params, 'maxDuration', options.maxDuration);
-    params = this.setParam(params, 'nullDuration', options.hasDurationOnly);
+    params = this.setParam(params, 'min_date', options.minDate);
+    params = this.setParam(params, 'max_date', options.maxDate);
     params = this.setParam(params, 'offset', options.offset);
     params = this.setParam(params, 'limit', options.limit);
     params = this.setParam(params, 'sort', options.sort);
 
     return this.http
-      .get<any[]>(environment.apiURL + '/charbons', {
+      .get<any[]>(`${environment.apiURL}/charbons/`, {
         params,
       })
       .pipe(this.processHttpResponses);
   }
 
   addCharbon(data: CharbonPostParameters): Observable<boolean> {
-    const formData = new FormData();
-    formData.append('title', data.title.toString());
-    formData.append('description', data.description.toString());
-    formData.append('date', (data.date.getTime() / 1000).toString());
-    formData.append('course', data.course.toString());
-    formData.append('actionneurs', data.actionneurs.join(','));
-    if (data.replayLink)
-      formData.append('replayLink', data.replayLink.toString());
-    if (data.resourcesLink)
-      formData.append('resourcesLink', data.resourcesLink.toString());
-    return this.http
-      .post<any>(environment.apiURL + '/charbons', formData)
-      .pipe(
-        map((res) => {
-          return Boolean(res.success) ?? false;
-        })
-      );
+    const body = {
+      title: data.title,
+      description: data.description,
+      datetime: data.date.getTime() / 1000,
+      course_id: data.course,
+      actionneurs: data.actionneurs,
+      replay_link: data.replayLink ?? null,
+    };
+    return this.http.post<any>(`${environment.apiURL}/charbons/`, body).pipe(
+      map((res) => {
+        return Boolean(res.success) ?? false;
+      })
+    );
   }
 
   updateCharbon(id: number, data: CharbonPostParameters): Observable<boolean> {
-    const putData = {
-      id,
+    const body = {
       title: data.title,
       description: data.description,
-      date: (data.date.getTime() / 1000).toString(),
-      course: data.course,
+      datetime: data.date.getTime() / 1000,
+      course_id: data.course,
       actionneurs: data.actionneurs,
-      replayLink: data.replayLink,
-      resourcesLink: data.resourcesLink,
+      replay_link: data.replayLink,
     };
 
     return this.http
-      .put<any>(environment.apiURL + '/charbons', putData)
+      .put<any>(`${environment.apiURL}/charbons/${id}`, body)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 
   deleteCharbon(id: number): Observable<boolean> {
-    let params = new HttpParams().set('id', id);
-
     return this.http
-      .delete<any>(environment.apiURL + '/charbons', {
-        params,
-      })
+      .delete<any>(`${environment.apiURL}/charbons/${id}`)
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

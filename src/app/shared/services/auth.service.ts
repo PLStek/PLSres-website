@@ -16,21 +16,54 @@ export class AuthService implements OnDestroy {
   constructor(private http: HttpClient) {}
 
   login(login: String, password: String): Observable<boolean> {
-    const formData = new FormData();
-    formData.append('loginInfo', login.toString());
-    formData.append('password', password.toString());
+    const body = {
+      login,
+      password,
+    };
+    console.log(body);
+
+    return this.http.post<any>(`${environment.apiURL}/auth/login`, body).pipe(
+      map((data: any) => {
+        if (data) {
+          const user: User = new User(
+            data.id,
+            data.email,
+            data.username,
+            data.is_actionneur,
+            data.is_admin
+          );
+          localStorage.setItem('user', JSON.stringify(user));
+          this.userSubject.next(user);
+          return true;
+        } else {
+          return false;
+        }
+      })
+    );
+  }
+
+  register(
+    email: String,
+    username: String,
+    password: String
+  ): Observable<boolean> {
+    const body = {
+      email,
+      username,
+      password,
+    };
 
     return this.http
-      .post<any>(environment.apiURL + '/login', formData)
+      .post<any>(`${environment.apiURL}/auth/register`, body)
       .pipe(
         map((data: any) => {
-          if (data.success) {
+          if (data) {
             const user: User = new User(
-              data.user.id,
-              data.user.email,
-              data.user.username,
-              data.user.actionneur,
-              data.user.admin
+              data.id,
+              data.email,
+              data.username,
+              data.is_actionneur,
+              data.is_admin
             );
             localStorage.setItem('user', JSON.stringify(user));
             this.userSubject.next(user);
@@ -42,41 +75,18 @@ export class AuthService implements OnDestroy {
       );
   }
 
-  register(
-    email: String,
-    username: String,
-    password: String
-  ): Observable<boolean> {
-    const formData = new FormData();
-    formData.append('email', email.toString());
-    formData.append('username', username.toString());
-    formData.append('password', password.toString());
-
-    return this.http
-      .post<any>(environment.apiURL + '/register', formData)
-      .pipe(
-        map((data: any) => {
-          if (data.success) {
-            return true;
-          } else {
-            return false;
-          }
-        })
-      );
-  }
-
   changePassword(
-    email: String,
+    id: number,
     oldPassword: String,
     newPassword: String
   ): Observable<boolean> {
-    const formData = new FormData();
-    formData.append('email', email.toString());
-    formData.append('oldPassword', oldPassword.toString());
-    formData.append('newPassword', newPassword.toString());
+    const body = {
+      password: oldPassword,
+      new_password: newPassword,
+    };
 
     return this.http
-      .post<any>(environment.apiURL + '/change_password', formData)
+      .put<any>(`${environment.apiURL}/auth/change_password/${id}`, body)
       .pipe(
         map((data: any) => {
           if (data.success) {

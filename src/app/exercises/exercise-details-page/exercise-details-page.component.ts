@@ -31,10 +31,11 @@ export class ExerciseDetailsPageComponent implements OnInit {
     this.route.params.subscribe((params) => {
       let id: number = parseInt(params['id'], 10);
       this.exerciseService
-        .getExercises({ id: id, content: true })
+        .getExercise(id)
         .subscribe((data) => {
-          this.exercise = data[0] ?? undefined;
+          this.exercise = data;
           this.updateTitle();
+          console.log(this.exercise);
         });
     });
   }

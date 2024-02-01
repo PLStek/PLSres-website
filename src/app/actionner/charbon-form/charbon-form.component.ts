@@ -107,10 +107,7 @@ export class AddCharbonComponent implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.minLength(8)])
       ),
-      replayLink: new FormControl(
-        '',
-        Validators.pattern('.*youtube.com/watch.*')
-      ),
+      replayLink: new FormControl(''),
     });
 
     if (baseCharbon) {

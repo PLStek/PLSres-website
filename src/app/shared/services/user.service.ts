@@ -12,7 +12,7 @@ export class UserService {
 
   getActionneurs(): Observable<User[]> {
     return this.http
-      .get<any>(environment.apiURL + '/actionneurs')
+      .get<any>(`${environment.apiURL}/actionneurs/`)
       .pipe(
         map((data: any) =>
           data.map(

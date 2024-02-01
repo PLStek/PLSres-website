@@ -118,14 +118,9 @@ export class LoginPopupComponent implements OnInit {
     const password: string = this.registerForm.value.password;
     this.authService
       .register(email, username, password)
-      .pipe(
-        switchMap((success) =>
-          success ? this.authService.login(email, password) : of(false)
-        )
-      )
       .subscribe((success) => {
         if (!success) {
-          this.registerForm.setErrors({ emailAlreadyExists: true });
+          this.loginForm.setErrors({ invalidCredentials: true });
         } else {
           this.closeIfSuccessful(success);
         }
