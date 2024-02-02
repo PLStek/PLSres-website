@@ -11,6 +11,14 @@ import { ExerciseTopicGetParameters } from '../models/exercise-topic-get-paramet
 import { environment } from 'src/environments/environment';
 import { setParam } from '../utils/set_params';
 
+interface ApiResponse {
+  id: number;
+  topic: string;
+  course_id: string;
+  course_type: string;
+  exercise_count: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -18,6 +26,20 @@ export class ExerciseTopicService {
   exerciseTopicList!: ExerciseTopic[];
 
   constructor(private http: HttpClient) {}
+
+  processHttpResponses = map((data: ApiResponse[]) =>
+    data.map(
+      (el: ApiResponse) =>
+        new ExerciseTopic(
+          el.id,
+          el.topic,
+          el.course_id,
+          getCourseType(el.course_type),
+          //TODO: keep the real exercise count
+          el.exercise_count ? Number(el.exercise_count) : 1
+        )
+    )
+  );
 
   getExerciseTopicList(
     options: ExerciseTopicGetParameters = {}
@@ -33,21 +55,8 @@ export class ExerciseTopicService {
     params = setParam(params, 'sort', options.sort);
 
     return this.http
-      .get<any>(`${environment.apiURL}/exercise_topics/`, { params })
-      .pipe(
-        map((data: any) => {
-          return data.map(
-            (el: any) =>
-              new ExerciseTopic(
-                Number(el.id),
-                String(el.topic),
-                String(el.course_id),
-                getCourseType(el.course_type),
-                el.exercise_count ? Number(el.exercise_count) : 1
-              )
-          );
-        })
-      );
+      .get<ApiResponse[]>(`${environment.apiURL}/exercise_topics/`, { params })
+      .pipe(this.processHttpResponses);
   }
 
   addExerciseTopic(data: ExerciseTopicPostParameters): Observable<boolean> {

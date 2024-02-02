@@ -22,12 +22,7 @@ export class AnnouncementService {
   processHttpResponses = map((announcements: ApiResponse[]) =>
     announcements.map(
       (a: ApiResponse) =>
-        new Announcement(
-          Number(a.id),
-          String(a.title),
-          String(a.content),
-          new Date(Number(a.datetime) * 1000)
-        )
+        new Announcement(a.id, a.title, a.content, new Date(a.datetime * 1000))
     )
   );
 

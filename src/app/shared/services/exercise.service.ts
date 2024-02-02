@@ -7,25 +7,39 @@ import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-para
 import { environment } from 'src/environments/environment';
 import { setParam } from '../utils/set_params';
 
+interface ApiResponse {
+  id: number;
+  title: string;
+  difficulty: number;
+  topic_id: number;
+  is_corrected: boolean;
+  source: string;
+  content: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ExerciseService {
   constructor(private http: HttpClient) {}
 
-  processHttpResponse = map((data: any) =>
-    data.map(
-      (element: any) =>
-        new Exercise(
-          Number(element.id),
-          String(element.title),
-          Number(element.difficulty),
-          Number(element.topic_id),
-          element.is_corrected ? true : false,
-          String(element.source),
-          element.content ? base64Decode(element.content) : undefined
-        )
-    )
+  elementToExercise = (element: ApiResponse) =>
+    new Exercise(
+      element.id,
+      element.title,
+      element.difficulty,
+      element.topic_id,
+      element.is_corrected ? true : false,
+      element.source,
+      element.content ? base64Decode(element.content) : undefined
+    );
+
+  processHttpResponse = map((data: ApiResponse[]) =>
+    data.map(this.elementToExercise)
+  );
+
+  processSingleHttpResponse = map((data: ApiResponse) =>
+    this.elementToExercise(data)
   );
 
   getExercises(
@@ -40,24 +54,14 @@ export class ExerciseService {
     params = setParam(params, 'content', options.content);
 
     return this.http
-      .get<any>(environment.apiURL + '/exercises/', { params })
+      .get<ApiResponse[]>(`${environment.apiURL}/exercises/`, { params })
       .pipe(this.processHttpResponse);
   }
 
   getExercise(id: number): Observable<Exercise> {
-    return this.http.get<any>(environment.apiURL + '/exercises/' + id).pipe(
-      map((data) => {
-        return new Exercise(
-          Number(data.id),
-          String(data.title),
-          Number(data.difficulty),
-          Number(data.topic_id),
-          data.is_corrected ? true : false,
-          String(data.source),
-          data.content ? base64Decode(data.content) : undefined
-        );
-      })
-    );
+    return this.http
+      .get<ApiResponse>(`${environment.apiURL}/exercises/${id}`)
+      .pipe(this.processSingleHttpResponse);
   }
 
   addExercise(data: ExercisePostParameters): Observable<boolean> {

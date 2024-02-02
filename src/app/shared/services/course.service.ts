@@ -5,20 +5,24 @@ import { Course } from '../models/course.model';
 import { getCourseType } from '../utils/course-type.model';
 import { environment } from 'src/environments/environment';
 
+interface ApiResponse {
+  id: string;
+  type: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class CourseService {
   constructor(private http: HttpClient) {}
 
+  processHttpResponses = map((courses: ApiResponse[]) =>
+    courses.map((c: ApiResponse) => new Course(c.id, getCourseType(c.type)))
+  );
+
   getCourses(): Observable<Course[]> {
-    return this.http.get<any>(`${environment.apiURL}/courses`).pipe(
-      map((data: any) =>
-        data.map((element: any) => ({
-          id: element.id,
-          type: getCourseType(element.type),
-        }))
-      )
-    );
+    return this.http
+      .get<ApiResponse[]>(`${environment.apiURL}/courses`)
+      .pipe(this.processHttpResponses);
   }
 }

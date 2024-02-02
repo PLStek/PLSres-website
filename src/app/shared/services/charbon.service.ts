@@ -9,25 +9,35 @@ import { CharbonGetParameters } from '../models/charbon-get-parameters.model';
 import { environment } from 'src/environments/environment';
 import { setParam } from '../utils/set_params';
 
+interface ApiResponse {
+  id: number;
+  course_id: string;
+  course_type: string;
+  datetime: number;
+  title: string;
+  actionneurs: string[];
+  description: string;
+  replay_link: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class CharbonService {
   constructor(private http: HttpClient) {}
 
-  processHttpResponses = map((chList: any[]) =>
+  processHttpResponses = map((chList: ApiResponse[]) =>
     chList.map(
-      (ch: any) =>
+      (ch: ApiResponse) =>
         new Charbon(
-          Number(ch.id),
-          String(ch.course_id),
+          ch.id,
+          ch.course_id,
           getCourseType(ch.course_type),
-          new Date(Number(ch.datetime) * 1000),
-          String(ch.title),
-          ch.actionneurs.map(String),
-          String(ch.description),
-          ch.replay_link,
-          String(ch.resources_link)
+          new Date(ch.datetime * 1000),
+          ch.title,
+          ch.actionneurs,
+          ch.description,
+          ch.replay_link
         )
     )
   );
@@ -47,7 +57,7 @@ export class CharbonService {
     params = setParam(params, 'sort', options.sort);
 
     return this.http
-      .get<any[]>(`${environment.apiURL}/charbons/`, {
+      .get<ApiResponse[]>(`${environment.apiURL}/charbons/`, {
         params,
       })
       .pipe(this.processHttpResponses);
