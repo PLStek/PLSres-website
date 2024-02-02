@@ -1,16 +1,16 @@
+import { actionneurGuard } from './actionneur.guard';
 import { TestBed } from '@angular/core/testing';
+import { CanActivateFn } from '@angular/router';
 
-import { ActionneurGuard } from './actionneur.guard';
-
-describe('AuthGuard', () => {
-  let guard: ActionneurGuard;
+describe('testGuard', () => {
+  const executeGuard: CanActivateFn = (...guardParameters) =>
+    TestBed.runInInjectionContext(() => actionneurGuard(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(ActionneurGuard);
   });
 
   it('should be created', () => {
-    expect(guard).toBeTruthy();
+    expect(executeGuard).toBeTruthy();
   });
 });

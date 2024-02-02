@@ -1,8 +1,8 @@
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
-import { ActionneurGuard } from './app/shared/guards/actionneur.guard';
-import { LoggedGuard } from './app/shared/guards/logged.guard';
+import { actionneurGuard } from './app/shared/guards/actionneur.guard';
+import { loggedGuard } from './app/shared/guards/logged.guard';
 import { provideRouter, Routes } from '@angular/router';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -24,7 +24,7 @@ const routes: Routes = [
       import('./app/home/home-page/home-page.component').then(
         (m) => m.HomePageComponent
       ),
-      title: 'Accueil - PLSres',
+    title: 'Accueil - PLSres',
   },
   {
     path: 'annonces',
@@ -32,7 +32,7 @@ const routes: Routes = [
       import(
         './app/announcements/announcements-page/announcements-page.component'
       ).then((m) => m.AnnouncementsPageComponent),
-      title: 'Annonces - PLSres',
+    title: 'Annonces - PLSres',
   },
   {
     path: 'charbons',
@@ -40,7 +40,7 @@ const routes: Routes = [
       import('./app/charbons/charbons-page/charbons-page.component').then(
         (m) => m.CharbonsPageComponent
       ),
-      title: 'Charbons - PLSres',
+    title: 'Charbons - PLSres',
   },
   {
     path: 'exercices',
@@ -48,7 +48,7 @@ const routes: Routes = [
       import('./app/exercises/exercises-page/exercises-page.component').then(
         (m) => m.ExercisesPageComponent
       ),
-      title: 'Exercices - PLSres',
+    title: 'Exercices - PLSres',
   },
   {
     path: 'exercices/:id',
@@ -56,7 +56,7 @@ const routes: Routes = [
       import(
         './app/exercises/exercise-details-page/exercise-details-page.component'
       ).then((m) => m.ExerciseDetailsPageComponent),
-    canActivate: [LoggedGuard],
+    canActivate: [loggedGuard],
   },
   {
     path: 'actionner/accueil',
@@ -64,7 +64,7 @@ const routes: Routes = [
       import(
         './app/actionner/actionner-home-page/actionner-home-page.component'
       ).then((m) => m.ActionnerHomePageComponent),
-    canActivate: [ActionneurGuard],
+    canActivate: [actionneurGuard],
     title: 'Actionner - PLSres',
   },
   {
@@ -73,7 +73,7 @@ const routes: Routes = [
       import(
         './app/actionner/charbon-edition-page/charbon-edition-page.component'
       ).then((m) => m.CharbonEditionPageComponent),
-    canActivate: [ActionneurGuard],
+    canActivate: [actionneurGuard],
     title: 'Actionner - PLSres',
   },
   {
@@ -82,7 +82,7 @@ const routes: Routes = [
       import(
         './app/actionner/exercise-edition-page/exercise-edition-page.component'
       ).then((m) => m.ExerciseEditionPageComponent),
-    canActivate: [ActionneurGuard],
+    canActivate: [actionneurGuard],
     title: 'Actionner - PLSres',
   },
   { path: '**', redirectTo: '/accueil' },
