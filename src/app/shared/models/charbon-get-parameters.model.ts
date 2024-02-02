@@ -8,7 +8,7 @@ export enum CharbonSortOption {
 }
 
 export interface CharbonGetParameters {
-  course?: String[];
+  course?: string[];
   courseType?: CourseType;
   minDate?: Date;
   maxDate?: Date;
