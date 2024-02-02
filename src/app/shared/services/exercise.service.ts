@@ -5,6 +5,7 @@ import { Exercise } from 'src/app/shared/models/exercise.model';
 import { base64Decode, convertFileToBase64 } from '../utils/base64-converter';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 import { environment } from 'src/environments/environment';
+import { setParam } from '../utils/set_params';
 
 @Injectable({
   providedIn: 'root',
@@ -12,44 +13,31 @@ import { environment } from 'src/environments/environment';
 export class ExerciseService {
   constructor(private http: HttpClient) {}
 
-  private setParam(params: HttpParams, name: string, value: any): HttpParams {
-    if (name && value) {
-      params = params.set(name, value.toString());
-    }
-    return params;
-  }
-
-  private processHttpResponse(
-    response: Observable<any>
-  ): Observable<Exercise[]> {
-    return response.pipe(
-      map((data: any) =>
-        data.map(
-          (element: any) =>
-            new Exercise(
-              Number(element.id),
-              String(element.title),
-              Number(element.difficulty),
-              Number(element.topic_id),
-              element.is_corrected ? true : false,
-              String(element.source),
-              element.content ? base64Decode(element.content) : undefined
-            )
+  processHttpResponse = map((data: any) =>
+    data.map(
+      (element: any) =>
+        new Exercise(
+          Number(element.id),
+          String(element.title),
+          Number(element.difficulty),
+          Number(element.topic_id),
+          element.is_corrected ? true : false,
+          String(element.source),
+          element.content ? base64Decode(element.content) : undefined
         )
-      )
-    );
-  }
+    )
+  );
 
   getExercises(
+    //TODO: replace by ExerciseGetParameters
     options: {
       topicId?: number;
       content?: boolean;
     } = {}
-    //TODO: replace by ExerciseGetParameters
   ): Observable<Exercise[]> {
     let params = new HttpParams();
-    params = this.setParam(params, 'topic_id', options.topicId);
-    params = this.setParam(params, 'content', options.content);
+    params = setParam(params, 'topic_id', options.topicId);
+    params = setParam(params, 'content', options.content);
 
     return this.http
       .get<any>(environment.apiURL + '/exercises/', { params })

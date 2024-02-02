@@ -9,6 +9,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ExerciseTopicPostParameters } from '../models/exercise-topic-post-parameters';
 import { ExerciseTopicGetParameters } from '../models/exercise-topic-get-parameters.model';
 import { environment } from 'src/environments/environment';
+import { setParam } from '../utils/set_params';
 
 @Injectable({
   providedIn: 'root',
@@ -18,25 +19,18 @@ export class ExerciseTopicService {
 
   constructor(private http: HttpClient) {}
 
-  private setParam(params: HttpParams, name: string, value: any): HttpParams {
-    if (name && value) {
-      params = params.set(name, value.toString());
-    }
-    return params;
-  }
-
   getExerciseTopicList(
     options: ExerciseTopicGetParameters = {}
   ): Observable<ExerciseTopic[]> {
     let params = new HttpParams();
 
-    params = this.setParam(params, 'courses', options.courses);
-    params = this.setParam(
+    params = setParam(params, 'courses', options.courses);
+    params = setParam(
       params,
       'course_type',
       options.courseType ? getCourseTypeName(options.courseType) : undefined
     );
-    params = this.setParam(params, 'sort', options.sort);
+    params = setParam(params, 'sort', options.sort);
 
     return this.http
       .get<any>(`${environment.apiURL}/exercise_topics/`, { params })
