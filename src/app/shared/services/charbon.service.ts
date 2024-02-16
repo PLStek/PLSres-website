@@ -17,7 +17,8 @@ interface ApiResponse {
   title: string;
   actionneurs: string[];
   description: string;
-  replay_link: string;
+  replay_link?: string;
+  duration?: number;
 }
 
 @Injectable({
@@ -37,7 +38,8 @@ export class CharbonService {
           ch.title,
           ch.actionneurs,
           ch.description,
-          ch.replay_link
+          ch.replay_link,
+          ch.duration
         )
     )
   );

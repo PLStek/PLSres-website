@@ -20,7 +20,6 @@ export class AuthService implements OnDestroy {
       login,
       password,
     };
-    console.log(body);
 
     return this.http.post<any>(`${environment.apiURL}/auth/login`, body).pipe(
       map((data: any) => {

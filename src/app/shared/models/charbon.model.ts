@@ -10,7 +10,7 @@ export class Charbon {
     public actionneurs: string[],
     public description: string,
     public replayLink?: string,
-    public resourcesLink?: string
+    public duration?: number
   ) {
     this.id = id;
     this.course = course;
@@ -20,6 +20,6 @@ export class Charbon {
     this.actionneurs = actionneurs;
     this.description = description;
     this.replayLink = replayLink;
-    this.resourcesLink = resourcesLink;
+    this.duration = duration;
   }
 }
