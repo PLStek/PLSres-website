@@ -15,12 +15,11 @@ export class AuthService implements OnDestroy {
 
   constructor(private http: HttpClient) {}
 
-  login(login: String, password: String): Observable<boolean> {
+  login(login: string, password: string): Observable<boolean> {
     const body = {
       login,
       password,
     };
-    console.log(body);
 
     return this.http.post<any>(`${environment.apiURL}/auth/login`, body).pipe(
       map((data: any) => {
@@ -43,9 +42,9 @@ export class AuthService implements OnDestroy {
   }
 
   register(
-    email: String,
-    username: String,
-    password: String
+    email: string,
+    username: string,
+    password: string
   ): Observable<boolean> {
     const body = {
       email,
@@ -77,8 +76,8 @@ export class AuthService implements OnDestroy {
 
   changePassword(
     id: number,
-    oldPassword: String,
-    newPassword: String
+    oldPassword: string,
+    newPassword: string
   ): Observable<boolean> {
     const body = {
       password: oldPassword,

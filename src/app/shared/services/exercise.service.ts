@@ -5,6 +5,17 @@ import { Exercise } from 'src/app/shared/models/exercise.model';
 import { base64Decode, convertFileToBase64 } from '../utils/base64-converter';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 import { environment } from 'src/environments/environment';
+import { setParam } from '../utils/set_params';
+
+interface ApiResponse {
+  id: number;
+  title: string;
+  difficulty: number;
+  topic_id: number;
+  is_corrected: boolean;
+  source: string;
+  content: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -12,64 +23,45 @@ import { environment } from 'src/environments/environment';
 export class ExerciseService {
   constructor(private http: HttpClient) {}
 
-  private setParam(params: HttpParams, name: string, value: any): HttpParams {
-    if (name && value) {
-      params = params.set(name, value.toString());
-    }
-    return params;
-  }
-
-  private processHttpResponse(
-    response: Observable<any>
-  ): Observable<Exercise[]> {
-    return response.pipe(
-      map((data: any) =>
-        data.map(
-          (element: any) =>
-            new Exercise(
-              Number(element.id),
-              String(element.title),
-              Number(element.difficulty),
-              Number(element.topic_id),
-              element.is_corrected ? true : false,
-              String(element.source),
-              element.content ? base64Decode(element.content) : undefined
-            )
-        )
-      )
+  elementToExercise = (element: ApiResponse) =>
+    new Exercise(
+      element.id,
+      element.title,
+      element.difficulty,
+      element.topic_id,
+      element.is_corrected ? true : false,
+      element.source,
+      element.content ? base64Decode(element.content) : undefined
     );
-  }
+
+  processHttpResponse = map((data: ApiResponse[]) =>
+    data.map(this.elementToExercise)
+  );
+
+  processSingleHttpResponse = map((data: ApiResponse) =>
+    this.elementToExercise(data)
+  );
 
   getExercises(
+    //TODO: replace by ExerciseGetParameters
     options: {
       topicId?: number;
       content?: boolean;
     } = {}
-    //TODO: replace by ExerciseGetParameters
   ): Observable<Exercise[]> {
     let params = new HttpParams();
-    params = this.setParam(params, 'topic_id', options.topicId);
-    params = this.setParam(params, 'content', options.content);
+    params = setParam(params, 'topic_id', options.topicId);
+    params = setParam(params, 'content', options.content);
 
     return this.http
-      .get<any>(environment.apiURL + '/exercises/', { params })
+      .get<ApiResponse[]>(`${environment.apiURL}/exercises/`, { params })
       .pipe(this.processHttpResponse);
   }
 
   getExercise(id: number): Observable<Exercise> {
-    return this.http.get<any>(environment.apiURL + '/exercises/' + id).pipe(
-      map((data) => {
-        return new Exercise(
-          Number(data.id),
-          String(data.title),
-          Number(data.difficulty),
-          Number(data.topic_id),
-          data.is_corrected ? true : false,
-          String(data.source),
-          data.content ? base64Decode(data.content) : undefined
-        );
-      })
-    );
+    return this.http
+      .get<ApiResponse>(`${environment.apiURL}/exercises/${id}`)
+      .pipe(this.processSingleHttpResponse);
   }
 
   addExercise(data: ExercisePostParameters): Observable<boolean> {

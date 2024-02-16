@@ -1,9 +1,9 @@
 export interface CharbonPostParameters {
-    title: String,
-    description: String,
-    date: Date,
-    course: String,
-    actionneurs: number[],
-    replayLink?: String,
-    resourcesLink?: String
+  title: string;
+  description: string;
+  date: Date;
+  course: string;
+  actionneurs: number[];
+  replayLink?: string;
+  resourcesLink?: string;
 }

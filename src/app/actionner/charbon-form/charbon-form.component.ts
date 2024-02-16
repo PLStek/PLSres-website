@@ -55,8 +55,8 @@ export class AddCharbonComponent implements OnInit {
       '',
       [],
       '',
-      '',
-      ''
+      undefined,
+      undefined
     );
 
     this.form.valueChanges.subscribe((data) => {

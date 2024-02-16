@@ -1,6 +1,8 @@
 import { CourseType } from './../utils/course-type.model';
 
-export interface Course {
-  id: String;
-  type: CourseType;
+export class Course {
+  constructor(public id: string, public type: CourseType) {
+    this.id = id;
+    this.type = type;
+  }
 }
