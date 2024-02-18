@@ -15,84 +15,29 @@ export class AuthService implements OnDestroy {
 
   constructor(private http: HttpClient) {}
 
-  login(login: string, password: string): Observable<boolean> {
+  login(code: string): Observable<boolean> {
     const body = {
-      login,
-      password,
+      code,
     };
 
-    return this.http.post<any>(`${environment.apiURL}/auth/login`, body).pipe(
+    return this.http.post<any>(`${environment.apiURL}/auth/token`, body).pipe(
       map((data: any) => {
-        if (data) {
-          const user: User = new User(
-            data.id,
-            data.email,
-            data.username,
-            data.is_actionneur,
-            data.is_admin
-          );
-          localStorage.setItem('user', JSON.stringify(user));
-          this.userSubject.next(user);
-          return true;
-        } else {
-          return false;
-        }
+        console.log(data);
+        this.get_user(data.token).subscribe();
+        return false;
       })
     );
   }
 
-  register(
-    email: string,
-    username: string,
-    password: string
-  ): Observable<boolean> {
-    const body = {
-      email,
-      username,
-      password,
+  get_user(token: string) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
     };
-
     return this.http
-      .post<any>(`${environment.apiURL}/auth/register`, body)
+      .get<any>(`${environment.apiURL}/auth/me`, { headers })
       .pipe(
         map((data: any) => {
-          if (data) {
-            const user: User = new User(
-              data.id,
-              data.email,
-              data.username,
-              data.is_actionneur,
-              data.is_admin
-            );
-            localStorage.setItem('user', JSON.stringify(user));
-            this.userSubject.next(user);
-            return true;
-          } else {
-            return false;
-          }
-        })
-      );
-  }
-
-  changePassword(
-    id: number,
-    oldPassword: string,
-    newPassword: string
-  ): Observable<boolean> {
-    const body = {
-      password: oldPassword,
-      new_password: newPassword,
-    };
-
-    return this.http
-      .put<any>(`${environment.apiURL}/auth/change_password/${id}`, body)
-      .pipe(
-        map((data: any) => {
-          if (data.success) {
-            return true;
-          } else {
-            return false;
-          }
+          console.log(data);
         })
       );
   }

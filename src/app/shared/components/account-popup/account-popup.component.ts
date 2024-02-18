@@ -80,18 +80,5 @@ export class AccountPopupComponent implements OnInit {
     this.editPassword = !this.editPassword;
   }
 
-  submitPasswordChange() {
-    if (this.passwordForm.valid) {
-      const data = this.passwordForm.value;
-      this.authService
-        .changePassword(this.loggedUser.id, data.oldPassword, data.newPassword)
-        .subscribe((success) => {
-          if (success) {
-            this.togglePasswordEdition();
-          }
-        });
-    } else {
-      console.log('Formulaire invalide');
-    }
-  }
+  submitPasswordChange() {}
 }
