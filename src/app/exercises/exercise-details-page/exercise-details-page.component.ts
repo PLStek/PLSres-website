@@ -5,7 +5,7 @@ import { ExerciseService } from 'src/app/shared/services/exercise.service';
 import { BackgroundCardComponent } from '../../shared/components/background-card/background-card.component';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { Title } from '@angular/platform-browser';
-import { catchError, throwError } from 'rxjs';
+import { takeWhile } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { LoginPopupComponent } from 'src/app/shared/components/login-popup/login-popup.component';
 import { AuthService } from 'src/app/shared/services/auth.service';
@@ -32,9 +32,12 @@ export class ExerciseDetailsPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       let id: number = parseInt(params['id'], 10);
-      this.authService.isLogged().subscribe((isLogged) => {
-        isLogged ? this.getExercise(id) : this.openLoginPopup();
-      });
+      this.authService
+        .isLogged()
+        .pipe(takeWhile(() => !this.exercise))
+        .subscribe((isLogged) => {
+          isLogged ? this.getExercise(id) : this.openLoginPopup();
+        });
     });
   }
 
@@ -43,9 +46,6 @@ export class ExerciseDetailsPageComponent implements OnInit {
       next: (data) => {
         this.exercise = data;
         this.updateTitle();
-      },
-      error: () => {
-        this.openLoginPopup();
       },
     });
   }
