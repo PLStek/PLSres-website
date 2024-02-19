@@ -1,6 +1,14 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { CharbonGetParameters, CharbonSortOption } from 'src/app/shared/models/charbon-get-parameters.model';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
+import {
+  CharbonGetParameters,
+  CharbonSortOption,
+} from 'src/app/shared/models/charbon-get-parameters.model';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
@@ -8,16 +16,12 @@ import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { CharbonCardComponent } from '../charbon-card/charbon-card.component';
 
-
 @Component({
-    selector: 'app-charbon-list',
-    templateUrl: './charbon-list.component.html',
-    styleUrls: ['./charbon-list.component.scss'],
-    standalone: true,
-    imports: [
-    ReactiveFormsModule,
-    CharbonCardComponent
-],
+  selector: 'app-charbon-list',
+  templateUrl: './charbon-list.component.html',
+  styleUrls: ['./charbon-list.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, CharbonCardComponent],
 })
 export class CharbonListComponent implements OnInit {
   readonly CHARBON_PER_PAGE = 9;
@@ -51,16 +55,16 @@ export class CharbonListComponent implements OnInit {
       course: new FormControl(undefined),
       sort: new FormControl(CharbonSortOption.dateDesc),
     });
-    
+
     this.courseService.getCourses().subscribe((data) => {
       this.courseList = data;
       this.updateCourseList();
     });
-    
+
     this.sortForm.valueChanges.subscribe(() => {
       this.resetCharbons();
     });
-    
+
     this.sortForm.get('courseType')?.valueChanges.subscribe(() => {
       this.updateCourseList();
       this.sortForm.get('course')?.setValue(undefined);
@@ -76,7 +80,7 @@ export class CharbonListComponent implements OnInit {
       this.fetchNextCharbons();
     }
   }
-  
+
   updateCourseList(): void {
     this.courseListForSelectedType = this.courseList.filter(
       (course) => course.type === this.sortForm.get('courseType')?.value

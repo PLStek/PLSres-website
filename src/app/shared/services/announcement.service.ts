@@ -19,7 +19,7 @@ interface ApiResponse {
 export class AnnouncementService {
   constructor(private http: HttpClient) {}
 
-  processHttpResponses = map((announcements: ApiResponse[]) =>
+  private processHttpResponses = map((announcements: ApiResponse[]) =>
     announcements.map(
       (a: ApiResponse) =>
         new Announcement(a.id, a.title, a.content, new Date(a.datetime * 1000))

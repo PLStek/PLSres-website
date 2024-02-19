@@ -5,24 +5,14 @@ import { RouterOutlet } from '@angular/router';
 import { NavBarComponent } from './shared/components/nav-bar/nav-bar.component';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: true,
-    imports: [
-        NavBarComponent,
-        RouterOutlet,
-        SocialNetworksComponent,
-    ],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [NavBarComponent, RouterOutlet, SocialNetworksComponent],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'PLSres';
 
-  constructor(
-    private exerciseService: ExerciseService
-  ) {}
-
-  ngOnInit(): void {
-  }
-
+  constructor(private exerciseService: ExerciseService) {}
 }

@@ -5,7 +5,7 @@ import { User } from '../models/user.model';
 import { environment } from 'src/environments/environment';
 
 interface ApiResponse {
-  id: number;
+  id: string;
   email: string;
   username: string;
   is_actionneur: boolean;
@@ -18,11 +18,8 @@ interface ApiResponse {
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  processHttpResponses = map((users: ApiResponse[]) =>
-    users.map(
-      (u: ApiResponse) =>
-        new User(u.id, u.email, u.username, u.is_actionneur, u.is_admin)
-    )
+  private processHttpResponses = map((users: ApiResponse[]) =>
+    users.map((u: ApiResponse) => new User(u.id, u.username, u.is_admin))
   );
 
   getActionneurs(): Observable<User[]> {

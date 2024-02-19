@@ -16,7 +16,7 @@ interface ApiResponse {
 export class CourseService {
   constructor(private http: HttpClient) {}
 
-  processHttpResponses = map((courses: ApiResponse[]) =>
+  private processHttpResponses = map((courses: ApiResponse[]) =>
     courses.map((c: ApiResponse) => new Course(c.id, getCourseType(c.type)))
   );
 

@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
+  constructor(private http: HttpClient) {}
+
   private loggedSubject = new BehaviorSubject<boolean>(
     localStorage.getItem('token') != null
   );
@@ -16,8 +18,6 @@ export class AuthService implements OnDestroy {
   );
 
   private destroy$ = new Subject<void>();
-
-  constructor(private http: HttpClient) {}
 
   private getUser(token: string) {
     const headers = {

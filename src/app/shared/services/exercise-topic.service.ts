@@ -28,7 +28,7 @@ export class ExerciseTopicService {
 
   constructor(private http: HttpClient) {}
 
-  processHttpResponses = map((data: ApiResponse[]) =>
+  private processHttpResponses = map((data: ApiResponse[]) =>
     data.map(
       (el: ApiResponse) =>
         new ExerciseTopic(
