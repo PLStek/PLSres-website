@@ -15,6 +15,7 @@ interface ApiResponse {
   topic_id: number;
   is_corrected: boolean;
   source: string;
+  copyright: boolean;
   content: string;
 }
 
@@ -32,6 +33,7 @@ export class ExerciseService {
       element.topic_id,
       element.is_corrected ? true : false,
       element.source,
+      element.copyright ? true : false,
       element.content ? base64Decode(element.content) : undefined
     );
 
@@ -60,8 +62,9 @@ export class ExerciseService {
   }
 
   getExercise(id: number): Observable<Exercise> {
+    const headers = getAuthHeader();
     return this.http
-      .get<ApiResponse>(`${environment.apiURL}/exercises/${id}`)
+      .get<ApiResponse>(`${environment.apiURL}/exercises/${id}`, { headers })
       .pipe(this.processSingleHttpResponse);
   }
 

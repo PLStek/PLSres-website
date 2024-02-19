@@ -56,7 +56,6 @@ const routes: Routes = [
       import(
         './app/exercises/exercise-details-page/exercise-details-page.component'
       ).then((m) => m.ExerciseDetailsPageComponent),
-    canActivate: [loggedGuard],
   },
   {
     path: 'actionner/accueil',
