@@ -1,19 +1,40 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, map, takeUntil } from 'rxjs';
-import { User } from '../models/user.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-  private userSubject = new BehaviorSubject<User | undefined>(
-    this.getStoredUser()
+  private loggedSubject = new BehaviorSubject<boolean>(
+    localStorage.getItem('token') != null
   );
+
+  private actionneurSubject = new BehaviorSubject<boolean>(
+    localStorage.getItem('actionneur') === 'true' ? true : false
+  );
+
   private destroy$ = new Subject<void>();
 
   constructor(private http: HttpClient) {}
+
+  private getUser(token: string) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http
+      .get<any>(`${environment.apiURL}/auth/me`, { headers })
+      .pipe(
+        map((data: any) => {
+          console.log(data);
+          localStorage.setItem('token', token);
+          localStorage.setItem('actionneur', data.is_actionneur);
+          this.loggedSubject.next(true);
+          this.actionneurSubject.next(data.is_actionneur);
+        })
+      );
+  }
 
   login(code: string): Observable<boolean> {
     const body = {
@@ -23,51 +44,25 @@ export class AuthService implements OnDestroy {
     return this.http.post<any>(`${environment.apiURL}/auth/token`, body).pipe(
       map((data: any) => {
         console.log(data);
-        this.get_user(data.token).subscribe();
+        this.getUser(data.token).subscribe();
         return false;
       })
     );
   }
 
-  get_user(token: string) {
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    return this.http
-      .get<any>(`${environment.apiURL}/auth/me`, { headers })
-      .pipe(
-        map((data: any) => {
-          console.log(data);
-        })
-      );
-  }
-
   logout(): void {
-    localStorage.removeItem('user');
-    this.userSubject.next(undefined);
-  }
-
-  getLoggedUser(): Observable<User | undefined> {
-    return this.userSubject.asObservable().pipe(takeUntil(this.destroy$));
+    localStorage.removeItem('token');
+    localStorage.removeItem('actionneur');
+    this.loggedSubject.next(false);
+    this.actionneurSubject.next(false);
   }
 
   isLogged(): Observable<boolean> {
-    return this.getLoggedUser().pipe(map((user) => user !== undefined));
+    return this.loggedSubject.asObservable().pipe(takeUntil(this.destroy$));
   }
 
-  private getStoredUser(): User | undefined {
-    if (!localStorage.getItem('user')) {
-      return undefined;
-    }
-
-    const data = JSON.parse(localStorage.getItem('user') || '{}');
-    return new User(
-      data.id,
-      data.email,
-      data.username,
-      data.isActionneur,
-      data.isAdmin
-    );
+  isActionneur(): Observable<boolean> {
+    return this.actionneurSubject.asObservable().pipe(takeUntil(this.destroy$));
   }
 
   ngOnDestroy(): void {

@@ -6,13 +6,5 @@ import { CanActivateFn } from '@angular/router';
 export const actionneurGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
 
-  return authService.getLoggedUser().pipe(
-    map((user) => {
-      if (user?.isActionneur) {
-        return true;
-      } else {
-        return false;
-      }
-    })
-  );
+  return authService.isActionneur();
 };

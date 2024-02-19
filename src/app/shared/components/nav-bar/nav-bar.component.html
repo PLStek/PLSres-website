@@ -15,33 +15,31 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" [routerLink]="isActionneurRoute() ?'/actionner/accueil' : '/accueil' "
-          routerLinkActive="active-page">Accueil</a>
+            routerLinkActive="active-page">Accueil</a>
         </li>
         @if (!isActionneurRoute()) {
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/annonces" routerLinkActive="active-page">Annonces</a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/annonces" routerLinkActive="active-page">Annonces</a>
+        </li>
         }
         <li class="nav-item">
           <a class="nav-link" [routerLink]="isActionneurRoute() ?'/actionner/charbons' : '/charbons' "
-          routerLinkActive="active-page">Charbons</a>
+            routerLinkActive="active-page">Charbons</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" [routerLink]="isActionneurRoute() ?'/actionner/exercices' : '/exercices' "
-          routerLinkActive="active-page">Exercices</a>
+            routerLinkActive="active-page">Exercices</a>
         </li>
       </ul>
       <div class="d-flex justify-content-between">
-        @if (loggedUser?.isActionneur && !isActionneurRoute()) {
-          <app-main-button [isFilled]="true"
-          routerLink="/actionner/accueil">Actionner</app-main-button>
+        @if (isActionneur && !isActionneurRoute()) {
+        <app-main-button [isFilled]="true" routerLink="/actionner/accueil">Actionner</app-main-button>
         }
         <div class="me-3"></div>
-        @if (loggedUser != undefined) {
-          <app-main-button [isFilled]="false"
-          (click)="openAccountPopup()">{{this.loggedUser.username}}</app-main-button>
+        @if (isLogged) {
+        <app-main-button [isFilled]="false" (click)="logout()">Vérifié ✓</app-main-button>
         } @else {
-          <app-main-button [isFilled]="false" (click)="openLoginPopup()">Connexion</app-main-button>
+        <app-main-button [isFilled]="false" (click)="openLoginPopup()">Connexion</app-main-button>
         }
       </div>
     </div>

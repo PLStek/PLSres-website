@@ -53,10 +53,14 @@ export class LoginPopupComponent {
           }
         }
       } catch (e) {}
-    }, 500);
+    }, 100);
   }
 
   login(code: string) {
-    this.authService.login(code).subscribe();
+    this.authService.login(code).subscribe(() => this.close());
+  }
+
+  close(): void {
+    this.bsModalRef.hide();
   }
 }
