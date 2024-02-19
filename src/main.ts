@@ -19,7 +19,7 @@ import {
 
 const routes: Routes = [
   {
-    path: 'accueil',
+    path: '',
     loadComponent: () =>
       import('./app/home/home-page/home-page.component').then(
         (m) => m.HomePageComponent
@@ -85,7 +85,7 @@ const routes: Routes = [
     canActivate: [actionneurGuard],
     title: 'Actionner - PLSres',
   },
-  { path: '**', redirectTo: '/accueil' },
+  { path: '**', redirectTo: '/' },
 ];
 
 if (environment.production) {

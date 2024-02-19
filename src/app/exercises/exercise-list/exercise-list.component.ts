@@ -56,7 +56,6 @@ export class ExerciseListComponent implements OnInit {
     this.sortForm.valueChanges.subscribe(() => {
       this.exerciseTopicList = [];
       this.fetchExerciseTopics();
-      console.log(this.sortForm.value);
     });
 
     this.sortForm.get('courseType')?.valueChanges.subscribe(() => {
@@ -85,9 +84,7 @@ export class ExerciseListComponent implements OnInit {
     };
 
     this.exerciseTopicService.getExerciseTopicList(params).subscribe((data) => {
-      this.exerciseTopicList = data.filter(
-        (et) => et.exerciseCount > 0
-      );
+      this.exerciseTopicList = data.filter((et) => et.exerciseCount > 0);
     });
   }
 

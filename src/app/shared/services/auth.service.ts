@@ -27,7 +27,6 @@ export class AuthService implements OnDestroy {
       .get<any>(`${environment.apiURL}/auth/me`, { headers })
       .pipe(
         map((data: any) => {
-          console.log(data);
           localStorage.setItem('token', token);
           localStorage.setItem('actionneur', data.is_actionneur);
           this.loggedSubject.next(true);
@@ -43,7 +42,6 @@ export class AuthService implements OnDestroy {
 
     return this.http.post<any>(`${environment.apiURL}/auth/token`, body).pipe(
       map((data: any) => {
-        console.log(data);
         this.getUser(data.token).subscribe();
         return false;
       })

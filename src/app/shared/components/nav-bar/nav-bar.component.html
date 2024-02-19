@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg primary-website-bg-color text-light fixed-top" style="height: 60px;">
   <div class="container">
-    <a routerLink="/accueil">
+    <a routerLink="/">
       <img class="a-icon" src="../../assets/images/icon.png">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -14,8 +14,8 @@
       <div class="me-5"></div>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="isActionneurRoute() ?'/actionner/accueil' : '/accueil' "
-            routerLinkActive="active-page">Accueil</a>
+          <a class="nav-link" [routerLink]="isActionneurRoute() ?'/actionner/accueil' : '/' "
+            routerLinkActive="active-page" [routerLinkActiveOptions]="{exact: true}">Accueil</a>
         </li>
         @if (!isActionneurRoute()) {
         <li class="nav-item">
@@ -39,7 +39,7 @@
         @if (isLogged) {
         <app-main-button [isFilled]="false" (click)="logout()">Vérifié ✓</app-main-button>
         } @else {
-        <app-main-button [isFilled]="false" (click)="openLoginPopup()">Connexion</app-main-button>
+        <app-main-button [isFilled]="false" (click)="openLoginPopup()">Vérifier</app-main-button>
         }
       </div>
     </div>

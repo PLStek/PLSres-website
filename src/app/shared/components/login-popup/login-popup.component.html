@@ -1,3 +1,31 @@
-<app-background-card>
-  <app-main-button (click)="discordAuthPage()"></app-main-button>
-</app-background-card>
+<div class="container mb-3 p-5 rounded" style="background-color: white;">
+  <div>
+    <h4>Processus de vérification</h4><br>
+    <p>
+      <strong>Pourquoi devez-vous vous vérifier ?</strong><br>
+      Certaines ressources du site sont réservés aux étudiants de l'UTBM pour des raisons de droits d'auteurs. Pour y
+      accéder, nous devons nous assurer que vous êtes bel et bien un étudiant de l'UTBM en vérifiant que vous êtes
+      présent sur le pôle UTBM de discord.
+    </p><br>
+    <p>
+      <strong>Etape 1: connexion au pôle UTBM</strong><br>
+      Dans un premier temps, rejoignez le pôle UTBM de discord en utilisant <a class="custom-link"
+        (click)="openDiscordHub()">cette
+        invitation.</a><br>
+      Vous aurez besoin de vérifier votre mail UTBM afin de rejoindre le pôle.
+    </p>
+    <img class="mb-5" src="../../../../assets/images/hub-verification.png">
+    <p>
+      <strong>Etape 2: liaison du compte discord au site</strong><br>
+      Ensuite, il vous faut lier votre compte discord au site afin que nous puissions vérifier que vous êtes membre du
+      pôle UTBM. <a class="custom-link" (click)="openDiscordAuthPage()">Lier votre compte
+        discord au site.</a><br>
+    </p>
+  </div>
+  @if (isLoading) {
+  <div class="d-flex flex-column justify-content-center align-items-center mt-5 text-center">
+    <div class="spinner-border mb-2" role="status"></div>
+    <p>En cours de vérification...</p>
+  </div>
+  }
+</div>

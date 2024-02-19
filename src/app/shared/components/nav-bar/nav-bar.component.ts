@@ -39,7 +39,7 @@ export class NavBarComponent implements OnInit {
 
   openLoginPopup() {
     this.modalService.show(LoginPopupComponent, {
-      class: 'modal-xl',
+      class: 'modal-lg',
     });
   }
 

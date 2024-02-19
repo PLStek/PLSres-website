@@ -13,7 +13,7 @@ export const loggedGuard: CanActivateFn = (route, state) => {
     map((isLogged) => {
       if (!isLogged) {
         modalService.show(LoginPopupComponent, {
-          class: 'modal-xl',
+          class: 'modal-lg',
         });
       }
       return isLogged;
