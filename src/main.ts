@@ -3,7 +3,11 @@ import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { actionneurGuard } from './app/shared/guards/actionneur.guard';
 import { loggedGuard } from './app/shared/guards/logged.guard';
-import { provideRouter, Routes } from '@angular/router';
+import {
+  provideRouter,
+  Routes,
+  withComponentInputBinding,
+} from '@angular/router';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -105,6 +109,6 @@ bootstrapApplication(AppComponent, {
     DatePipe,
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
   ],
 }).catch((err) => console.error(err));

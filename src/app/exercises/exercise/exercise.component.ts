@@ -13,6 +13,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { LoginPopupComponent } from 'src/app/shared/components/login-popup/login-popup.component';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-exercise',
@@ -90,13 +91,16 @@ export class ExerciseComponent implements OnInit {
   }
 
   openExercise(exercise: Exercise): void {
-    this.authService.isLogged().subscribe((isLogged) => {
-      if (exercise.copyright && !isLogged) {
-        this.openLoginPopup();
-      } else {
-        this.router.navigate(['/exercices', exercise.id]);
-      }
-    });
+    this.authService
+      .isLogged()
+      .pipe(take(1))
+      .subscribe((isLogged) => {
+        if (exercise.copyright && !isLogged) {
+          this.openLoginPopup();
+        } else {
+          this.router.navigate(['/exercices', exercise.id]);
+        }
+      });
   }
 
   openLoginPopup() {

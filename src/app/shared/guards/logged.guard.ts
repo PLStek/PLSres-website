@@ -9,14 +9,5 @@ export const loggedGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const modalService = inject(BsModalService);
 
-  return authService.isLogged().pipe(
-    map((isLogged) => {
-      if (!isLogged) {
-        modalService.show(LoginPopupComponent, {
-          class: 'modal-lg',
-        });
-      }
-      return isLogged;
-    })
-  );
+  return authService.isLogged();
 };

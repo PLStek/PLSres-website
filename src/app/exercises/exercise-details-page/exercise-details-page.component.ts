@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { ExerciseService } from 'src/app/shared/services/exercise.service';
 import { BackgroundCardComponent } from '../../shared/components/background-card/background-card.component';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { Title } from '@angular/platform-browser';
-import { takeWhile } from 'rxjs';
+import { take } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { LoginPopupComponent } from 'src/app/shared/components/login-popup/login-popup.component';
 import { AuthService } from 'src/app/shared/services/auth.service';
@@ -18,11 +18,11 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   imports: [MainButtonComponent, RouterLink, BackgroundCardComponent],
 })
 export class ExerciseDetailsPageComponent implements OnInit {
+  @Input() id!: number;
   exercise?: Exercise = undefined;
-  exerciseContent?: string = undefined;
 
   constructor(
-    private route: ActivatedRoute,
+    private router: Router,
     private exerciseService: ExerciseService,
     private modalService: BsModalService,
     private authService: AuthService,
@@ -30,22 +30,19 @@ export class ExerciseDetailsPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      let id: number = parseInt(params['id'], 10);
-      this.authService
-        .isLogged()
-        .pipe(takeWhile(() => !this.exercise))
-        .subscribe((isLogged) => {
-          isLogged ? this.getExercise(id) : this.openLoginPopup();
-        });
-    });
+    this.getExercise();
   }
 
-  getExercise(id: number) {
-    this.exerciseService.getExercise(id).subscribe({
-      next: (data) => {
-        this.exercise = data;
+  getExercise() {
+    this.exerciseService.getExercise(this.id).subscribe({
+      next: (ex) => {
+        this.exercise = ex;
         this.updateTitle();
+      },
+      error: (error) => {
+        if (error.status === 401) {
+          this.openLoginPopup();
+        }
       },
     });
   }
@@ -57,8 +54,17 @@ export class ExerciseDetailsPageComponent implements OnInit {
   }
 
   openLoginPopup() {
-    this.modalService.show(LoginPopupComponent, {
+    const modalRef = this.modalService.show(LoginPopupComponent, {
       class: 'modal-lg',
+    });
+
+    modalRef.onHidden?.subscribe(() => {
+      this.authService
+        .isLogged()
+        .pipe(take(1))
+        .subscribe((isLogged) =>
+          isLogged ? this.getExercise() : this.router.navigate(['/exercices'])
+        );
     });
   }
 }
