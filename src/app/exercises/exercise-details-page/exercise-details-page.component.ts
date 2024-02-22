@@ -5,10 +5,11 @@ import { ExerciseService } from 'src/app/shared/services/exercise.service';
 import { BackgroundCardComponent } from '../../shared/components/background-card/background-card.component';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { Title } from '@angular/platform-browser';
-import { take } from 'rxjs';
+import { take, takeWhile } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { LoginPopupComponent } from 'src/app/shared/components/login-popup/login-popup.component';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { LoginPopupService } from 'src/app/shared/services/login-popup.service';
 
 @Component({
   selector: 'app-exercise-details-page',
@@ -26,6 +27,7 @@ export class ExerciseDetailsPageComponent implements OnInit {
     private exerciseService: ExerciseService,
     private modalService: BsModalService,
     private authService: AuthService,
+    private loginPopupService: LoginPopupService,
     private title: Title
   ) {}
 
@@ -54,14 +56,10 @@ export class ExerciseDetailsPageComponent implements OnInit {
   }
 
   openLoginPopup() {
-    const modalRef = this.modalService.show(LoginPopupComponent, {
-      class: 'modal-lg',
-    });
-
-    modalRef.onHidden?.subscribe(() => {
+    this.loginPopupService.open(() => {
       this.authService
         .isLogged()
-        .pipe(take(1))
+        .pipe(take(1)) // Change to takeWhile to handle deconnexion
         .subscribe((isLogged) =>
           isLogged ? this.getExercise() : this.router.navigate(['/exercices'])
         );

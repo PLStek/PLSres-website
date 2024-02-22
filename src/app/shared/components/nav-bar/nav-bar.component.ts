@@ -1,11 +1,9 @@
-import { BsModalService } from 'ngx-bootstrap/modal';
 import { Component, OnInit } from '@angular/core';
-import { LoginPopupComponent } from '../login-popup/login-popup.component';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/user.model';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MainButtonComponent } from '../main-button/main-button.component';
 import { NgClass } from '@angular/common';
+import { LoginPopupService } from '../../services/login-popup.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -24,7 +22,7 @@ export class NavBarComponent implements OnInit {
   }
 
   constructor(
-    private modalService: BsModalService,
+    public loginPopupService: LoginPopupService,
     private authService: AuthService,
     private router: Router
   ) {}
@@ -35,12 +33,6 @@ export class NavBarComponent implements OnInit {
     this.authService
       .isActionneur()
       .subscribe((res) => (this.isActionneur = res));
-  }
-
-  openLoginPopup() {
-    this.modalService.show(LoginPopupComponent, {
-      class: 'modal-lg',
-    });
   }
 
   isActionneurRoute(): boolean {

@@ -77,6 +77,7 @@ export class ExerciseService {
           is_corrected: data.isCorrected,
           topic_id: data.topicId,
           source: data.source,
+          copyright: true,
           content: base64data,
         };
 

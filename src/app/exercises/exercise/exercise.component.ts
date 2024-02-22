@@ -14,6 +14,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { LoginPopupComponent } from 'src/app/shared/components/login-popup/login-popup.component';
 import { take } from 'rxjs';
+import { LoginPopupService } from 'src/app/shared/services/login-popup.service';
 
 @Component({
   selector: 'app-exercise',
@@ -41,6 +42,7 @@ export class ExerciseComponent implements OnInit {
     private exerciseService: ExerciseService,
     private modalService: BsModalService,
     private authService: AuthService,
+    private loginPopupService: LoginPopupService,
     private router: Router
   ) {
     this.exerciseList;
@@ -96,17 +98,11 @@ export class ExerciseComponent implements OnInit {
       .pipe(take(1))
       .subscribe((isLogged) => {
         if (exercise.copyright && !isLogged) {
-          this.openLoginPopup();
+          this.loginPopupService.open();
         } else {
           this.router.navigate(['/exercices', exercise.id]);
         }
       });
-  }
-
-  openLoginPopup() {
-    this.modalService.show(LoginPopupComponent, {
-      class: 'modal-lg',
-    });
   }
 
   openDiscordLink() {

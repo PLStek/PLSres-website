@@ -39,7 +39,7 @@
         @if (isLogged) {
         <app-main-button [isFilled]="false" (click)="logout()">Vérifié ✓</app-main-button>
         } @else {
-        <app-main-button [isFilled]="false" (click)="openLoginPopup()">Vérifier</app-main-button>
+        <app-main-button [isFilled]="false" (click)="loginPopupService.open()">Vérifier</app-main-button>
         }
       </div>
     </div>
