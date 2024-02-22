@@ -8,6 +8,7 @@ import { getCourseType } from '../utils/course-type.model';
 import { CharbonGetParameters } from '../models/charbon-get-parameters.model';
 import { environment } from 'src/environments/environment';
 import { setParam } from '../utils/set_params';
+import { getAuthHeader } from '../utils/auth-header';
 
 interface ApiResponse {
   id: number;
@@ -27,7 +28,7 @@ interface ApiResponse {
 export class CharbonService {
   constructor(private http: HttpClient) {}
 
-  processHttpResponses = map((chList: ApiResponse[]) =>
+  private processHttpResponses = map((chList: ApiResponse[]) =>
     chList.map(
       (ch: ApiResponse) =>
         new Charbon(
@@ -74,11 +75,16 @@ export class CharbonService {
       actionneurs: data.actionneurs,
       replay_link: data.replayLink,
     };
-    return this.http.post<any>(`${environment.apiURL}/charbons/`, body).pipe(
-      map((res) => {
-        return Boolean(res.success) ?? false;
-      })
-    );
+
+    const headers = getAuthHeader();
+
+    return this.http
+      .post<any>(`${environment.apiURL}/charbons/`, body, { headers })
+      .pipe(
+        map((res) => {
+          return Boolean(res.success) ?? false;
+        })
+      );
   }
 
   updateCharbon(id: number, data: CharbonPostParameters): Observable<boolean> {
@@ -91,14 +97,17 @@ export class CharbonService {
       replay_link: data.replayLink,
     };
 
+    const headers = getAuthHeader();
+
     return this.http
-      .put<any>(`${environment.apiURL}/charbons/${id}`, body)
+      .put<any>(`${environment.apiURL}/charbons/${id}`, body, { headers })
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 
   deleteCharbon(id: number): Observable<boolean> {
+    const headers = getAuthHeader();
     return this.http
-      .delete<any>(`${environment.apiURL}/charbons/${id}`)
+      .delete<any>(`${environment.apiURL}/charbons/${id}`, { headers })
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

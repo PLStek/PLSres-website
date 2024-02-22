@@ -10,6 +10,7 @@ import { ExerciseTopicPostParameters } from '../models/exercise-topic-post-param
 import { ExerciseTopicGetParameters } from '../models/exercise-topic-get-parameters.model';
 import { environment } from 'src/environments/environment';
 import { setParam } from '../utils/set_params';
+import { getAuthHeader } from '../utils/auth-header';
 
 interface ApiResponse {
   id: number;
@@ -27,7 +28,7 @@ export class ExerciseTopicService {
 
   constructor(private http: HttpClient) {}
 
-  processHttpResponses = map((data: ApiResponse[]) =>
+  private processHttpResponses = map((data: ApiResponse[]) =>
     data.map(
       (el: ApiResponse) =>
         new ExerciseTopic(
@@ -64,8 +65,10 @@ export class ExerciseTopicService {
       topic: data.title,
       course_id: data.course,
     };
+    const headers = getAuthHeader();
+
     return this.http
-      .post<any>(`${environment.apiURL}/exercise_topics/`, body)
+      .post<any>(`${environment.apiURL}/exercise_topics/`, body, { headers })
       .pipe(map((data) => data.success));
   }
 
@@ -77,15 +80,20 @@ export class ExerciseTopicService {
       topic: data.title,
       course_id: data.course,
     };
+    const headers = getAuthHeader();
 
     return this.http
-      .put<any>(`${environment.apiURL}/exercise_topics/${id}`, body)
+      .put<any>(`${environment.apiURL}/exercise_topics/${id}`, body, {
+        headers,
+      })
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 
   deleteExerciseTopic(id: number): Observable<boolean> {
+    const headers = getAuthHeader();
+
     return this.http
-      .delete<any>(`${environment.apiURL}/exercise_topics/${id}`)
+      .delete<any>(`${environment.apiURL}/exercise_topics/${id}`, { headers })
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

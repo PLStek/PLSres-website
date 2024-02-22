@@ -1,15 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  Validators,
-  ReactiveFormsModule,
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  FormControl,
-} from '@angular/forms';
+import { Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { of, switchMap } from 'rxjs';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MainButtonComponent } from '../main-button/main-button.component';
 
@@ -22,114 +13,57 @@ import { BackgroundCardComponent } from '../background-card/background-card.comp
   standalone: true,
   imports: [BackgroundCardComponent, ReactiveFormsModule, MainButtonComponent],
 })
-export class LoginPopupComponent implements OnInit {
-  loginForm!: FormGroup;
-  registerForm!: FormGroup;
+export class LoginPopupComponent {
+  readonly DISCORD_HUB_URL = 'https://discord.gg/nMdXGCnM8J';
+  readonly DISCORD_AUTH_URL =
+    'https://discord.com/api/oauth2/authorize?client_id=1207983799753904169&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2F&scope=identify+guilds';
+
+  isLoading: boolean = false;
 
   constructor(
     private bsModalRef: BsModalRef,
-    private authService: AuthService,
-    private formBuilder: FormBuilder
+    private authService: AuthService
   ) {}
 
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      emailOrUsername: new FormControl(''),
-      password: new FormControl(''),
-    });
+  openDiscordAuthPage() {
+    const popup = window.open(this.DISCORD_AUTH_URL, '_blank');
+    this.isLoading = true;
 
-    this.registerForm = this.formBuilder.group(
-      {
-        email: new FormControl(
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.pattern('^[a-zA-Z0-9._%+-]+@utbm.fr$'),
-          ])
-        ),
-        username: new FormControl(
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(4),
-            Validators.maxLength(20),
-          ])
-        ),
-        password: new FormControl(
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(32),
-          ])
-        ),
-        passwordConfirmation: new FormControl(
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(32),
-          ])
-        ),
-      },
-      { validators: this.checkPasswords }
-    );
-  }
-
-  submitLogin(): void {
-    if (this.loginForm.valid) {
-      this.login();
-    } else {
-      //TODO: show message
-      this.loginForm.setErrors({ invalidCredentials: true });
-      console.log('Formulaire invalide');
-    }
-  }
-
-  checkPasswords(group: AbstractControl): ValidationErrors | null {
-    const password = group.get('password')?.value;
-    const passwordConfirmation = group.get('passwordConfirmation')?.value;
-    return password === passwordConfirmation
-      ? null
-      : { passwordMismatch: true };
-  }
-
-  login(): void {
-    const emailOrUsername: string = this.loginForm.value.emailOrUsername;
-    const password: string = this.loginForm.value.password;
-    this.authService.login(emailOrUsername, password).subscribe((success) => {
-      if (!success) {
-        this.loginForm.setErrors({ invalidCredentials: true });
-      } else {
-        this.closeIfSuccessful(success);
-      }
-    });
-  }
-
-  submitRegister(): void {
-    if (this.registerForm.valid) {
-      this.register();
-    }
-  }
-
-  register(): void {
-    const email: string = this.registerForm.value.email;
-    const username: string = this.registerForm.value.username;
-    const password: string = this.registerForm.value.password;
-    this.authService
-      .register(email, username, password)
-      .subscribe((success) => {
-        if (!success) {
-          this.loginForm.setErrors({ invalidCredentials: true });
+    const interval = setInterval(() => {
+      try {
+        if (!popup || popup.closed) {
+          clearInterval(interval);
+          this.isLoading = false;
         } else {
-          this.closeIfSuccessful(success);
+          const popupUrl = new URL(popup.location.href);
+          const currentUrl = new URL(window.location.href);
+          if (popupUrl.origin === currentUrl.origin) {
+            const code = popupUrl.searchParams.get('code');
+            if (code) {
+              this.login(code);
+              popup.close();
+              clearInterval(interval);
+            } else {
+              //TODO: handle error
+            }
+          }
         }
-      });
+      } catch (e) {}
+    }, 100);
   }
 
-  private closeIfSuccessful(success: boolean): void {
-    if (success) {
-      this.bsModalRef.hide();
-    }
+  openDiscordHub() {
+    window.open(this.DISCORD_HUB_URL, '_blank');
+  }
+
+  login(code: string) {
+    this.authService.login(code).subscribe(() => {
+      this.isLoading = false;
+      this.close();
+    });
+  }
+
+  close(): void {
+    this.bsModalRef.hide();
   }
 }

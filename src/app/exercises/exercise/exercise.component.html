@@ -18,23 +18,23 @@
           <th scope="col">Corrigé ?</th>
           <th scope="col">Difficulté</th>
           @if (editable) {
-            <th></th>
+          <th></th>
           }
         </tr>
       </thead>
       <tbody>
         @for (exercise of exerciseList; track exercise) {
-          <tr>
-            <td><a class="custom-link" [routerLink]="['/exercices', exercise.id]">{{exercise.title}}</a></td>
-            <td>{{exercise.source}}</td>
-            <td>{{exercise.isCorrected ? 'Oui' : 'Non'}}</td>
-            <td>
-              <rating [(ngModel)]="exercise.difficulty" [max]="5" [readonly]="true"></rating>
-            </td>
-            @if (editable) {
-              <td><a class="custom-link" (click)="openEditPopup(exercise)">Editer</a></td>
-            }
-          </tr>
+        <tr>
+          <td><a class="custom-link" (click)="openExercise(exercise)">{{exercise.title}}</a></td>
+          <td>{{exercise.source}}</td>
+          <td>{{exercise.isCorrected ? 'Oui' : 'Non'}}</td>
+          <td>
+            <rating [(ngModel)]="exercise.difficulty" [max]="5" [readonly]="true"></rating>
+          </td>
+          @if (editable) {
+          <td><a class="custom-link" (click)="openEditPopup(exercise)">Editer</a></td>
+          }
+        </tr>
         }
       </tbody>
     </table>
@@ -42,12 +42,12 @@
   <div [ngClass]="'course-color-'+exerciseTopic.courseType"
     class="card-footer text-body-secondary d-flex justify-content-evenly">
     @if (!editable) {
-      <app-color-button [courseType]="exerciseTopic.courseType" [isFilled]="true"
-      (click)="openDiscordLink()">Pose nous tes questions !</app-color-button>
+    <app-color-button [courseType]="exerciseTopic.courseType" [isFilled]="true" (click)="openDiscordLink()">Pose nous
+      tes questions !</app-color-button>
     }
     @if (editable) {
-      <app-color-button [courseType]="exerciseTopic.courseType" [isFilled]="true"
-      (click)="openTopicEditPopup()">Editer la catégorie</app-color-button>
+    <app-color-button [courseType]="exerciseTopic.courseType" [isFilled]="true" (click)="openTopicEditPopup()">Editer la
+      catégorie</app-color-button>
     }
   </div>
 </div>

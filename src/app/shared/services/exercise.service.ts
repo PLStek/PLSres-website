@@ -6,6 +6,7 @@ import { base64Decode, convertFileToBase64 } from '../utils/base64-converter';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 import { environment } from 'src/environments/environment';
 import { setParam } from '../utils/set_params';
+import { getAuthHeader } from '../utils/auth-header';
 
 interface ApiResponse {
   id: number;
@@ -14,6 +15,7 @@ interface ApiResponse {
   topic_id: number;
   is_corrected: boolean;
   source: string;
+  copyright: boolean;
   content: string;
 }
 
@@ -23,7 +25,7 @@ interface ApiResponse {
 export class ExerciseService {
   constructor(private http: HttpClient) {}
 
-  elementToExercise = (element: ApiResponse) =>
+  private elementToExercise = (element: ApiResponse) =>
     new Exercise(
       element.id,
       element.title,
@@ -31,14 +33,15 @@ export class ExerciseService {
       element.topic_id,
       element.is_corrected ? true : false,
       element.source,
+      element.copyright ? true : false,
       element.content ? base64Decode(element.content) : undefined
     );
 
-  processHttpResponse = map((data: ApiResponse[]) =>
+  private processHttpResponse = map((data: ApiResponse[]) =>
     data.map(this.elementToExercise)
   );
 
-  processSingleHttpResponse = map((data: ApiResponse) =>
+  private processSingleHttpResponse = map((data: ApiResponse) =>
     this.elementToExercise(data)
   );
 
@@ -59,8 +62,9 @@ export class ExerciseService {
   }
 
   getExercise(id: number): Observable<Exercise> {
+    const headers = getAuthHeader();
     return this.http
-      .get<ApiResponse>(`${environment.apiURL}/exercises/${id}`)
+      .get<ApiResponse>(`${environment.apiURL}/exercises/${id}`, { headers })
       .pipe(this.processSingleHttpResponse);
   }
 
@@ -73,11 +77,13 @@ export class ExerciseService {
           is_corrected: data.isCorrected,
           topic_id: data.topicId,
           source: data.source,
+          copyright: true,
           content: base64data,
         };
 
+        const headers = getAuthHeader();
         return this.http
-          .post<any>(`${environment.apiURL}/exercises`, body)
+          .post<any>(`${environment.apiURL}/exercises`, body, { headers })
           .pipe(
             map((res) => {
               return Boolean(res.success) ?? false;
@@ -101,9 +107,9 @@ export class ExerciseService {
           source: data.source,
           content: base64data,
         };
-
+        const headers = getAuthHeader();
         return this.http
-          .put<any>(`${environment.apiURL}/exercises/${id}`, body)
+          .put<any>(`${environment.apiURL}/exercises/${id}`, body, { headers })
           .pipe(
             map((res) => {
               return Boolean(res.success) ?? false;
@@ -114,10 +120,9 @@ export class ExerciseService {
   }
 
   deleteExercise(id: number): Observable<boolean> {
-    let params = new HttpParams().set('id', id);
-
+    const headers = getAuthHeader();
     return this.http
-      .delete<any>(`${environment.apiURL}/exercises/`, { params })
+      .delete<any>(`${environment.apiURL}/exercises/${id}`, { headers })
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

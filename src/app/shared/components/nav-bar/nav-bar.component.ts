@@ -1,27 +1,20 @@
-import { BsModalService } from 'ngx-bootstrap/modal';
 import { Component, OnInit } from '@angular/core';
-import { LoginPopupComponent } from '../login-popup/login-popup.component';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/user.model';
-import { AccountPopupComponent } from '../account-popup/account-popup.component';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MainButtonComponent } from '../main-button/main-button.component';
 import { NgClass } from '@angular/common';
+import { LoginPopupService } from '../../services/login-popup.service';
 
 @Component({
-    selector: 'app-nav-bar',
-    templateUrl: './nav-bar.component.html',
-    styleUrls: ['./nav-bar.component.scss'],
-    standalone: true,
-    imports: [
-    RouterLink,
-    NgClass,
-    RouterLinkActive,
-    MainButtonComponent
-],
+  selector: 'app-nav-bar',
+  templateUrl: './nav-bar.component.html',
+  styleUrls: ['./nav-bar.component.scss'],
+  standalone: true,
+  imports: [RouterLink, NgClass, RouterLinkActive, MainButtonComponent],
 })
 export class NavBarComponent implements OnInit {
-  loggedUser?: User;
+  isLogged?: boolean;
+  isActionneur?: boolean;
   isToggled = false;
 
   toggleClasses() {
@@ -29,31 +22,24 @@ export class NavBarComponent implements OnInit {
   }
 
   constructor(
-    private modalService: BsModalService,
+    public loginPopupService: LoginPopupService,
     private authService: AuthService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.authService.isLogged().subscribe((res) => (this.isLogged = res));
+
     this.authService
-      .getLoggedUser()
-      .subscribe((user) => (this.loggedUser = user));
-  }
-
-  openLoginPopup() {
-    this.modalService.show(LoginPopupComponent, {
-      class: 'modal-xl',
-    });
-  }
-
-  openAccountPopup() {
-    this.modalService.show(AccountPopupComponent, {
-      class: 'modal-lg',
-      initialState: { loggedUser: this.loggedUser },
-    });
+      .isActionneur()
+      .subscribe((res) => (this.isActionneur = res));
   }
 
   isActionneurRoute(): boolean {
     return this.router.url.includes('actionner');
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

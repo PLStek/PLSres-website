@@ -3,7 +3,11 @@ import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { actionneurGuard } from './app/shared/guards/actionneur.guard';
 import { loggedGuard } from './app/shared/guards/logged.guard';
-import { provideRouter, Routes } from '@angular/router';
+import {
+  provideRouter,
+  Routes,
+  withComponentInputBinding,
+} from '@angular/router';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -19,7 +23,7 @@ import {
 
 const routes: Routes = [
   {
-    path: 'accueil',
+    path: '',
     loadComponent: () =>
       import('./app/home/home-page/home-page.component').then(
         (m) => m.HomePageComponent
@@ -56,7 +60,6 @@ const routes: Routes = [
       import(
         './app/exercises/exercise-details-page/exercise-details-page.component'
       ).then((m) => m.ExerciseDetailsPageComponent),
-    canActivate: [loggedGuard],
   },
   {
     path: 'actionner/accueil',
@@ -85,7 +88,7 @@ const routes: Routes = [
     canActivate: [actionneurGuard],
     title: 'Actionner - PLSres',
   },
-  { path: '**', redirectTo: '/accueil' },
+  { path: '**', redirectTo: '/' },
 ];
 
 if (environment.production) {
@@ -106,6 +109,6 @@ bootstrapApplication(AppComponent, {
     DatePipe,
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
   ],
 }).catch((err) => console.error(err));

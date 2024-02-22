@@ -6,6 +6,7 @@ export class Exercise {
     public topicId: number,
     public isCorrected: boolean,
     public source: string,
+    public copyright?: boolean,
     public content?: string
   ) {
     this.id = id;
@@ -14,6 +15,7 @@ export class Exercise {
     this.topicId = topicId;
     this.isCorrected = isCorrected;
     this.source = source;
+    this.copyright = copyright;
     this.content = content;
   }
 }

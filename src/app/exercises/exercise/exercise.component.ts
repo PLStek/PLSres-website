@@ -1,3 +1,5 @@
+import { AuthService } from './../../shared/services/auth.service';
+import { loggedGuard } from './../../shared/guards/logged.guard';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
@@ -8,22 +10,25 @@ import { ExerciseTopicEditionPopupComponent } from 'src/app/actionner/exercise-t
 import { ColorButtonComponent } from '../../shared/components/color-button/color-button.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RatingModule } from 'ngx-bootstrap/rating';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgClass } from '@angular/common';
+import { LoginPopupComponent } from 'src/app/shared/components/login-popup/login-popup.component';
+import { take } from 'rxjs';
+import { LoginPopupService } from 'src/app/shared/services/login-popup.service';
 
 @Component({
-    selector: 'app-exercise',
-    templateUrl: './exercise.component.html',
-    styleUrls: ['./exercise.component.scss'],
-    standalone: true,
-    imports: [
+  selector: 'app-exercise',
+  templateUrl: './exercise.component.html',
+  styleUrls: ['./exercise.component.scss'],
+  standalone: true,
+  imports: [
     NgClass,
     RouterLink,
     RatingModule,
     ReactiveFormsModule,
     FormsModule,
-    ColorButtonComponent
-],
+    ColorButtonComponent,
+  ],
 })
 export class ExerciseComponent implements OnInit {
   @Input() exerciseTopic!: ExerciseTopic;
@@ -35,7 +40,10 @@ export class ExerciseComponent implements OnInit {
 
   constructor(
     private exerciseService: ExerciseService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private authService: AuthService,
+    private loginPopupService: LoginPopupService,
+    private router: Router
   ) {
     this.exerciseList;
     this.editable;
@@ -82,6 +90,19 @@ export class ExerciseComponent implements OnInit {
     modalRef.onHidden?.subscribe(() => {
       this.popupClosed.emit();
     });
+  }
+
+  openExercise(exercise: Exercise): void {
+    this.authService
+      .isLogged()
+      .pipe(take(1))
+      .subscribe((isLogged) => {
+        if (exercise.copyright && !isLogged) {
+          this.loginPopupService.open();
+        } else {
+          this.router.navigate(['/exercices', exercise.id]);
+        }
+      });
   }
 
   openDiscordLink() {

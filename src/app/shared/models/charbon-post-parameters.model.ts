@@ -3,7 +3,7 @@ export interface CharbonPostParameters {
   description: string;
   date: Date;
   course: string;
-  actionneurs: number[];
+  actionneurs: string[];
   replayLink?: string;
   resourcesLink?: string;
 }
