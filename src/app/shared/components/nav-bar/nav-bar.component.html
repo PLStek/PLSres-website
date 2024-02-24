@@ -1,14 +1,14 @@
-<nav class="navbar navbar-expand-lg primary-website-bg-color text-light fixed-top" style="height: 60px;">
+<nav class="navbar navbar-expand-lg primary-website-bg-color fixed-top"
+  style="height: 60px; background-color: rgb(0,0,0,0)">
   <div class="container">
-    <a routerLink="/">
-      <img class="a-icon" src="../../assets/images/icon.png">
-    </a>
     <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
       aria-controls="navbarSupportedContent" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div [collapse]="isCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="me-5"></div>
+      <a routerLink="/">
+        <img class="a-icon" src="../../assets/images/unknown.png">
+      </a>
       <div class="me-5"></div>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">

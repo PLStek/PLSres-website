@@ -22,7 +22,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 export class NavBarComponent implements OnInit {
   isLogged?: boolean;
   isActionneur?: boolean;
-  isCollapsed = false;
+  isCollapsed = true;
 
   constructor(
     public loginPopupService: LoginPopupService,
