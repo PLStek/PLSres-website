@@ -2,7 +2,6 @@ import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { actionneurGuard } from './app/shared/guards/actionneur.guard';
-import { loggedGuard } from './app/shared/guards/logged.guard';
 import {
   provideRouter,
   Routes,

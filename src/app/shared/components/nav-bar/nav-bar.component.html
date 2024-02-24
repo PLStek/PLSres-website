@@ -3,13 +3,11 @@
     <a routerLink="/">
       <img class="a-icon" src="../../assets/images/icon.png">
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
-      (click)="toggleClasses()">
+    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
+      aria-controls="navbarSupportedContent" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" [ngClass]="{'primary-website-bg-color p-3 rounded': isToggled}"
-      id="navbarSupportedContent">
+    <div [collapse]="isCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="me-5"></div>
       <div class="me-5"></div>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
