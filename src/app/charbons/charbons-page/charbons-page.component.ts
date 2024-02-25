@@ -9,6 +9,7 @@ import { BackgroundCardComponent } from '../../shared/components/background-card
 import { RouterLink } from '@angular/router';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { CharbonSortOption } from 'src/app/shared/models/charbon-get-parameters.model';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-charbons-page',
@@ -27,11 +28,17 @@ import { CharbonSortOption } from 'src/app/shared/models/charbon-get-parameters.
 export class CharbonsPageComponent implements OnInit {
   nextThreeCharbons: Charbon[] = [];
   selectedCharbon: Charbon | null = null;
+  actionneur: boolean = false;
 
-  constructor(private charbonService: CharbonService) {}
+  constructor(
+    private charbonService: CharbonService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.fetchThreeUpcomingCharbons();
+
+    this.authService.isActionneur().subscribe((res) => (this.actionneur = res));
   }
 
   fetchThreeUpcomingCharbons(): void {

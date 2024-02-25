@@ -11,7 +11,6 @@ export const actionneurGuard: CanActivateFn = (route, state) => {
     map((isActionneur) => {
       if (!isActionneur) {
         router.navigate(['/']);
-
         return false;
       } else {
         return true;
