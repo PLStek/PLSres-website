@@ -61,29 +61,11 @@ const routes: Routes = [
       ).then((m) => m.ExerciseDetailsPageComponent),
   },
   {
-    path: 'actionner/accueil',
+    path: 'actionner',
     loadComponent: () =>
       import(
         './app/actionner/actionner-home-page/actionner-home-page.component'
       ).then((m) => m.ActionnerHomePageComponent),
-    canActivate: [actionneurGuard],
-    title: 'Actionner - PLSres',
-  },
-  {
-    path: 'actionner/charbons',
-    loadComponent: () =>
-      import(
-        './app/actionner/charbon-edition-page/charbon-edition-page.component'
-      ).then((m) => m.CharbonEditionPageComponent),
-    canActivate: [actionneurGuard],
-    title: 'Actionner - PLSres',
-  },
-  {
-    path: 'actionner/exercices',
-    loadComponent: () =>
-      import(
-        './app/actionner/exercise-edition-page/exercise-edition-page.component'
-      ).then((m) => m.ExerciseEditionPageComponent),
     canActivate: [actionneurGuard],
     title: 'Actionner - PLSres',
   },
