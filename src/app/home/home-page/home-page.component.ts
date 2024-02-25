@@ -16,6 +16,7 @@ import { CharbonCardComponent } from '../../charbons/charbon-card/charbon-card.c
 import { BackgroundCardComponent } from '../../shared/components/background-card/background-card.component';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { SocialNetworksComponent } from '../../shared/components/social-networks/social-networks.component';
+import { LoginPopupService } from 'src/app/shared/services/login-popup.service';
 
 @Component({
   selector: 'app-home-page',
@@ -38,7 +39,8 @@ export class HomePageComponent implements OnInit {
 
   constructor(
     private charbonService: CharbonService,
-    private announcementService: AnnouncementService
+    private announcementService: AnnouncementService,
+    public loginPopupService: LoginPopupService
   ) {
     this.charbonList = [];
   }
@@ -62,9 +64,5 @@ export class HomePageComponent implements OnInit {
       .subscribe((announcements) => {
         this.lastAnnouncement = announcements[0];
       });
-  }
-
-  openDiscordLink() {
-    window.open('https://discord.com', '_blank');
   }
 }

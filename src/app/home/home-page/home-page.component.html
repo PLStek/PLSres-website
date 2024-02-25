@@ -15,7 +15,8 @@
   </div>
   <app-social-networks></app-social-networks>
   <div class="text-center mt-4">
-    <app-main-button (click)="openDiscordLink()" [isFilled]="true" [isBig]="true">Nous rejoindre</app-main-button>
+    <app-main-button (click)="loginPopupService.open()" [isFilled]="true" [isBig]="true">Nous
+      rejoindre</app-main-button>
   </div>
 </div>
 
