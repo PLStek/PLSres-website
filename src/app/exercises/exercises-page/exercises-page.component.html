@@ -1,22 +1,18 @@
 <div class="container">
-    <app-main-button routerLink="/" [isBig]="true" [isFilled]="false">Page d'accueil</app-main-button>
+    <h6><a class="custom-link" routerLink="/accueil"><img src="assets/images/back.svg">Page d'accueil</a></h6>
 </div>
-<app-background-card>
-    <div class="m-3">
-        <div class="row">
-            <div class="col-md-8">
-                <h1>Exercices </h1>
-                <br>
-                <p>Tu peux consulter ici les exercices créés par notre équipe ainsi et
-                    retrouver les exercices utilisés lors des charbons.</p>
+<div class="container-lg mb-3 p-3 rounded" style="background-color: white;">
+    <div class="d-flex justify-content-between" style="padding-left: 6em; padding-right: 6em;">
+        <div class="pt-3" style="width: 50em;">
+            <h1>Exercices </h1>
+            <br>
+            <p>Tu peux consulter ici les exercices créés par notre équipe ainsi et
+                retrouver les exercices utilisés lors des charbons.</p>
 
-            </div>
-            <div class="col-md-4 d-flex align-items-center justify-content-center">
-                <img src="assets/images/charbon.svg" alt="Image charbon" width="250" height="250" class="img-fluid">
-            </div>
         </div>
+        <img src="assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
     </div>
-</app-background-card>
+</div>
 
 <app-background-card title="Exercices">
     <app-exercise-list></app-exercise-list>

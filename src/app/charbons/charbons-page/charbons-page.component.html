@@ -1,9 +1,10 @@
 <div class="container">
-  <app-main-button routerLink="/" [isBig]="true" [isFilled]="false">Page d'accueil</app-main-button>
+  <h6><a class="custom-link" routerLink="/accueil"><img src="assets/images/back.svg">Page d'accueil</a></h6>
 </div>
-<app-background-card>
-  <div class="d-flex">
-    <div style="width: 50em; padding: 3em;">
+
+<div class="container-lg mb-3 p-3 rounded" style="background-color: white;">
+  <div class="d-flex justify-content-between" style="padding-left: 6em; padding-right: 6em;">
+    <div class="pt-3" style="width: 50em;">
       <h1>Planning des charbons</h1>
       <p>
         Tu peux retrouver ici le planning des futurs charbons ainsi que les rediffusions des charbons que tu as
@@ -24,7 +25,7 @@
     </div>
     }
   </div>
-</app-background-card>
+</div>
 
 <app-background-card title="Prochains charbons">
   <div class="row row-cols-auto" style="justify-content: center;">
