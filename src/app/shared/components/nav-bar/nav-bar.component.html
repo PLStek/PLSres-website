@@ -1,16 +1,14 @@
-<nav class="navbar navbar-expand-lg primary-website-bg-color text-light fixed-top" style="height: 60px;">
-  <div class="container">
-    <a routerLink="/">
-      <img class="a-icon" src="../../assets/images/icon.png">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
-      (click)="toggleClasses()">
+<nav class="navbar navbar-expand-lg primary-website-bg-color fixed-top"
+  style="height: 60px; background-color: rgb(0,0,0,0)">
+  <div class="container px-5">
+    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
+      aria-controls="navbarSupportedContent" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" [ngClass]="{'primary-website-bg-color p-3 rounded': isToggled}"
-      id="navbarSupportedContent">
-      <div class="me-5"></div>
+    <div [collapse]="isCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
+      <a routerLink="/">
+        <img class="a-icon" src="assets/images/icon.png">
+      </a>
       <div class="me-5"></div>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">

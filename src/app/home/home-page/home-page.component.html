@@ -10,19 +10,20 @@
       </p>
     </div>
     <div>
-      <img src="../assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
+      <img src="assets/images/charbon.svg" alt="Image charbon" width="320" height="320">
     </div>
   </div>
   <app-social-networks></app-social-networks>
   <div class="text-center mt-4">
-    <app-main-button (click)="openDiscordLink()" [isFilled]="true" [isBig]="true" >Nous rejoindre</app-main-button>
+    <app-main-button (click)="loginPopupService.open()" [isFilled]="true" [isBig]="true">Nous
+      rejoindre</app-main-button>
   </div>
 </div>
 
 <app-background-card title="Prochains charbons" buttonText="Planning complet" buttonRouterLink="/charbons">
   <div class="row row-cols-auto" style="justify-content: center;">
     @for (charbon of charbonList; track charbon) {
-      <app-charbon-card class="mt-4" [charbon]="charbon"></app-charbon-card>
+    <app-charbon-card class="mt-4" [charbon]="charbon"></app-charbon-card>
     }
   </div>
 </app-background-card>

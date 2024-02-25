@@ -2,8 +2,9 @@
     <div class="ps-4 pb-3 d-flex justify-content-between">
         <h4>Modifier une catégorie</h4>
         <div>
-            <img class="clickable" src="../../../assets/images/trash.svg" (click)="delete()" alt="">
+            <img class="clickable" src="assets/images/trash.svg" (click)="delete()" alt="">
         </div>
     </div>
-    <app-exercise-topic-form class="px-4" [baseExerciseTopic]="editedExerciseTopic" (onValidate)="close()"></app-exercise-topic-form>
+    <app-exercise-topic-form class="px-4" [baseExerciseTopic]="editedExerciseTopic"
+        (onValidate)="close()"></app-exercise-topic-form>
 </div>
