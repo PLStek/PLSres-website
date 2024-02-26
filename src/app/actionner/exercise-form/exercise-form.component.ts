@@ -6,22 +6,24 @@ import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.ser
 import { Course } from 'src/app/shared/models/course.model';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
-import { Validators, ReactiveFormsModule, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import {
+  Validators,
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+} from '@angular/forms';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 
 import { RatingModule } from 'ngx-bootstrap/rating';
 
 @Component({
-    selector: 'app-exercise-form',
-    templateUrl: './exercise-form.component.html',
-    styleUrls: ['./exercise-form.component.scss'],
-    standalone: true,
-    imports: [
-    ReactiveFormsModule,
-    RatingModule,
-    MainButtonComponent
-],
+  selector: 'app-exercise-form',
+  templateUrl: './exercise-form.component.html',
+  styleUrls: ['./exercise-form.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, RatingModule, MainButtonComponent],
 })
 export class AddExerciceComponent implements OnInit {
   @Input() baseExercise?: Exercise;
@@ -76,7 +78,10 @@ export class AddExerciceComponent implements OnInit {
 
   initForm(baseExercise?: Exercise): void {
     this.form = this.formBuilder.group({
-      title: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4)])),
+      title: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.minLength(4)])
+      ),
       difficulty: new FormControl(0),
       course: new FormControl('', Validators.required),
       courseType: new FormControl(CourseType.undefined),
@@ -85,7 +90,7 @@ export class AddExerciceComponent implements OnInit {
       source: new FormControl('', Validators.required),
       content: new FormControl(null),
     });
-    
+
     if (baseExercise) {
       this.form.setValue({
         title: baseExercise.title,
@@ -102,7 +107,7 @@ export class AddExerciceComponent implements OnInit {
 
   updateCourseList(): void {
     this.courseListForSelectedType = this.courseList.filter(
-      (course) => course.type === this.form.get('courseType')?.value
+      (course) => course.type == this.form.get('courseType')?.value
     );
   }
 

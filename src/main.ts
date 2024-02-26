@@ -69,7 +69,6 @@ const routes: Routes = [
     canActivate: [actionneurGuard],
     title: 'Actionner - PLSres',
   },
-  { path: '**', redirectTo: '/' },
 ];
 
 if (environment.production) {
