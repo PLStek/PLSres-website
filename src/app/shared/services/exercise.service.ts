@@ -64,7 +64,7 @@ export class ExerciseService {
   getExercise(id: number): Observable<Exercise> {
     const headers = getAuthHeader();
     return this.http
-      .get<ApiResponse>(`${environment.apiURL}/exercises/${id}`, { headers })
+      .get<ApiResponse>(`${environment.apiURL}/exercises/${id}/`, { headers })
       .pipe(this.processSingleHttpResponse);
   }
 
@@ -83,7 +83,7 @@ export class ExerciseService {
 
         const headers = getAuthHeader();
         return this.http
-          .post<any>(`${environment.apiURL}/exercises`, body, { headers })
+          .post<any>(`${environment.apiURL}/exercises/`, body, { headers })
           .pipe(
             map((res) => {
               return Boolean(res.success) ?? false;
@@ -109,7 +109,7 @@ export class ExerciseService {
         };
         const headers = getAuthHeader();
         return this.http
-          .put<any>(`${environment.apiURL}/exercises/${id}`, body, { headers })
+          .put<any>(`${environment.apiURL}/exercises/${id}/`, body, { headers })
           .pipe(
             map((res) => {
               return Boolean(res.success) ?? false;
@@ -122,7 +122,7 @@ export class ExerciseService {
   deleteExercise(id: number): Observable<boolean> {
     const headers = getAuthHeader();
     return this.http
-      .delete<any>(`${environment.apiURL}/exercises/${id}`, { headers })
+      .delete<any>(`${environment.apiURL}/exercises/${id}/`, { headers })
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

@@ -24,7 +24,7 @@ export class AuthService implements OnDestroy {
       Authorization: `Bearer ${token}`,
     };
     return this.http
-      .get<any>(`${environment.apiURL}/auth/me`, { headers })
+      .get<any>(`${environment.apiURL}/auth/me/`, { headers })
       .pipe(
         map((data: any) => {
           localStorage.setItem('token', token);
@@ -41,7 +41,7 @@ export class AuthService implements OnDestroy {
       redirect_uri: window.location.origin,
     };
 
-    return this.http.post<any>(`${environment.apiURL}/auth/token`, body).pipe(
+    return this.http.post<any>(`${environment.apiURL}/auth/token/`, body).pipe(
       map((data: any) => {
         this.getUser(data.token).subscribe();
         return false;

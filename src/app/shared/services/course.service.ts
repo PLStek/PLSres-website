@@ -22,7 +22,7 @@ export class CourseService {
 
   getCourses(): Observable<Course[]> {
     return this.http
-      .get<ApiResponse[]>(`${environment.apiURL}/courses`)
+      .get<ApiResponse[]>(`${environment.apiURL}/courses/`)
       .pipe(this.processHttpResponses);
   }
 }

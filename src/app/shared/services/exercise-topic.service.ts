@@ -83,7 +83,7 @@ export class ExerciseTopicService {
     const headers = getAuthHeader();
 
     return this.http
-      .put<any>(`${environment.apiURL}/exercise_topics/${id}`, body, {
+      .put<any>(`${environment.apiURL}/exercise_topics/${id}/`, body, {
         headers,
       })
       .pipe(map((res) => Boolean(res.success) ?? false));
@@ -93,7 +93,7 @@ export class ExerciseTopicService {
     const headers = getAuthHeader();
 
     return this.http
-      .delete<any>(`${environment.apiURL}/exercise_topics/${id}`, { headers })
+      .delete<any>(`${environment.apiURL}/exercise_topics/${id}/`, { headers })
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }

@@ -100,14 +100,14 @@ export class CharbonService {
     const headers = getAuthHeader();
 
     return this.http
-      .put<any>(`${environment.apiURL}/charbons/${id}`, body, { headers })
+      .put<any>(`${environment.apiURL}/charbons/${id}/`, body, { headers })
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 
   deleteCharbon(id: number): Observable<boolean> {
     const headers = getAuthHeader();
     return this.http
-      .delete<any>(`${environment.apiURL}/charbons/${id}`, { headers })
+      .delete<any>(`${environment.apiURL}/charbons/${id}/`, { headers })
       .pipe(map((res) => Boolean(res.success) ?? false));
   }
 }
