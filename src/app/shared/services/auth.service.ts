@@ -38,6 +38,7 @@ export class AuthService implements OnDestroy {
   login(code: string): Observable<boolean> {
     const body = {
       code,
+      redirect_uri: window.location.origin,
     };
 
     return this.http.post<any>(`${environment.apiURL}/auth/token`, body).pipe(
