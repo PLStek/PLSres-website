@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MainButtonComponent } from '../main-button/main-button.component';
 
 import { BackgroundCardComponent } from '../background-card/background-card.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-popup',
@@ -16,7 +17,8 @@ import { BackgroundCardComponent } from '../background-card/background-card.comp
 export class LoginPopupComponent {
   readonly DISCORD_HUB_URL = 'https://discord.gg/nMdXGCnM8J';
   readonly DISCORD_AUTH_URL =
-    'https://discord.com/api/oauth2/authorize?client_id=1207983799753904169&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2F&scope=identify+guilds';
+    'https://discord.com/api/oauth2/authorize?client_id=1207983799753904169&response_type=code&scope=identify+guilds&redirect_uri=' +
+    encodeURIComponent(window.location.origin);
 
   isLoading: boolean = false;
 
