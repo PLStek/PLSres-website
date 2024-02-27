@@ -43,7 +43,7 @@ export class AddCharbonComponent implements OnInit {
   courseListForSelectedType: Course[] = [];
   actionneurList: User[] = [];
 
-  courseTypeEnum = CourseType;
+  CourseType = CourseType;
 
   constructor(
     private charbonService: CharbonService,

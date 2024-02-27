@@ -31,7 +31,7 @@ export class ExerciseTopicFormComponent implements OnInit {
   courseListForSelectedType: Course[] = [];
   exerciseTopicList: ExerciseTopic[] = [];
 
-  courseTypeEnum = CourseType;
+  CourseType = CourseType;
 
   constructor(
     private formBuilder: FormBuilder,

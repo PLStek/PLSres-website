@@ -32,7 +32,7 @@ export class ExerciseListComponent implements OnInit {
 
   sortForm!: FormGroup;
 
-  courseTypeEnum = CourseType;
+  CourseType = CourseType;
 
   constructor(
     private formBuilder: FormBuilder,

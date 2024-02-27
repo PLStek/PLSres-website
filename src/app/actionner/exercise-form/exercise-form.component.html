@@ -1,41 +1,70 @@
 <div class="row pt-2">
   <form [formGroup]="form">
-    <input type="text" class="form-control mb-3" placeholder="Titre du l'exercice" aria-label="Titre charbon"
+    <input type="text" class="form-control" placeholder="Titre de l'exercice" aria-label="Titre charbon"
       formControlName="title">
-    <div class="mb-3">
+    @if (submitted && form.get('title')?.invalid) {
+    <div class="text-danger">Le titre doit comporter au moins 4 caractères</div>
+    }
+    <div class="row">
+      <div class="col">
+        <select class="form-select form-select-md mt-3" formControlName="courseType">
+          <option [ngValue]="CourseType.undefined" disabled>Choisir un type d'UE</option>
+          <option [ngValue]="CourseType.elec">Elec</option>
+          <option [ngValue]="CourseType.info">Info</option>
+          <option [ngValue]="CourseType.meca">Meca</option>
+          <option [ngValue]="CourseType.maths">Maths</option>
+        </select>
+      </div>
+      <div class="col">
+        @if (form.get('courseType')?.value !== CourseType.undefined) {
+        <select class="form-select mt-3" formControlName="course">
+          <option value="" disabled>Choisir une UE</option>
+          @for (course of courseListForSelectedType; track course) {
+          <option [ngValue]="course.id">
+            {{ course.id }}
+          </option>
+          }
+        </select>
+        }
+      </div>
+      <div class="col">
+        @if (form.get('course')?.value) {
+        <select class="form-select mt-3" formControlName="topic">
+          <option value="" disabled>Choisir catégorie</option>
+          @for (exerciceTopic of exerciseTopicList; track exerciceTopic) {
+          <option [ngValue]="exerciceTopic.id">
+            {{exerciceTopic.topic}}
+          </option>
+          }
+        </select>
+        }
+      </div>
+    </div>
+    @if (submitted && form.get('topic')?.invalid) {
+    <div class="text-danger">Vous devez choisir une catégorie d'exercice</div>
+    }
+    <div class="mt-3">
       <label for="difficulty">Difficulté :</label>
       <rating class="mx-2" [max]="5" formControlName="difficulty"></rating>
     </div>
-    <select class="form-select form-select-md mb-3" formControlName="courseType">
-      <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
-      <option [ngValue]="courseTypeEnum.elec">Elec</option>
-      <option [ngValue]="courseTypeEnum.info">Info</option>
-      <option [ngValue]="courseTypeEnum.meca">Meca</option>
-      <option [ngValue]="courseTypeEnum.maths">Maths</option>
-    </select>
-    <select class="form-select mb-3" formControlName="course">
-      <option value="" disabled>Choisir une UE</option>
-      @for (course of courseListForSelectedType; track course) {
-        <option [ngValue]="course.id">
-          {{ course.id }}
-        </option>
-      }
-    </select>
-    <select class="form-select mb-3" formControlName="topic">
-      <option disabled>Choisir topics</option>
-      @for (exerciceTopic of exerciseTopicList; track exerciceTopic) {
-        <option [ngValue]="exerciceTopic.id">
-          {{exerciceTopic.topic}}
-        </option>
-      }
-    </select>
-    <div class="form-check form-switch mb-3">
+    @if (submitted && form.get('difficulty')?.invalid) {
+    <div class="text-danger">Vous devez choisir une difficulté</div>
+    }
+    <div class="form-check form-switch mt-3">
       <input class="form-check-input" type="checkbox" formControlName="isCorrected">
       <label class="form-check-label" for="isCorrected">Exercice corrigé</label>
     </div>
-    <input type="text" class="form-control mb-3" placeholder="Source de l'exercice"
-      aria-label="Source de l'exercice" formControlName="source">
-    <input type="file" class="form-control" (change)="onFileSelected($event)">
+
+    <input type="text" class="form-control mt-3" placeholder="Source de l'exercice" formControlName="source">
+    @if (submitted && form.get('source')?.invalid) {
+    <div class="text-danger">Vous devez entrer une source</div>
+    }
+
+    <input type="file" class="form-control mt-2" (change)="onFileSelected($event)">
+    @if (submitted && form.get('content')?.invalid) {
+    <div class="text-danger">Vous devez télécharger le contenu de l'exercice</div>
+    }
+
     <div class="col-12 mt-2">
       <app-main-button [isFilled]="true" [isBig]="true" (click)="submit()">Valider</app-main-button>
     </div>
