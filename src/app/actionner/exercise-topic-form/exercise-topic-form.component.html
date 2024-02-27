@@ -1,22 +1,36 @@
 <div class="row pt-2">
   <form [formGroup]="form">
-    <input type="text" class="form-control mb-3" placeholder="Nom de la catégorie" aria-label="Titre charbon"
+    <input type="text" class="form-control" placeholder="Nom de la catégorie" aria-label="Titre charbon"
       formControlName="title">
-    <select class="form-select form-select-md mb-3" formControlName="courseType">
-      <option [ngValue]="CourseType.undefined" disabled>Choisir un type d'UE</option>
-      <option [ngValue]="CourseType.elec">Elec</option>
-      <option [ngValue]="CourseType.info">Info</option>
-      <option [ngValue]="CourseType.meca">Meca</option>
-      <option [ngValue]="CourseType.maths">Maths</option>
-    </select>
-    <select class="form-select mb-3" formControlName="course">
-      <option value="" disabled>Choisir une UE</option>
-      @for (course of courseListForSelectedType; track course) {
-      <option [ngValue]="course.id">
-        {{ course.id }}
-      </option>
-      }
-    </select>
+    @if (submitted && form.get('title')?.invalid) {
+    <div class="text-danger">Le nom doit comporter au moins 4 caractères</div>
+    }
+    <div class="row">
+      <div class="col">
+        <select class="form-select form-select-md mt-3" formControlName="courseType">
+          <option [ngValue]="CourseType.undefined" disabled>Choisir un type d'UE</option>
+          <option [ngValue]="CourseType.elec">Elec</option>
+          <option [ngValue]="CourseType.info">Info</option>
+          <option [ngValue]="CourseType.meca">Meca</option>
+          <option [ngValue]="CourseType.maths">Maths</option>
+        </select>
+      </div>
+      <div class="col">
+        @if (form.get('courseType')?.value !== CourseType.undefined) {
+        <select class="form-select mt-3" formControlName="course">
+          <option value="" disabled>Choisir une UE</option>
+          @for (course of courseListForSelectedType; track course) {
+          <option [ngValue]="course.id">
+            {{ course.id }}
+          </option>
+          }
+        </select>
+        }
+      </div>
+    </div>
+    @if (submitted && form.get('course')?.invalid) {
+    <div class="text-danger">Vous devez choisir une UE</div>
+    }
     <div class="col-12 mt-2">
       <app-main-button [isFilled]="true" [isBig]="true" (click)="submit()">Valider</app-main-button>
     </div>

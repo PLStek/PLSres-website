@@ -101,20 +101,14 @@ export class AddCharbonComponent implements OnInit {
     });
   }
 
-  private requiredCourseType = (control: AbstractControl) =>
-    control.value === CourseType.undefined ? { undefinedValue: true } : null;
-
   initForm(baseCharbon?: Charbon): void {
     this.form = this.formBuilder.group({
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(4),
       ]),
+      courseType: new FormControl(CourseType.undefined),
       course: new FormControl('', Validators.required),
-      courseType: new FormControl(
-        CourseType.undefined,
-        this.requiredCourseType
-      ),
       date: new FormControl(undefined, Validators.required),
       actionneurs: new FormControl([], Validators.required),
       description: new FormControl('', [

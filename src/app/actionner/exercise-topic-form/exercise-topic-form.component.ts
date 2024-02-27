@@ -26,6 +26,7 @@ export class ExerciseTopicFormComponent implements OnInit {
   @Output() onValidate = new EventEmitter<void>();
 
   form!: FormGroup;
+  submitted = false;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
@@ -59,8 +60,8 @@ export class ExerciseTopicFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(4),
       ]),
-      course: new FormControl('', Validators.required),
       courseType: new FormControl(CourseType.undefined),
+      course: new FormControl('', Validators.required),
     });
 
     if (baseExerciseTopic) {
@@ -79,6 +80,7 @@ export class ExerciseTopicFormComponent implements OnInit {
   }
 
   submit(): void {
+    this.submitted = true;
     if (this.form.valid) {
       const newExerciseTopic: ExerciseTopicPostParameters = {
         title: this.form.get('title')?.value,
