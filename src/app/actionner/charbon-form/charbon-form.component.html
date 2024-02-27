@@ -2,47 +2,62 @@
   <div class="col-md-6">
     <div class="row">
       <form [formGroup]="form">
-        <input type="text" class="form-control mb-3" placeholder="Titre du charbon" aria-label="Titre charbon"
-          formControlName="title">
-        <textarea class="form-control mb-3" placeholder="Description" id="description" style="height: 100px"
-        formControlName="description"></textarea>
-        <select class="form-select form-select-md mb-3" formControlName="courseType">
+        <input type="text" class="form-control mt-3" placeholder="Titre du charbon" formControlName="title">
+        @if (submitted && form.get('title')?.invalid) {
+        <div class="text-danger">Le titre doit comporter au moins 4 caractères</div>
+        }
+        <textarea class="form-control mt-3" placeholder="Description" id="description" style="height: 100px"
+          formControlName="description"></textarea>
+        @if (submitted && form.get('description')?.invalid) {
+        <div class="text-danger">La description doit comporter au moins 8 caractères</div>
+        }
+        <select class="form-select form-select-md mt-3" formControlName="courseType">
           <option [ngValue]="courseTypeEnum.undefined" disabled>Choisir un type d'UE</option>
           <option [ngValue]="courseTypeEnum.elec">Elec</option>
           <option [ngValue]="courseTypeEnum.info">Info</option>
           <option [ngValue]="courseTypeEnum.meca">Meca</option>
           <option [ngValue]="courseTypeEnum.maths">Maths</option>
         </select>
-
-        <select class="form-select mb-3" formControlName="course">
-          <option value="" disabled>Choisir une UE</option>
-          @for (course of courseListForSelectedType; track course) {
-            <option [ngValue]="course.id">{{course.id}}
-            </option>
-          }
-        </select>
-
-        <select class="form-select mb-3" formControlName="actionneurs" multiple>
-          <option disabled>Choisir les actionneurs</option>
-          @for (actionneur of actionneurList; track actionneur) {
-            <option [ngValue]="actionneur">
-              {{actionneur.username}}
-            </option>
-          }
-        </select>
-
-        <div class="col-md-6 mb-3">
-          <input type="datetime-local" class="form-control" formControlName="date" name="date">
-        </div>
-
-        @if (isPassedDate()) {
-          <input type="text" class="form-control mb-3" placeholder="Lien de la rediffusion"
-            formControlName="replayLink">
+        @if (submitted && form.get('courseType')?.invalid) {
+        <div class="text-danger">Vous devez choisir une catégorie d'UE</div>
         }
 
-        <div class="col-12">
-          <app-main-button [isFilled]="true" [isBig]="true"
-          (click)="submit()">Valider</app-main-button>
+        <select class="form-select mt-3" formControlName="course">
+          <option value="" disabled>Choisir une UE</option>
+          @for (course of courseListForSelectedType; track course) {
+          <option [ngValue]="course.id">{{course.id}}
+          </option>
+          }
+        </select>
+        @if (submitted && form.get('course')?.invalid) {
+        <div class="text-danger">Vous devez choisir une UE</div>
+        }
+
+        <select class="form-select mt-3" formControlName="actionneurs" multiple>
+          <option disabled>Choisir les actionneurs</option>
+          @for (actionneur of actionneurList; track actionneur) {
+          <option [ngValue]="actionneur">
+            {{actionneur.username}}
+          </option>
+          }
+        </select>
+        @if (submitted && form.get('actionneurs')?.invalid) {
+        <div class="text-danger">Vous devez choisir au moins un actionneur</div>
+        }
+
+        <div class="col-md-6 mt-3">
+          <input type="datetime-local" class="form-control" formControlName="date" name="date">
+        </div>
+        @if (submitted && form.get('date')?.invalid) {
+        <div class="text-danger">Vous devez sélectionner la date du charbon</div>
+        }
+
+        @if (isPassedDate()) {
+        <input type="text" class="form-control mt-3" placeholder="Lien de la rediffusion" formControlName="replayLink">
+        }
+
+        <div class="col-12 mt-3">
+          <app-main-button [isFilled]="true" [isBig]="true" (click)="submit()">Valider</app-main-button>
         </div>
       </form>
     </div>
