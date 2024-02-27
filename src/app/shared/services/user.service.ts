@@ -18,13 +18,12 @@ interface ApiResponse {
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  private processHttpResponses = map((users: ApiResponse[]) =>
-    users.map((u: ApiResponse) => new User(u.id, u.username, u.is_admin))
-  );
+  private transformRes = (u: ApiResponse) =>
+    new User(u.id, u.username, u.is_admin);
 
   getActionneurs(): Observable<User[]> {
     return this.http
       .get<any>(`${environment.apiURL}/actionneurs/`)
-      .pipe(this.processHttpResponses);
+      .pipe(map((users: ApiResponse[]) => users.map(this.transformRes)));
   }
 }

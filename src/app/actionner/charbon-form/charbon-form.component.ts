@@ -164,7 +164,7 @@ export class AddCharbonComponent implements OnInit {
 
   private addCharbon(newCharbon: CharbonPostParameters): void {
     this.charbonService.addCharbon(newCharbon).subscribe({
-      next: () => {
+      next: (charb) => {
         this.initForm();
         this.onValidate.emit();
       },
@@ -175,7 +175,8 @@ export class AddCharbonComponent implements OnInit {
     this.charbonService
       .updateCharbon(this.baseCharbon?.id ?? 0, newCharbon)
       .subscribe({
-        next: () => {
+        next: (charb) => {
+          console.log(charb);
           this.initForm();
           this.onValidate.emit();
         },

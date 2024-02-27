@@ -16,13 +16,12 @@ interface ApiResponse {
 export class CourseService {
   constructor(private http: HttpClient) {}
 
-  private processHttpResponses = map((courses: ApiResponse[]) =>
-    courses.map((c: ApiResponse) => new Course(c.id, getCourseType(c.type)))
-  );
+  private transformRes = (c: ApiResponse) =>
+    new Course(c.id, getCourseType(c.type));
 
   getCourses(): Observable<Course[]> {
     return this.http
       .get<ApiResponse[]>(`${environment.apiURL}/courses/`)
-      .pipe(this.processHttpResponses);
+      .pipe(map((courses) => courses.map(this.transformRes)));
   }
 }

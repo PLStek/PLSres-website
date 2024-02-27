@@ -28,19 +28,15 @@ export class ExerciseTopicService {
 
   constructor(private http: HttpClient) {}
 
-  private processHttpResponses = map((data: ApiResponse[]) =>
-    data.map(
-      (el: ApiResponse) =>
-        new ExerciseTopic(
-          el.id,
-          el.topic,
-          el.course_id,
-          getCourseType(el.course_type),
-          //TODO: keep the real exercise count
-          el.exercise_count ? Number(el.exercise_count) : 1
-        )
-    )
-  );
+  private transformRes = (el: ApiResponse) =>
+    new ExerciseTopic(
+      el.id,
+      el.topic,
+      el.course_id,
+      getCourseType(el.course_type),
+      //TODO: keep the real exercise count
+      el.exercise_count ? Number(el.exercise_count) : 1
+    );
 
   getExerciseTopicList(
     options: ExerciseTopicGetParameters = {}
@@ -57,10 +53,12 @@ export class ExerciseTopicService {
 
     return this.http
       .get<ApiResponse[]>(`${environment.apiURL}/exercise_topics/`, { params })
-      .pipe(this.processHttpResponses);
+      .pipe(map((data) => data.map(this.transformRes)));
   }
 
-  addExerciseTopic(data: ExerciseTopicPostParameters): Observable<boolean> {
+  addExerciseTopic(
+    data: ExerciseTopicPostParameters
+  ): Observable<ExerciseTopic> {
     const body = {
       topic: data.title,
       course_id: data.course,
@@ -68,14 +66,16 @@ export class ExerciseTopicService {
     const headers = getAuthHeader();
 
     return this.http
-      .post<any>(`${environment.apiURL}/exercise_topics/`, body, { headers })
-      .pipe(map((data) => data.success));
+      .post<ApiResponse>(`${environment.apiURL}/exercise_topics/`, body, {
+        headers,
+      })
+      .pipe(map(this.transformRes));
   }
 
   updateExerciseTopic(
     id: number,
     data: ExerciseTopicPostParameters
-  ): Observable<boolean> {
+  ): Observable<ExerciseTopic> {
     const body = {
       topic: data.title,
       course_id: data.course,
@@ -83,17 +83,17 @@ export class ExerciseTopicService {
     const headers = getAuthHeader();
 
     return this.http
-      .put<any>(`${environment.apiURL}/exercise_topics/${id}/`, body, {
+      .put<ApiResponse>(`${environment.apiURL}/exercise_topics/${id}/`, body, {
         headers,
       })
-      .pipe(map((res) => Boolean(res.success) ?? false));
+      .pipe(map(this.transformRes));
   }
 
-  deleteExerciseTopic(id: number): Observable<boolean> {
+  deleteExerciseTopic(id: number): Observable<null> {
     const headers = getAuthHeader();
-
-    return this.http
-      .delete<any>(`${environment.apiURL}/exercise_topics/${id}/`, { headers })
-      .pipe(map((res) => Boolean(res.success) ?? false));
+    return this.http.delete<null>(
+      `${environment.apiURL}/exercise_topics/${id}/`,
+      { headers }
+    );
   }
 }
