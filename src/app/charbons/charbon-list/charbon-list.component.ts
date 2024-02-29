@@ -38,7 +38,7 @@ export class CharbonListComponent implements OnInit {
 
   sortForm!: FormGroup;
 
-  courseTypeEnum = CourseType;
+  CourseType = CourseType;
   charbonSortOption = CharbonSortOption;
 
   constructor(

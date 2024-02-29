@@ -7,6 +7,7 @@ import {
   FormBuilder,
   FormGroup,
   FormControl,
+  AbstractControl,
 } from '@angular/forms';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
@@ -16,13 +17,19 @@ import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { CharbonCardComponent } from '../../charbons/charbon-card/charbon-card.component';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-charbon-form',
   templateUrl: './charbon-form.component.html',
   styleUrls: ['./charbon-form.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, MainButtonComponent, CharbonCardComponent],
+  imports: [
+    ReactiveFormsModule,
+    MainButtonComponent,
+    CharbonCardComponent,
+    NgIf,
+  ],
 })
 export class AddCharbonComponent implements OnInit {
   @Input() baseCharbon?: Charbon;
@@ -30,12 +37,13 @@ export class AddCharbonComponent implements OnInit {
 
   charbonPreview!: Charbon;
   form!: FormGroup;
+  submitted = false;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
   actionneurList: User[] = [];
 
-  courseTypeEnum = CourseType;
+  CourseType = CourseType;
 
   constructor(
     private charbonService: CharbonService,
@@ -95,18 +103,18 @@ export class AddCharbonComponent implements OnInit {
 
   initForm(baseCharbon?: Charbon): void {
     this.form = this.formBuilder.group({
-      title: new FormControl(
-        '',
-        Validators.compose([Validators.required, Validators.minLength(4)])
-      ),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+      ]),
+      courseType: new FormControl(CourseType.undefined),
       course: new FormControl('', Validators.required),
-      courseType: new FormControl(CourseType.undefined, Validators.required),
-      date: new FormControl('2023T20:00', Validators.required),
+      date: new FormControl(undefined, Validators.required),
       actionneurs: new FormControl([], Validators.required),
-      description: new FormControl(
-        '',
-        Validators.compose([Validators.required, Validators.minLength(8)])
-      ),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+      ]),
       replayLink: new FormControl(''),
     });
 
@@ -135,6 +143,7 @@ export class AddCharbonComponent implements OnInit {
   }
 
   submit(): void {
+    this.submitted = true;
     if (this.form.valid) {
       let newCharbon: CharbonPostParameters = {
         ...this.form.value,
@@ -154,22 +163,23 @@ export class AddCharbonComponent implements OnInit {
   }
 
   private addCharbon(newCharbon: CharbonPostParameters): void {
-    this.charbonService.addCharbon(newCharbon).subscribe((success) => {
-      if (success) {
+    this.charbonService.addCharbon(newCharbon).subscribe({
+      next: (charb) => {
         this.initForm();
         this.onValidate.emit();
-      }
+      },
     });
   }
 
   private updateCharbon(newCharbon: CharbonPostParameters): void {
     this.charbonService
       .updateCharbon(this.baseCharbon?.id ?? 0, newCharbon)
-      .subscribe((success) => {
-        if (success) {
+      .subscribe({
+        next: (charb) => {
+          console.log(charb);
           this.initForm();
           this.onValidate.emit();
-        }
+        },
       });
   }
 }

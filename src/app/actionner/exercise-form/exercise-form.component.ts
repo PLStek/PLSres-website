@@ -12,6 +12,7 @@ import {
   FormBuilder,
   FormGroup,
   FormControl,
+  AbstractControl,
 } from '@angular/forms';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
@@ -30,13 +31,13 @@ export class AddExerciceComponent implements OnInit {
   @Output() onValidate = new EventEmitter<void>();
 
   form!: FormGroup;
+  submitted = false;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
   exerciseTopicList: ExerciseTopic[] = [];
 
-  //TODO: make static everywhere and check case
-  courseTypeEnum = CourseType;
+  CourseType = CourseType;
 
   constructor(
     private exerciseService: ExerciseService,
@@ -78,17 +79,17 @@ export class AddExerciceComponent implements OnInit {
 
   initForm(baseExercise?: Exercise): void {
     this.form = this.formBuilder.group({
-      title: new FormControl(
-        '',
-        Validators.compose([Validators.required, Validators.minLength(4)])
-      ),
-      difficulty: new FormControl(0),
-      course: new FormControl('', Validators.required),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+      ]),
+      difficulty: new FormControl(null, Validators.required),
       courseType: new FormControl(CourseType.undefined),
+      course: new FormControl(''),
       topic: new FormControl('', Validators.required),
       isCorrected: new FormControl(false),
       source: new FormControl('', Validators.required),
-      content: new FormControl(null),
+      content: new FormControl(null, Validators.required),
     });
 
     if (baseExercise) {
@@ -117,6 +118,7 @@ export class AddExerciceComponent implements OnInit {
   }
 
   submit(): void {
+    this.submitted = true;
     if (this.form.valid) {
       let newExercise: ExercisePostParameters = {
         title: this.form.get('title')?.value,

@@ -25,7 +25,7 @@ interface ApiResponse {
 export class ExerciseService {
   constructor(private http: HttpClient) {}
 
-  private elementToExercise = (element: ApiResponse) =>
+  private transformRes = (element: ApiResponse) =>
     new Exercise(
       element.id,
       element.title,
@@ -36,14 +36,6 @@ export class ExerciseService {
       element.copyright ? true : false,
       element.content ? base64Decode(element.content) : undefined
     );
-
-  private processHttpResponse = map((data: ApiResponse[]) =>
-    data.map(this.elementToExercise)
-  );
-
-  private processSingleHttpResponse = map((data: ApiResponse) =>
-    this.elementToExercise(data)
-  );
 
   getExercises(
     //TODO: replace by ExerciseGetParameters
@@ -58,17 +50,17 @@ export class ExerciseService {
 
     return this.http
       .get<ApiResponse[]>(`${environment.apiURL}/exercises/`, { params })
-      .pipe(this.processHttpResponse);
+      .pipe(map((data) => data.map(this.transformRes)));
   }
 
   getExercise(id: number): Observable<Exercise> {
     const headers = getAuthHeader();
     return this.http
       .get<ApiResponse>(`${environment.apiURL}/exercises/${id}/`, { headers })
-      .pipe(this.processSingleHttpResponse);
+      .pipe(map(this.transformRes));
   }
 
-  addExercise(data: ExercisePostParameters): Observable<boolean> {
+  addExercise(data: ExercisePostParameters): Observable<Exercise> {
     return convertFileToBase64(data).pipe(
       switchMap((base64data) => {
         const body = {
@@ -83,12 +75,10 @@ export class ExerciseService {
 
         const headers = getAuthHeader();
         return this.http
-          .post<any>(`${environment.apiURL}/exercises/`, body, { headers })
-          .pipe(
-            map((res) => {
-              return Boolean(res.success) ?? false;
-            })
-          );
+          .post<ApiResponse>(`${environment.apiURL}/exercises/`, body, {
+            headers,
+          })
+          .pipe(map(this.transformRes));
       })
     );
   }
@@ -96,7 +86,7 @@ export class ExerciseService {
   updateExercise(
     id: number,
     data: ExercisePostParameters
-  ): Observable<boolean> {
+  ): Observable<Exercise> {
     return convertFileToBase64(data).pipe(
       switchMap((base64data) => {
         const body = {
@@ -105,24 +95,24 @@ export class ExerciseService {
           is_corrected: data.isCorrected,
           topic_id: data.topicId,
           source: data.source,
+          copyright: true,
           content: base64data,
         };
+
         const headers = getAuthHeader();
         return this.http
-          .put<any>(`${environment.apiURL}/exercises/${id}/`, body, { headers })
-          .pipe(
-            map((res) => {
-              return Boolean(res.success) ?? false;
-            })
-          );
+          .put<ApiResponse>(`${environment.apiURL}/exercises/${id}/`, body, {
+            headers,
+          })
+          .pipe(map(this.transformRes));
       })
     );
   }
 
-  deleteExercise(id: number): Observable<boolean> {
+  deleteExercise(id: number): Observable<null> {
     const headers = getAuthHeader();
-    return this.http
-      .delete<any>(`${environment.apiURL}/exercises/${id}/`, { headers })
-      .pipe(map((res) => Boolean(res.success) ?? false));
+    return this.http.delete<null>(`${environment.apiURL}/exercises/${id}/`, {
+      headers,
+    });
   }
 }

@@ -28,22 +28,18 @@ interface ApiResponse {
 export class CharbonService {
   constructor(private http: HttpClient) {}
 
-  private processHttpResponses = map((chList: ApiResponse[]) =>
-    chList.map(
-      (ch: ApiResponse) =>
-        new Charbon(
-          ch.id,
-          ch.course_id,
-          getCourseType(ch.course_type),
-          new Date(ch.datetime * 1000),
-          ch.title,
-          ch.actionneurs,
-          ch.description,
-          ch.replay_link,
-          ch.duration
-        )
-    )
-  );
+  private transformRes = (ch: ApiResponse) =>
+    new Charbon(
+      ch.id,
+      ch.course_id,
+      getCourseType(ch.course_type),
+      new Date(ch.datetime * 1000),
+      ch.title,
+      ch.actionneurs,
+      ch.description,
+      ch.replay_link,
+      ch.duration
+    );
 
   getCharbonList(options: CharbonGetParameters = {}): Observable<Charbon[]> {
     let params = new HttpParams();
@@ -63,10 +59,10 @@ export class CharbonService {
       .get<ApiResponse[]>(`${environment.apiURL}/charbons/`, {
         params,
       })
-      .pipe(this.processHttpResponses);
+      .pipe(map((chList) => chList.map(this.transformRes)));
   }
 
-  addCharbon(data: CharbonPostParameters): Observable<boolean> {
+  addCharbon(data: CharbonPostParameters): Observable<Charbon> {
     const body = {
       title: data.title,
       description: data.description,
@@ -79,15 +75,11 @@ export class CharbonService {
     const headers = getAuthHeader();
 
     return this.http
-      .post<any>(`${environment.apiURL}/charbons/`, body, { headers })
-      .pipe(
-        map((res) => {
-          return Boolean(res.success) ?? false;
-        })
-      );
+      .post<ApiResponse>(`${environment.apiURL}/charbons/`, body, { headers })
+      .pipe(map(this.transformRes));
   }
 
-  updateCharbon(id: number, data: CharbonPostParameters): Observable<boolean> {
+  updateCharbon(id: number, data: CharbonPostParameters): Observable<Charbon> {
     const body = {
       title: data.title,
       description: data.description,
@@ -100,14 +92,16 @@ export class CharbonService {
     const headers = getAuthHeader();
 
     return this.http
-      .put<any>(`${environment.apiURL}/charbons/${id}/`, body, { headers })
-      .pipe(map((res) => Boolean(res.success) ?? false));
+      .put<ApiResponse>(`${environment.apiURL}/charbons/${id}/`, body, {
+        headers,
+      })
+      .pipe(map(this.transformRes));
   }
 
-  deleteCharbon(id: number): Observable<boolean> {
+  deleteCharbon(id: number): Observable<null> {
     const headers = getAuthHeader();
-    return this.http
-      .delete<any>(`${environment.apiURL}/charbons/${id}/`, { headers })
-      .pipe(map((res) => Boolean(res.success) ?? false));
+    return this.http.delete<null>(`${environment.apiURL}/charbons/${id}/`, {
+      headers,
+    });
   }
 }

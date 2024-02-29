@@ -1,6 +1,12 @@
 import { ExerciseTopicService } from 'src/app/shared/services/exercise-topic.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Validators, ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import {
+  Validators,
+  ReactiveFormsModule,
+  FormGroup,
+  FormBuilder,
+  FormControl,
+} from '@angular/forms';
 import { Course } from 'src/app/shared/models/course.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
 import { CourseService } from 'src/app/shared/services/course.service';
@@ -8,28 +14,25 @@ import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { ExerciseTopicPostParameters } from 'src/app/shared/models/exercise-topic-post-parameters';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 
-
 @Component({
-    selector: 'app-exercise-topic-form',
-    templateUrl: './exercise-topic-form.component.html',
-    styleUrls: ['./exercise-topic-form.component.scss'],
-    standalone: true,
-    imports: [
-    ReactiveFormsModule,
-    MainButtonComponent
-],
+  selector: 'app-exercise-topic-form',
+  templateUrl: './exercise-topic-form.component.html',
+  styleUrls: ['./exercise-topic-form.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, MainButtonComponent],
 })
 export class ExerciseTopicFormComponent implements OnInit {
   @Input() baseExerciseTopic?: ExerciseTopic;
   @Output() onValidate = new EventEmitter<void>();
 
   form!: FormGroup;
+  submitted = false;
 
   courseList: Course[] = [];
   courseListForSelectedType: Course[] = [];
   exerciseTopicList: ExerciseTopic[] = [];
 
-  courseTypeEnum = CourseType;
+  CourseType = CourseType;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,9 +56,12 @@ export class ExerciseTopicFormComponent implements OnInit {
 
   initForm(baseExerciseTopic?: ExerciseTopic): void {
     this.form = this.formBuilder.group({
-      title: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4)])),
-      course: new FormControl('', Validators.required),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+      ]),
       courseType: new FormControl(CourseType.undefined),
+      course: new FormControl('', Validators.required),
     });
 
     if (baseExerciseTopic) {
@@ -74,6 +80,7 @@ export class ExerciseTopicFormComponent implements OnInit {
   }
 
   submit(): void {
+    this.submitted = true;
     if (this.form.valid) {
       const newExerciseTopic: ExerciseTopicPostParameters = {
         title: this.form.get('title')?.value,

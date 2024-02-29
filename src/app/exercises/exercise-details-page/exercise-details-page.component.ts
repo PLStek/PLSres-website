@@ -25,7 +25,6 @@ export class ExerciseDetailsPageComponent implements OnInit {
   constructor(
     private router: Router,
     private exerciseService: ExerciseService,
-    private modalService: BsModalService,
     private authService: AuthService,
     private loginPopupService: LoginPopupService,
     private title: Title
