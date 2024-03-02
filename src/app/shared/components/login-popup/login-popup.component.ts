@@ -5,6 +5,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MainButtonComponent } from '../main-button/main-button.component';
 import { environment } from 'src/environments/environment';
 import { BackgroundCardComponent } from '../background-card/background-card.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login-popup',
@@ -21,31 +22,43 @@ export class LoginPopupComponent {
 
   isLoading: boolean = false;
 
+  error?: string;
+
   constructor(
     private bsModalRef: BsModalRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastr: ToastrService
   ) {}
 
   openDiscordAuthPage() {
     const popup = window.open(this.DISCORD_AUTH_URL, '_blank');
     this.isLoading = true;
+    this.error = undefined;
 
     const interval = setInterval(() => {
       try {
         if (!popup || popup.closed) {
           clearInterval(interval);
           this.isLoading = false;
+          this.toastr.error(
+            'Erreur lors de la vérification. Veuillez rééssayer.',
+            'Erreur'
+          );
         } else {
           const popupUrl = new URL(popup.location.href);
           const currentUrl = new URL(window.location.href);
           if (popupUrl.origin === currentUrl.origin) {
             const code = popupUrl.searchParams.get('code');
+            clearInterval(interval);
+            popup.close();
             if (code) {
               this.login(code);
-              popup.close();
-              clearInterval(interval);
             } else {
-              //TODO: handle error
+              this.isLoading = false;
+              this.toastr.error(
+                'Erreur lors de la vérification. Veuillez rééssayer.',
+                'Erreur'
+              );
             }
           }
         }
@@ -58,9 +71,20 @@ export class LoginPopupComponent {
   }
 
   login(code: string) {
-    this.authService.login(code).subscribe(() => {
-      this.isLoading = false;
-      this.close();
+    this.authService.login(code).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.close();
+      },
+      error: (err) => {
+        this.isLoading = false;
+        if (err.status === 401) {
+          this.toastr.error(
+            "Erreur lors de la vérification. Vous n'êtes pas présent sur le pôle UTBM",
+            'Erreur'
+          );
+        }
+      },
     });
   }
 

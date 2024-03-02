@@ -93,6 +93,8 @@ bootstrapApplication(AppComponent, {
     provideAnimations(),
     provideToastr({
       preventDuplicates: true,
+      progressBar: true,
+      resetTimeoutOnDuplicate: true,
     }),
     provideRouter(routes, withComponentInputBinding()),
   ],
