@@ -14,7 +14,7 @@
       <div class="col-md-3">
         <label class="form-label">Type d'UE:</label>
         <select class="form-select" formControlName="courseType">
-          <option [ngValue]="CourseType.undefined">Tous</option>
+          <option [ngValue]=" CourseType.undefined">Tous</option>
           <option [ngValue]="CourseType.meca">Mécanique</option>
           <option [ngValue]="CourseType.info">Informatique</option>
           <option [ngValue]="CourseType.maths">Mathématique</option>
@@ -25,7 +25,7 @@
       <div class="col-md-3">
         <label class="form-label">UE:</label>
         <select class="form-select" formControlName="course">
-          <option [ngValue]="undefined">Toutes</option>
+          <option value="">Toutes</option>
           @for (course of courseListForSelectedType; track course) {
           <option [ngValue]="course.id">{{course.id}}
           </option>

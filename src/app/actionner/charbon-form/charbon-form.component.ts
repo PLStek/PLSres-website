@@ -18,6 +18,7 @@ import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { CharbonCardComponent } from '../../charbons/charbon-card/charbon-card.component';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { NgIf } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-charbon-form',
@@ -40,20 +41,26 @@ export class AddCharbonComponent implements OnInit {
   submitted = false;
 
   courseList: Course[] = [];
-  courseListForSelectedType: Course[] = [];
   actionneurList: User[] = [];
 
   CourseType = CourseType;
+
+  get courseListForSelectedType(): Course[] {
+    return this.courseList.filter(
+      (course) => course.type == this.form.get('courseType')?.value
+    );
+  }
 
   constructor(
     private charbonService: CharbonService,
     private courseService: CourseService,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.initForm(this.baseCharbon);
+    this.initForm();
 
     this.charbonPreview = new Charbon(
       0,
@@ -81,27 +88,35 @@ export class AddCharbonComponent implements OnInit {
       );
     });
 
-    this.form.get('courseType')?.valueChanges.subscribe(() => {
-      this.updateCourseList();
-      this.form.get('course')?.setValue('');
-    });
-
-    this.courseService.getCourses().subscribe((data) => {
-      this.courseList = data;
-      this.updateCourseList();
-    });
-
-    this.userService.getActionneurs().subscribe((data) => {
-      this.actionneurList = data;
-      this.form
-        .get('actionneurs')
-        ?.setValue(
-          data.filter((a) => this.baseCharbon?.actionneurs.includes(a.username))
+    this.courseService.getCourses().subscribe({
+      next: (data) => {
+        this.courseList = data;
+      },
+      error: () => {
+        this.toastr.error(
+          'Erreur lors de la récupération de la liste des cours',
+          'Erreur'
         );
+      },
+    });
+
+    this.userService.getActionneurs().subscribe({
+      next: (data) => {
+        this.actionneurList = data;
+        if (this.baseCharbon) {
+          this.fillForm(this.baseCharbon, data);
+        }
+      },
+      error: () => {
+        this.toastr.error(
+          'Erreur lors de la récupération de la liste des actionneurs',
+          'Erreur'
+        );
+      },
     });
   }
 
-  initForm(baseCharbon?: Charbon): void {
+  initForm(): void {
     this.form = this.formBuilder.group({
       title: new FormControl('', [
         Validators.required,
@@ -117,24 +132,20 @@ export class AddCharbonComponent implements OnInit {
       ]),
       replayLink: new FormControl(''),
     });
-
-    if (baseCharbon) {
-      this.form.setValue({
-        title: baseCharbon.title,
-        course: baseCharbon.course,
-        courseType: baseCharbon.courseType,
-        date: baseCharbon.date.toISOString(),
-        actionneurs: [],
-        description: baseCharbon.description,
-        replayLink: baseCharbon.replayLink,
-      });
-    }
   }
 
-  updateCourseList(): void {
-    this.courseListForSelectedType = this.courseList.filter(
-      (course) => course.type === this.form.get('courseType')?.value
-    );
+  fillForm(charbon: Charbon, actionneurs: User[]): void {
+    this.form.setValue({
+      title: charbon.title,
+      course: charbon.course,
+      courseType: charbon.courseType,
+      date: charbon.date.toISOString(),
+      actionneurs: actionneurs.filter((a) =>
+        charbon?.actionneurs.includes(a.id)
+      ),
+      description: charbon.description,
+      replayLink: charbon.replayLink,
+    });
   }
 
   isPassedDate(): boolean {
@@ -142,24 +153,26 @@ export class AddCharbonComponent implements OnInit {
     return date < new Date();
   }
 
+  onCourseTypeChange() {
+    this.form.patchValue({ course: '' });
+  }
+
   submit(): void {
     this.submitted = true;
-    if (this.form.valid) {
-      let newCharbon: CharbonPostParameters = {
-        ...this.form.value,
-        actionneurs: this.form.get('actionneurs')?.value.map((a: User) => a.id),
-        replayLink: this.isPassedDate()
-          ? this.form.get('replayLink')?.value
-          : undefined,
-        date: new Date(this.form.get('date')?.value),
-      };
+    if (!this.form.valid) return;
 
-      this.baseCharbon
-        ? this.updateCharbon(newCharbon)
-        : this.addCharbon(newCharbon);
-    } else {
-      console.log('Formulaire invalide');
-    }
+    let newCharbon: CharbonPostParameters = {
+      ...this.form.value,
+      actionneurs: this.form.get('actionneurs')?.value.map((a: User) => a.id),
+      replayLink: this.isPassedDate()
+        ? this.form.get('replayLink')?.value
+        : undefined,
+      date: new Date(this.form.get('date')?.value),
+    };
+
+    this.baseCharbon
+      ? this.updateCharbon(newCharbon)
+      : this.addCharbon(newCharbon);
   }
 
   private addCharbon(newCharbon: CharbonPostParameters): void {
@@ -168,6 +181,7 @@ export class AddCharbonComponent implements OnInit {
         this.initForm();
         this.onValidate.emit();
       },
+      error: (err) => {},
     });
   }
 

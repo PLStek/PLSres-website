@@ -4,7 +4,7 @@ import { Announcement } from '../models/announcement.model';
 import { Observable, map } from 'rxjs';
 import { AnnouncementGetParameters } from '../models/announcement-get-parameters.model';
 import { environment } from 'src/environments/environment';
-import { setParam } from '../utils/set_params';
+import { setParam } from '../utils/set-params';
 
 interface ApiResponse {
   id: number;

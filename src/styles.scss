@@ -4,6 +4,9 @@
 /* Importing Datepicker SCSS file. */
 @import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
 
+@import "ngx-toastr/toastr";
+/* @import 'ngx-toastr/toastr-bs5-alert'; */
+
 
 $primary : #ED4444;
 $secondary : #21A80B;

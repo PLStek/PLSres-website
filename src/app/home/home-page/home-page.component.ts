@@ -17,6 +17,7 @@ import { BackgroundCardComponent } from '../../shared/components/background-card
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { SocialNetworksComponent } from '../../shared/components/social-networks/social-networks.component';
 import { LoginPopupService } from 'src/app/shared/services/login-popup.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home-page',
@@ -40,7 +41,8 @@ export class HomePageComponent implements OnInit {
   constructor(
     private charbonService: CharbonService,
     private announcementService: AnnouncementService,
-    public loginPopupService: LoginPopupService
+    public loginPopupService: LoginPopupService,
+    private toastr: ToastrService
   ) {
     this.charbonList = [];
   }
@@ -51,18 +53,32 @@ export class HomePageComponent implements OnInit {
       limit: 3,
       sort: CharbonSortOption.dateAsc,
     };
-    this.charbonService.getCharbonList(charbonParams).subscribe((charbons) => {
-      this.charbonList = charbons;
+    this.charbonService.getCharbonList(charbonParams).subscribe({
+      next: (charbons) => {
+        this.charbonList = charbons;
+      },
+      error: (error) => {
+        this.toastr.error(
+          'Erreur lors de la récupération des charbons',
+          'Erreur'
+        );
+      },
     });
 
     const announcementParams: AnnouncementGetParameters = {
       limit: 1,
       sort: AnnouncementSortOption.dateDesc,
     };
-    this.announcementService
-      .getAnnouncements(announcementParams)
-      .subscribe((announcements) => {
+    this.announcementService.getAnnouncements(announcementParams).subscribe({
+      next: (announcements) => {
         this.lastAnnouncement = announcements[0];
-      });
+      },
+      error: (error) => {
+        this.toastr.error(
+          'Erreur lors de la récupération des annonces',
+          'Erreur'
+        );
+      },
+    });
   }
 }

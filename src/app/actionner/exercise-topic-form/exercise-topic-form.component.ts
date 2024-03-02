@@ -13,6 +13,7 @@ import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { ExerciseTopicPostParameters } from 'src/app/shared/models/exercise-topic-post-parameters';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-exercise-topic-form',
@@ -29,32 +30,40 @@ export class ExerciseTopicFormComponent implements OnInit {
   submitted = false;
 
   courseList: Course[] = [];
-  courseListForSelectedType: Course[] = [];
   exerciseTopicList: ExerciseTopic[] = [];
 
   CourseType = CourseType;
 
+  get courseListForSelectedType(): Course[] {
+    return this.courseList.filter(
+      (course) => course.type == this.form.get('courseType')?.value
+    );
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private exerciseTopicService: ExerciseTopicService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.initForm(this.baseExerciseTopic);
+    this.initForm();
+    if (this.baseExerciseTopic) {
+      this.fillForm(this.baseExerciseTopic);
+    }
 
-    this.courseService.getCourses().subscribe((data) => {
-      this.courseList = data;
-      this.updateCourseList();
-    });
-
-    this.form.get('courseType')?.valueChanges.subscribe((data) => {
-      this.updateCourseList();
-      this.form.get('course')?.setValue('');
+    this.courseService.getCourses().subscribe({
+      next: (data) => {
+        this.courseList = data;
+      },
+      error: () => {
+        this.toastr.error('Erreur lors de la récupération des cours', 'Erreur');
+      },
     });
   }
 
-  initForm(baseExerciseTopic?: ExerciseTopic): void {
+  initForm(): void {
     this.form = this.formBuilder.group({
       title: new FormControl('', [
         Validators.required,
@@ -63,57 +72,63 @@ export class ExerciseTopicFormComponent implements OnInit {
       courseType: new FormControl(CourseType.undefined),
       course: new FormControl('', Validators.required),
     });
-
-    if (baseExerciseTopic) {
-      this.form.setValue({
-        title: baseExerciseTopic.topic,
-        course: baseExerciseTopic.course,
-        courseType: baseExerciseTopic.courseType,
-      });
-    }
   }
 
-  updateCourseList(): void {
-    this.courseListForSelectedType = this.courseList.filter(
-      (course) => course.type === this.form.get('courseType')?.value
-    );
+  fillForm(exerciseTopic: ExerciseTopic) {
+    this.form.setValue({
+      title: exerciseTopic.topic,
+      course: exerciseTopic.course,
+      courseType: exerciseTopic.courseType,
+    });
+  }
+
+  onCourseTypeChange() {
+    this.form.patchValue({ course: '' });
   }
 
   submit(): void {
     this.submitted = true;
-    if (this.form.valid) {
-      const newExerciseTopic: ExerciseTopicPostParameters = {
-        title: this.form.get('title')?.value,
-        course: this.form.get('course')?.value,
-      };
+    if (!this.form.valid) return;
 
-      this.baseExerciseTopic
-        ? this.updateExerciseTopic(newExerciseTopic)
-        : this.addExerciseTopic(newExerciseTopic);
-    } else {
-      console.log('Formulaire invalide');
-    }
+    const newExerciseTopic: ExerciseTopicPostParameters = {
+      title: this.form.get('title')?.value,
+      course: this.form.get('course')?.value,
+    };
+
+    this.baseExerciseTopic
+      ? this.updateExerciseTopic(newExerciseTopic)
+      : this.addExerciseTopic(newExerciseTopic);
   }
 
   addExerciseTopic(newExerciseTopic: ExerciseTopicPostParameters): void {
-    this.exerciseTopicService
-      .addExerciseTopic(newExerciseTopic)
-      .subscribe((success) => {
-        if (success) {
-          this.initForm();
-          this.onValidate.emit();
-        }
-      });
+    this.exerciseTopicService.addExerciseTopic(newExerciseTopic).subscribe({
+      next: () => {
+        this.initForm();
+        this.onValidate.emit();
+      },
+      error: () => {
+        this.toastr.error(
+          "Erreur lors de l'ajout du thème d'exercice",
+          'Erreur'
+        );
+      },
+    });
   }
 
   updateExerciseTopic(newExerciseTopic: ExerciseTopicPostParameters): void {
     this.exerciseTopicService
       .updateExerciseTopic(this.baseExerciseTopic?.id ?? 0, newExerciseTopic)
-      .subscribe((success) => {
-        if (success) {
+      .subscribe({
+        next: () => {
           this.initForm();
           this.onValidate.emit();
-        }
+        },
+        error: () => {
+          this.toastr.error(
+            "Erreur lors de la modification du thème d'exercice",
+            'Erreur'
+          );
+        },
       });
   }
 }

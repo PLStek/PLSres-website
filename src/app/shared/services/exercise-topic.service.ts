@@ -9,7 +9,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ExerciseTopicPostParameters } from '../models/exercise-topic-post-parameters';
 import { ExerciseTopicGetParameters } from '../models/exercise-topic-get-parameters.model';
 import { environment } from 'src/environments/environment';
-import { setParam } from '../utils/set_params';
+import { setParam } from '../utils/set-params';
 import { getAuthHeader } from '../utils/auth-header';
 
 interface ApiResponse {

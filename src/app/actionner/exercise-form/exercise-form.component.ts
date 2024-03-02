@@ -12,12 +12,11 @@ import {
   FormBuilder,
   FormGroup,
   FormControl,
-  AbstractControl,
 } from '@angular/forms';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
-
 import { RatingModule } from 'ngx-bootstrap/rating';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-exercise-form',
@@ -34,50 +33,53 @@ export class AddExerciceComponent implements OnInit {
   submitted = false;
 
   courseList: Course[] = [];
-  courseListForSelectedType: Course[] = [];
   exerciseTopicList: ExerciseTopic[] = [];
 
   CourseType = CourseType;
+
+  get courseListForSelectedType(): Course[] {
+    return this.courseList.filter(
+      (course) => course.type == this.form.get('courseType')?.value
+    );
+  }
 
   constructor(
     private exerciseService: ExerciseService,
     private courseService: CourseService,
     private exerciseTopicService: ExerciseTopicService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.initForm(this.baseExercise);
+    this.initForm();
 
-    this.courseService.getCourses().subscribe((data) => {
-      this.courseList = data;
+    this.courseService.getCourses().subscribe({
+      next: (data) => {
+        this.courseList = data;
+      },
+      error: () => {
+        this.toastr.error('Erreur lors de la récupération des cours', 'Erreur');
+      },
     });
 
-    this.exerciseTopicService.getExerciseTopicList().subscribe((data) => {
-      this.exerciseTopicList = data;
-      if (this.baseExercise) {
-        this.form
-          .get('courseType')
-          ?.setValue(
-            data.find((topic) => topic.id === this.baseExercise?.topicId)
-              ?.courseType
-          );
-        this.form
-          .get('course')
-          ?.setValue(
-            data.find((topic) => topic.id === this.baseExercise?.topicId)
-              ?.course
-          );
-      }
-    });
-
-    this.form.get('courseType')?.valueChanges.subscribe((data) => {
-      this.updateCourseList();
-      this.form.get('course')?.setValue('');
+    this.exerciseTopicService.getExerciseTopicList().subscribe({
+      next: (data) => {
+        this.exerciseTopicList = data;
+        if (this.baseExercise) {
+          this.fillForm(this.baseExercise, data);
+        }
+      },
+      error: () => {
+        this.toastr.error(
+          "Erreur lors de la récupération des thèmes d'exercices",
+          'Erreur'
+        );
+      },
     });
   }
 
-  initForm(baseExercise?: Exercise): void {
+  initForm(): void {
     this.form = this.formBuilder.group({
       title: new FormControl('', [
         Validators.required,
@@ -91,25 +93,19 @@ export class AddExerciceComponent implements OnInit {
       source: new FormControl('', Validators.required),
       content: new FormControl(null, Validators.required),
     });
-
-    if (baseExercise) {
-      this.form.setValue({
-        title: baseExercise.title,
-        difficulty: baseExercise.difficulty,
-        course: '',
-        courseType: CourseType.undefined,
-        topic: baseExercise.topicId,
-        isCorrected: baseExercise.isCorrected,
-        source: baseExercise.source,
-        content: null,
-      });
-    }
   }
 
-  updateCourseList(): void {
-    this.courseListForSelectedType = this.courseList.filter(
-      (course) => course.type == this.form.get('courseType')?.value
-    );
+  fillForm(exercise: Exercise, topics: ExerciseTopic[]): void {
+    this.form.setValue({
+      title: exercise.title,
+      difficulty: exercise.difficulty,
+      course: topics.find((t) => t.id === exercise?.topicId)?.course,
+      courseType: topics.find((t) => t.id === exercise?.topicId)?.courseType,
+      topic: exercise.topicId,
+      isCorrected: exercise.isCorrected,
+      source: exercise.source,
+      content: null,
+    });
   }
 
   onFileSelected(event: any) {
@@ -117,43 +113,54 @@ export class AddExerciceComponent implements OnInit {
     this.form.get('content')?.setValue(file);
   }
 
+  onCourseTypeChange() {
+    this.form.patchValue({ course: '' });
+  }
+
   submit(): void {
     this.submitted = true;
-    if (this.form.valid) {
-      let newExercise: ExercisePostParameters = {
-        title: this.form.get('title')?.value,
-        difficulty: this.form.get('difficulty')?.value,
-        topicId: this.form.get('topic')?.value,
-        isCorrected: this.form.get('isCorrected')?.value,
-        source: this.form.get('source')?.value,
-        content: this.form.get('content')?.value,
-      };
+    if (!this.form.valid) return;
 
-      this.baseExercise
-        ? this.updateExercise(newExercise)
-        : this.addExercise(newExercise);
-    } else {
-      console.log('Formulaire invalide');
-    }
+    let newExercise: ExercisePostParameters = {
+      title: this.form.get('title')?.value,
+      difficulty: this.form.get('difficulty')?.value,
+      topicId: this.form.get('topic')?.value,
+      isCorrected: this.form.get('isCorrected')?.value,
+      source: this.form.get('source')?.value,
+      content: this.form.get('content')?.value,
+    };
+
+    this.baseExercise
+      ? this.updateExercise(newExercise)
+      : this.addExercise(newExercise);
   }
 
   addExercise(newExercise: ExercisePostParameters): void {
-    this.exerciseService.addExercise(newExercise).subscribe((success) => {
-      if (success) {
+    this.exerciseService.addExercise(newExercise).subscribe({
+      next: () => {
         this.initForm();
         this.onValidate.emit();
-      }
+      },
+      error: () => {
+        this.toastr.error("Erreur lors de l'ajout de l'exercice", 'Erreur');
+      },
     });
   }
 
   updateExercise(newExercise: ExercisePostParameters): void {
     this.exerciseService
       .updateExercise(this.baseExercise?.id ?? 0, newExercise)
-      .subscribe((success) => {
-        if (success) {
+      .subscribe({
+        next: () => {
           this.initForm();
           this.onValidate.emit();
-        }
+        },
+        error: () => {
+          this.toastr.error(
+            "Erreur lors de la modification de l'exercice",
+            'Erreur'
+          );
+        },
       });
   }
 }

@@ -29,7 +29,7 @@
       <div class="col-md-4">
         <label class="form-label">UE:</label>
         <select class="form-select" formControlName="course">
-          <option [ngValue]="undefined" selected>Toutes</option>
+          <option value="" selected>Toutes</option>
           @for (course of courseListForSelectedType; track course) {
           <option [ngValue]="course.id">{{course.id}}
           </option>

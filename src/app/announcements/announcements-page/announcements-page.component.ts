@@ -11,6 +11,7 @@ import { BackgroundCardComponent } from '../../shared/components/background-card
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-announcements-page',
@@ -33,7 +34,10 @@ export class AnnouncementsPageComponent implements OnInit {
 
   announcementSortOption = AnnouncementSortOption;
 
-  constructor(private announcementService: AnnouncementService) {}
+  constructor(
+    private announcementService: AnnouncementService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.fetchAnnouncements();
@@ -44,11 +48,17 @@ export class AnnouncementsPageComponent implements OnInit {
       limit: 100,
       sort: this.sortOption,
     };
-    this.announcementService
-      .getAnnouncements(params)
-      .subscribe((announcements) => {
+    this.announcementService.getAnnouncements(params).subscribe({
+      next: (announcements) => {
         this.announcementList = announcements;
-      });
+      },
+      error: () => {
+        this.toastr.error(
+          'Erreur lors de la récupération des annonces',
+          'Erreur'
+        );
+      },
+    });
   }
 
   onSortChange(): void {
