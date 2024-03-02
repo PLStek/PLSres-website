@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { CharbonSortOption } from 'src/app/shared/models/charbon-get-parameters.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-charbons-page',
@@ -32,7 +33,8 @@ export class CharbonsPageComponent implements OnInit {
 
   constructor(
     private charbonService: CharbonService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -48,8 +50,16 @@ export class CharbonsPageComponent implements OnInit {
         limit: 3,
         sort: CharbonSortOption.dateAsc,
       })
-      .subscribe((charbons) => {
-        this.nextThreeCharbons = charbons;
+      .subscribe({
+        next: (charbons) => {
+          this.nextThreeCharbons = charbons;
+        },
+        error: () => {
+          this.toastr.error(
+            'Erreur lors de la récupération des charbons',
+            'Erreur'
+          );
+        },
       });
   }
 

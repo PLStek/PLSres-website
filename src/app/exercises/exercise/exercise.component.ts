@@ -13,6 +13,7 @@ import { Router, RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { take } from 'rxjs';
 import { LoginPopupService } from 'src/app/shared/services/login-popup.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-exercise',
@@ -41,7 +42,8 @@ export class ExerciseComponent implements OnInit {
     private modalService: BsModalService,
     private authService: AuthService,
     private loginPopupService: LoginPopupService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.exerciseList;
     this.editable;
@@ -60,8 +62,18 @@ export class ExerciseComponent implements OnInit {
   fetchExercises(): void {
     this.exerciseService
       .getExercises({ topicId: this.exerciseTopic.id })
-      .subscribe((data: Exercise[]) => {
-        this.exerciseList = data.filter((e) => e.difficulty <= this.maxRating);
+      .subscribe({
+        next: (data: Exercise[]) => {
+          this.exerciseList = data.filter(
+            (e) => e.difficulty <= this.maxRating
+          );
+        },
+        error: () => {
+          this.toastr.error(
+            'Erreur lors de la récupération des exercices',
+            'Erreur'
+          );
+        },
       });
   }
 

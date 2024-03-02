@@ -15,6 +15,7 @@ import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { CharbonCardComponent } from '../charbon-card/charbon-card.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-charbon-list',
@@ -31,20 +32,27 @@ export class CharbonListComponent implements OnInit {
   charbonList: Charbon[] = [];
 
   courseList: Course[] = [];
-  courseListForSelectedType: Course[] = [];
 
   isLoading = false;
   fullyfetched = false;
 
   sortForm!: FormGroup;
 
-  CourseType = CourseType;
   charbonSortOption = CharbonSortOption;
+
+  CourseType = CourseType;
+
+  get courseListForSelectedType(): Course[] {
+    return this.courseList.filter(
+      (course) => course.type == this.sortForm.get('courseType')?.value
+    );
+  }
 
   constructor(
     private charbonService: CharbonService,
     private formBuilder: FormBuilder,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private toastr: ToastrService
   ) {
     this.editable = false;
   }
@@ -52,13 +60,17 @@ export class CharbonListComponent implements OnInit {
   ngOnInit(): void {
     this.sortForm = this.formBuilder.group({
       courseType: new FormControl(CourseType.undefined),
-      course: new FormControl(undefined),
+      course: new FormControl(''),
       sort: new FormControl(CharbonSortOption.dateDesc),
     });
 
-    this.courseService.getCourses().subscribe((data) => {
-      this.courseList = data;
-      this.updateCourseList();
+    this.courseService.getCourses().subscribe({
+      next: (data) => {
+        this.courseList = data;
+      },
+      error: () => {
+        this.toastr.error('Erreur lors de la récupération des cours', 'Erreur');
+      },
     });
 
     this.sortForm.valueChanges.subscribe(() => {
@@ -66,8 +78,7 @@ export class CharbonListComponent implements OnInit {
     });
 
     this.sortForm.get('courseType')?.valueChanges.subscribe(() => {
-      this.updateCourseList();
-      this.sortForm.get('course')?.setValue(undefined);
+      this.sortForm.patchValue({ course: '' });
     });
 
     this.fetchNextCharbons();
@@ -81,12 +92,6 @@ export class CharbonListComponent implements OnInit {
     }
   }
 
-  updateCourseList(): void {
-    this.courseListForSelectedType = this.courseList.filter(
-      (course) => course.type === this.sortForm.get('courseType')?.value
-    );
-  }
-
   fetchNextCharbons(): void {
     this.isLoading = true;
 
@@ -94,7 +99,7 @@ export class CharbonListComponent implements OnInit {
     const formData = this.sortForm.value;
 
     const params: CharbonGetParameters = {
-      course: formData.course ? [formData.course] : undefined,
+      course: formData.course != '' ? [formData.course] : undefined,
       courseType:
         formData.courseType === CourseType.undefined
           ? undefined
@@ -104,21 +109,27 @@ export class CharbonListComponent implements OnInit {
       sort: formData.sort,
     };
 
-    this.charbonService.getCharbonList(params).subscribe((charbons) => {
-      this.charbonList.push(...charbons);
-      this.isLoading = false;
-      if (charbons.length < this.CHARBON_PER_PAGE) {
-        this.fullyfetched = true;
-      }
+    this.charbonService.getCharbonList(params).subscribe({
+      next: (charbons) => {
+        this.charbonList.push(...charbons);
+        this.isLoading = false;
+        if (charbons.length < this.CHARBON_PER_PAGE) {
+          this.fullyfetched = true;
+        }
+      },
+      error: () => {
+        this.toastr.error(
+          'Erreur lors de la récupération des charbons',
+          'Erreur'
+        );
+      },
     });
   }
 
   // Dynamic fetching of charbons
   @HostListener('window:scroll', ['$event'])
   onScroll() {
-    // Check if the user has reached the bottom of the page
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      // Load more users when reaching the bottom
       if (!this.isLoading && !this.fullyfetched) {
         this.fetchNextCharbons();
       }

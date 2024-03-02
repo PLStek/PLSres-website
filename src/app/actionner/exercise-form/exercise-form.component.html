@@ -7,7 +7,7 @@
     }
     <div class="row">
       <div class="col">
-        <select class="form-select form-select-md mt-3" formControlName="courseType">
+        <select class="form-select form-select-md mt-3" formControlName="courseType" (change)="onCourseTypeChange()">
           <option [ngValue]="CourseType.undefined" disabled>Choisir un type d'UE</option>
           <option [ngValue]="CourseType.elec">Elec</option>
           <option [ngValue]="CourseType.info">Info</option>

@@ -19,6 +19,7 @@ import {
   withInterceptorsFromDi,
   provideHttpClient,
 } from '@angular/common/http';
+import { provideToastr } from 'ngx-toastr';
 
 const routes: Routes = [
   {
@@ -90,6 +91,9 @@ bootstrapApplication(AppComponent, {
     DatePipe,
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
+    provideToastr({
+      preventDuplicates: true,
+    }),
     provideRouter(routes, withComponentInputBinding()),
   ],
 }).catch((err) => console.error(err));

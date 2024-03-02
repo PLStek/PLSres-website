@@ -10,13 +10,14 @@ import {
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-    selector: 'app-calendar',
-    templateUrl: './calendar.component.html',
-    styleUrls: ['./calendar.component.scss'],
-    standalone: true,
-    imports: [FullCalendarModule],
+  selector: 'app-calendar',
+  templateUrl: './calendar.component.html',
+  styleUrls: ['./calendar.component.scss'],
+  standalone: true,
+  imports: [FullCalendarModule],
 })
 export class CalendarComponent {
   calendarEvents: EventInput[] = [];
@@ -27,7 +28,8 @@ export class CalendarComponent {
 
   constructor(
     private charbonService: CharbonService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private toastr: ToastrService
   ) {}
 
   handleEventClick(clickInfo: EventClickArg): void {
@@ -42,11 +44,18 @@ export class CalendarComponent {
   addCurrentMonthEvents(minDate: Date, maxDate: Date): void {
     this.charbonService
       .getCharbonList({ minDate: minDate, maxDate: maxDate })
-      .subscribe((charbons) =>
-        charbons.forEach((charbon: Charbon) =>
-          this.addEventIfNotExists(charbon)
-        )
-      );
+      .subscribe({
+        next: (charbons) =>
+          charbons.forEach((charbon: Charbon) =>
+            this.addEventIfNotExists(charbon)
+          ),
+        error: () => {
+          this.toastr.error(
+            'Erreur lors du chargement du calendrier',
+            'Erreur'
+          );
+        },
+      });
   }
   addEventIfNotExists(charbon: Charbon): void {
     const eventExists = this.calendarApi
@@ -73,7 +82,7 @@ export class CalendarComponent {
       id: charbon.id.toString(),
       title: charbon.course,
       start: isoFormattedDate!,
-      end: endDate!, 
+      end: endDate!,
       display: 'block',
       backgroundColor: '#' + charbon.courseType,
       borderColor: '#D2D2D2',

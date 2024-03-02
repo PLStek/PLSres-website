@@ -7,7 +7,7 @@ import { Charbon } from 'src/app/shared/models/charbon.model';
 import { getCourseType } from '../utils/course-type.model';
 import { CharbonGetParameters } from '../models/charbon-get-parameters.model';
 import { environment } from 'src/environments/environment';
-import { setParam } from '../utils/set_params';
+import { setParam } from '../utils/set-params';
 import { getAuthHeader } from '../utils/auth-header';
 
 interface ApiResponse {

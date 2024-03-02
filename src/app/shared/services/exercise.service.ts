@@ -5,7 +5,7 @@ import { Exercise } from 'src/app/shared/models/exercise.model';
 import { base64Decode, convertFileToBase64 } from '../utils/base64-converter';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
 import { environment } from 'src/environments/environment';
-import { setParam } from '../utils/set_params';
+import { setParam } from '../utils/set-params';
 import { getAuthHeader } from '../utils/auth-header';
 
 interface ApiResponse {
