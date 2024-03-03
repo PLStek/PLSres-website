@@ -1,4 +1,4 @@
-<div class="charbon-card card text-center mt-1" style="width: 20em;">
+<!-- <div class="charbon-card card text-center mt-1" style="width: 20em;">
   <ng-container>
     <div [ngClass]="'course-color-'+charbon.courseType"
       class="card-header container-fluid d-flex justify-content-between" style="height: 2.5rem;">
@@ -44,4 +44,25 @@
       }
     </div>
   </ng-container>
+</div> -->
+
+<div [ngClass]="'charbon-card color-'+charbon.courseType">
+  <div class="charbon-card-title">
+    {{charbon.title}}
+    <span class="ms-3" [ngClass]="'pill-'+charbon.courseType">
+      @switch (charbon.courseType) {
+      @case (CourseType.elec) {Elec}
+      @case (CourseType.info) {Info}
+      @case (CourseType.meca) {Meca}
+      @case (CourseType.maths) {Math}
+      }
+    </span>
+    <span class="ms-2" [ngClass]="'pill-'+CourseType.undefined">{{charbon.course}}</span>
+  </div>
+  <div class="charbon-card-description">{{charbon.description}}</div>
+  <div class="charbon-card-footer">
+    <span class="me-2"><img src="assets/images/people.svg" alt=""> {{charbon.actionneurs}}</span>
+    <span class="mx-2"><img src="assets/images/clock.svg" alt=""> {{charbon.date | date: 'dd/MM/yyyy'}},
+      <strong><u>{{charbon.date | date: 'HH\'h\'mm'}}</u></strong></span>
+  </div>
 </div>

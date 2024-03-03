@@ -35,7 +35,7 @@
     </div>
   </form>
 </div>
-<div class="row row-cols-auto" style="justify-content: center;">
+<div class="row " style="justify-content: center;">
   @for (charbon of charbonList; track charbon) {
   <app-charbon-card class="mt-4" [charbon]="charbon" [editable]="editable"
     (popupClosed)="resetCharbons()"></app-charbon-card>

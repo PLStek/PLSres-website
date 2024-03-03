@@ -1,18 +1,58 @@
 @import '../../shared/styles/variables.scss';
 
 .charbon-card {
-    width: auto;
+    width: 100%;
     height: auto;
-}
+    border: 1px solid #BBBBBB;
+    background-color: #FDFDFD;
+    border-radius: 7px;
+    padding: 1em;
+    position: relative;
 
-@each $color in $course-colors {
-    .course-color-#{$color} {
-        background-color: #{'#' + $color};
-        color: white;
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 100%;
+        border-top-left-radius: inherit;
+        border-bottom-left-radius: inherit;
     }
 }
 
-.charbon-img-inline {
-    margin-right: 1em;
-    height: 1.5em;
+.charbon-card-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0.5em;
+}
+
+.charbon-card-description {
+    font-size: 14px;
+    margin-bottom: 0.5em;
+}
+
+.charbon-card-footer {
+    font-size: 14px;
+}
+
+
+
+
+
+
+@each $color in $course-colors {
+    .color-#{$color}::before {
+        background-color: #{'#' + $color};
+    }
+
+    .pill-#{$color} {
+        font-size: 14px;
+        padding: 0.2em 0.8em;
+        border-radius: 2em;
+        height: 1em;
+        background-color: #{'#' + $color + "30"};;
+        color: #{'#' + $color};
+        border: 1px solid #{'#' + $color};
+    }
 }
