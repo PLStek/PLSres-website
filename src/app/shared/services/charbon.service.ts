@@ -1,5 +1,5 @@
 import { CharbonPostParameters } from './../models/charbon-post-parameters.model';
-import { CourseType, getCourseTypeName } from './../utils/course-type.model';
+import { getCourseTypeName } from './../utils/course-type.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
