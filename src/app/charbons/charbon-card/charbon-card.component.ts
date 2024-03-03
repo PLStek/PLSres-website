@@ -24,6 +24,8 @@ import { DurationPipe } from 'src/app/shared/pipes/duration.pipe';
 export class CharbonCardComponent {
   @Input() charbon!: Charbon;
   @Input() editable: boolean = false;
+  @Input() first: boolean = false;
+  @Input() last: boolean = false;
 
   CourseType = CourseType;
 

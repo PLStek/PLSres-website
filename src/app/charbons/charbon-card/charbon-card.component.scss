@@ -5,9 +5,13 @@
     height: auto;
     border: 1px solid #BBBBBB;
     background-color: #FDFDFD;
-    border-radius: 7px;
     padding: 1em;
     position: relative;
+
+    border-top-left-radius: var(--border-radius-top, 7px);
+    border-top-right-radius: var(--border-radius-top, 7px);
+    border-bottom-left-radius: var(--border-radius-bottom, 7px);
+    border-bottom-right-radius: var(--border-radius-bottom, 7px);
 
     &::before {
         content: "";
@@ -19,6 +23,7 @@
         border-top-left-radius: inherit;
         border-bottom-left-radius: inherit;
     }
+
 }
 
 .charbon-card-title {

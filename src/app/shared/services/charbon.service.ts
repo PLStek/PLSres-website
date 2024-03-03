@@ -26,7 +26,9 @@ interface ApiResponse {
   providedIn: 'root',
 })
 export class CharbonService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    console.log('CharbonService created');
+  }
 
   private transformRes = (ch: ApiResponse) =>
     new Charbon(
