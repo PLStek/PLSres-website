@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
-import {
-  getCourseType,
-  getCourseTypeName,
-} from 'src/app/shared/utils/course-type.model';
+import { getCourseType } from 'src/app/shared/utils/course-type.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map, shareReplay } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ExerciseTopicPostParameters } from '../models/exercise-topic-post-parameters';
-import { ExerciseTopicGetParameters } from '../models/exercise-topic-get-parameters.model';
 import { environment } from 'src/environments/environment';
-import { setParam } from '../utils/set-params';
 import { getAuthHeader } from '../utils/auth-header';
 
 interface ApiResponse {
@@ -24,7 +19,7 @@ interface ApiResponse {
   providedIn: 'root',
 })
 export class ExerciseTopicService {
-  exerciseTopicList!: ExerciseTopic[];
+  private exerciseTopics$?: Observable<ExerciseTopic[]>;
 
   constructor(private http: HttpClient) {}
 
@@ -38,22 +33,17 @@ export class ExerciseTopicService {
       el.exercise_count ? Number(el.exercise_count) : 1
     );
 
-  getExerciseTopicList(
-    options: ExerciseTopicGetParameters = {}
-  ): Observable<ExerciseTopic[]> {
-    let params = new HttpParams();
+  getExerciseTopicList(useCache: boolean = true): Observable<ExerciseTopic[]> {
+    if (!useCache || !this.exerciseTopics$) {
+      this.exerciseTopics$ = this.http
+        .get<ApiResponse[]>(`${environment.apiURL}/exercise_topics/`)
+        .pipe(
+          map((data) => data.map(this.transformRes)),
+          shareReplay(1)
+        );
+    }
 
-    params = setParam(params, 'courses', options.courses);
-    params = setParam(
-      params,
-      'course_type',
-      options.courseType ? getCourseTypeName(options.courseType) : undefined
-    );
-    params = setParam(params, 'sort', options.sort);
-
-    return this.http
-      .get<ApiResponse[]>(`${environment.apiURL}/exercise_topics/`, { params })
-      .pipe(map((data) => data.map(this.transformRes)));
+    return this.exerciseTopics$;
   }
 
   addExerciseTopic(
