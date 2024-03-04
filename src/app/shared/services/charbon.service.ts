@@ -1,8 +1,8 @@
 import { CharbonPostParameters } from './../models/charbon-post-parameters.model';
-import { CourseType, getCourseTypeName } from './../utils/course-type.model';
+import { getCourseTypeName } from './../utils/course-type.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map, shareReplay, tap } from 'rxjs';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { getCourseType } from '../utils/course-type.model';
 import { CharbonGetParameters } from '../models/charbon-get-parameters.model';
@@ -26,6 +26,8 @@ interface ApiResponse {
   providedIn: 'root',
 })
 export class CharbonService {
+  private cache: Map<string, Observable<Charbon[]>> = new Map();
+
   constructor(private http: HttpClient) {}
 
   private transformRes = (ch: ApiResponse) =>
@@ -41,7 +43,10 @@ export class CharbonService {
       ch.duration
     );
 
-  getCharbonList(options: CharbonGetParameters = {}): Observable<Charbon[]> {
+  getCharbonList(
+    options: CharbonGetParameters = {},
+    useCache: boolean = true
+  ): Observable<Charbon[]> {
     let params = new HttpParams();
     params = setParam(params, 'course', options.course);
     params = setParam(
@@ -55,11 +60,21 @@ export class CharbonService {
     params = setParam(params, 'limit', options.limit);
     params = setParam(params, 'sort', options.sort);
 
-    return this.http
-      .get<ApiResponse[]>(`${environment.apiURL}/charbons/`, {
-        params,
-      })
-      .pipe(map((chList) => chList.map(this.transformRes)));
+    const cacheKey = params.toString();
+
+    if (!this.cache.has(cacheKey) || !useCache) {
+      let charbon$ = this.http
+        .get<ApiResponse[]>(`${environment.apiURL}/charbons/`, {
+          params,
+        })
+        .pipe(
+          map((chList) => chList.map(this.transformRes)),
+          shareReplay(1)
+        );
+      this.cache.set(cacheKey, charbon$);
+    }
+
+    return this.cache.get(cacheKey)!;
   }
 
   addCharbon(data: CharbonPostParameters): Observable<Charbon> {

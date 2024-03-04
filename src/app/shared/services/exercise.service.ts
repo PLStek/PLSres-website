@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, switchMap } from 'rxjs';
+import { Observable, map, shareReplay, switchMap } from 'rxjs';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { base64Decode, convertFileToBase64 } from '../utils/base64-converter';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
@@ -23,6 +23,8 @@ interface ApiResponse {
   providedIn: 'root',
 })
 export class ExerciseService {
+  private cache: Map<number, Observable<Exercise[]>> = new Map();
+
   constructor(private http: HttpClient) {}
 
   private transformRes = (element: ApiResponse) =>
@@ -38,19 +40,24 @@ export class ExerciseService {
     );
 
   getExercises(
-    //TODO: replace by ExerciseGetParameters
-    options: {
-      topicId?: number;
-      content?: boolean;
-    } = {}
+    topicId: number,
+    useCache: boolean = true
   ): Observable<Exercise[]> {
     let params = new HttpParams();
-    params = setParam(params, 'topic_id', options.topicId);
-    params = setParam(params, 'content', options.content);
+    params = setParam(params, 'topic_id', topicId);
 
-    return this.http
-      .get<ApiResponse[]>(`${environment.apiURL}/exercises/`, { params })
-      .pipe(map((data) => data.map(this.transformRes)));
+    if (!useCache || !this.cache.has(topicId)) {
+      let exercises$ = this.http
+        .get<ApiResponse[]>(`${environment.apiURL}/exercises/`, { params })
+        .pipe(
+          map((data) => data.map(this.transformRes)),
+          shareReplay(1)
+        );
+
+      this.cache.set(topicId, exercises$);
+    }
+
+    return this.cache.get(topicId)!;
   }
 
   getExercise(id: number): Observable<Exercise> {
