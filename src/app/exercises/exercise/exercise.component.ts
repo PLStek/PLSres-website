@@ -60,21 +60,17 @@ export class ExerciseComponent implements OnInit {
   }
 
   fetchExercises(): void {
-    this.exerciseService
-      .getExercises({ topicId: this.exerciseTopic.id })
-      .subscribe({
-        next: (data: Exercise[]) => {
-          this.exerciseList = data.filter(
-            (e) => e.difficulty <= this.maxRating
-          );
-        },
-        error: () => {
-          this.toastr.error(
-            'Erreur lors de la récupération des exercices',
-            'Erreur'
-          );
-        },
-      });
+    this.exerciseService.getExercises(this.exerciseTopic.id).subscribe({
+      next: (data: Exercise[]) => {
+        this.exerciseList = data.filter((e) => e.difficulty <= this.maxRating);
+      },
+      error: () => {
+        this.toastr.error(
+          'Erreur lors de la récupération des exercices',
+          'Erreur'
+        );
+      },
+    });
   }
 
   openEditPopup(exercise: Exercise): void {
