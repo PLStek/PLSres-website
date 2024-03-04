@@ -1,9 +1,10 @@
+import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { DateIntervalPipe } from '../../shared/pipes/date-interval.pipe';
 import { ColorButtonComponent } from '../../shared/components/color-button/color-button.component';
-import { NgClass, DatePipe } from '@angular/common';
+import { NgClass, DatePipe, NgStyle } from '@angular/common';
 import { DurationPipe } from 'src/app/shared/pipes/duration.pipe';
 
 @Component({
@@ -13,6 +14,7 @@ import { DurationPipe } from 'src/app/shared/pipes/duration.pipe';
   standalone: true,
   imports: [
     NgClass,
+    NgStyle,
     ColorButtonComponent,
     DatePipe,
     DateIntervalPipe,
@@ -22,6 +24,10 @@ import { DurationPipe } from 'src/app/shared/pipes/duration.pipe';
 export class CharbonCardComponent {
   @Input() charbon!: Charbon;
   @Input() editable: boolean = false;
+  @Input() first: boolean = false;
+  @Input() last: boolean = false;
+
+  CourseType = CourseType;
 
   @Output() popupClosed: EventEmitter<void> = new EventEmitter<void>();
 

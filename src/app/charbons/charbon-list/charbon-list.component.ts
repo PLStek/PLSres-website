@@ -16,13 +16,14 @@ import { CourseService } from 'src/app/shared/services/course.service';
 import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { CharbonCardComponent } from '../charbon-card/charbon-card.component';
 import { ToastrService } from 'ngx-toastr';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-charbon-list',
   templateUrl: './charbon-list.component.html',
   styleUrls: ['./charbon-list.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, CharbonCardComponent],
+  imports: [ReactiveFormsModule, CharbonCardComponent, NgStyle],
 })
 export class CharbonListComponent implements OnInit {
   readonly CHARBON_PER_PAGE = 9;
