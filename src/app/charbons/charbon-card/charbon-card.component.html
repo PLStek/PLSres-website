@@ -46,8 +46,8 @@
   </ng-container>
 </div> -->
 
-<div [class]="'charbon-card color-'+charbon.courseType" [ngClass]="{'first-card': first, 'last-card': last}">
-  <div class="charbon-card-title">
+<div [class]="'charbon-card color-'+charbon.courseType">
+  <div class=" charbon-card-title">
     {{charbon.title}}
     <span class="ms-3" [ngClass]="'pill-'+charbon.courseType">
       @switch (charbon.courseType) {
@@ -61,7 +61,7 @@
   </div>
   <div class="charbon-card-description">{{charbon.description}}</div>
   <div class="charbon-card-footer">
-    <span class="me-2"><img src="assets/images/people.svg" alt=""> {{charbon.actionneurs}}</span>
+    <span class="me-2"><img src="assets/images/people.svg" alt=""> {{actionneurs}}</span>
     <span class="mx-2"><img src="assets/images/clock.svg" alt=""> {{charbon.date | date: 'dd/MM/yyyy'}},
       <strong><u>{{charbon.date | date: 'HH\'h\'mm'}}</u></strong></span>
   </div>
