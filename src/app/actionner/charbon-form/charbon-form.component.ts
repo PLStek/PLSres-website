@@ -81,7 +81,7 @@ export class AddCharbonComponent implements OnInit {
         data.courseType,
         new Date(data.date),
         data.title,
-        data.actionneurs?.map((a: User) => a.username),
+        data.actionneurs?.map((a: User) => a.id),
         data.description,
         data.replayLink,
         data.resourcesLink

@@ -17,6 +17,8 @@ import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { CharbonCardComponent } from '../charbon-card/charbon-card.component';
 import { ToastrService } from 'ngx-toastr';
 import { NgStyle } from '@angular/common';
+import { UserService } from 'src/app/shared/services/user.service';
+import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-charbon-list',
@@ -53,7 +55,8 @@ export class CharbonListComponent implements OnInit {
     private charbonService: CharbonService,
     private formBuilder: FormBuilder,
     private courseService: CourseService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userService: UserService
   ) {
     this.editable = false;
   }
