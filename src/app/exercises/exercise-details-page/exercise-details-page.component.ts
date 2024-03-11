@@ -5,11 +5,10 @@ import { ExerciseService } from 'src/app/shared/services/exercise.service';
 import { BackgroundCardComponent } from '../../shared/components/background-card/background-card.component';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { Title } from '@angular/platform-browser';
-import { take, takeWhile } from 'rxjs';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { LoginPopupComponent } from 'src/app/shared/components/login-popup/login-popup.component';
+import { take } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { LoginPopupService } from 'src/app/shared/services/login-popup.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-exercise-details-page',
@@ -21,13 +20,15 @@ import { LoginPopupService } from 'src/app/shared/services/login-popup.service';
 export class ExerciseDetailsPageComponent implements OnInit {
   @Input() id!: number;
   exercise?: Exercise = undefined;
+  content?: string;
 
   constructor(
     private router: Router,
     private exerciseService: ExerciseService,
     private authService: AuthService,
     private loginPopupService: LoginPopupService,
-    private title: Title
+    private title: Title,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -39,10 +40,30 @@ export class ExerciseDetailsPageComponent implements OnInit {
       next: (ex) => {
         this.exercise = ex;
         this.updateTitle();
+        this.getExerciseContent();
+      },
+      error: () => {
+        this.toastr.error(
+          "Erreur lors de la récupération de l'exercice",
+          'Erreur'
+        );
+      },
+    });
+  }
+
+  getExerciseContent() {
+    this.exerciseService.getExerciseContent(this.id).subscribe({
+      next: (content) => {
+        this.content = content;
       },
       error: (error) => {
         if (error.status === 401) {
           this.openLoginPopup();
+        } else {
+          this.toastr.error(
+            "Erreur lors de la récupération du contenu de l'exercice",
+            'Erreur'
+          );
         }
       },
     });
@@ -60,7 +81,9 @@ export class ExerciseDetailsPageComponent implements OnInit {
         .isLogged()
         .pipe(take(1)) // Change to takeWhile to handle deconnexion
         .subscribe((isLogged) =>
-          isLogged ? this.getExercise() : this.router.navigate(['/exercices'])
+          isLogged
+            ? this.getExerciseContent()
+            : this.router.navigate(['/exercices'])
         );
     });
   }
