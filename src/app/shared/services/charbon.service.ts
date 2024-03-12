@@ -78,7 +78,9 @@ export class CharbonService {
   }
 
   getCharbonContent(id: number): Observable<Blob> {
+    const headers = getAuthHeader();
     return this.http.get(`${environment.apiURL}/charbons/${id}/content/`, {
+      headers,
       responseType: 'blob',
     });
   }

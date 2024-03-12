@@ -16,6 +16,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
+import { LoginPopupService } from 'src/app/shared/services/login-popup.service';
 
 @Component({
   selector: 'app-charbon-card',
@@ -44,7 +45,8 @@ export class CharbonCardComponent implements OnChanges {
     private modalService: BsModalService,
     private userService: UserService,
     private toastr: ToastrService,
-    private charbonService: CharbonService
+    private charbonService: CharbonService,
+    private loginPopupService: LoginPopupService
   ) {
     this.charbon;
     this.editable;
@@ -103,11 +105,15 @@ export class CharbonCardComponent implements OnChanges {
         link.click();
         window.URL.revokeObjectURL(url);
       },
-      error: () => {
-        this.toastr.error(
-          'Erreur lors de la récupération du contenu du charbon',
-          'Erreur'
-        );
+      error: (error) => {
+        if (error.status === 401) {
+          this.loginPopupService.open();
+        } else {
+          this.toastr.error(
+            'Erreur lors de la récupération du contenu du charbon',
+            'Erreur'
+          );
+        }
       },
     });
   }
