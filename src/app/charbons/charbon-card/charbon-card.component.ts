@@ -14,6 +14,8 @@ import { NgClass, DatePipe, NgStyle } from '@angular/common';
 import { DurationPipe } from 'src/app/shared/pipes/duration.pipe';
 import { UserService } from 'src/app/shared/services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
+import { CharbonService } from 'src/app/shared/services/charbon.service';
 
 @Component({
   selector: 'app-charbon-card',
@@ -41,7 +43,8 @@ export class CharbonCardComponent implements OnChanges {
   constructor(
     private modalService: BsModalService,
     private userService: UserService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private charbonService: CharbonService
   ) {
     this.charbon;
     this.editable;
@@ -87,6 +90,25 @@ export class CharbonCardComponent implements OnChanges {
       modalRef.onHidden?.subscribe(() => {
         this.popupClosed.emit();
       });
+    });
+  }
+
+  downloadContent() {
+    this.charbonService.getCharbonContent(this.charbon.id).subscribe({
+      next: (content) => {
+        const url = window.URL.createObjectURL(content);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `[${this.charbon.course}] ${this.charbon.title}`;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: () => {
+        this.toastr.error(
+          'Erreur lors de la récupération du contenu du charbon',
+          'Erreur'
+        );
+      },
     });
   }
 }

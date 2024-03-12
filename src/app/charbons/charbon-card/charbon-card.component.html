@@ -64,5 +64,8 @@
     <span class="me-2"><img src="assets/images/people.svg" alt=""> {{actionneurs}}</span>
     <span class="mx-2"><img src="assets/images/clock.svg" alt=""> {{charbon.date | date: 'dd/MM/yyyy'}},
       <strong><u>{{charbon.date | date: 'HH\'h\'mm'}}</u></strong></span>
+    <span class="mx-2"><img src="assets/images/download.svg" alt="">
+      <a class="custom-link" (click)="downloadContent()">Télécharger</a>
+    </span>
   </div>
 </div>

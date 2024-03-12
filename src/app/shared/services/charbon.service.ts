@@ -30,7 +30,6 @@ export class CharbonService {
 
   constructor(private http: HttpClient) {}
 
-
   private transformRes = (ch: ApiResponse) =>
     new Charbon(
       ch.id,
@@ -76,6 +75,12 @@ export class CharbonService {
     }
 
     return this.cache.get(cacheKey)!;
+  }
+
+  getCharbonContent(id: number): Observable<Blob> {
+    return this.http.get(`${environment.apiURL}/charbons/${id}/content/`, {
+      responseType: 'blob',
+    });
   }
 
   addCharbon(data: CharbonPostParameters): Observable<Charbon> {
