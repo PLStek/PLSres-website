@@ -5,8 +5,30 @@
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/PLStek/PLSres-website)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/PLStek/PLSres-website)
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+This is the Angular frontend of the PLSres website. It allows the centralization of teaching resources linked to the PL$tek project.
 
-## Build
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Prerequisites
+Before you begin, ensure that you have Angular installed.
+Additionally, make sure the backend [API](https://github.com/PLStek/PLSapi) is set up and running.
+
+## Installation and setup
+
+Clone the repository and navigate to the project repository
+```bash
+git clone https://github.com/PLStek/PLSres-website
+cd PLSres-website
+```
+
+Install dependencies
+```bash
+npm install
+```
+
+Update the API URL in `environment.ts` to match your backend setup.
+
+## Running the app
+
+To run the app, simply use the command
+```bash
+ng serve
+```
