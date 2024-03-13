@@ -102,6 +102,18 @@ export class CharbonService {
       .pipe(map(this.transformRes));
   }
 
+  addCharbonContent(id: number, content: File): Observable<null> {
+    const headers = getAuthHeader();
+    const formData = new FormData();
+
+    formData.append('file', content);
+    return this.http.post<null>(
+      `${environment.apiURL}/charbons/${id}/content/`,
+      formData,
+      { headers }
+    );
+  }
+
   updateCharbon(id: number, data: CharbonPostParameters): Observable<Charbon> {
     const body = {
       title: data.title,
@@ -119,6 +131,18 @@ export class CharbonService {
         headers,
       })
       .pipe(map(this.transformRes));
+  }
+
+  updateCharbonContent(id: number, content: File): Observable<null> {
+    const headers = getAuthHeader();
+    const formData = new FormData();
+
+    formData.append('file', content);
+    return this.http.put<null>(
+      `${environment.apiURL}/charbons/${id}/content/`,
+      formData,
+      { headers }
+    );
   }
 
   deleteCharbon(id: number): Observable<null> {

@@ -131,6 +131,7 @@ export class AddCharbonComponent implements OnInit {
         Validators.minLength(8),
       ]),
       replayLink: new FormControl(''),
+      content: new FormControl(null, Validators.required),
     });
   }
 
@@ -145,6 +146,7 @@ export class AddCharbonComponent implements OnInit {
       ),
       description: charbon.description,
       replayLink: charbon.replayLink,
+      content: null,
     });
   }
 
@@ -155,6 +157,11 @@ export class AddCharbonComponent implements OnInit {
 
   onCourseTypeChange() {
     this.form.patchValue({ course: '' });
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    this.form.get('content')?.setValue(file);
   }
 
   submit(): void {
@@ -178,10 +185,20 @@ export class AddCharbonComponent implements OnInit {
   private addCharbon(newCharbon: CharbonPostParameters): void {
     this.charbonService.addCharbon(newCharbon).subscribe({
       next: (charb) => {
+        this.addContent(charb.id, this.form.get('content')?.value);
         this.initForm();
         this.onValidate.emit();
       },
       error: (err) => {},
+    });
+  }
+
+  private addContent(id: number, content: File) {
+    console.log(content);
+    this.charbonService.addCharbonContent(id, content).subscribe({
+      error: () => {
+        this.toastr.error("Erreur lors de l'ajout du contenu", 'Erreur');
+      },
     });
   }
 
