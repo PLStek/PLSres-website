@@ -63,6 +63,10 @@
         <input type="text" class="form-control mt-3" placeholder="Lien de la rediffusion" formControlName="replayLink">
         }
 
+
+        <div class="mt-2">Contenu (optionel)</div>
+        <input type="file" class="form-control" (change)="onFileSelected($event)">
+
         <div class="col-12 mt-3">
           <app-main-button [isFilled]="true" [isBig]="true" (click)="submit()">Valider</app-main-button>
         </div>

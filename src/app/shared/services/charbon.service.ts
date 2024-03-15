@@ -20,6 +20,7 @@ interface ApiResponse {
   description: string;
   replay_link?: string;
   duration?: number;
+  resources: boolean;
 }
 
 @Injectable({
@@ -29,7 +30,6 @@ export class CharbonService {
   private cache: Map<string, Observable<Charbon[]>> = new Map();
 
   constructor(private http: HttpClient) {}
-
 
   private transformRes = (ch: ApiResponse) =>
     new Charbon(
@@ -41,7 +41,8 @@ export class CharbonService {
       ch.actionneurs,
       ch.description,
       ch.replay_link,
-      ch.duration
+      ch.duration,
+      ch.resources
     );
 
   getCharbonList(
@@ -78,6 +79,14 @@ export class CharbonService {
     return this.cache.get(cacheKey)!;
   }
 
+  getCharbonContent(id: number): Observable<Blob> {
+    const headers = getAuthHeader();
+    return this.http.get(`${environment.apiURL}/charbons/${id}/content/`, {
+      headers,
+      responseType: 'blob',
+    });
+  }
+
   addCharbon(data: CharbonPostParameters): Observable<Charbon> {
     const body = {
       title: data.title,
@@ -93,6 +102,18 @@ export class CharbonService {
     return this.http
       .post<ApiResponse>(`${environment.apiURL}/charbons/`, body, { headers })
       .pipe(map(this.transformRes));
+  }
+
+  addCharbonContent(id: number, content: File): Observable<null> {
+    const headers = getAuthHeader();
+    const formData = new FormData();
+
+    formData.append('file', content);
+    return this.http.post<null>(
+      `${environment.apiURL}/charbons/${id}/content/`,
+      formData,
+      { headers }
+    );
   }
 
   updateCharbon(id: number, data: CharbonPostParameters): Observable<Charbon> {
@@ -112,6 +133,18 @@ export class CharbonService {
         headers,
       })
       .pipe(map(this.transformRes));
+  }
+
+  updateCharbonContent(id: number, content: File): Observable<null> {
+    const headers = getAuthHeader();
+    const formData = new FormData();
+
+    formData.append('file', content);
+    return this.http.put<null>(
+      `${environment.apiURL}/charbons/${id}/content/`,
+      formData,
+      { headers }
+    );
   }
 
   deleteCharbon(id: number): Observable<null> {
