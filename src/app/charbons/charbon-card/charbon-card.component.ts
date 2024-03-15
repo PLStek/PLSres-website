@@ -14,7 +14,6 @@ import { NgClass, DatePipe, NgStyle } from '@angular/common';
 import { DurationPipe } from 'src/app/shared/pipes/duration.pipe';
 import { UserService } from 'src/app/shared/services/user.service';
 import { ToastrService } from 'ngx-toastr';
-import { environment } from 'src/environments/environment';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { LoginPopupService } from 'src/app/shared/services/login-popup.service';
 

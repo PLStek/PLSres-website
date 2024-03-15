@@ -131,7 +131,7 @@ export class AddCharbonComponent implements OnInit {
         Validators.minLength(8),
       ]),
       replayLink: new FormControl(''),
-      content: new FormControl(null, Validators.required),
+      content: new FormControl(null),
     });
   }
 
@@ -185,11 +185,14 @@ export class AddCharbonComponent implements OnInit {
   private addCharbon(newCharbon: CharbonPostParameters): void {
     this.charbonService.addCharbon(newCharbon).subscribe({
       next: (charb) => {
-        this.addContent(charb.id, this.form.get('content')?.value);
+        const content = this.form.get('content')?.value;
+        if (content) this.addContent(charb.id, content);
         this.initForm();
         this.onValidate.emit();
       },
-      error: (err) => {},
+      error: () => {
+        this.toastr.error("Erreur lors de l'ajout du charbon", 'Erreur');
+      },
     });
   }
 
@@ -207,10 +210,25 @@ export class AddCharbonComponent implements OnInit {
       .updateCharbon(this.baseCharbon?.id ?? 0, newCharbon)
       .subscribe({
         next: (charb) => {
-          console.log(charb);
+          const content = this.form.get('content')?.value;
+          if (content) this.updateContent(charb.id, content);
           this.initForm();
           this.onValidate.emit();
         },
+        error: () => {
+          this.toastr.error(
+            'Erreur lors de la mise à jour du charbon',
+            'Erreur'
+          );
+        },
       });
+  }
+
+  private updateContent(id: number, content: File) {
+    this.charbonService.updateCharbonContent(id, content).subscribe({
+      error: () => {
+        this.toastr.error('Erreur lors de la mise à jour du contenu', 'Erreur');
+      },
+    });
   }
 }
