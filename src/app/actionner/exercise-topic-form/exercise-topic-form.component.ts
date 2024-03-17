@@ -111,11 +111,12 @@ export class ExerciseTopicFormComponent implements OnInit {
       error: (error) => {
         if (error.status === 401) {
           this.authService.logout(true);
+        } else {
+          this.toastr.error(
+            "Erreur lors de l'ajout du thème d'exercice",
+            'Erreur'
+          );
         }
-        this.toastr.error(
-          "Erreur lors de l'ajout du thème d'exercice",
-          'Erreur'
-        );
       },
     });
   }

@@ -195,8 +195,9 @@ export class AddCharbonComponent implements OnInit {
       error: (error) => {
         if (error.status === 401) {
           this.authService.logout(true);
+        } else {
+          this.toastr.error("Erreur lors de l'ajout du charbon", 'Erreur');
         }
-        this.toastr.error("Erreur lors de l'ajout du charbon", 'Erreur');
       },
     });
   }
@@ -207,8 +208,9 @@ export class AddCharbonComponent implements OnInit {
       error: (error) => {
         if (error.status === 401) {
           this.authService.logout(true);
+        } else {
+          this.toastr.error("Erreur lors de l'ajout du contenu", 'Erreur');
         }
-        this.toastr.error("Erreur lors de l'ajout du contenu", 'Erreur');
       },
     });
   }
@@ -226,11 +228,12 @@ export class AddCharbonComponent implements OnInit {
         error: (error) => {
           if (error.status === 401) {
             this.authService.logout(true);
+          } else {
+            this.toastr.error(
+              'Erreur lors de la mise à jour du charbon',
+              'Erreur'
+            );
           }
-          this.toastr.error(
-            'Erreur lors de la mise à jour du charbon',
-            'Erreur'
-          );
         },
       });
   }
@@ -240,8 +243,12 @@ export class AddCharbonComponent implements OnInit {
       error: (error) => {
         if (error.status === 401) {
           this.authService.logout(true);
+        } else {
+          this.toastr.error(
+            'Erreur lors de la mise à jour du contenu',
+            'Erreur'
+          );
         }
-        this.toastr.error('Erreur lors de la mise à jour du contenu', 'Erreur');
       },
     });
   }

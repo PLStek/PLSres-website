@@ -36,11 +36,12 @@ export class CharbonEditionPopup {
         error: (error) => {
           if (error.status === 401) {
             this.authService.logout(true);
+          } else {
+            this.toastr.error(
+              'Erreur lors de la suppression du charbon',
+              'Erreur'
+            );
           }
-          this.toastr.error(
-            'Erreur lors de la suppression du charbon',
-            'Erreur'
-          );
         },
       });
     }

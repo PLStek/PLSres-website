@@ -146,8 +146,9 @@ export class AddExerciceComponent implements OnInit {
       error: (error) => {
         if (error.status === 401) {
           this.authService.logout(true);
+        } else {
+          this.toastr.error("Erreur lors de l'ajout de l'exercice", 'Erreur');
         }
-        this.toastr.error("Erreur lors de l'ajout de l'exercice", 'Erreur');
       },
     });
   }
@@ -163,11 +164,12 @@ export class AddExerciceComponent implements OnInit {
         error: (error) => {
           if (error.status === 401) {
             this.authService.logout(true);
+          } else {
+            this.toastr.error(
+              "Erreur lors de la modification de l'exercice",
+              'Erreur'
+            );
           }
-          this.toastr.error(
-            "Erreur lors de la modification de l'exercice",
-            'Erreur'
-          );
         },
       });
   }
