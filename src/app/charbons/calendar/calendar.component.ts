@@ -57,6 +57,7 @@ export class CalendarComponent {
         },
       });
   }
+
   addEventIfNotExists(charbon: Charbon): void {
     const eventExists = this.calendarApi
       ?.getEvents()

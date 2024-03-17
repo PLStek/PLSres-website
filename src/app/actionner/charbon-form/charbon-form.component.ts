@@ -19,6 +19,7 @@ import { CharbonCardComponent } from '../../charbons/charbon-card/charbon-card.c
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { NgIf } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-charbon-form',
@@ -56,7 +57,8 @@ export class AddCharbonComponent implements OnInit {
     private courseService: CourseService,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -190,7 +192,10 @@ export class AddCharbonComponent implements OnInit {
         this.initForm();
         this.onValidate.emit();
       },
-      error: () => {
+      error: (error) => {
+        if (error.status === 401) {
+          this.authService.logout(true);
+        }
         this.toastr.error("Erreur lors de l'ajout du charbon", 'Erreur');
       },
     });
@@ -199,7 +204,10 @@ export class AddCharbonComponent implements OnInit {
   private addContent(id: number, content: File) {
     console.log(content);
     this.charbonService.addCharbonContent(id, content).subscribe({
-      error: () => {
+      error: (error) => {
+        if (error.status === 401) {
+          this.authService.logout(true);
+        }
         this.toastr.error("Erreur lors de l'ajout du contenu", 'Erreur');
       },
     });
@@ -215,7 +223,10 @@ export class AddCharbonComponent implements OnInit {
           this.initForm();
           this.onValidate.emit();
         },
-        error: () => {
+        error: (error) => {
+          if (error.status === 401) {
+            this.authService.logout(true);
+          }
           this.toastr.error(
             'Erreur lors de la mise à jour du charbon',
             'Erreur'
@@ -226,7 +237,10 @@ export class AddCharbonComponent implements OnInit {
 
   private updateContent(id: number, content: File) {
     this.charbonService.updateCharbonContent(id, content).subscribe({
-      error: () => {
+      error: (error) => {
+        if (error.status === 401) {
+          this.authService.logout(true);
+        }
         this.toastr.error('Erreur lors de la mise à jour du contenu', 'Erreur');
       },
     });
