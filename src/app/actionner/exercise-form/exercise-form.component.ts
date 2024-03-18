@@ -17,6 +17,7 @@ import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-para
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-exercise-form',
@@ -48,7 +49,8 @@ export class AddExerciceComponent implements OnInit {
     private courseService: CourseService,
     private exerciseTopicService: ExerciseTopicService,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -141,8 +143,12 @@ export class AddExerciceComponent implements OnInit {
         this.initForm();
         this.onValidate.emit();
       },
-      error: () => {
-        this.toastr.error("Erreur lors de l'ajout de l'exercice", 'Erreur');
+      error: (error) => {
+        if (error.status === 401) {
+          this.authService.logout(true);
+        } else {
+          this.toastr.error("Erreur lors de l'ajout de l'exercice", 'Erreur');
+        }
       },
     });
   }
@@ -155,11 +161,15 @@ export class AddExerciceComponent implements OnInit {
           this.initForm();
           this.onValidate.emit();
         },
-        error: () => {
-          this.toastr.error(
-            "Erreur lors de la modification de l'exercice",
-            'Erreur'
-          );
+        error: (error) => {
+          if (error.status === 401) {
+            this.authService.logout(true);
+          } else {
+            this.toastr.error(
+              "Erreur lors de la modification de l'exercice",
+              'Erreur'
+            );
+          }
         },
       });
   }

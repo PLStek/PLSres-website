@@ -14,6 +14,7 @@ import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { ExerciseTopicPostParameters } from 'src/app/shared/models/exercise-topic-post-parameters';
 import { MainButtonComponent } from '../../shared/components/main-button/main-button.component';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-exercise-topic-form',
@@ -44,7 +45,8 @@ export class ExerciseTopicFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private exerciseTopicService: ExerciseTopicService,
     private courseService: CourseService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -106,11 +108,15 @@ export class ExerciseTopicFormComponent implements OnInit {
         this.initForm();
         this.onValidate.emit();
       },
-      error: () => {
-        this.toastr.error(
-          "Erreur lors de l'ajout du thème d'exercice",
-          'Erreur'
-        );
+      error: (error) => {
+        if (error.status === 401) {
+          this.authService.logout(true);
+        } else {
+          this.toastr.error(
+            "Erreur lors de l'ajout du thème d'exercice",
+            'Erreur'
+          );
+        }
       },
     });
   }

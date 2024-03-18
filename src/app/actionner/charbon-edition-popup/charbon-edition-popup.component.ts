@@ -4,6 +4,7 @@ import { Charbon } from 'src/app/shared/models/charbon.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
 import { AddCharbonComponent } from '../charbon-form/charbon-form.component';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-edit-popup',
@@ -18,7 +19,8 @@ export class CharbonEditionPopup {
   constructor(
     private bsModalRef: BsModalRef,
     private charbonService: CharbonService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authService: AuthService
   ) {}
 
   close(): void {
@@ -32,10 +34,14 @@ export class CharbonEditionPopup {
           this.close();
         },
         error: (error) => {
-          this.toastr.error(
-            'Erreur lors de la suppression du charbon',
-            'Erreur'
-          );
+          if (error.status === 401) {
+            this.authService.logout(true);
+          } else {
+            this.toastr.error(
+              'Erreur lors de la suppression du charbon',
+              'Erreur'
+            );
+          }
         },
       });
     }

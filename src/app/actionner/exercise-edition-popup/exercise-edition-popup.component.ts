@@ -5,6 +5,7 @@ import { Exercise } from 'src/app/shared/models/exercise.model';
 import { ExerciseService } from 'src/app/shared/services/exercise.service';
 import { AddExerciceComponent } from '../exercise-form/exercise-form.component';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-exercise-edition-popup',
@@ -19,7 +20,8 @@ export class ExerciseEditionPopupComponent {
   constructor(
     private bsModalRef: BsModalRef,
     private exerciseService: ExerciseService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authService: AuthService
   ) {}
 
   close(): void {
@@ -32,11 +34,15 @@ export class ExerciseEditionPopupComponent {
         next: () => {
           this.close();
         },
-        error: () => {
-          this.toastr.error(
-            "Erreur lors de la suppression de l'exercice",
-            'Erreur'
-          );
+        error: (error) => {
+          if (error.status === 401) {
+            this.authService.logout(true);
+          } else {
+            this.toastr.error(
+              "Erreur lors de la suppression de l'exercice",
+              'Erreur'
+            );
+          }
         },
       });
     }

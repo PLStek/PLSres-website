@@ -2,12 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, map, takeUntil } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LoginPopupService } from './login-popup.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private loginPopupService: LoginPopupService
+  ) {}
 
   private loggedSubject = new BehaviorSubject<boolean>(
     localStorage.getItem('token') != null
@@ -49,11 +53,14 @@ export class AuthService implements OnDestroy {
     );
   }
 
-  logout(): void {
+  logout(openPopup: boolean = false): void {
     localStorage.removeItem('token');
     localStorage.removeItem('actionneur');
     this.loggedSubject.next(false);
     this.actionneurSubject.next(false);
+    if (openPopup) {
+      this.loginPopupService.open();
+    }
   }
 
   isLogged(): Observable<boolean> {
