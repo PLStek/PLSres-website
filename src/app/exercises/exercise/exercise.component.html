@@ -1,15 +1,18 @@
-<div class="card mb-3">
-  <div [ngClass]="'course-color-'+exerciseTopic.courseType"
-    class="card-header container-fluid d-flex justify-content-center" style="height: 2.5rem;">
-    <div class="navbar-collapse">
-      <h5><strong>{{exerciseTopic.course}}</strong></h5>
-    </div>
-    <div class="navbar-brand position-absolute mx-0">
-      <h5><strong>{{exerciseTopic.topic}}</strong></h5>
-    </div>
+<div [class]="'exercise-card mb-3 color-'+exerciseTopic.courseType">
+  <div class="exercise-card-title">
+    {{exerciseTopic.topic}}
+    <span class="ms-3" [ngClass]="'pill-'+exerciseTopic.courseType">
+      @switch (exerciseTopic.courseType) {
+      @case (CourseType.elec) {Elec}
+      @case (CourseType.info) {Info}
+      @case (CourseType.meca) {Meca}
+      @case (CourseType.maths) {Math}
+      }
+    </span>
+    <span class="ms-2" [ngClass]="'pill-'+CourseType.undefined">{{exerciseTopic.course}}</span>
   </div>
 
-  <div class="card-body">
+  <div class="">
     <table class="table">
       <thead>
         <tr>
@@ -39,8 +42,7 @@
       </tbody>
     </table>
   </div>
-  <div [ngClass]="'course-color-'+exerciseTopic.courseType"
-    class="card-footer text-body-secondary d-flex justify-content-evenly">
+  <div class="card-footer text-body-secondary d-flex justify-content-evenly">
     @if (!editable) {
     <app-color-button [courseType]="exerciseTopic.courseType" [isFilled]="true" (click)="openDiscordLink()">Pose nous
       tes questions !</app-color-button>

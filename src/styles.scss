@@ -7,6 +7,8 @@
 @import "ngx-toastr/toastr";
 /* @import 'ngx-toastr/toastr-bs5-alert'; */
 
+@import "./app/shared/styles/variables.scss";
+
 
 @import url('https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&display=swap');
 
@@ -40,4 +42,16 @@ body {
     color: var(--bs-body-color);
     text-decoration: underline;
     cursor: pointer;
+}
+
+@each $color in $course-colors {
+    .pill-#{$color} {
+        font-size: 14px;
+        padding: 0.2em 0.8em;
+        border-radius: 2em;
+        height: 1em;
+        background-color: #{'#' + $color + "30"};;
+        color: #{'#' + $color};
+        border: 1px solid #{'#' + $color};
+    }
 }

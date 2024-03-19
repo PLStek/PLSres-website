@@ -42,22 +42,8 @@
 }
 
 
-
-
-
-
 @each $color in $course-colors {
     .color-#{$color}::before {
         background-color: #{'#' + $color};
-    }
-
-    .pill-#{$color} {
-        font-size: 14px;
-        padding: 0.2em 0.8em;
-        border-radius: 2em;
-        height: 1em;
-        background-color: #{'#' + $color + "30"};;
-        color: #{'#' + $color};
-        border: 1px solid #{'#' + $color};
     }
 }
