@@ -16,9 +16,7 @@ interface ApiResponse {
 export class CourseService {
   private courses$?: Observable<Course[]>;
 
-  constructor(private http: HttpClient) {
-    console.log('CourseService created');
-  }
+  constructor(private http: HttpClient) {}
 
   private transformRes = (c: ApiResponse) =>
     new Course(c.id, getCourseType(c.type));

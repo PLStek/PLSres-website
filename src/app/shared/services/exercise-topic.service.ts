@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { getCourseType } from 'src/app/shared/utils/course-type.model';
 import { ExerciseTopic } from 'src/app/shared/models/exercise-topic.model';
-import { Observable, map, shareReplay } from 'rxjs';
+import { Observable, map, shareReplay, tap } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ExerciseTopicPostParameters } from '../models/exercise-topic-post-parameters';
 import { environment } from 'src/environments/environment';
@@ -33,6 +33,33 @@ export class ExerciseTopicService {
       el.exercise_count ? Number(el.exercise_count) : 1
     );
 
+  private addTopicToCache(topic: ExerciseTopic) {
+    if (this.exerciseTopics$) {
+      this.exerciseTopics$ = this.exerciseTopics$.pipe(
+        map((topics) => [...topics, topic]),
+        shareReplay(1)
+      );
+    }
+  }
+
+  private updateTopicInCache(topic: ExerciseTopic) {
+    if (this.exerciseTopics$) {
+      this.exerciseTopics$ = this.exerciseTopics$.pipe(
+        map((topics) => topics.map((t) => (t.id === topic.id ? topic : t))),
+        shareReplay(1)
+      );
+    }
+  }
+
+  private removeTopicFromCache(id: number) {
+    if (this.exerciseTopics$) {
+      this.exerciseTopics$ = this.exerciseTopics$.pipe(
+        map((topics) => topics.filter((t) => t.id !== id)),
+        shareReplay(1)
+      );
+    }
+  }
+
   getExerciseTopicList(useCache: boolean = true): Observable<ExerciseTopic[]> {
     if (!useCache || !this.exerciseTopics$) {
       this.exerciseTopics$ = this.http
@@ -59,7 +86,10 @@ export class ExerciseTopicService {
       .post<ApiResponse>(`${environment.apiURL}/exercise_topics/`, body, {
         headers,
       })
-      .pipe(map(this.transformRes));
+      .pipe(
+        map(this.transformRes),
+        tap((et) => this.addTopicToCache(et))
+      );
   }
 
   updateExerciseTopic(
@@ -76,14 +106,16 @@ export class ExerciseTopicService {
       .put<ApiResponse>(`${environment.apiURL}/exercise_topics/${id}/`, body, {
         headers,
       })
-      .pipe(map(this.transformRes));
+      .pipe(
+        map(this.transformRes),
+        tap((et) => this.updateTopicInCache(et))
+      );
   }
 
   deleteExerciseTopic(id: number): Observable<null> {
     const headers = getAuthHeader();
-    return this.http.delete<null>(
-      `${environment.apiURL}/exercise_topics/${id}/`,
-      { headers }
-    );
+    return this.http
+      .delete<null>(`${environment.apiURL}/exercise_topics/${id}/`, { headers })
+      .pipe(tap(() => this.removeTopicFromCache(id)));
   }
 }
