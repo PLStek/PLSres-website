@@ -7,7 +7,7 @@
     background-color: #FDFDFD;
     position: relative;
     border-radius: 7px;
-    padding-block: 1em;
+    padding: 1em;
 
     &::before {
         content: "";
@@ -19,14 +19,22 @@
         border-top-left-radius: inherit;
         border-bottom-left-radius: inherit;
     }
+
+    img {
+        height: 1em;
+    }
+
+    th, td {
+        background-color: #FDFDFD;
+    }
 }
 
 .exercise-card-title {
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 0.5em;
-    padding-inline: 1em
 }
+
 
 .exercise-card-description {
     font-size: 14px;
@@ -39,7 +47,7 @@
 
 .table {
     th {
-        font-weight: 500;
+        font-weight: 400;
     }
 
     padding-inline: 20px;
