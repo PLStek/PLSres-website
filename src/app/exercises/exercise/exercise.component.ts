@@ -1,3 +1,4 @@
+import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { AuthService } from './../../shared/services/auth.service';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -36,6 +37,8 @@ export class ExerciseComponent implements OnInit {
   exerciseList!: Exercise[];
 
   @Output() popupClosed: EventEmitter<void> = new EventEmitter<void>();
+
+  CourseType = CourseType;
 
   constructor(
     private exerciseService: ExerciseService,

@@ -1,9 +1,72 @@
 @import '../../shared/styles/variables.scss';
 
+.exercise-card {
+    width: 100%;
+    border: 1px solid #BBBBBB;
+    background-color: #FDFDFD;
+    position: relative;
+    border-radius: 7px;
+    padding: 1em;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 100%;
+        border-top-left-radius: inherit;
+        border-bottom-left-radius: inherit;
+        transition: width 100ms;
+    }
+
+    &:hover::before {
+        width: 8px;
+    }
+
+    img {
+        height: 1em;
+        width: auto;
+    }
+
+    th, td {
+        background-color: #FDFDFD;
+    }
+}
+
+.exercise-card-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0.5em;
+}
+
+
+.exercise-card-description {
+    font-size: 14px;
+    margin-bottom: 0.5em;
+}
+
+.exercise-header {
+    padding: 1em;
+}
+
+.table {
+    th {
+        font-weight: 400;
+    }
+
+    padding-inline: 20px;
+
+}
+
 @each $color in $course-colors {
+    .color-#{$color}::before {
+        background-color: #{'#' + $color};
+    }
+
+
     .course-color-#{$color} {
         background-color: #{'#' + $color};
         color: white;
     }
 }
-

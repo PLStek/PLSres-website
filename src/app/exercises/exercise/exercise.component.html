@@ -1,53 +1,47 @@
-<div class="card mb-3">
-  <div [ngClass]="'course-color-'+exerciseTopic.courseType"
-    class="card-header container-fluid d-flex justify-content-center" style="height: 2.5rem;">
-    <div class="navbar-collapse">
-      <h5><strong>{{exerciseTopic.course}}</strong></h5>
-    </div>
-    <div class="navbar-brand position-absolute mx-0">
-      <h5><strong>{{exerciseTopic.topic}}</strong></h5>
-    </div>
-  </div>
-
-  <div class="card-body">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Nom de l'exercise</th>
-          <th scope="col">Source</th>
-          <th scope="col">Corrigé ?</th>
-          <th scope="col">Difficulté</th>
-          @if (editable) {
-          <th></th>
+<div [class]="'exercise-card mb-3 color-'+exerciseTopic.courseType">
+  <div class="exercise-card-title">
+    <div class="d-flex justify-content-between">
+      <div>
+        {{exerciseTopic.topic}}
+        <span class="ms-3" [ngClass]="'pill-'+exerciseTopic.courseType">
+          @switch (exerciseTopic.courseType) {
+          @case (CourseType.elec) {Elec}
+          @case (CourseType.info) {Info}
+          @case (CourseType.meca) {Meca}
+          @case (CourseType.maths) {Math}
           }
-        </tr>
-      </thead>
-      <tbody>
-        @for (exercise of exerciseList; track exercise) {
-        <tr>
-          <td><a class="custom-link" (click)="openExercise(exercise)">{{exercise.title}}</a></td>
-          <td>{{exercise.source}}</td>
-          <td>{{exercise.isCorrected ? 'Oui' : 'Non'}}</td>
-          <td>
-            <rating [(ngModel)]="exercise.difficulty" [max]="5" [readonly]="true"></rating>
-          </td>
+        </span>
+        <span class="ms-2" [ngClass]="'pill-'+CourseType.undefined">{{exerciseTopic.course}}</span>
+      </div>
+      @if (editable) {
+      <span><img class="custom-link" (click)="openTopicEditPopup()" src="assets/images/edit.svg"></span>
+      }
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nom de l'exercise</th>
+        <th scope="col">Source</th>
+        <th scope="col">Corrigé ?</th>
+        <th scope="col">Difficulté</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (exercise of exerciseList; track exercise) {
+      <tr>
+        <td><a class="custom-link" (click)="openExercise(exercise)">{{exercise.title}}</a>
           @if (editable) {
-          <td><a class="custom-link" (click)="openEditPopup(exercise)">Editer</a></td>
+          <img class="custom-link ms-2" (click)="openEditPopup(exercise)" src="assets/images/edit.svg">
           }
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-  <div [ngClass]="'course-color-'+exerciseTopic.courseType"
-    class="card-footer text-body-secondary d-flex justify-content-evenly">
-    @if (!editable) {
-    <app-color-button [courseType]="exerciseTopic.courseType" [isFilled]="true" (click)="openDiscordLink()">Pose nous
-      tes questions !</app-color-button>
-    }
-    @if (editable) {
-    <app-color-button [courseType]="exerciseTopic.courseType" [isFilled]="true" (click)="openTopicEditPopup()">Editer la
-      catégorie</app-color-button>
-    }
-  </div>
+        </td>
+        <td>{{exercise.source}}</td>
+        <td>{{exercise.isCorrected ? 'Oui' : 'Non'}}</td>
+        <td>
+          <rating [(ngModel)]="exercise.difficulty" [max]="5" [readonly]="true"></rating>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
 </div>
