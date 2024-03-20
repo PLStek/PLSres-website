@@ -2,7 +2,6 @@
 
 .exercise-card {
     width: 100%;
-    height: auto;
     border: 1px solid #BBBBBB;
     background-color: #FDFDFD;
     position: relative;
@@ -18,10 +17,16 @@
         height: 100%;
         border-top-left-radius: inherit;
         border-bottom-left-radius: inherit;
+        transition: width 100ms;
+    }
+
+    &:hover::before {
+        width: 8px;
     }
 
     img {
         height: 1em;
+        width: auto;
     }
 
     th, td {

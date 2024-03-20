@@ -22,8 +22,12 @@
         height: 100%;
         border-top-left-radius: inherit;
         border-bottom-left-radius: inherit;
+        transition: width 100ms;
     }
 
+    &:hover::before {
+        width: 8px;
+    }
 }
 
 .charbon-card-title {
