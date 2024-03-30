@@ -53,7 +53,7 @@ export class HomePageComponent implements OnInit {
       limit: 3,
       sort: CharbonSortOption.dateAsc,
     };
-    this.charbonService.getCharbonList(charbonParams).subscribe({
+    this.charbonService.getCharbonList().subscribe({
       next: (charbons) => {
         this.charbonList = charbons;
       },

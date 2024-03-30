@@ -1,13 +1,10 @@
 import { CharbonPostParameters } from './../models/charbon-post-parameters.model';
-import { getCourseTypeName } from './../utils/course-type.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable, map, shareReplay, tap } from 'rxjs';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { getCourseType } from '../utils/course-type.model';
-import { CharbonGetParameters } from '../models/charbon-get-parameters.model';
 import { environment } from 'src/environments/environment';
-import { setParam } from '../utils/set-params';
 import { getAuthHeader } from '../utils/auth-header';
 
 interface ApiResponse {
@@ -27,7 +24,9 @@ interface ApiResponse {
   providedIn: 'root',
 })
 export class CharbonService {
-  private cache: Map<string, Observable<Charbon[]>> = new Map();
+  private charbons$?: Observable<Charbon[]>;
+  private newCharbonMinDate?: Date;
+  private fetchedAll = false;
 
   constructor(private http: HttpClient) {}
 
@@ -45,38 +44,53 @@ export class CharbonService {
       ch.resources
     );
 
+  private addCharbonsToCache(charbons: Charbon[]) {
+    if (this.charbons$) {
+      this.charbons$ = this.charbons$.pipe(
+        map((chList) => chList.concat(charbons)),
+        shareReplay(1)
+      );
+    }
+  }
+
   getCharbonList(
-    options: CharbonGetParameters = {},
+    fetchOld: boolean = false,
     useCache: boolean = true
   ): Observable<Charbon[]> {
+    if (this.newCharbonMinDate && this.charbons$) {
+      return this.charbons$;
+    }
+
     let params = new HttpParams();
-    params = setParam(params, 'course', options.course);
-    params = setParam(
-      params,
-      'course_type',
-      options.courseType ? getCourseTypeName(options.courseType) : undefined
-    );
-    params = setParam(params, 'min_date', options.minDate);
-    params = setParam(params, 'max_date', options.maxDate);
-    params = setParam(params, 'offset', options.offset);
-    params = setParam(params, 'limit', options.limit);
-    params = setParam(params, 'sort', options.sort);
 
-    const cacheKey = params.toString();
+    if (!this.newCharbonMinDate) {
+      const now = new Date();
+      now.setFullYear(now.getFullYear() - 1);
+      this.newCharbonMinDate = now;
+      params = params.set('min_date', (now.getTime() / 1000).toFixed(0));
+    } else {
+      params = params.set(
+        'max_date',
+        (this.newCharbonMinDate.getTime() / 1000).toFixed(0)
+      );
+    }
 
-    if (!this.cache.has(cacheKey) || !useCache) {
-      let charbon$ = this.http
+    if (!this.fetchedAll || !useCache || !this.charbons$) {
+      this.charbons$ = this.http
         .get<ApiResponse[]>(`${environment.apiURL}/charbons/`, {
           params,
         })
         .pipe(
           map((chList) => chList.map(this.transformRes)),
+          tap((charbons) => {
+            this.addCharbonsToCache(charbons);
+            if (this.newCharbonMinDate) this.fetchedAll = true;
+          }),
           shareReplay(1)
         );
-      this.cache.set(cacheKey, charbon$);
     }
 
-    return this.cache.get(cacheKey)!;
+    return this.charbons$;
   }
 
   getCharbonContent(id: number): Observable<Blob> {

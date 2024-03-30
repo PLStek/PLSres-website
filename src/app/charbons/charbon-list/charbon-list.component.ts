@@ -18,7 +18,6 @@ import { CharbonCardComponent } from '../charbon-card/charbon-card.component';
 import { ToastrService } from 'ngx-toastr';
 import { NgStyle } from '@angular/common';
 import { UserService } from 'src/app/shared/services/user.service';
-import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-charbon-list',
@@ -113,7 +112,7 @@ export class CharbonListComponent implements OnInit {
       sort: formData.sort,
     };
 
-    this.charbonService.getCharbonList(params).subscribe({
+    this.charbonService.getCharbonList().subscribe({
       next: (charbons) => {
         this.charbonList.push(...charbons);
         this.isLoading = false;

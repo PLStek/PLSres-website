@@ -42,20 +42,15 @@ export class CalendarComponent {
   }
 
   addCurrentMonthEvents(minDate: Date, maxDate: Date): void {
-    this.charbonService
-      .getCharbonList({ minDate: minDate, maxDate: maxDate })
-      .subscribe({
-        next: (charbons) =>
-          charbons.forEach((charbon: Charbon) =>
-            this.addEventIfNotExists(charbon)
-          ),
-        error: () => {
-          this.toastr.error(
-            'Erreur lors du chargement du calendrier',
-            'Erreur'
-          );
-        },
-      });
+    this.charbonService.getCharbonList().subscribe({
+      next: (charbons) =>
+        charbons.forEach((charbon: Charbon) =>
+          this.addEventIfNotExists(charbon)
+        ),
+      error: () => {
+        this.toastr.error('Erreur lors du chargement du calendrier', 'Erreur');
+      },
+    });
   }
 
   addEventIfNotExists(charbon: Charbon): void {

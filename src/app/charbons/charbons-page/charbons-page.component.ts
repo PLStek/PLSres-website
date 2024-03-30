@@ -44,23 +44,17 @@ export class CharbonsPageComponent implements OnInit {
   }
 
   fetchThreeUpcomingCharbons(): void {
-    this.charbonService
-      .getCharbonList({
-        minDate: new Date(),
-        limit: 3,
-        sort: CharbonSortOption.dateAsc,
-      })
-      .subscribe({
-        next: (charbons) => {
-          this.nextThreeCharbons = charbons;
-        },
-        error: () => {
-          this.toastr.error(
-            'Erreur lors de la récupération des charbons',
-            'Erreur'
-          );
-        },
-      });
+    this.charbonService.getCharbonList().subscribe({
+      next: (charbons) => {
+        this.nextThreeCharbons = charbons;
+      },
+      error: () => {
+        this.toastr.error(
+          'Erreur lors de la récupération des charbons',
+          'Erreur'
+        );
+      },
+    });
   }
 
   handleSelectedCharbonChange(selectedCharbon: Charbon | null): void {
