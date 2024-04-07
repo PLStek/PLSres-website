@@ -25,10 +25,14 @@ interface ApiResponse {
 })
 export class CharbonService {
   private charbons$?: Observable<Charbon[]>;
-  private newCharbonMinDate?: Date;
-  private fetchedAll = false;
 
   constructor(private http: HttpClient) {}
+
+  private get getPreviousYear() {
+    const previousYear = new Date();
+    previousYear.setFullYear(previousYear.getFullYear() - 1);
+    return previousYear;
+  }
 
   private transformRes = (ch: ApiResponse) =>
     new Charbon(
@@ -45,50 +49,25 @@ export class CharbonService {
     );
 
   private addCharbonsToCache(charbons: Charbon[]) {
+    console.log('Adding charbons to cache', charbons);
     if (this.charbons$) {
       this.charbons$ = this.charbons$.pipe(
-        map((chList) => chList.concat(charbons)),
+        map((chList) => [...chList, ...charbons]),
+        tap((chL) => console.log(chL)),
         shareReplay(1)
       );
     }
   }
 
-  getCharbonList(
-    fetchOld: boolean = false,
-    useCache: boolean = true
-  ): Observable<Charbon[]> {
-    if (this.newCharbonMinDate && this.charbons$) {
-      return this.charbons$;
-    }
+  getCharbons(useCache: boolean = true): Observable<Charbon[]> {
+    if (useCache && this.charbons$) return this.charbons$;
 
-    let params = new HttpParams();
-
-    if (!this.newCharbonMinDate) {
-      const now = new Date();
-      now.setFullYear(now.getFullYear() - 1);
-      this.newCharbonMinDate = now;
-      params = params.set('min_date', (now.getTime() / 1000).toFixed(0));
-    } else {
-      params = params.set(
-        'max_date',
-        (this.newCharbonMinDate.getTime() / 1000).toFixed(0)
+    this.charbons$ = this.http
+      .get<ApiResponse[]>(`${environment.apiURL}/charbons/`)
+      .pipe(
+        map((chList) => chList.map(this.transformRes)),
+        shareReplay(1)
       );
-    }
-
-    if (!this.fetchedAll || !useCache || !this.charbons$) {
-      this.charbons$ = this.http
-        .get<ApiResponse[]>(`${environment.apiURL}/charbons/`, {
-          params,
-        })
-        .pipe(
-          map((chList) => chList.map(this.transformRes)),
-          tap((charbons) => {
-            this.addCharbonsToCache(charbons);
-            if (this.newCharbonMinDate) this.fetchedAll = true;
-          }),
-          shareReplay(1)
-        );
-    }
 
     return this.charbons$;
   }

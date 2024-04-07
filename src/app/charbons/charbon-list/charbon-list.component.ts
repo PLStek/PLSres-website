@@ -5,10 +5,7 @@ import {
   FormControl,
   FormGroup,
 } from '@angular/forms';
-import {
-  CharbonGetParameters,
-  CharbonSortOption,
-} from 'src/app/shared/models/charbon-get-parameters.model';
+import { CharbonSortOption } from 'src/app/shared/models/charbon-get-parameters.model';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import { Course } from 'src/app/shared/models/course.model';
 import { CharbonService } from 'src/app/shared/services/charbon.service';
@@ -17,7 +14,6 @@ import { CourseType } from 'src/app/shared/utils/course-type.model';
 import { CharbonCardComponent } from '../charbon-card/charbon-card.component';
 import { ToastrService } from 'ngx-toastr';
 import { NgStyle } from '@angular/common';
-import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-charbon-list',
@@ -36,7 +32,6 @@ export class CharbonListComponent implements OnInit {
   courseList: Course[] = [];
 
   isLoading = false;
-  fullyfetched = false;
 
   sortForm!: FormGroup;
 
@@ -54,8 +49,7 @@ export class CharbonListComponent implements OnInit {
     private charbonService: CharbonService,
     private formBuilder: FormBuilder,
     private courseService: CourseService,
-    private toastr: ToastrService,
-    private userService: UserService
+    private toastr: ToastrService
   ) {
     this.editable = false;
   }
@@ -77,7 +71,7 @@ export class CharbonListComponent implements OnInit {
     });
 
     this.sortForm.valueChanges.subscribe(() => {
-      this.resetCharbons();
+      //TODO: sort charbons
     });
 
     this.sortForm.get('courseType')?.valueChanges.subscribe(() => {
@@ -86,39 +80,13 @@ export class CharbonListComponent implements OnInit {
 
     this.fetchNextCharbons();
   }
-
-  resetCharbons(): void {
-    this.charbonList = [];
-    this.fullyfetched = false;
-    if (!this.isLoading) {
-      this.fetchNextCharbons();
-    }
-  }
-
   fetchNextCharbons(): void {
     this.isLoading = true;
 
-    const offset: number = this.charbonList.length;
-    const formData = this.sortForm.value;
-
-    const params: CharbonGetParameters = {
-      course: formData.course != '' ? [formData.course] : undefined,
-      courseType:
-        formData.courseType === CourseType.undefined
-          ? undefined
-          : formData.courseType,
-      limit: this.CHARBON_PER_PAGE,
-      offset: offset,
-      sort: formData.sort,
-    };
-
-    this.charbonService.getCharbonList().subscribe({
+    this.charbonService.getCharbons().subscribe({
       next: (charbons) => {
-        this.charbonList.push(...charbons);
+        this.charbonList = charbons;
         this.isLoading = false;
-        if (charbons.length < this.CHARBON_PER_PAGE) {
-          this.fullyfetched = true;
-        }
       },
       error: () => {
         this.toastr.error(
@@ -127,15 +95,5 @@ export class CharbonListComponent implements OnInit {
         );
       },
     });
-  }
-
-  // Dynamic fetching of charbons
-  @HostListener('window:scroll', ['$event'])
-  onScroll() {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      if (!this.isLoading && !this.fullyfetched) {
-        this.fetchNextCharbons();
-      }
-    }
   }
 }

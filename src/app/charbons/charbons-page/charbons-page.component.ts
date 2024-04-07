@@ -44,9 +44,11 @@ export class CharbonsPageComponent implements OnInit {
   }
 
   fetchThreeUpcomingCharbons(): void {
-    this.charbonService.getCharbonList().subscribe({
+    this.charbonService.getCharbons().subscribe({
       next: (charbons) => {
-        this.nextThreeCharbons = charbons;
+        this.nextThreeCharbons = charbons
+          .sort((a, b) => a.date.getTime() - b.date.getTime())
+          .slice(-3);
       },
       error: () => {
         this.toastr.error(
