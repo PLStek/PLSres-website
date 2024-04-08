@@ -47,23 +47,11 @@ export class CalendarComponent implements OnInit {
   getCharbons(): void {
     this.charbonService.getCharbons().subscribe({
       next: (charbons) =>
-        charbons.forEach((charbon: Charbon) =>
-          this.addEventIfNotExists(charbon)
-        ),
+        charbons.forEach((charbon: Charbon) => this.addEvent(charbon)),
       error: () => {
         this.toastr.error('Erreur lors du chargement du calendrier', 'Erreur');
       },
     });
-  }
-
-  addEventIfNotExists(charbon: Charbon): void {
-    const eventExists = this.calendarApi
-      ?.getEvents()
-      .some((event) => event.extendedProps['id'] === charbon.id);
-
-    if (!eventExists) {
-      this.addEvent(charbon);
-    }
   }
 
   addEvent(charbon: Charbon): void {
@@ -104,5 +92,8 @@ export class CalendarComponent implements OnInit {
     },
     // Handling the event click
     eventClick: this.handleEventClick.bind(this),
+    datesSet: (dateInfo) => {
+      if (!this.calendarApi) this.calendarApi = dateInfo.view.calendar;
+    },
   };
 }
