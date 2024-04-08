@@ -48,16 +48,13 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const charbonParams: CharbonGetParameters = {
-      minDate: new Date(),
-      limit: 3,
-      sort: CharbonSortOption.dateAsc,
-    };
-    this.charbonService.getCharbonList(charbonParams).subscribe({
+    this.charbonService.getCharbons().subscribe({
       next: (charbons) => {
-        this.charbonList = charbons;
+        this.charbonList = charbons
+          .sort((a, b) => a.date.getTime() - b.date.getTime())
+          .slice(-3);
       },
-      error: (error) => {
+      error: () => {
         this.toastr.error(
           'Erreur lors de la récupération des charbons',
           'Erreur'

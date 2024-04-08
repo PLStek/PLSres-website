@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, shareReplay, switchMap } from 'rxjs';
+import { Observable, map, shareReplay, switchMap, tap } from 'rxjs';
 import { Exercise } from 'src/app/shared/models/exercise.model';
 import { base64Decode, convertFileToBase64 } from '../utils/base64-converter';
 import { ExercisePostParameters } from 'src/app/shared/models/exercise-post-parameters.model';
@@ -34,9 +34,46 @@ export class ExerciseService {
       element.topic_id,
       element.is_corrected ? true : false,
       element.source,
-      element.copyright ? true : false /* 
-      element.content ? base64Decode(element.content) : undefined */
+      element.copyright ? true : false
     );
+
+  private addExerciseToCache(exercise: Exercise) {
+    if (this.cache.has(exercise.topicId)) {
+      this.cache.set(
+        exercise.topicId,
+        this.cache.get(exercise.topicId)!.pipe(
+          map((exercises) => [...exercises, exercise]),
+          shareReplay(1)
+        )
+      );
+    }
+  }
+
+  private updateExerciseInCache(exercise: Exercise) {
+    if (this.cache.has(exercise.topicId)) {
+      this.cache.set(
+        exercise.topicId,
+        this.cache.get(exercise.topicId)!.pipe(
+          map((exercises) =>
+            exercises.map((e) => (e.id === exercise.id ? exercise : e))
+          ),
+          shareReplay(1)
+        )
+      );
+    }
+  }
+
+  private removeExerciseFromCache(id: number) {
+    this.cache.forEach((exercises$, topicId) => {
+      this.cache.set(
+        topicId,
+        exercises$.pipe(
+          map((exercises) => exercises.filter((e) => e.id !== id)),
+          shareReplay(1)
+        )
+      );
+    });
+  }
 
   getExercises(
     topicId: number,
@@ -91,7 +128,7 @@ export class ExerciseService {
           .post<ApiResponse>(`${environment.apiURL}/exercises/`, body, {
             headers,
           })
-          .pipe(map(this.transformRes));
+          .pipe(map(this.transformRes), tap(this.addExerciseToCache));
       })
     );
   }
@@ -117,15 +154,17 @@ export class ExerciseService {
           .put<ApiResponse>(`${environment.apiURL}/exercises/${id}/`, body, {
             headers,
           })
-          .pipe(map(this.transformRes));
+          .pipe(map(this.transformRes), tap(this.updateExerciseInCache));
       })
     );
   }
 
   deleteExercise(id: number): Observable<null> {
     const headers = getAuthHeader();
-    return this.http.delete<null>(`${environment.apiURL}/exercises/${id}/`, {
-      headers,
-    });
+    return this.http
+      .delete<null>(`${environment.apiURL}/exercises/${id}/`, {
+        headers,
+      })
+      .pipe(tap(() => this.removeExerciseFromCache(id)));
   }
 }

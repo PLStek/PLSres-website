@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { Charbon } from 'src/app/shared/models/charbon.model';
 import {
   CalendarApi,
@@ -19,10 +19,9 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [FullCalendarModule],
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
   calendarEvents: EventInput[] = [];
   calendarApi?: CalendarApi;
-  fetchedMonths = new Set<number>();
 
   @Output() selectedCharbonChange = new EventEmitter<Charbon | null>();
 
@@ -31,6 +30,10 @@ export class CalendarComponent {
     private datePipe: DatePipe,
     private toastr: ToastrService
   ) {}
+
+  ngOnInit(): void {
+    this.getCharbons();
+  }
 
   handleEventClick(clickInfo: EventClickArg): void {
     if (clickInfo.event) {
@@ -41,31 +44,14 @@ export class CalendarComponent {
     }
   }
 
-  addCurrentMonthEvents(minDate: Date, maxDate: Date): void {
-    this.charbonService
-      .getCharbonList({ minDate: minDate, maxDate: maxDate })
-      .subscribe({
-        next: (charbons) =>
-          charbons.forEach((charbon: Charbon) =>
-            this.addEventIfNotExists(charbon)
-          ),
-        error: () => {
-          this.toastr.error(
-            'Erreur lors du chargement du calendrier',
-            'Erreur'
-          );
-        },
-      });
-  }
-
-  addEventIfNotExists(charbon: Charbon): void {
-    const eventExists = this.calendarApi
-      ?.getEvents()
-      .some((event) => event.extendedProps['id'] === charbon.id);
-
-    if (!eventExists) {
-      this.addEvent(charbon);
-    }
+  getCharbons(): void {
+    this.charbonService.getCharbons().subscribe({
+      next: (charbons) =>
+        charbons.forEach((charbon: Charbon) => this.addEvent(charbon)),
+      error: () => {
+        this.toastr.error('Erreur lors du chargement du calendrier', 'Erreur');
+      },
+    });
   }
 
   addEvent(charbon: Charbon): void {
@@ -106,21 +92,8 @@ export class CalendarComponent {
     },
     // Handling the event click
     eventClick: this.handleEventClick.bind(this),
-    // Handling the month change
     datesSet: (dateInfo) => {
-      // Setting the calendarApi if not set yet
-      if (!this.calendarApi) {
-        this.calendarApi = dateInfo.view.calendar;
-      }
-
-      // Verifying that the current month has not been fetched yet
-      const time = dateInfo.start.getTime();
-      if (!this.fetchedMonths.has(time)) {
-        this.addCurrentMonthEvents(dateInfo.start, dateInfo.end);
-
-        // Adding the current month to the fetched months
-        this.fetchedMonths.add(time);
-      }
+      if (!this.calendarApi) this.calendarApi = dateInfo.view.calendar;
     },
   };
 }

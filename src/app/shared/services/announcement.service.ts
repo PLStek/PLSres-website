@@ -41,7 +41,7 @@ export class AnnouncementService {
           map((announcements) => announcements.map(this.transformRes)),
           shareReplay(1)
         );
-    }
+    } 
 
     return this.announcements$;
   }

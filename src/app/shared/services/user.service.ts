@@ -23,6 +23,33 @@ export class UserService {
   private transformRes = (u: ApiResponse) =>
     new User(u.id, u.username, u.is_admin);
 
+  private addActionneurToCache(user: User) {
+    if (this.actionneurs$) {
+      this.actionneurs$ = this.actionneurs$.pipe(
+        map((users) => [...users, user]),
+        shareReplay(1)
+      );
+    }
+  }
+
+  private updateActionneurInCache(user: User) {
+    if (this.actionneurs$) {
+      this.actionneurs$ = this.actionneurs$.pipe(
+        map((users) => users.map((u) => (u.id === user.id ? user : u))),
+        shareReplay(1)
+      );
+    }
+  }
+
+  private removeActionneurFromCache(id: string) {
+    if (this.actionneurs$) {
+      this.actionneurs$ = this.actionneurs$.pipe(
+        map((users) => users.filter((u) => u.id !== id)),
+        shareReplay(1)
+      );
+    }
+  }
+
   getActionneurs(useCash: boolean = true): Observable<User[]> {
     if (!useCash || !this.actionneurs$) {
       this.actionneurs$ = this.http
